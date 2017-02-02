@@ -59,7 +59,7 @@ class RequestController
     {
         $row = $this->db->fetchSingleRow('SELECT * FROM WaterMeter order by Ts dec limit 1', array());
         var_export($row);
-    }
+    } 
 
     private function actionSet()
     {
