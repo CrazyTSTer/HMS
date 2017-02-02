@@ -11,7 +11,7 @@ class RequestController
     const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'water_meter';
     const MYSQL_PASS        = 'calcwater';
-    const MYSQL_BASE        = 'HomeMEtersStats';
+    const MYSQL_BASE        = 'HomeMetersStats';
     const MYSQL_BASE_LOCALE = 'utf8';
 
     const RC_ACTION_GET = 'get';
@@ -59,7 +59,7 @@ class RequestController
     {
         $row = $this->db->fetchSingleRow('SELECT * FROM WaterMeter order by Ts dec limit 1', array());
         var_export($row);
-    } 
+    }
 
     private function actionSet()
     {
