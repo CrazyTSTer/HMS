@@ -4,11 +4,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "Utils.php";
 
-define('MYSQL_GET_WELCOME', 'SELECT text FROM welcome WHERE entry = #entry#');
-define(
-    'MYSQL_GET_MENU_ITEM_DESC',
-    'SELECT short_desc, long_desc FROM sub_menu WHERE element_id = #element_id# AND entry = #entry#'
-);
 
 class RequestController
 {
@@ -47,8 +42,6 @@ class RequestController
 
         switch ($this->action) {
             case self::RC_ACTION_GET:
-                $this->checkValues('from', $this->from);
-                $this->checkValues('params', $this->params);
                 $this->actionGet();
                 break;
 
@@ -64,7 +57,8 @@ class RequestController
 
     private function actionGet()
     {
-
+        $row = $this->db->fetchSingleRow('SELECT * FROM WaterMeter order by Ts dec limit 1', array());
+        var_export($row);
     }
 
     private function actionSet()
