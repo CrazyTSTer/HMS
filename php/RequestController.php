@@ -22,10 +22,6 @@ class RequestController
     const RC_ACTION_GET = 'get';
     const RC_ACTION_SET = 'set';
 
-    const RC_GET_WELCOME        = 'welcome';
-    const RC_GET_MENU_ITEM_DESC = 'menu_item_desc';
-    const RC_GET_MENU_TREE      = 'menu_tree';
-
     /** @var  DB */
     private $db;
     private $action;
@@ -37,8 +33,6 @@ class RequestController
     {
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
-        $this->from = Vars::get('from', null);
-        $this->params = Vars::get('params', null);
 
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, true);
@@ -58,10 +52,24 @@ class RequestController
                 $this->actionGet();
                 break;
 
+            case self::RC_ACTION_SET:
+                $this->actionSet();
+                break;
+
             default:
                 Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
                 break;
         }
+    }
+
+    private function actionGet()
+    {
+
+    }
+
+    private function actionSet()
+    {
+
     }
 
 
