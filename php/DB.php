@@ -114,7 +114,7 @@ class DB
         or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
 
         if ($result === true) {
-            $ret = 'success';
+            $ret = true;
         } else {
             $num_rows = mysqli_num_rows($result);
             if ($num_rows == 0) {

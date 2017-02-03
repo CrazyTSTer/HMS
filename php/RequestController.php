@@ -69,12 +69,12 @@ class RequestController
 
     private function getLastValue($params)
     {
-        $row = $this->db->fetchOnlyOneValue(
-            'SELECT #col# FROM WaterMeter order by Ts DESC limit 1',
+        $value = $this->db->fetchOnlyOneValue(
+            'SELECT #col# FROM WaterMeter ORDER BY Ts DESC LIMIT 1',
             array('col' => $params),
             false
         );
-        var_export($row);
+        echo $value;
     }
 
     private function actionGet()
@@ -84,7 +84,25 @@ class RequestController
 
     private function actionSet()
     {
+        if (!is_array($this->params)) {
+            $i = 0;
+            $data = array();
+            foreach ($this->params as $key => $value) {
+                $i++;
+                $data['col' . strval($i)] = strtolower($key);
+                $data['val' . strval($i)] = $value;
+            }
 
+            $result = $this->db->executeQuery(
+                'INSERT INTO WaterMeter (#col1#, #col2#) VALUES (#val1#, #val2#)',
+                $data,
+                false
+            );
+        } else {
+            $result = false;
+        }
+
+        echo $result;
     }
 
     private function checkValues($param, $value)
