@@ -23,8 +23,6 @@ class DB
     const MYSQL_CONNECT_FAIL = 'Can\'t connect to mysql server';
     const MYSQL_DISCONNECT_FAIL = 'Can\'t disconnect from mysql server';
     const MYSQL_SET_LOCALE_FAIL = 'Can\'t set locale';
-    const MYSQL_ARRAY_TYPE_ASSOC = 'assoc';
-    const MYSQL_ARRAY_TYPE_ARRAY = 'array';
     const MYSQL_ROWS_COUNT = 'rows_count';
 
     public static function getInstance()
@@ -84,10 +82,10 @@ class DB
         return mysqli_real_escape_string($this->mysql_descriptor, $string);
     }
 
-    public function executeQuery($query, $data, $array_type = self::MYSQL_ARRAY_TYPE_ASSOC)
+    public function executeQuery($query, $data, $array_type = MYSQLI_ASSOC)
     {
-        $query = Utils::addDataToTemplate($query, $data);
-        $result = mysqli_query($this->mysql_descriptor, $query)
+        $query = Utils::addDataToTemplate($query, $data, false);
+        $result = mysqli_query($this->mysql_descriptor, $query, $array_type)
             or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY, $this->debug));
 
         $num_rows = mysqli_num_rows($result);
@@ -99,7 +97,6 @@ class DB
             while ($parsed_result = mysqli_fetch_assoc($result)) {
                 $ret[] = $parsed_result;
             }
-            $ret = $result;
         }
 
         $this->free($result);
