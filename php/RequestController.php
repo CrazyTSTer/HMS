@@ -64,8 +64,6 @@ class RequestController
 
     }
 
-
-
     private function checkValues($param, $value)
     {
         if (!$value) {
