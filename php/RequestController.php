@@ -50,7 +50,7 @@ class RequestController
             default:
                 Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
                 break;
-        }*/
+        }
     }
 
     private function actionGet()
