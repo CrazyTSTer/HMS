@@ -22,13 +22,19 @@ class RequestController
 
     private $action;
     private $debug;
-    private $getLast;
+    private $params;
 
     public function init($debug = false)
     {
         $this->debug = $debug;
-        $this->action = Vars::get('action', null);
-        $this->getLast = Vars::get('getlast', null);
+
+        if (Vars::check('action')) {
+            $this->action = Vars::get('action', null);
+            $this->params = Vars::get('params', null);
+        } elseif (Vars::check('getlast')) {
+            $this->action = self::RC_ACTION_GET_LAST;
+            $this->params = strtolower(Vars::get('getlast', null));
+        }
 
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
@@ -40,14 +46,19 @@ class RequestController
     public function run()
     {
         $this->checkValues('action', $this->action);
+        $this->checkValues('params', $this->params);
 
-        switch ($this->action || $this->getLast) {
+        switch ($this->action) {
             case self::RC_ACTION_GET:
-                $this->getLastValue();
+                $this->getLastValue('ColdWater');
                 break;
 
             case self::RC_ACTION_SET:
                 $this->actionSet();
+                break;
+
+            case self::RC_ACTION_GET_LAST:
+                $this->getLastValue($this->params);
                 break;
 
             default:
@@ -56,13 +67,12 @@ class RequestController
         }
     }
 
-    private function getLastValue($param)
+    private function getLastValue($params)
     {
-        $row = $this->db->executeQuery(
+        $row = $this->db->fetchOnlyOneValue(
             'SELECT #col# FROM WaterMeter order by Ts DESC limit 1',
-            array('col' => $param),
-            false,
-            MYSQLI_NUM
+            array('col' => $params),
+            false
         );
         var_export($row);
     }
