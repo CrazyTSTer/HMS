@@ -85,8 +85,8 @@ class DB
     public function executeQuery($query, $data, $array_type = MYSQLI_ASSOC)
     {
         $query = Utils::addDataToTemplate($query, $data, false);
-        $result = mysqli_query($this->mysql_descriptor, $query, $array_type)
-            or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY, $this->debug));
+        $result = mysqli_query($this->mysql_descriptor, $query)
+            or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
 
         $num_rows = mysqli_num_rows($result);
         if ($num_rows == 0) {
@@ -94,7 +94,7 @@ class DB
         } else {
             $ret[self::MYSQL_ROWS_COUNT] = $num_rows;
 
-            while ($parsed_result = mysqli_fetch_assoc($result)) {
+            while ($parsed_result = mysqli_fetch_array($result, $array_type)) {
                 $ret[] = $parsed_result;
             }
         }
