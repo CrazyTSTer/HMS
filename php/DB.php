@@ -90,14 +90,19 @@ class DB
         $result = mysqli_query($this->mysql_descriptor, $query)
             or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY, $this->debug));
 
-        $ret = mysqli_fetch_assoc($result);
-        if (mysqli_num_rows($result) == 0) {
-            $this->free($result);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows == 0) {
             $ret = self::MYSQL_EMPTY_SELECTION;
-        } /*else {
-            $ret = $result;
-        }*/
+        } else {
+            $ret[self::MYSQL_ROWS_COUNT] = $num_rows;
 
+            while ($parsed_result = mysqli_fetch_assoc($result)) {
+                $ret[] = $parsed_result;
+            }
+            $ret = $result;
+        }
+
+        $this->free($result);
         return $ret;
     }
 
