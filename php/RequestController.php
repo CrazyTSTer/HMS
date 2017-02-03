@@ -55,7 +55,7 @@ class RequestController
 
     private function actionGet()
     {
-        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 3', array(), MYSQLI_NUM);
+        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 3', array(), false, MYSQLI_NUM);
         var_export($row);
     }
 

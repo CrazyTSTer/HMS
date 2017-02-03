@@ -82,9 +82,9 @@ class DB
         return mysqli_real_escape_string($this->mysql_descriptor, $string);
     }
 
-    public function executeQuery($query, $data, $array_type = MYSQLI_ASSOC)
+    public function executeQuery($query, $data, $add_quotes = false, $array_type = MYSQLI_ASSOC)
     {
-        $query = Utils::addDataToTemplate($query, $data, false);
+        $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
         $result = mysqli_query($this->mysql_descriptor, $query)
             or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
 

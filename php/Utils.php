@@ -36,7 +36,7 @@ class Utils
         self::unifiedExitPoint(self::AJAX_RESPONSE_FAIL, $errorMsg);
     }
 
-    public static function addDataToTemplate($template, $data, $add_quotes = true, $debug = false)
+    public static function addDataToTemplate($template, $data, $add_quotes = false, $debug = false)
     {
         $re = "/#([a-zA-Z][a-zA-Z0-9_]*)#/";
         preg_match_all($re, $template, $matches);
