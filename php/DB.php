@@ -84,23 +84,49 @@ class DB
         return mysqli_real_escape_string($this->mysql_descriptor, $string);
     }
 
-    private function executeQuery($query, $data, $array_type = self::MYSQL_ARRAY_TYPE_ASSOC)
+    public function executeQuery($query, $data, $array_type = self::MYSQL_ARRAY_TYPE_ASSOC)
     {
         $query = Utils::addDataToTemplate($query, $data);
         $result = mysqli_query($this->mysql_descriptor, $query)
             or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY, $this->debug));
 
+        $ret = mysqli_fetch_assoc($result);
         if (mysqli_num_rows($result) == 0) {
             $this->free($result);
             $ret = self::MYSQL_EMPTY_SELECTION;
-        } else {
+        } /*else {
             $ret = $result;
-        }
+        }*/
 
         return $ret;
     }
 
-    public function fetchSingleRow($query, $data, $returnAsArray = true)
+    private function free($result)
+    {
+        mysqli_free_result($result);
+    }
+
+    public function getMYSQLErr()
+    {
+        return mysqli_error($this->mysql_descriptor) ? '. ' . mysqli_error($this->mysql_descriptor) : '';
+    }
+
+    public function getMYSQLErrNo()
+    {
+        return mysqli_errno($this->mysql_descriptor) ? ' Error: ' . mysqli_errno($this->mysql_descriptor) : '';
+    }
+
+    public function isDBReady()
+    {
+        return $this->is_connected && $this->is_db_selected && $this->is_locale_set;
+    }
+
+    public function isConnected()
+    {
+        return $this->is_connected;
+    }
+    //-------------------UNUSED METHODS-------------------------\\
+    /*    public function fetchSingleRow($query, $data, $returnAsArray = true)
     {
         $result = $this->executeQuery($query, $data);
 
@@ -151,30 +177,5 @@ class DB
     {
         $ret = $this->fetchMultipleRows($query . ' LIMIT ' . $row . ', ' . $length, $data, $returnAsArray);
         return $ret;
-    }
-
-    private function free($result)
-    {
-        mysqli_free_result($result);
-    }
-
-    public function getMYSQLErr()
-    {
-        return mysqli_error($this->mysql_descriptor) ? '. ' . mysqli_error($this->mysql_descriptor) : '';
-    }
-
-    public function getMYSQLErrNo()
-    {
-        return mysqli_errno($this->mysql_descriptor) ? ' Error: ' . mysqli_errno($this->mysql_descriptor) : '';
-    }
-
-    public function isDBReady()
-    {
-        return $this->is_connected && $this->is_db_selected && $this->is_locale_set;
-    }
-
-    public function isConnected()
-    {
-        return $this->is_connected;
-    }
+    }*/
 }

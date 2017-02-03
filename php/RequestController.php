@@ -20,8 +20,6 @@ class RequestController
     /** @var  DB */
     private $db;
     private $action;
-    private $from;
-    private $params;
     private $debug;
 
     public function init($debug = false)
@@ -30,7 +28,7 @@ class RequestController
         $this->action = Vars::get('action', null);
 
         $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, true);
+        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();
         $this->db->selectDB(self::MYSQL_BASE);
         $this->db->setLocale(self::MYSQL_BASE_LOCALE);
@@ -57,7 +55,7 @@ class RequestController
 
     private function actionGet()
     {
-        $row = $this->db->fetchSingleRow('SELECT * FROM WaterMeter order by Ts DESC limit 1', array());
+        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 3', array());
         var_export($row);
     }
 
