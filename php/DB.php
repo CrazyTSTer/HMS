@@ -82,27 +82,6 @@ class DB
         return mysqli_real_escape_string($this->mysql_descriptor, $string);
     }
 
-    public function executeQuery($query, $data, $add_quotes = false, $array_type = MYSQLI_ASSOC)
-    {
-        $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
-        $result = mysqli_query($this->mysql_descriptor, $query)
-            or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
-
-        $num_rows = mysqli_num_rows($result);
-        if ($num_rows == 0) {
-            $ret = self::MYSQL_EMPTY_SELECTION;
-        } else {
-            $ret[self::MYSQL_ROWS_COUNT] = $num_rows;
-
-            while ($parsed_result = mysqli_fetch_array($result, $array_type)) {
-                $ret[] = $parsed_result;
-            }
-        }
-
-        $this->free($result);
-        return $ret;
-    }
-
     private function free($result)
     {
         mysqli_free_result($result);
@@ -126,6 +105,34 @@ class DB
     public function isConnected()
     {
         return $this->is_connected;
+    }
+
+    //Query methods
+    public function executeQuery($query, $data, $add_quotes = false, $array_type = MYSQLI_ASSOC)
+    {
+        $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
+        $result = mysqli_query($this->mysql_descriptor, $query)
+        or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
+
+        if ($result === true) {
+            $ret = 'success';
+        } else {
+            $num_rows = mysqli_num_rows($result);
+            if ($num_rows == 0) {
+                $ret = self::MYSQL_EMPTY_SELECTION;
+            } elseif ($num_rows == 1) {
+                $ret = mysqli_fetch_array($result, $array_type);
+            } else {
+                $ret[self::MYSQL_ROWS_COUNT] = $num_rows;
+
+                while ($parsed_result = mysqli_fetch_array($result, $array_type)) {
+                    $ret[] = $parsed_result;
+                }
+            }
+        }
+
+        $this->free($result);
+        return $ret;
     }
     //-------------------UNUSED METHODS-------------------------\\
     /*    public function fetchSingleRow($query, $data, $returnAsArray = true)

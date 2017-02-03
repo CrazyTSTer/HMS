@@ -25,7 +25,8 @@ class RequestController
     {
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
-        var_export(Vars::getAll());
+        $this->getLast = Vars::get('getlast', null);
+
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();
@@ -35,7 +36,10 @@ class RequestController
 
     public function run()
     {
-        $this->checkValues('action', $this->action);
+        if ($this->getLast && !$this->action) {
+            $this->getLastValue($this->getLast);
+        }
+        /*$this->checkValues('action', $this->action);
 
         switch ($this->action) {
             case self::RC_ACTION_GET:
@@ -49,12 +53,12 @@ class RequestController
             default:
                 Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
                 break;
-        }
+        }*/
     }
 
     private function actionGet()
     {
-        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 3', array(), false, MYSQLI_NUM);
+        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 1', array(), false, MYSQLI_NUM);
         var_export($row);
     }
 
