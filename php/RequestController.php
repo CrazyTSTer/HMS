@@ -4,7 +4,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "Utils.php";
 
-
 class RequestController
 {
     const MYSQL_HOST        = 'localhost';
@@ -26,7 +25,7 @@ class RequestController
     {
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
-
+        var_export(Vars::getAll());
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();

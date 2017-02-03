@@ -8,7 +8,6 @@
 
 include_once "DB.php";
 include_once "Vars.php";
-include_once "Menu.php";
 
 class Utils
 {
