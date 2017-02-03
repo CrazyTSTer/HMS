@@ -18,7 +18,7 @@ class DB
     private static $instance;
 
     const MYSQL_EMPTY_SELECTION = 'Selection is empty';
-    const MYSQL_INCORRECT_QUERY = 'Incorrect query. Check query syntax';
+    const MYSQL_INCORRECT_QUERY = 'Incorrect query. Check query syntax.';
     const MYSQL_DATABASE_SELECTION_FAIL = 'Can\'t select database';
     const MYSQL_CONNECT_FAIL = 'Can\'t connect to mysql server';
     const MYSQL_DISCONNECT_FAIL = 'Can\'t disconnect from mysql server';

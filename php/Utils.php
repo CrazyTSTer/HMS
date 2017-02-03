@@ -27,7 +27,7 @@ class Utils
         }
 
         if ($debug) {
-            $errorMsg = "Error at {$class}. " . $errorMsg;
+            $errorMsg = "Error at class: {$class}. " . $errorMsg;
         } else {
             $errorMsg = 'Please contact to Administrator. Something goes wrong';
         }

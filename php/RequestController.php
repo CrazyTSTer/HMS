@@ -75,6 +75,7 @@ class RequestController
             false
         );
         echo $value;
+        exit(0);
     }
 
     private function actionGet()
@@ -84,7 +85,7 @@ class RequestController
 
     private function actionSet()
     {
-        if (!is_array($this->params)) {
+        if (is_array($this->params)) {
             $i = 0;
             $data = array();
             foreach ($this->params as $key => $value) {
@@ -103,6 +104,7 @@ class RequestController
         }
 
         echo $result;
+        exit(0);
     }
 
     private function checkValues($param, $value)
