@@ -50,7 +50,7 @@ class RequestController
 
         switch ($this->action) {
             case self::RC_ACTION_GET:
-                $this->getLastValue('ColdWater');
+                $this->actionGet();
                 break;
 
             case self::RC_ACTION_SET:
