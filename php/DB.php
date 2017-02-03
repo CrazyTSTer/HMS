@@ -107,7 +107,6 @@ class DB
         return $this->is_connected;
     }
 
-    //Query methods
     public function executeQuery($query, $data, $add_quotes = false, $array_type = MYSQLI_ASSOC)
     {
         $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
@@ -134,57 +133,14 @@ class DB
         $this->free($result);
         return $ret;
     }
-    //-------------------UNUSED METHODS-------------------------\\
-    /*    public function fetchSingleRow($query, $data, $returnAsArray = true)
-    {
-        $result = $this->executeQuery($query, $data);
 
-        if ($result == self::MYSQL_EMPTY_SELECTION) {
-            return $result;
+    public function fetchOnlyOneValue($query, $data, $add_quotes = false)
+    {
+        $result = $this->executeQuery($query, $data, $add_quotes, MYSQLI_NUM);
+        if (is_array($result) && isset($result[0])) {
+            $result = $result[0];
         }
 
-        $ret = mysqli_fetch_assoc($result);
-
-        if (!$returnAsArray) {
-            $ret = implode('#', $ret);
-        }
-
-        $this->free($result);
-        return $ret;
+        return $result;
     }
-
-    public function fetchMultipleRows($query, $data = null)
-    {
-        $result = $this->executeQuery($query, $data);
-        if ($result == self::MYSQL_EMPTY_SELECTION) {
-            return $result;
-        }
-
-        $ret[self::MYSQL_ROWS_COUNT] = mysqli_num_rows($result);
-
-        while ($parsed_result = mysqli_fetch_assoc($result)) {
-            $ret[] = $parsed_result;
-        }
-        $this->free($result);
-
-        return $ret;
-    }
-
-    public function fetchSpecifiedRow($query, $data, $row = 0, $returnAsArray = true)
-    {
-        $ret = $this->fetchSingleRow($query . ' LIMIT ' . $row . ', 1', $data, $returnAsArray);
-        return $ret;
-    }
-
-    public function fetchRandomRow($query, $data, $returnAsArray = true)
-    {
-        $ret = $this->fetchSingleRow($query . 'ORDER BY RAND() LIMIT 1', $data, $returnAsArray);
-        return $ret;
-    }
-
-    public function fetchSpecifiedRowsLimit($query, $data, $row = 0, $length = 1, $returnAsArray = true)
-    {
-        $ret = $this->fetchMultipleRows($query . ' LIMIT ' . $row . ', ' . $length, $data, $returnAsArray);
-        return $ret;
-    }*/
 }

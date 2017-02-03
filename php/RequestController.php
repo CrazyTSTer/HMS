@@ -13,13 +13,16 @@ class RequestController
     const MYSQL_BASE        = 'HomeMetersStats';
     const MYSQL_BASE_LOCALE = 'utf8';
 
-    const RC_ACTION_GET = 'get';
-    const RC_ACTION_SET = 'set';
+    const RC_ACTION_GET      = 'get';
+    const RC_ACTION_SET      = 'set';
+    const RC_ACTION_GET_LAST = 'getlast';
 
     /** @var  DB */
     private $db;
+
     private $action;
     private $debug;
+    private $getLast;
 
     public function init($debug = false)
     {
@@ -38,9 +41,9 @@ class RequestController
     {
         $this->checkValues('action', $this->action);
 
-        switch ($this->action) {
+        switch ($this->action || $this->getLast) {
             case self::RC_ACTION_GET:
-                $this->actionGet();
+                $this->getLastValue();
                 break;
 
             case self::RC_ACTION_SET:
@@ -53,10 +56,20 @@ class RequestController
         }
     }
 
+    private function getLastValue($param)
+    {
+        $row = $this->db->executeQuery(
+            'SELECT #col# FROM WaterMeter order by Ts DESC limit 1',
+            array('col' => $param),
+            false,
+            MYSQLI_NUM
+        );
+        var_export($row);
+    }
+
     private function actionGet()
     {
-        $row = $this->db->executeQuery('SELECT * FROM WaterMeter order by Ts DESC limit 1', array(), false, MYSQLI_NUM);
-        var_export($row);
+
     }
 
     private function actionSet()
