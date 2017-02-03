@@ -36,10 +36,7 @@ class RequestController
 
     public function run()
     {
-        if ($this->getLast && !$this->action) {
-            $this->getLastValue($this->getLast);
-        }
-        /*$this->checkValues('action', $this->action);
+        $this->checkValues('action', $this->action);
 
         switch ($this->action) {
             case self::RC_ACTION_GET:
