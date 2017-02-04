@@ -3,6 +3,8 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
+define('GET_METER_VALUE', 'SELECT #col# FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
+define('SET_METERS_VALUES', 'INSERT INTO WaterMeter (#col1#, #col2#) VALUES (#val1#, #val2#)');
 
 class WaterStat
 {
@@ -35,6 +37,9 @@ class WaterStat
             $this->params = strtolower(Vars::get('getlast', null));
         }
 
+        Utils::checkValues('action', $this->action, $this->debug);
+        Utils::checkValues('params', $this->params, $this->debug);
+
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();
@@ -44,60 +49,46 @@ class WaterStat
 
     public function run()
     {
-        $this->checkValues('action', $this->action);
-        $this->checkValues('params', $this->params);
-
         switch ($this->action) {
             case self::ACTION_SET:
-                $this->actionSet();
+                $result = $this->actionSet();
                 break;
 
             case self::ACTION_GET_LAST:
-                $this->getLastValue($this->params);
+                $result = $this->getLastValue($this->params);
                 break;
 
             default:
                 Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
                 break;
         }
+        echo $result;
+        exit(0);
     }
 
     private function getLastValue($params)
     {
-        $value = $this->db->fetchOnlyOneValue(
-            'SELECT #col# FROM WaterMeter ORDER BY Ts DESC LIMIT 1',
-            array('col' => $params),
-            false
-        );
-        echo $value;
-        exit(0);
+        return $this->db->fetchOnlyOneValue(GET_METER_VALUE, array('col' => $params), false);
     }
 
     private function actionSet()
     {
-        if (is_array($this->params)) {
-            $i = 0;
-            $data = array();
-            foreach ($this->params as $key => $value) {
-                $i++;
-                $data['col' . strval($i)] = strtolower($key);
-                $data['val' . strval($i)] = $value;
-            }
-
-            $result = $this->db->executeQuery(
-                'INSERT INTO WaterMeter (#col1#, #col2#) VALUES (#val1#, #val2#)',
-                $data,
-                false
-            );
-        } else {
-            $result = false;
+        if (!is_array($this->params)) {
+            return false;
         }
 
-        echo $result;
-        exit(0);
+        $i = 0;
+        $data = array();
+        foreach ($this->params as $key => $value) {
+            $i++;
+            $data['col' . strval($i)] = strtolower($key);
+            $data['val' . strval($i)] = $value;
+        }
+
+        return $this->db->executeQuery(SET_METERS_VALUES, $data, false);
     }
 }
 
-$rq = new WaterStat();
-$rq->init(true);
-$rq->run();
+$ws = new WaterStat();
+$ws->init(true);
+$ws->run();
