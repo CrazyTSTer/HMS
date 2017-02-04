@@ -91,7 +91,7 @@ class WaterStat
     private function checkValues($param, $value, $debug)
     {
         if (!$value) {
-            self::reportError(__CLASS__, "Got NULL in parameter '{$param}'", $debug);
+            Utils::reportError(__CLASS__, "Got NULL in parameter '{$param}'", $debug);
         }
     }
 }
