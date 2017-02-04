@@ -37,8 +37,8 @@ class WaterStat
             $this->params = strtolower(Vars::get('getlast', null));
         }
 
-        Utils::checkValues('action', $this->action, $this->debug);
-        Utils::checkValues('params', $this->params, $this->debug);
+        $this->checkValues('action', $this->action, $this->debug);
+        $this->checkValues('params', $this->params, $this->debug);
 
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
@@ -74,7 +74,7 @@ class WaterStat
     private function actionSet()
     {
         if (!is_array($this->params)) {
-            return false;
+            Utils::reportError(__CLASS__, 'Params array should be passed', $this->debug);
         }
 
         $i = 0;
@@ -86,6 +86,13 @@ class WaterStat
         }
 
         return $this->db->executeQuery(SET_METERS_VALUES, $data, false);
+    }
+
+    private function checkValues($param, $value, $debug)
+    {
+        if (!$value) {
+            self::reportError(__CLASS__, "Got NULL in parameter '{$param}'", $debug);
+        }
     }
 }
 
