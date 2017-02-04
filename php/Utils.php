@@ -22,12 +22,12 @@ class Utils
                     . DB::getInstance()->getMYSQLErr()
                     . DB::getInstance()->getMYSQLErrNo();
             } else {
-                $errorMsg = $errorMsg . '. ' . mysqli_connect_error() . '. Error: ' . mysqli_connect_errno();
+                $errorMsg = $errorMsg . '. ' . mysqli_connect_error() . '.' . PHP_EOL . 'Error: ' . mysqli_connect_errno();
             }
         }
 
         if ($debug) {
-            $errorMsg = "Error at class: {$class}. " . $errorMsg;
+            $errorMsg = "Error at class: {$class}." . PHP_EOL . $errorMsg;
         } else {
             $errorMsg = 'Please contact to Administrator. Something goes wrong';
         }
@@ -48,6 +48,13 @@ class Utils
             }
         }
         return $template;
+    }
+
+    public static function checkValues($param, $value, $debug)
+    {
+        if (!$value) {
+            self::reportError(get_called_class(), "Got NULL in parameter '{$param}'", $debug);
+        }
     }
 
     public static function unifiedExitPoint($status, $result)

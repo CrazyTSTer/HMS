@@ -2,9 +2,9 @@
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
-include_once "Utils.php";
+include_once "php/Utils.php";
 
-class RequestController
+class WaterStat
 {
     const MYSQL_HOST        = 'localhost';
     const MYSQL_PORT        = 3306;
@@ -13,9 +13,8 @@ class RequestController
     const MYSQL_BASE        = 'HomeMetersStats';
     const MYSQL_BASE_LOCALE = 'utf8';
 
-    const RC_ACTION_GET      = 'get';
-    const RC_ACTION_SET      = 'set';
-    const RC_ACTION_GET_LAST = 'getlast';
+    const ACTION_SET      = 'set';
+    const ACTION_GET_LAST = 'getlast';
 
     /** @var  DB */
     private $db;
@@ -32,7 +31,7 @@ class RequestController
             $this->action = Vars::get('action', null);
             $this->params = Vars::get('params', null);
         } elseif (Vars::check('getlast')) {
-            $this->action = self::RC_ACTION_GET_LAST;
+            $this->action = self::ACTION_GET_LAST;
             $this->params = strtolower(Vars::get('getlast', null));
         }
 
@@ -49,15 +48,11 @@ class RequestController
         $this->checkValues('params', $this->params);
 
         switch ($this->action) {
-            case self::RC_ACTION_GET:
-                $this->actionGet();
-                break;
-
-            case self::RC_ACTION_SET:
+            case self::ACTION_SET:
                 $this->actionSet();
                 break;
 
-            case self::RC_ACTION_GET_LAST:
+            case self::ACTION_GET_LAST:
                 $this->getLastValue($this->params);
                 break;
 
@@ -76,11 +71,6 @@ class RequestController
         );
         echo $value;
         exit(0);
-    }
-
-    private function actionGet()
-    {
-
     }
 
     private function actionSet()
@@ -106,15 +96,8 @@ class RequestController
         echo $result;
         exit(0);
     }
-
-    private function checkValues($param, $value)
-    {
-        if (!$value) {
-            Utils::reportError(__CLASS__, "Got NULL in parameter '{$param}'", $this->debug);
-        }
-    }
 }
 
-$rq = new RequestController();
+$rq = new WaterStat();
 $rq->init(true);
 $rq->run();
