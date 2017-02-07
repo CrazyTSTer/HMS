@@ -62,8 +62,7 @@ class WaterStat
                 Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
                 break;
         }
-        echo $result;
-        exit(0);
+        Utils::unifiedExitPoint(Utils::RESPONSE_SUCCESS, $result);
     }
 
     private function getLastValue($params)
