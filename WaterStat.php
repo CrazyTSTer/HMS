@@ -41,7 +41,6 @@ class WaterStat
     public function run()
     {
         $result = $this->actionSet();
-        Utils::unifiedExitPoint(Utils::RESPONSE_SUCCESS, $result);
     }
 
     private function actionSet()
@@ -58,7 +57,8 @@ class WaterStat
             $data['val' . strval($i)] = $value;
         }
 
-        return $this->db->executeQuery(SET_METERS_VALUES, $data, false);
+        $result = $this->db->executeQuery(SET_METERS_VALUES, $data, false);
+        Utils::unifiedExitPoint(Utils::RESPONSE_SUCCESS, $result);
     }
 
     private function checkValues($param, $value, $debug)
