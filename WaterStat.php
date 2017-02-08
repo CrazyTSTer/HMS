@@ -21,24 +21,15 @@ class WaterStat
     /** @var  DB */
     private $db;
 
-    private $action;
+    private $set;
     private $debug;
-    private $params;
 
     public function init($debug = false)
     {
         $this->debug = $debug;
 
-        if (Vars::check('action')) {
-            $this->action = Vars::get('action', null);
-            $this->params = Vars::get('params', null);
-        } elseif (Vars::check('getlast')) {
-            $this->action = self::ACTION_GET_LAST;
-            $this->params = strtolower(Vars::get('getlast', null));
-        }
-
-        $this->checkValues('action', $this->action, $this->debug);
-        $this->checkValues('params', $this->params, $this->debug);
+        $this->set = Vars::get('set', null);
+        $this->checkValues('set', $this->set, $this->debug);
 
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
@@ -49,36 +40,19 @@ class WaterStat
 
     public function run()
     {
-        switch ($this->action) {
-            case self::ACTION_SET:
-                $result = $this->actionSet();
-                break;
-
-            case self::ACTION_GET_LAST:
-                $result = $this->getLastValue($this->params);
-                break;
-
-            default:
-                Utils::reportError(__CLASS__, "Invalid action {$this->action}", $this->debug);
-                break;
-        }
+        $result = $this->actionSet();
         Utils::unifiedExitPoint(Utils::RESPONSE_SUCCESS, $result);
-    }
-
-    private function getLastValue($params)
-    {
-        return $this->db->fetchOnlyOneValue(GET_METER_VALUE, array('col' => $params), false);
     }
 
     private function actionSet()
     {
-        if (!is_array($this->params)) {
-            Utils::reportError(__CLASS__, 'Params array should be passed', $this->debug);
+        if (!is_array($this->set)) {
+            Utils::reportError(__CLASS__, 'Set array should be passed', $this->debug);
         }
 
         $i = 0;
         $data = array();
-        foreach ($this->params as $key => $value) {
+        foreach ($this->set as $key => $value) {
             $i++;
             $data['col' . strval($i)] = strtolower($key);
             $data['val' . strval($i)] = $value;

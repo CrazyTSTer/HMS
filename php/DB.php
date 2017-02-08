@@ -111,10 +111,12 @@ class DB
     {
         $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
         $result = mysqli_query($this->mysql_descriptor, $query)
-            or die(Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug));
+            or Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug);
 
         if ($result === true) {
             $ret = true;
+        } elseif($result === false) {
+            $ret = false;
         } else {
             $num_rows = mysqli_num_rows($result);
             if ($num_rows == 0) {
