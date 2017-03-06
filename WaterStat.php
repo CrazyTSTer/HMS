@@ -43,6 +43,7 @@ class WaterStat
             $this->actionSet();
         } elseif (Vars::check('get')) {
             //$this->actionGet();
+            Utils::unifiedExitPoint(Utils::RESPONSE_SUCCESS, 'ACTION GET');
         } else {
             Utils::unifiedExitPoint(Utils::RESPONSE_FAIL, 'Unknown action');
         }
