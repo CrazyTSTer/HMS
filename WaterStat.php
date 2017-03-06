@@ -28,9 +28,6 @@ class WaterStat
     {
         $this->debug = $debug;
 
-        $this->set = Vars::get('set', null);
-        $this->checkValues('set', $this->set, $this->debug);
-
         $this->db = DB::getInstance();
         $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();
@@ -40,7 +37,16 @@ class WaterStat
 
     public function run()
     {
-        $result = $this->actionSet();
+        if (Vars::check('set')) {
+            $this->set = Vars::get('set', null);
+            $this->checkValues('set', $this->set, $this->debug);
+            $this->actionSet();
+        } elseif (Vars::check('get')) {
+            //$this->actionGet();
+        } else {
+            Utils::unifiedExitPoint(Utils::RESPONSE_FAIL, 'Unknown action');
+        }
+
     }
 
     private function actionSet()
