@@ -69,20 +69,20 @@ class WaterStat
         $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
-            $coldwater = 0;
-            $hotwater = 0;
+            $data = array(
+                'coldwater' => $valuesToSet['coldwater'],
+                'hotwater' => $valuesToSet['hotwater'],
+            );
         } elseif (is_array($result)) {
-            $coldwater = $result['coldwater'];
-            $hotwater = $result['hotwater'];
+            $data = array(
+                'coldwater' => $valuesToSet['coldwater'] + $result['coldwater'],
+                'hotwater' => $valuesToSet['hotwater'] + $result['hotwater'],
+            );
         } else {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
         }
 
-        $valuesToSet['coldwater'] += $coldwater;
-        $valuesToSet['hotwater'] += $hotwater;
-
-
-        $result = $this->db->executeQuery(SET_METERS_VALUES, $valuesToSet, false);
+        $result = $this->db->executeQuery(SET_METERS_VALUES, $data, false);
 
         if ($result === true) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Values added to DB successfully');
