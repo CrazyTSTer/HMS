@@ -3,7 +3,7 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
-define('GET_LAST_METERS_VALUES', 'SELECT coldwater, hotwater FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
+define('GET_LAST_METERS_VALUES', 'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
 define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 
 class WaterStat
@@ -68,12 +68,18 @@ class WaterStat
 
         $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
 
-        if (!is_array($result)) {
-            Utils::unifiedExitPoint(Utils::STAUTS_FAIL, 'Failed to add Values to DB');
+        if ($result === DB::MYSQL_EMPTY_SELECTION) {
+            $coldwater = 0;
+            $hotwater = 0;
+        } elseif (is_array($result)) {
+            $coldwater = $result['coldwater'];
+            $hotwater = $result['hotwater'];
+        } else {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
         }
 
-        $valuesToSet['coldwater'] += $result['coldwater'];
-        $valuesToSet['hotwater'] += $result['hotwater'];
+        $valuesToSet['coldwater'] += $coldwater;
+        $valuesToSet['hotwater'] += $hotwater;
 
 
         $result = $this->db->executeQuery(SET_METERS_VALUES, $valuesToSet, false);
@@ -81,7 +87,7 @@ class WaterStat
         if ($result === true) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Values added to DB successfully');
         } elseif ($result === false) {
-            Utils::unifiedExitPoint(Utils::STAUTS_FAIL, 'Failed to add Values to DB');
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
         } else {
             Utils::reportError(__CLASS__, 'Unknown error while adding Values to DB', $this->debug);
         }
