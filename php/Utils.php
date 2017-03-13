@@ -11,8 +11,11 @@ include_once "Vars.php";
 
 class Utils
 {
-    const RESPONSE_FAIL    = 'fail';
-    const RESPONSE_SUCCESS = 'success';
+    const STATUS_FAIL    = 'fail';
+    const STATUS_ERROR   = 'error';
+    const STATUS_SUCCESS = 'success';
+
+    const UNKNOWN_ACTION   = 'Unknown action';
 
     public static function reportError($class, $errorMsg, $debug = false)
     {
@@ -32,7 +35,7 @@ class Utils
             $errorMsg = 'Please contact to Administrator. Something goes wrong';
         }
 
-        self::unifiedExitPoint(self::RESPONSE_FAIL, $errorMsg);
+        self::unifiedExitPoint(self::STATUS_ERROR, $errorMsg);
     }
 
     public static function addDataToTemplate($template, $data, $add_quotes = false, $debug = false)
