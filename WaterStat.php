@@ -4,7 +4,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
 define('GET_LAST_METERS_VALUES', 'SELECT #coldwater#, #hotwater# FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
-define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (#coldwater#, #hotwater2#) VALUES (#val1#, #val2#)');
+define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (#coldwater#, #hotwater#) VALUES (#val1#, #val2#)');
 
 class WaterStat
 {
