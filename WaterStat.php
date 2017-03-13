@@ -3,8 +3,8 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
-define('GET_LAST_METERS_VALUES', 'SELECT #coldwater#, #hotwater# FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
-define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (#coldwater#, #hotwater#) VALUES (#val1#, #val2#)');
+define('GET_LAST_METERS_VALUES', 'SELECT coldwater, hotwater FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
+define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#val1#, #val2#)');
 
 class WaterStat
 {
@@ -66,22 +66,17 @@ class WaterStat
             Utils::reportError(__CLASS__, 'Values to set should be passed as array', $this->debug);
         }
 
-        $data = array();
-        foreach ($valuesToSet as $key => $value) {
-            $data[strtolower($key)] = $value;
-        }
-
-        $result = $this->db->executeQuery(GET_LAST_METERS_VALUES, $data, false);
+        $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
 
         if (!is_array($result)) {
             Utils::unifiedExitPoint(Utils::STAUTS_FAIL, 'Failed to add Values to DB');
         }
 
+        $valuesToSet['coldwater'] += $result['coldwater'];
+        $valuesToSet['hotwater'] += $result['hotwater'];
 
 
-
-
-        $result = $this->db->executeQuery(SET_METERS_VALUES, $data, false);
+        $result = $this->db->executeQuery(SET_METERS_VALUES, $valuesToSet, false);
 
         if ($result === true) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Values added to DB successfully');

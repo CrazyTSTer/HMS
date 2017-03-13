@@ -107,7 +107,7 @@ class DB
         return $this->is_connected;
     }
 
-    public function executeQuery($query, $data, $add_quotes = false, $array_type = MYSQLI_ASSOC)
+    public function executeQuery($query, $data = [], $add_quotes = false, $array_type = MYSQLI_ASSOC)
     {
         $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
         $result = mysqli_query($this->mysql_descriptor, $query)
