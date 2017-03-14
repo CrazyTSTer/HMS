@@ -53,7 +53,7 @@ class Utils
         return $template;
     }
 
-    public static function unifiedExitPoint($status, $result)
+    public static function unifiedExitPoint($status, $result = '')
     {
         print_r(json_encode(array("status" => $status, "data" => $result)));
         DB::getInstance()->disconnect();

@@ -16,7 +16,10 @@ class WaterStat
     const MYSQL_BASE_LOCALE = 'utf8';
 
     const ACTION_SET      = 'set';
-    const ACTION_GET =      'get';
+    const ACTION_GET      = 'get';
+
+    const COLDWATER = 'coldwater';
+    const HOTWATER  = 'hotwater';
 
     /** @var  DB */
     private $db;
@@ -66,17 +69,26 @@ class WaterStat
             Utils::reportError(__CLASS__, 'Values to set should be passed as array', $this->debug);
         }
 
+        $tmp = array();
+        foreach ($valuesToSet as $key => $value) {
+            $tmp[strtolower($key)] = $value;
+        }
+
+        if (!array_key_exists(self::COLDWATER, $tmp) || !array_key_exists(self::HOTWATER, $tmp)) {
+            Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missong in Values array', $this->debug);
+        }
+
         $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
-                'coldwater' => $valuesToSet['coldwater'],
-                'hotwater' => $valuesToSet['hotwater'],
+                self::COLDWATER => $tmp[self::COLDWATER],
+                self::HOTWATER => $tmp[self::HOTWATER],
             );
         } elseif (is_array($result)) {
             $data = array(
-                'coldwater' => $valuesToSet['coldwater'] + $result['coldwater'],
-                'hotwater' => $valuesToSet['hotwater'] + $result['hotwater'],
+                self::COLDWATER => $tmp[self::COLDWATER] + $result[self::COLDWATER],
+                self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
             );
         } else {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
@@ -85,9 +97,9 @@ class WaterStat
         $result = $this->db->executeQuery(SET_METERS_VALUES, $data, false);
 
         if ($result === true) {
-            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Values added to DB successfully');
+            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS);
         } elseif ($result === false) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL);
         } else {
             Utils::reportError(__CLASS__, 'Unknown error while adding Values to DB', $this->debug);
         }
