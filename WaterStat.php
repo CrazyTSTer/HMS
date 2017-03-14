@@ -51,6 +51,7 @@ class WaterStat
                 break;
 
             case self::ACTION_GET:
+                $this->actionGet();
                 break;
 
             default:
@@ -103,6 +104,16 @@ class WaterStat
         } else {
             Utils::reportError(__CLASS__, 'Unknown error while adding Values to DB', $this->debug);
         }
+    }
+
+    private function actionGet()
+    {
+        if (!Vars::check('params')) {
+            Utils::reportError(__CLASS__, 'Params should be passed', $this->debug);
+        }
+
+        $params =  Vars::get('values', null);
+        var_export($params);
     }
 }
 
