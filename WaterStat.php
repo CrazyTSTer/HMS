@@ -75,7 +75,7 @@ class WaterStat
         }
 
         if (!array_key_exists(self::COLDWATER, $tmp) || !array_key_exists(self::HOTWATER, $tmp)) {
-            Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missong in Values array', $this->debug);
+            Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
 
         $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
