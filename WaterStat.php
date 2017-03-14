@@ -112,7 +112,7 @@ class WaterStat
             Utils::reportError(__CLASS__, 'Params should be passed', $this->debug);
         }
 
-        $params =  Vars::get('values', null);
+        $params =  Vars::get('params', null);
         var_export($params);
     }
 }
