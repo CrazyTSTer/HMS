@@ -15,7 +15,8 @@ class Utils
     const STATUS_ERROR   = 'error';
     const STATUS_SUCCESS = 'success';
 
-    const UNKNOWN_ACTION   = 'Unknown action';
+    const UNKNOWN_ACTION    = 'Unknown action';
+    const UNKNOWN_PARAMETER = 'Unknown parameter';
 
     public static function reportError($class, $errorMsg, $debug = false)
     {

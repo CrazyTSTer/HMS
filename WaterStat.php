@@ -5,6 +5,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 include_once "php/Utils.php";
 define('GET_LAST_METERS_VALUES', 'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
 define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
+define(GET_METERS_VALUES_FROM, 'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE unix_timestamp(ts) > #from#');
 
 class WaterStat
 {
@@ -108,11 +109,24 @@ class WaterStat
 
     private function actionGet()
     {
-        if (!Vars::check('params')) {
-            Utils::reportError(__CLASS__, 'Params should be passed', $this->debug);
+        if (!Vars::check('param')) {
+            Utils::reportError(__CLASS__, 'Parameter should be passed', $this->debug);
         }
 
-        $params =  Vars::get('params', null);
+        $params =  strtolower(Vars::get('param', null));
+
+        switch ($params) {
+            case 'last':
+                $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+                break;
+            case 'from':
+                break;
+            case 'range':
+                break;
+            default:
+                Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_ACTION);
+        }
         var_export($params);
     }
 }
