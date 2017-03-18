@@ -25,6 +25,7 @@ const int BLINK_PERIOD = 1000;
 
 void setup() {
 	prev_millis = millis();
+	blink_prev_millis = millis();
 
 	pinMode(COLD_PIN, INPUT_PULLUP);
 	pinMode(HOT_PIN, INPUT_PULLUP);
@@ -177,6 +178,7 @@ void loop()
 
 	if (sendFailure == true && millis() - blink_prev_millis > BLINK_PERIOD) {
 		changeLedState();
+		blink_prev_millis = millis();
 	}
 
 	if (millis() - prev_millis > SEND_PERIOD * MINUTE) {
@@ -186,6 +188,7 @@ void loop()
 				boolean result = sendDataToRemoteHost(cold_volume, hot_volume);
 				if (result) {
 					sendFailure = false;
+					digitalWrite(LED, ON);
 					cold_volume = 0;
 					hot_volume = 0;
 				} else {
