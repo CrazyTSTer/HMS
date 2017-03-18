@@ -130,9 +130,10 @@ class DB
                     $ret[] = $parsed_result;
                 }
             }
+            $this->free($result);
         }
 
-        $this->free($result);
+
         return $ret;
     }
 
