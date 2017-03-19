@@ -8,12 +8,13 @@
 #define OFF      HIGH
 #define ON       LOW
 
-unsigned int cold_i = 0, hot_i = 0;
+
 unsigned int cold_FirstTick = 0, cold_LastTick = 0, hot_FirstTick = 0, hot_LastTick = 0;
 unsigned int cold_addFirst, cold_addLast, hot_addFirst, hot_addLast;
 unsigned int cold_volume, hot_volume;
 unsigned long prev_millis, blink_prev_millis;
 boolean isWiFiConnected = false, sendFailure = false;
+boolean isColdFirstTick = true, isHotFirstTick = true;
 
 const char* ssid     = "marakaza_2.4";
 const char* password = "pafnutii24";
@@ -31,8 +32,6 @@ void setup() {
 	pinMode(HOT_PIN, INPUT_PULLUP);
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, OFF);
-
-	Serial.begin(115200);
 
 	/*
     //0 -- -- -- -- 2 -- -- -- 9 -- -- -- 0
@@ -95,11 +94,12 @@ void cold_changeState()
 {
 	static unsigned long cold_prevMillis;
     if(millis() - cold_prevMillis > DEBOUNCE_TIME) {
-    	cold_i++;
-        if (cold_i%2 == 1) {
+        if (isColdFirstTick) {
         	cold_FirstTick++;
+        	isColdFirstTick = false;
         } else {
         	cold_LastTick++;
+        	isColdFirstTick = true;
         }
     }
     cold_prevMillis = millis();
@@ -109,11 +109,12 @@ void hot_changeState()
 {
 	static unsigned long hot_prevMillis;
     if(millis() - hot_prevMillis > DEBOUNCE_TIME) {
-    	hot_i++;
-        if (hot_i%2 == 1) {
+        if (isHotFirstTick) {
         	hot_FirstTick++;
+        	isHotFirstTick = false;
         } else {
         	hot_LastTick++;
+        	isHotFirstTick = true;
         }
     }
     hot_prevMillis = millis();
