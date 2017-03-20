@@ -8,21 +8,25 @@
 #define OFF      HIGH
 #define ON       LOW
 
+//Константы
+const int MINUTE = 60 * 1000;  //60секунд * 1000милиСекунд
+const int DEBOUNCE_TIME = 100; //Интервал за который должен исчезнуть "дребезг" контактов
+const int SEND_PERIOD = 15;    //Период отправки данных на сервер в минутах
+const int BLINK_PERIOD = 1000; //Интервал мигания диодом при не удачном обращении к серверу
 
-unsigned int cold_FirstTick = 0, cold_LastTick = 0, hot_FirstTick = 0, hot_LastTick = 0;
+//Переменные счетчиков
+unsigned int cold_firstTick = 0, cold_lastTick = 0, hot_firstTick = 0, hot_lastTick = 0;
 unsigned int cold_addFirst, cold_addLast, hot_addFirst, hot_addLast;
 unsigned int cold_volume, hot_volume;
+boolean cold_isFirstTick = true, hot_isFirstTick = true;
+
+//Переменные работы с контроллером
 unsigned long prev_millis, blink_prev_millis;
 boolean isWiFiConnected = false, sendFailure = false;
-boolean isColdFirstTick = true, isHotFirstTick = true;
 
+//WiFi login and password
 const char* ssid     = "marakaza_2.4";
 const char* password = "pafnutii24";
-
-const int MINUTE = 60 * 1000; //60секунд * 1000милиСекунд
-const int DEBOUNCE_TIME = 100;
-const int SEND_PERIOD = 15; //Период отправки данных на сервер в минутах
-const int BLINK_PERIOD = 1000;
 
 void setup() {
 	prev_millis = millis();
@@ -30,6 +34,7 @@ void setup() {
 
 	pinMode(COLD_PIN, INPUT_PULLUP);
 	pinMode(HOT_PIN, INPUT_PULLUP);
+
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, OFF);
 
@@ -74,8 +79,11 @@ boolean WiFiConnect()
 {
 	digitalWrite(LED, OFF);
 	sendFailure = false;
+
 	WiFi.disconnect(true);
+	WiFi.mode(WIFI_STA);
 	WiFi.begin(ssid, password);
+
 	for (int i = 0; i < 60 || WiFi.status() != WL_CONNECTED; i++) {
 		changeLedState();
 		delay(500);
@@ -94,12 +102,12 @@ void cold_changeState()
 {
 	static unsigned long cold_prevMillis;
     if(millis() - cold_prevMillis > DEBOUNCE_TIME) {
-        if (isColdFirstTick) {
-        	cold_FirstTick++;
-        	isColdFirstTick = false;
+        if (cold_isFirstTick) {
+        	cold_firstTick++;
+        	cold_isFirstTick = false;
         } else {
-        	cold_LastTick++;
-        	isColdFirstTick = true;
+        	cold_lastTick++;
+        	cold_isFirstTick = true;
         }
     }
     cold_prevMillis = millis();
@@ -109,12 +117,12 @@ void hot_changeState()
 {
 	static unsigned long hot_prevMillis;
     if(millis() - hot_prevMillis > DEBOUNCE_TIME) {
-        if (isHotFirstTick) {
-        	hot_FirstTick++;
-        	isHotFirstTick = false;
+        if (hot_isFirstTick) {
+        	hot_firstTick++;
+        	hot_isFirstTick = false;
         } else {
-        	hot_LastTick++;
-        	isHotFirstTick = true;
+        	hot_lastTick++;
+        	hot_isFirstTick = true;
         }
     }
     hot_prevMillis = millis();
@@ -150,7 +158,7 @@ boolean sendDataToRemoteHost(int coldwater, int hotwater)
 
 void changeLedState(void)
 {
-	if (digitalRead(LED) == OFF){
+	if (digitalRead(LED) == OFF) {
 		digitalWrite(LED, ON);
 	} else {
 		digitalWrite(LED, OFF);
@@ -159,21 +167,21 @@ void changeLedState(void)
 
 void loop()
 {
-	if (cold_FirstTick > 0) {
-		cold_FirstTick--;
+	if (cold_firstTick > 0) {
+		cold_firstTick--;
 		cold_volume += cold_addFirst;
 	}
-	if (cold_LastTick > 0) {
-		cold_LastTick--;
+	if (cold_lastTick > 0) {
+		cold_lastTick--;
 		cold_volume += cold_addLast;
 	}
 
-	if (hot_FirstTick > 0) {
-		hot_FirstTick--;
+	if (hot_firstTick > 0) {
+		hot_firstTick--;
 		hot_volume += hot_addFirst;
 	}
-	if (hot_LastTick > 0) {
-		hot_LastTick--;
+	if (hot_lastTick > 0) {
+		hot_lastTick--;
 		hot_volume += hot_addLast;
 	}
 
