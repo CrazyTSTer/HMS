@@ -10,24 +10,26 @@
 #define OFF      HIGH
 #define ON       LOW
 
-Ticker cold_checkState, hot_checkState;
-
 //Константы
-const int MINUTE = 60 * 1000;  //60секунд * 1000милиСекунд
+const int MINUTE        = 60 * 1000;  //60секунд * 1000милиСекунд
 const int DEBOUNCE_TIME = 100; //Интервал за который должен исчезнуть "дребезг" контактов
-const int SEND_PERIOD = 15;    //Период отправки данных на сервер в минутах
-const int BLINK_PERIOD = 1000; //Интервал мигания диодом при не удачном обращении к серверу
+const int SEND_PERIOD   = 1;    //Период отправки данных на сервер в минутах
+const int BLINK_PERIOD  = 1000; //Интервал мигания диодом при не удачном обращении к серверу
 
 //Переменные счетчиков
 int cold_nextPinState, cold_pinState, hot_nextPinState, hot_pinState;
 unsigned int cold_volume, hot_volume;
-static unsigned long cold_prevMillis, hot_prevMillis;
+unsigned long cold_prevMillis, hot_prevMillis;
+
 boolean cold_waitForNextInterrupt = true;
 boolean hot_waitForNextInterrupt = true;
 
+Ticker cold_checkState, hot_checkState;
+
 //Переменные работы с контроллером
 unsigned long prev_millis, blink_prev_millis;
-boolean isWiFiConnected = false, sendFailure = false;
+boolean isWiFiConnected = false;
+Ticker blink;
 
 //WiFi login and password
 const char* ssid     = "marakaza_2.4";
@@ -84,8 +86,8 @@ void setup() {
 
 boolean WiFiConnect()
 {
+	blink.detach();
 	digitalWrite(LED, OFF);
-	sendFailure = false;
 
 	WiFi.disconnect(true);
 	WiFi.mode(WIFI_STA);
@@ -195,27 +197,22 @@ void changeLedState(void)
 
 void loop()
 {
-	if (sendFailure == true && millis() - blink_prev_millis > BLINK_PERIOD) {
-		changeLedState();
-		blink_prev_millis = millis();
-	}
-
 	if (millis() - prev_millis > SEND_PERIOD * MINUTE) {
-		prev_millis = millis();
 		if (isWiFiConnected && WiFi.status() == WL_CONNECTED) {
 			if (cold_volume != 0 || hot_volume != 0) {
 				boolean result = sendDataToRemoteHost(cold_volume, hot_volume);
 				if (result) {
-					sendFailure = false;
+					blink.detach();
 					digitalWrite(LED, ON);
 					cold_volume = 0;
 					hot_volume = 0;
 				} else {
-					sendFailure = true;
+					blink.attach(1, changeLedState);
 				}
 			}
 		} else {
 			isWiFiConnected = WiFiConnect();
 		}
+		prev_millis = millis();
 	}
 }
