@@ -36,10 +36,7 @@ const char* ssid     = "marakaza_2.4";
 const char* password = "pafnutii24";
 
 void setup() {
-	Serial.begin(115200);
-	Serial.println("Init start...");
 	prev_millis = cold_prevMillis = hot_prevMillis = blink_prev_millis = millis();
-
 
 	pinMode(COLD_PIN, INPUT_PULLUP);
 	pinMode(HOT_PIN, INPUT_PULLUP);
@@ -81,7 +78,6 @@ void setup() {
 	hot_checkState.attach_ms(25, hot_CheckMeterState);
 
 	isWiFiConnected = WiFiConnect();
-	Serial.println("Init finish...");
 }
 
 boolean WiFiConnect()
@@ -135,7 +131,6 @@ void cold_CheckMeterState(void)
 				cold_volume += 3;
 			}
 		}
-		Serial.print("Cold="); Serial.println(cold_volume);
 	}
 }
 
@@ -154,7 +149,6 @@ void hot_CheckMeterState(void)
 				hot_volume += 3;
 			}
 		}
-		Serial.print("Hot="); Serial.println(hot_volume);
 	}
 }
 
