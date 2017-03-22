@@ -74,11 +74,11 @@ void setup() {
 		hot_nextPinState = LOW;
 	}
 
-	attachInterrupt(COLD_PIN, cold_changeState, CHANGE);
-	attachInterrupt(HOT_PIN, hot_changeState, CHANGE);
+	attachInterrupt(COLD_PIN, cold_InterruptHandler, CHANGE);
+	attachInterrupt(HOT_PIN, hot_InterruptHandler, CHANGE);
 
-	cold_checkState.attach_ms(25, cold_checkMeterState);
-	hot_checkState.attach_ms(25, hot_checkMeterState);
+	cold_checkState.attach_ms(25, cold_CheckMeterState);
+	hot_checkState.attach_ms(25, hot_CheckMeterState);
 
 	isWiFiConnected = WiFiConnect();
 	Serial.println("Init finish...");
@@ -94,7 +94,7 @@ boolean WiFiConnect()
 	WiFi.begin(ssid, password);
 
 	for (int i = 0; i < 60 && WiFi.status() != WL_CONNECTED; i++) {
-		changeLedState();
+		ChangeLedState();
 		Serial.println(i);
 		delay(500);
 	}
@@ -108,19 +108,19 @@ boolean WiFiConnect()
 	return true;
 }
 
-void cold_changeState()
+void cold_InterruptHandler()
 {
     cold_prevMillis = millis();
     cold_waitForNextInterrupt = false;
 }
 
-void hot_changeState()
+void hot_InterruptHandler()
 {
 	hot_prevMillis = millis();
 	hot_waitForNextInterrupt = false;
 }
 
-void cold_checkMeterState(void)
+void cold_CheckMeterState(void)
 {
 	unsigned long tmp;
 	tmp = millis() - cold_prevMillis;
@@ -139,7 +139,7 @@ void cold_checkMeterState(void)
 	}
 }
 
-void hot_checkMeterState(void)
+void hot_CheckMeterState(void)
 {
 	unsigned long tmp;
 	tmp = millis() - hot_prevMillis;
@@ -158,7 +158,7 @@ void hot_checkMeterState(void)
 	}
 }
 
-boolean sendDataToRemoteHost(int coldwater, int hotwater)
+boolean SendDataToRemoteHost(int coldwater, int hotwater)
 {
 	if (WiFi.status() != WL_CONNECTED) {
 		return false;
@@ -186,7 +186,7 @@ boolean sendDataToRemoteHost(int coldwater, int hotwater)
 	return false;
 }
 
-void changeLedState(void)
+void ChangeLedState(void)
 {
 	if (digitalRead(LED) == OFF) {
 		digitalWrite(LED, ON);
@@ -200,14 +200,14 @@ void loop()
 	if (millis() - prev_millis > SEND_PERIOD * MINUTE) {
 		if (isWiFiConnected && WiFi.status() == WL_CONNECTED) {
 			if (cold_volume != 0 || hot_volume != 0) {
-				boolean result = sendDataToRemoteHost(cold_volume, hot_volume);
+				boolean result = SendDataToRemoteHost(cold_volume, hot_volume);
 				if (result) {
 					blink.detach();
 					digitalWrite(LED, ON);
 					cold_volume = 0;
 					hot_volume = 0;
 				} else {
-					blink.attach(1, changeLedState);
+					blink.attach(1, ChangeLedState);
 				}
 			}
 		} else {
