@@ -60,13 +60,13 @@ jQuery(document).ready(function () {
         }]
     });*/
     var params = {
-        action: get,
+        action: 'get',
         param: 'last',
     };
     
     executeAjaxRequest(params, function (result) {
         if (result['status'] == 'success') {
-
+            alert($re)
         } else {
 
         }

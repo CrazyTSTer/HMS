@@ -36,8 +36,17 @@ body {
     border: solid 1px;
     white-space: nowrap;
     box-sizing: border-box;
-
+    text-align: center;
 }
+
+.current_values::after {
+    display: inline-block;
+    height: 100%;
+
+    vertical-align: middle;
+    content: "";
+}
+
 .current_day {
     height: calc(50% - 10px);
 
@@ -57,4 +66,10 @@ body {
     margin: 5px;
     border: solid 1px;
     box-sizing: border-box;
+}
+
+.timestamp, .coldwater, .hotwater {
+    display: inline-block;
+    border: solid 1px;
+    padding: 10px;
 }
