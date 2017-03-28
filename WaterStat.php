@@ -92,7 +92,7 @@ class WaterStat
                 self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
             );
         } else {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to add Values to DB');
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get previous Values from DB');
         }
 
         $result = $this->db->executeQuery(SET_METERS_VALUES, $data, false);
@@ -117,7 +117,11 @@ class WaterStat
         switch ($params) {
             case 'last':
                 $result = $this->db->executeQuery(GET_LAST_METERS_VALUES);
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+                if ($result !== false) {
+                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+                } else {
+                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Can\'t get current values from DB');
+                }
                 break;
             case 'current_day':
                 $result = $this->db->executeQuery(GET_METERS_VALUES_FROM);

@@ -1,10 +1,10 @@
 jQuery(document).ready(function () {
-    Highcharts.setOptions({
+    /*Highcharts.setOptions({
         global: {
             useUTC: false
         }
-    });
-    Highcharts.chart('current_day', {
+    });*/
+    /*Highcharts.chart('current_day', {
 
         chart: {
             type: 'spline'
@@ -58,5 +58,37 @@ jQuery(document).ready(function () {
                 [1490685502000, 37],
                 [1490685563000, 40]]
         }]
+    });*/
+    var params = {
+        action: get,
+        param: 'last',
+    };
+    
+    executeAjaxRequest(params, function (result) {
+        if (result['status'] == 'success') {
+
+        } else {
+
+        }
     });
 });
+
+
+//-----------------AJAX REQUEST--------------------------------//
+function executeAjaxRequest(params, success_callback, error_callback) {
+    error_callback = error_callback ? error_callback : function (jqXHR, status, message) {
+        /*$('.alert_js').addClass('alert-danger');
+        $('.modal-text_js').html("<strong>Can't complete request!</strong><br> Status: " + status + "<br> Message: " + message);
+        $("#modalAlert").modal();*/
+        alert("AJAX REQUEST FAILED");
+    };
+
+    $.ajax({
+        url: 'WaterStat.php',
+        type: 'GET',
+        data: params,
+        dataType: 'json',
+        success: success_callback,
+        error: error_callback
+    });
+}
