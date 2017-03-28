@@ -5,11 +5,11 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 include_once "php/Utils.php";
 define('GET_LAST_METERS_VALUES', 'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
-define('GET_METERS_VALUES_FROM', 'SELECT floor(UNIX_TIMESTAMP(ts) * 1000 ) as ts, coldwater, hotwater FROM WaterMeter WHERE date(ts) = curdate()');
+define('GET_METERS_VALUES_FROM', 'SELECT floor(UNIX_TIMESTAMP(ts) * 1000 ) as ts, ts as timestamp_for_php, coldwater, hotwater FROM WaterMeter WHERE date(ts) = curdate() - INTERVAL 1 DAY');
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'localhost';
+    const MYSQL_HOST        = '192.168.1.2';
     const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'water_meter';
     const MYSQL_PASS        = 'calcwater';
@@ -30,6 +30,9 @@ class WaterStat
 
     public function init($debug = false)
     {
+        $date1 = date("d.m.y H:i", time());
+        echo $date1;
+        echo date_default_timezone_get();
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
         if (!$this->action) {
@@ -128,19 +131,41 @@ class WaterStat
                 $cold_tmp = $result[0]['coldwater'];
                 $hot_tmp = $result[0]['hotwater'];
                 for ($i=0; $i<$result['rows_count']; $i++) {
-                    $result[$i]['coldwater'] -= $cold_tmp;
-                    $result[$i]['hotwater'] -= $hot_tmp;
+                    $ret[] = [
+                        'ts' => $result[$i]['ts'],
+                        'coldwater' => $result[$i]['coldwater'] - $cold_tmp,
+                        'hotwater' => $result[$i]['hotwater'] - $hot_tmp,
+                    ];
+                    if (array_key_exists($i+1, $result)) {
+                        $dt1=new DateTime($result[$i+1]['timestamp_for_php']);
+                        $dt2=new DateTime($result[$i]['timestamp_for_php']);
+                        $interval = $dt1->diff($dt2);
+                        $tmp = $interval->format('%i');
+                        if ($tmp > 5) {
+                            echo $dt1->format('U = Y-m-d H:i:s') . '<br>';
+                            $tmp1=$dt1->sub(new DateInterval('PT10M'));
+                            echo $tmp1->format('U = Y-m-d H:i:s') . '<br>';
+                            $ret[] = [
+                                'ts' => $result[$i+1]['ts'],
+                                'coldwater' => $result[$i]['coldwater'] - $cold_tmp,
+                                'hotwater' => $result[$i]['hotwater'] - $hot_tmp,
+                            ];
+                        }
+
+                    }
+
                 }
-                for ($i=0; $i<$result['rows_count']; $i++){
-                    echo '[' . $result[$i]['ts'] . ', ' . $result[$i]['hotwater'] . '],' . '<br>';
-		        }
+                foreach ($ret as $key=>$value) {
+                    echo '[' . $value['ts'] . ', ' . $value['coldwater'] . '], <br>';
+                }
+                var_export($ret);
+                //Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
                 break;
             case 'range':
                 break;
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_ACTION);
         }
-        var_export($params);
     }
 }
 
