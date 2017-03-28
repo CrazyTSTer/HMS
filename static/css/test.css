@@ -13,34 +13,48 @@ body {
 }
 
 .chart_container {
-    height: 400px;
-    position: relative;
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+
     margin: 5px;
     border: solid 1px;
     white-space: nowrap;
+    box-sizing: border-box;
 }
 
 .current_values {
-    height:50px;
-    border:solid 1px;
-    margin:5px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 50px;
+
+    margin: 5px;
+    border: solid 1px;
+    white-space: nowrap;
+    box-sizing: border-box;
 
 }
 .current_day {
     height: calc(50% - 10px);
-    box-sizing: border-box;
-    border: solid 1px;
+
     margin: 5px;
+    border: solid 1px;
+    box-sizing: border-box;
 }
 
 .current_month,
 .current_year {
-    height: calc(50% - 10px);
     position: relative;
     display: inline-block;
+
+    height: calc(50% - 10px);
     width: calc(50% - 10px);
-    background: red;
+
+    margin: 5px;
     border: solid 1px;
     box-sizing: border-box;
-    margin: 5px;
 }
