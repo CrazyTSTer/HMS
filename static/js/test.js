@@ -66,7 +66,7 @@ jQuery(document).ready(function () {
     
     executeAjaxRequest(params, function (result) {
         if (result['status'] == 'success') {
-            alert($re)
+            alert(result);
         } else {
 
         }
