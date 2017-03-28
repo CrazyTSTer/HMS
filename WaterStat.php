@@ -5,7 +5,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 include_once "php/Utils.php";
 define('GET_LAST_METERS_VALUES', 'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY Ts DESC LIMIT 1');
 define('SET_METERS_VALUES',      'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
-define('GET_METERS_VALUES_FROM', 'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE unix_timestamp(ts) > #from#');
+define('GET_METERS_VALUES_FROM', 'SELECT floor(UNIX_TIMESTAMP(ts) * 1000 ) as ts, coldwater, hotwater FROM WaterMeter WHERE date(ts) = curdate()');
 
 class WaterStat
 {
@@ -121,6 +121,18 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
                 break;
             case 'from':
+                $result = $this->db->executeQuery(GET_METERS_VALUES_FROM);
+		$cold_tmp = $result[0]['coldwater'];
+		$hot_tmp = $result[0]['hotwater'];
+                for ($i=0; $i<$result['rows_count']; $i++) {
+			$result[$i]['coldwater'] -= $cold_tmp;
+			$result[$i]['hotwater'] -= $hot_tmp;
+			//$result[$i]['ts'] = 'moment(\'' . $result[$i]['ts'] . '\').valueOf()';
+                }
+
+		for ($i=0; $i<$result['rows_count']; $i++){
+			echo '[' . $result[$i]['ts'] . ', ' . $result[$i]['hotwater'] . '],' . '<br>';
+		}
                 break;
             case 'range':
                 break;
