@@ -1,9 +1,9 @@
 jQuery(document).ready(function () {
-    /*Highcharts.setOptions({
+    Highcharts.setOptions({
         global: {
             useUTC: false
         }
-    });*/
+    });
     /*Highcharts.chart('current_day', {
 
         chart: {
@@ -59,18 +59,24 @@ jQuery(document).ready(function () {
                 [1490685563000, 40]]
         }]
     });*/
-    var params = {
-        action: 'get',
-        param: 'last',
-    };
-    
-    executeAjaxRequest(params, function (result) {
-        if (result['status'] == 'success') {
-            alert(result);
-        } else {
 
+    executeAjaxRequest({action: 'get', param: 'last'}, function (result) {
+        if (result['status'] == 'success') {
+            $('.timestamp').html(result['data']['ts']);
+            $('.coldwater').html(result['data']['coldwater']);
+            $('.hotwater').html(result['data']['hotwater']);
+        } else {
+            $('.current_values').html(result['status'] + '<br>' + result['data']);
         }
     });
+    executeAjaxRequest({action: 'get', param: 'current_day'}, function (result) {
+        if (result['status'] == 'success') {
+
+        } else {
+            $('.current_day').html(result['status'] + '<br>' + result['data']);
+        }
+    });
+
 });
 
 
