@@ -9,7 +9,7 @@ define('GET_METERS_VALUES_FROM', 'SELECT floor(UNIX_TIMESTAMP(ts) * 1000 ) as ts
 
 class WaterStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_HOST        = 'localhost';
     const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'water_meter';
     const MYSQL_PASS        = 'calcwater';
@@ -30,9 +30,6 @@ class WaterStat
 
     public function init($debug = false)
     {
-        $date1 = date("d.m.y H:i", time());
-        echo $date1;
-        echo date_default_timezone_get();
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
         if (!$this->action) {
@@ -142,11 +139,8 @@ class WaterStat
                         $interval = $dt1->diff($dt2);
                         $tmp = $interval->format('%i');
                         if ($tmp > 5) {
-                            echo $dt1->format('U = Y-m-d H:i:s') . '<br>';
-                            $tmp1=$dt1->sub(new DateInterval('PT10M'));
-                            echo $tmp1->format('U = Y-m-d H:i:s') . '<br>';
                             $ret[] = [
-                                'ts' => $result[$i+1]['ts'],
+                                'ts' => ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000,
                                 'coldwater' => $result[$i]['coldwater'] - $cold_tmp,
                                 'hotwater' => $result[$i]['hotwater'] - $hot_tmp,
                             ];
