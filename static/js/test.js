@@ -1,98 +1,62 @@
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function () {
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
     Highcharts.chart('current_day', {
+
         chart: {
-            type: 'column'
+            type: 'spline'
         },
-
+        title: {
+            text: 'Cold and Hot water stat'
+        },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
+            type: 'datetime'
 
-        plotOptions: {
-            series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function () {
-                            alert('Category: ' + this.category + ', value: ' + this.y);
-                        }
-                    }
-                }
+        },
+        yAxis: {
+            title: {
+                text: 'Liters'
             }
         },
-
-        series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }],
-
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-
-    });
-    Highcharts.chart('current_month', {
-        chart: {
-            type: 'column'
-        },
-
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-
         plotOptions: {
-            series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function () {
-                            alert('Category: ' + this.category + ', value: ' + this.y);
-                        }
-                    }
-                }
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
             }
         },
-
         series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }],
-
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-
-    });
-    Highcharts.chart('current_year', {
-        chart: {
-            type: 'column'
-        },
-
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-
-        plotOptions: {
-            series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function () {
-                            alert('Category: ' + this.category + ', value: ' + this.y);
-                        }
-                    }
-                }
-            }
-        },
-
-        series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }],
-
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-
+            name: 'ColdWater',
+            color: '#0000ff',
+            data: [[1490669721000, 0],
+                [1490682682000, 10],
+                [1490684542000, 17],
+                [1490684602000, 20],
+                [1490684662000, 20],
+                [1490684722000, 27],
+                [1490684782000, 30],
+                [1490685382000, 37],
+                [1490685442000, 37],
+                [1490685502000, 40],
+                [1490685563000, 40]]
+        }, {
+            name: 'HotWater',
+            color: '#ff0000',
+            data: [[1490669721000, 0],
+                [1490682682000, 0],
+                [1490684542000, 0],
+                [1490684602000, 10],
+                [1490684662000, 17],
+                [1490684722000, 20],
+                [1490684782000, 30],
+                [1490685382000, 30],
+                [1490685442000, 37],
+                [1490685502000, 37],
+                [1490685563000, 40]]
+        }]
     });
 });
