@@ -131,9 +131,13 @@ class WaterStat
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
 
                 for ($i=0; $i<$result[DB::MYSQL_ROWS_COUNT]; $i++) {
-                    $ret[] = [
-                        self::TIMESTAMP => ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000,
-                        self::COLDWATER => $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                    $dt = ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000;
+                    $ret[self::COLDWATER][] = [
+                        $dt,
+                        $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                    ];
+                    $ret[self::HOTWATER][] = [
+                        $dt,
                         self::HOTWATER  => $result[$i][self::HOTWATER] - $hotWaterFirstValue,
                     ];
 
@@ -144,21 +148,20 @@ class WaterStat
                         $interval = ($dt1->diff($dt2))->format('%i');
 
                         if ($interval > 5) {
-                            $ret[] = [
-                                self::TIMESTAMP => ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000,
-                                self::COLDWATER => $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                            $dt = ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000;
+                            $ret[self::COLDWATER][] = [
+                                $dt,
+                                $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                            ];
+                            $ret[self::HOTWATER][] = [
+                                $dt,
                                 self::HOTWATER  => $result[$i][self::HOTWATER] - $hotWaterFirstValue,
                             ];
                         }
                     }
                 }
 
-                foreach ($ret as $key=>$value) {
-                    echo '[' . $value['ts'] . ', ' . $value['coldwater'] . '], <br>';
-                }
-
-                //var_export($ret);
-                //Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'range':
                 break;
