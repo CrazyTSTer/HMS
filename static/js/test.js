@@ -13,8 +13,8 @@ jQuery(document).ready(function() {
 
     executeAjaxRequest({action: 'get', param: 'current_day'}, function (result) {
         if (result['status'] == 'success') {
-            coldwater = $result['data']['coldwater'];
-            hotwater = $result['data']['hotwater'];
+            coldwater = result['data']['coldwater'];
+            hotwater = result['data']['hotwater'];
         } else {
             $('.current_day').html(result['status'] + '<br>' + result['data']);
         }
