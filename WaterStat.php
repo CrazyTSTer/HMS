@@ -138,7 +138,7 @@ class WaterStat
                     ];
                     $ret[self::HOTWATER][] = [
                         $dt,
-                        self::HOTWATER  => $result[$i][self::HOTWATER] - $hotWaterFirstValue,
+                        $result[$i][self::HOTWATER] - $hotWaterFirstValue,
                     ];
 
                     if (array_key_exists($i+1, $result)) {
@@ -155,7 +155,7 @@ class WaterStat
                             ];
                             $ret[self::HOTWATER][] = [
                                 $dt,
-                                self::HOTWATER  => $result[$i][self::HOTWATER] - $hotWaterFirstValue,
+                                $result[$i][self::HOTWATER] - $hotWaterFirstValue,
                             ];
                         }
                     }
