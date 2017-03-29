@@ -1,32 +1,14 @@
 var coldwater, hotwater;
+var chart;
 
 jQuery(document).ready(function() {
-    executeAjaxRequest({action: 'get', param: 'last'}, function (result) {
-        if (result['status'] == 'success') {
-            $('.timestamp').html(result['data']['ts']);
-            $('.coldwater').html(result['data']['coldwater']);
-            $('.hotwater').html(result['data']['hotwater']);
-        } else {
-            $('.current_values').html(result['status'] + '<br>' + result['data']);
-        }
-    });
-
-    executeAjaxRequest({action: 'get', param: 'current_day'}, function (result) {
-        if (result['status'] == 'success') {
-            coldwater = result['data']['coldwater'];
-            hotwater = result['data']['hotwater'];
-        } else {
-            $('.current_day').html(result['status'] + '<br>' + result['data']);
-        }
-    });
-
     Highcharts.setOptions({
         global: {
             useUTC: false
         }
     });
 
-    Highcharts.chart('current_day', {
+    chart = Highcharts.chart('current_day', {
         chart: {
             type: 'spline',
             zoomType: 'x'
@@ -68,14 +50,32 @@ jQuery(document).ready(function() {
         series: [{
             name: 'Холодная вода',
             color: 'Blue',
-            data: coldwater
+            data: []
         }, {
             name: 'Горячая вода',
             color: 'Red',
-            data: hotwater
+            data: []
         }]
     });
 
+    executeAjaxRequest({action: 'get', param: 'last'}, function (result) {
+        if (result['status'] == 'success') {
+            $('.timestamp').html(result['data']['ts']);
+            $('.coldwater').html(result['data']['coldwater']);
+            $('.hotwater').html(result['data']['hotwater']);
+        } else {
+            $('.current_values').html(result['status'] + '<br>' + result['data']);
+        }
+    });
+
+    executeAjaxRequest({action: 'get', param: 'current_day'}, function (result) {
+        if (result['status'] == 'success') {
+            chart.series[0].setData(result['data']['coldwater']);
+            chart.series[1].setData(result['data']['hotwater']);
+        } else {
+            $('.current_day').html(result['status'] + '<br>' + result['data']);
+        }
+    });
 });
 
 
