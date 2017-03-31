@@ -155,14 +155,18 @@ class WaterStat
 
                         if ($interval > 5) {
                             $dt = ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000;
-                            $ret[self::COLDWATER][] = [
-                                $dt,
-                                $result[$i][self::COLDWATER] - $coldWaterFirstValue,
-                            ];
-                            $ret[self::HOTWATER][] = [
-                                $dt,
-                                $result[$i][self::HOTWATER] - $hotWaterFirstValue,
-                            ];
+                            if ($result[$i][self::COLDWATER] - $result[$i+1][self::COLDWATER] != 0) {
+                                $ret[self::COLDWATER][] = [
+                                    $dt,
+                                    $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                                ];
+                            }
+                            if ($result[$i][self::HOTWATER] - $result[$i+1][self::HOTWATER] != 0) {
+                                $ret[self::HOTWATER][] = [
+                                    $dt,
+                                    $result[$i][self::HOTWATER] - $hotWaterFirstValue,
+                                ];
+                            }
                         }
                     }
                 }
