@@ -5,7 +5,11 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 include_once "php/Utils.php";
 define('GET_LAST_VALUES',        'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('SET_VALUES',             'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
-define('GET_CURRENT_DAY_VALUES', 'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE date(ts) = curdate()');
+define('GET_CURRENT_DAY_VALUES',
+    '(SELECT ts, MAX(coldwater), MAX(hotwater) FROM WaterMeter 
+    WHERE DATE(ts) < DATE(CURDATE()) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
+    UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE()'
+);
 
 class WaterStat
 {
@@ -129,8 +133,12 @@ class WaterStat
 
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
+                $dt = (date("Y-m-d")->format('U')) * 1000;
 
-                for ($i=0; $i<$result[DB::MYSQL_ROWS_COUNT]; $i++) {
+                $ret[self::COLDWATER][] = [$dt, 0];
+                $ret[self::HOTWATER][] = [$dt, 0];
+
+                for ($i = 1; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
                     $dt = ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000;
                     $ret[self::COLDWATER][] = [
                         $dt,
