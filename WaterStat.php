@@ -137,6 +137,8 @@ class WaterStat
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
                 $result[0][self::TIMESTAMP] = date("Y-m-d 00:00:00");
 
+                $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
+
                 for ($i = 0; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
                     $dt = ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000;
 

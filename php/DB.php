@@ -133,7 +133,6 @@ class DB
             $this->free($result);
         }
 
-
         return $ret;
     }
 
