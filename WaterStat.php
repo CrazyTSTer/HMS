@@ -134,7 +134,7 @@ class WaterStat
 
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
-                $dt = (date("Y-m-d")->format('U')) * 1000;
+                $dt = ((new DateTime(date("Y-m-d")))->format('U')) * 1000;
 
                 $ret[self::COLDWATER][] = [$dt, 0];
                 $ret[self::HOTWATER][] = [$dt, 0];
