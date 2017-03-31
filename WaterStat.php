@@ -12,6 +12,7 @@ define('GET_CURRENT_DAY_VALUES',
     UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE()'
 );
 
+
 class WaterStat
 {
     const MYSQL_HOST        = 'localhost';
@@ -138,6 +139,7 @@ class WaterStat
 
                 for ($i = 0; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
                     $dt = ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000;
+
                     $ret[self::COLDWATER][] = [
                         $dt,
                         $result[$i][self::COLDWATER] - $coldWaterFirstValue,
@@ -147,33 +149,35 @@ class WaterStat
                         $result[$i][self::HOTWATER] - $hotWaterFirstValue,
                     ];
 
-                    if (array_key_exists($i+1, $result)) {
-                        //Get time interval between two points
-                        $dt1 = new DateTime($result[$i+1][self::TIMESTAMP]);
-                        $dt2 = new DateTime($result[$i][self::TIMESTAMP]);
-                        $interval = ($dt1->diff($dt2))->format('%i');
+                    if (!array_key_exists($i+1, $result)) continue;
 
-                        if ($interval > 5) {
-                            $dt = ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000;
-                            if ($result[$i][self::COLDWATER] - $result[$i+1][self::COLDWATER] != 0) {
-                                $ret[self::COLDWATER][] = [
-                                    $dt,
-                                    $result[$i][self::COLDWATER] - $coldWaterFirstValue,
-                                ];
-                            }
-                            if ($result[$i][self::HOTWATER] - $result[$i+1][self::HOTWATER] != 0) {
-                                $ret[self::HOTWATER][] = [
-                                    $dt,
-                                    $result[$i][self::HOTWATER] - $hotWaterFirstValue,
-                                ];
-                            }
+                    //Get time interval between two points
+                    $dt1 = new DateTime($result[$i+1][self::TIMESTAMP]);
+                    $dt2 = new DateTime($result[$i][self::TIMESTAMP]);
+                    $interval = ($dt1->diff($dt2))->format('%i');
+
+                    if ($interval > 5) {
+                        $dt = ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000;
+                        if ($result[$i][self::COLDWATER] - $result[$i+1][self::COLDWATER] != 0) {
+                            $ret[self::COLDWATER][] = [
+                                $dt,
+                                $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                            ];
+                        }
+                        if ($result[$i][self::HOTWATER] - $result[$i+1][self::HOTWATER] != 0) {
+                            $ret[self::HOTWATER][] = [
+                                $dt,
+                                $result[$i][self::HOTWATER] - $hotWaterFirstValue,
+                            ];
                         }
                     }
+
                 }
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
-            case 'range':
+            case 'update_current_day':
+
                 break;
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_ACTION);
