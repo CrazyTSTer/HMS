@@ -1,5 +1,6 @@
 var coldwater, hotwater;
 var chart;
+var last_timestamp;
 
 jQuery(document).ready(function() {
     Highcharts.setOptions({
@@ -72,6 +73,7 @@ jQuery(document).ready(function() {
         if (result['status'] == 'success') {
             chart.series[0].setData(result['data']['coldwater']);
             chart.series[1].setData(result['data']['hotwater']);
+            last_timestamp = result['data']['last_timestamp'];
         } else {
             $('.current_day').html(result['status'] + '<br>' + result['data']);
         }
