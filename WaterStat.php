@@ -132,10 +132,12 @@ class WaterStat
                 break;
             case 'current_day':
                 $result = $this->db->executeQuery(GET_CURRENT_DAY_VALUES);
-
+                if ($result[DB::MYSQL_ROWS_COUNT] < 2 || $result == DB::MYSQL_EMPTY_SELECTION) {
+                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'NoData');
+                }
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
-                $result[0][self::TIMESTAMP] = date("Y-m-d 00:00:00");
+                $result[0][self::TIMESTAMP] = (new DateTime($result[0][self::TIMESTAMP]))->format("Y-m-d 00:00:00");
 
                 $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
 
