@@ -24,19 +24,19 @@ unsigned long cold_prevMillis, hot_prevMillis;
 boolean cold_waitForNextInterrupt = true;
 boolean hot_waitForNextInterrupt = true;
 
-Ticker cold_checkState, hot_checkState;
+Ticker cold_CheckState, hot_CheckState;
 
 //Переменные работы с контроллером
-unsigned long prev_millis, blink_prev_millis;
+unsigned long prevMillis;
 boolean isWiFiConnected = false;
-Ticker blink;
+Ticker Blink;
 
 //WiFi login and password
 const char* ssid     = "marakaza_2.4";
 const char* password = "pafnutii24";
 
 void setup() {
-	prev_millis = cold_prevMillis = hot_prevMillis = blink_prev_millis = millis();
+	prevMillis = cold_prevMillis = hot_prevMillis = millis();
 
 	pinMode(COLD_PIN, INPUT_PULLUP);
 	pinMode(HOT_PIN, INPUT_PULLUP);
@@ -74,15 +74,15 @@ void setup() {
 	attachInterrupt(COLD_PIN, cold_InterruptHandler, CHANGE);
 	attachInterrupt(HOT_PIN, hot_InterruptHandler, CHANGE);
 
-	cold_checkState.attach_ms(25, cold_CheckMeterState);
-	hot_checkState.attach_ms(25, hot_CheckMeterState);
+	cold_CheckState.attach_ms(25, cold_CheckMeterState);
+	hot_CheckState.attach_ms(25, hot_CheckMeterState);
 
 	isWiFiConnected = WiFiConnect();
 }
 
 boolean WiFiConnect()
 {
-	blink.detach();
+	Blink.detach();
 	digitalWrite(LED, OFF);
 
 	WiFi.disconnect(true);
@@ -191,22 +191,22 @@ void ChangeLedState(void)
 
 void loop()
 {
-	if (millis() - prev_millis > SEND_PERIOD * MINUTE) {
+	if (millis() - prevMillis > SEND_PERIOD * MINUTE) {
 		if (isWiFiConnected && WiFi.status() == WL_CONNECTED) {
 			if (cold_volume != 0 || hot_volume != 0) {
 				boolean result = SendDataToRemoteHost(cold_volume, hot_volume);
 				if (result) {
-					blink.detach();
+					Blink.detach();
 					digitalWrite(LED, ON);
 					cold_volume = 0;
 					hot_volume = 0;
 				} else {
-					blink.attach(1, ChangeLedState);
+					Blink.attach(1, ChangeLedState);
 				}
 			}
 		} else {
 			isWiFiConnected = WiFiConnect();
 		}
-		prev_millis = millis();
+		prevMillis = millis();
 	}
 }
