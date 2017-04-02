@@ -140,7 +140,7 @@ class WaterStat
                 $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
 
                 for ($i = 0; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
-                    $dt = ((new DateTime($result[$i][self::TIMESTAMP]))->format('U')) * 1000;
+                    $dt = strtotime($result[$i][self::TIMESTAMP]) * 1000;
 
                     $ret[self::COLDWATER][] = [
                         $dt,
@@ -154,20 +154,24 @@ class WaterStat
                     if (!array_key_exists($i+1, $result)) continue;
 
                     //Get time interval between two points
-                    $dt1 = new DateTime($result[$i+1][self::TIMESTAMP]);
-                    $dt2 = new DateTime($result[$i][self::TIMESTAMP]);
-                    $interval = ($dt1->diff($dt2))->format('%i');
+                    $dt1 = strtotime($result[$i+1][self::TIMESTAMP]);
+                    $dt2 = strtotime($result[$i][self::TIMESTAMP]);
+                    $interval = round(abs($dt1 - $dt2) / 60);
 
                     if ($interval > 5) {
-                        $dt = ($dt1->sub(new DateInterval('PT1M'))->format('U')) * 1000;
-                        $ret[self::COLDWATER][] = [
-                            $dt,
-                            $result[$i][self::COLDWATER] - $coldWaterFirstValue,
-                        ];
-                        $ret[self::HOTWATER][] = [
-                            $dt,
-                            $result[$i][self::HOTWATER] - $hotWaterFirstValue,
-                        ];
+                        $dt = ($dt1 - 60) * 1000;//Сдвигаемся на минуту назад
+                        if ($result[$i][self::COLDWATER] - $result[$i+1][self::COLDWATER] != 0) {
+                            $ret[self::COLDWATER][] = [
+                                $dt,
+                                $result[$i][self::COLDWATER] - $coldWaterFirstValue,
+                            ];
+                        }
+                        if ($result[$i][self::HOTWATER] - $result[$i+1][self::HOTWATER] != 0) {
+                            $ret[self::HOTWATER][] = [
+                                $dt,
+                                $result[$i][self::HOTWATER] - $hotWaterFirstValue,
+                            ];
+                        }
                     }
                 }
 
