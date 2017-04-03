@@ -137,7 +137,7 @@ class WaterStat
                 }
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
-                $result[0][self::TIMESTAMP] = (new DateTime($result[0][self::TIMESTAMP]))->format("Y-m-d 00:00:00");
+                $result[0][self::TIMESTAMP] = (new DateTime($result[1][self::TIMESTAMP]))->format("Y-m-d 00:00:00");
 
                 $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
 
