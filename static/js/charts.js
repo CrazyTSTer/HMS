@@ -77,7 +77,7 @@ function currentMonthChart()
         },
         xAxis: {
              title: {
-                text: 'Время (ЧЧ:ММ)'
+                text: 'Число'
             }
         },
         yAxis: {
