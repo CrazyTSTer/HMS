@@ -70,10 +70,10 @@ function currentMonthChart()
             type: 'column'
         },
         title: {
-            text: 'Потребление холодной и горячей воды за месяц(разбивка по дням)'
+            text: 'Потребление холодной и горячей воды за месяц'
         },
         subtitle: {
-            text: '%дата%'
+            text: '(разбивка по дням)'
         },
         xAxis: {
             title: {
