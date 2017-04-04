@@ -81,7 +81,7 @@ function currentMonthChart()
                 for(var i=this.series.length; i--;) { total += this.series[i]; }
                 return this.name + '- Total: ' + total;
             }
-        }
+        },
         xAxis: {
             title: {
                 text: 'Число'
