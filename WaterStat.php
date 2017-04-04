@@ -200,14 +200,9 @@ class WaterStat
                 }
 
                 for ($i = 1; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
-                    $ret[self::COLDWATER][] = [
-                        $result[$i][self::TIMESTAMP],
-                        $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER]
-                    ];
-                    $ret[self::HOTWATER][] = [
-                        $result[$i][self::TIMESTAMP],
-                        $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER]
-                    ];
+                    $ret[self::TIMESTAMP][] = $result[$i][self::TIMESTAMP];
+                    $ret[self::COLDWATER][] = $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER];
+                    $ret[self::HOTWATER][] = $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER];
                 }
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
