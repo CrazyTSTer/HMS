@@ -11,7 +11,11 @@ define('GET_CURRENT_DAY_VALUES',
     WHERE DATE(ts) < DATE(CURDATE()) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
     UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE()'
 );
-
+define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',
+    '(SELECT DAY(ts) as ts, MAX(coldwater), MAX(hotwater) FROM WaterMeter 
+    WHERE MONTH(ts)<MONTH(curdate()) GROUP BY 1 ORDER BY ts DESC LIMIT 1) 
+    UNION SELECT DAY(ts) as ts, MAX(coldwater), MAX(hotwater) FROM WaterMeter WHERE MONTH(ts) = MONTH(CURDATE()) GROUP BY (1)'
+);
 
 class WaterStat
 {
@@ -184,7 +188,29 @@ class WaterStat
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
-            case 'update_current_day':
+            case 'current_month':
+                $result = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS);
+
+                if ($result == false) {
+                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Can\'t get current month data from DB');
+                }
+
+                if ($result[DB::MYSQL_ROWS_COUNT] < 2 || $result == DB::MYSQL_EMPTY_SELECTION) {
+                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'NoData');
+                }
+
+                for ($i = 1; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
+                    $ret[self::COLDWATER][] = [
+                        $result[$i][self::TIMESTAMP],
+                        $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER]
+                    ];
+                    $ret[self::HOTWATER][] = [
+                        $result[$i][self::TIMESTAMP],
+                        $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER]
+                    ];
+                }
+
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_ACTION);
