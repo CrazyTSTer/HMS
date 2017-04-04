@@ -78,7 +78,8 @@ function currentMonthChart()
         xAxis: {
              title: {
                 text: 'Число'
-            }
+            },
+            crosshair: true
         },
         yAxis: {
             title: {
@@ -87,8 +88,8 @@ function currentMonthChart()
             min: 0,
         },
         tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:}: {point.y:2f} л'
+            headerFormat: '<b>{series.name}</b>',
+            pointFormat: '{point.y:2f} л'
         },
 
         series: [{
