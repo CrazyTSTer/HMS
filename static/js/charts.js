@@ -78,10 +78,10 @@ function currentMonthChart()
         legend: {
             labelFormatter: function() {
                 var total = 0;
-                for(var i=this.yData.length; i--;) { total += this.yData[i]; };
-                return this.name + ' - ' + this.options.total;
+                for(var i=this.series.length; i--;) { total += this.series[i]; };
+                return this.name + '- Total: ' + total;
             }
-        },
+        }
         xAxis: {
             title: {
                 text: 'Число'
