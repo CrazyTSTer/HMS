@@ -134,7 +134,7 @@ class DB
         return $ret;
     }
 
-    public function fetchOnlyOneValue($query, $data, $add_quotes = false)
+    public function fetchOnlyOneValue($query, $data = [], $add_quotes = false)
     {
         $result = $this->executeQuery($query, $data, $add_quotes, MYSQLI_NUM);
         if (is_array($result) && isset($result[0])) {
