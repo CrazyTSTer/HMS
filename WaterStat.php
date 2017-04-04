@@ -19,7 +19,7 @@ define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'localhost';
+    const MYSQL_HOST        = '192.168.1.2';
     const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'water_meter';
     const MYSQL_PASS        = 'calcwater';
@@ -204,6 +204,15 @@ class WaterStat
                     $ret[self::TIMESTAMP][] = date('jS M', strtotime($result[$i][self::TIMESTAMP]));
                     $ret[self::COLDWATER][] = $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER];
                     $ret[self::HOTWATER][] = $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER];
+                }
+
+
+                //var_export(date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])));
+                //var_export(date('Y-m-d'));
+                if (date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])) != date('Y-m-d')) {
+                    $ret[self::TIMESTAMP][] = date('jS M');
+                    $ret[self::COLDWATER][] = 0;
+                    $ret[self::HOTWATER][] = 0;
                 }
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
