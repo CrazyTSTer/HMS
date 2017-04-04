@@ -79,7 +79,7 @@ function currentMonthChart()
             labelFormatter: function() {
                 var total = 0;
                 for(var i=this.yData.length; i--;) { total += this.yData[i]; };
-                return this.name + '- Total: ' + total;
+                return this.name + ' - Всего: ' + total;
             }
         },
         xAxis: {
