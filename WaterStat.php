@@ -12,9 +12,9 @@ define('GET_CURRENT_DAY_VALUES',
     UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE()'
 );
 define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',
-    '(SELECT DAY(ts) as ts, MAX(coldwater), MAX(hotwater) FROM WaterMeter 
+    '(SELECT DAY(ts) as ts, MAX(coldwater) AS coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
     WHERE MONTH(ts)<MONTH(curdate()) GROUP BY 1 ORDER BY ts DESC LIMIT 1) 
-    UNION SELECT DAY(ts) as ts, MAX(coldwater), MAX(hotwater) FROM WaterMeter WHERE MONTH(ts) = MONTH(CURDATE()) GROUP BY (1)'
+    UNION SELECT DAY(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE MONTH(ts) = MONTH(CURDATE()) GROUP BY (1)'
 );
 
 class WaterStat
