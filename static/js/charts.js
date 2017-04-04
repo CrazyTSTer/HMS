@@ -77,7 +77,9 @@ function currentMonthChart()
         },
         legend: {
             labelFormatter: function() {
-                return '<div class="' + this.name + '-arrow"></div><span style="font-family: \'Advent Pro\', sans-serif; font-size:16px">' + this.name +'</span><br/><span style="font-size:10px; color:#ababaa">(Total: ' + this.options.total + ')</span>';
+                var total = 0;
+                for(var i=this.yData.length; i--;) { total += this.yData[i]; };
+                return this.name + '- Total: ' + total;
             }
         },
         xAxis: {
