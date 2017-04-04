@@ -123,7 +123,7 @@ class WaterStat
 
         switch ($params) {
             case 'last':
-                $result = $this->db->executeQuery(GET_LAST_VALUES);
+                $result = $this->db->fetchOnlyOneValue(GET_LAST_VALUES);
                 if ($result !== false) {
                     Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
                 } else {
