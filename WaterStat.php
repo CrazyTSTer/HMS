@@ -200,7 +200,7 @@ class WaterStat
                 }
 
                 for ($i = 1; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
-                    $ret[self::TIMESTAMP][] = date('jS F', strtotime($result[$i][self::TIMESTAMP]));
+                    $ret[self::TIMESTAMP][] = date('jS M', strtotime($result[$i][self::TIMESTAMP]));
                     $ret[self::COLDWATER][] = $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER];
                     $ret[self::HOTWATER][] = $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER];
                 }
