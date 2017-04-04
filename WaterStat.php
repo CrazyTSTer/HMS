@@ -206,9 +206,6 @@ class WaterStat
                     $ret[self::HOTWATER][] = $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER];
                 }
 
-
-                //var_export(date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])));
-                //var_export(date('Y-m-d'));
                 if (date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])) != date('Y-m-d')) {
                     $ret[self::TIMESTAMP][] = date('jS M');
                     $ret[self::COLDWATER][] = 0;
