@@ -134,7 +134,7 @@ class DB
         return $ret;
     }
 
-    public function fetchOneRaw($query, $data = [], $add_quotes = false, $array_type = MYSQLI_ASSOC)
+    public function fetchOneRow($query, $data = [], $add_quotes = false, $array_type = MYSQLI_ASSOC)
     {
         $result = $this->executeQuery($query, $data, $add_quotes, $array_type);
         if (is_array($result) && isset($result[0])) {
