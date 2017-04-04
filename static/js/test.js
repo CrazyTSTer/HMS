@@ -33,6 +33,7 @@ jQuery(document).ready(function() {
             cm_chart.series[0].setData(result['data']['coldwater']);
             cm_chart.series[1].setData(result['data']['hotwater']);
             cm_chart.xAxis[0].setCategories(result['data']['ts']);
+            cm_chart.update();
         } else {
             $('.current_month').html(result['status'] + '<br>' + result['data']);
         }
