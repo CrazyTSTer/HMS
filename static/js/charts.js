@@ -88,8 +88,10 @@ function currentMonthChart()
             min: 0,
         },
         tooltip: {
-            headerFormat: '<b>{series.name}</b>',
-            pointFormat: '{point.y:2f} л'
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
         },
 
         series: [{
