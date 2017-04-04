@@ -79,6 +79,7 @@ function currentMonthChart()
             title: {
                 text: 'Число'
             },
+            categories: [],
             crosshair: true
         },
         yAxis: {

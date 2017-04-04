@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
         if (result['status'] == 'success') {
             cm_chart.series[0].setData(result['data']['coldwater']);
             cm_chart.series[1].setData(result['data']['hotwater']);
-            cm_chart.xAxis.series[0].setData(result['data']['ts']);
+            cm_chart.xAxis.categories[0].setData(result['data']['ts']);
         } else {
             $('.current_month').html(result['status'] + '<br>' + result['data']);
         }
