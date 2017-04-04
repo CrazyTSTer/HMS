@@ -124,17 +124,22 @@ class WaterStat
         switch ($params) {
             case 'last':
                 $result = $this->db->fetchOneRaw(GET_LAST_VALUES);
-                if ($result !== false) {
-                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
-                } else {
+                if ($result == false) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Can\'t get current values from DB');
                 }
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
                 break;
             case 'current_day':
                 $result = $this->db->executeQuery(GET_CURRENT_DAY_VALUES);
+
+                if ($result == false) {
+                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Can\'t get current day data from DB');
+                }
+
                 if ($result[DB::MYSQL_ROWS_COUNT] < 2 || $result == DB::MYSQL_EMPTY_SELECTION) {
                     Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'NoData');
                 }
+
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
                 $result[0][self::TIMESTAMP] = (new DateTime($result[1][self::TIMESTAMP]))->format("Y-m-d 00:00:00");
