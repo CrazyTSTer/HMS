@@ -180,7 +180,6 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'update_current_day':
-
                 break;
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_ACTION);

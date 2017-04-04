@@ -121,8 +121,6 @@ class DB
             $num_rows = mysqli_num_rows($result);
             if ($num_rows == 0) {
                 $ret = self::MYSQL_EMPTY_SELECTION;
-            } elseif ($num_rows == 1) {
-                $ret = mysqli_fetch_array($result, $array_type);
             } else {
                 $ret[self::MYSQL_ROWS_COUNT] = $num_rows;
 
