@@ -75,6 +75,13 @@ function currentMonthChart()
         subtitle: {
             text: '(разбивка по дням)'
         },
+        legend: {
+            labelFormatter: function() {
+                var total = 0;
+                for(var i=this.yData.length; i--;) { total += this.yData[i]; };
+                return this.name + '- Total: ' + total;
+            }
+        },
         xAxis: {
             title: {
                 text: 'Число'
