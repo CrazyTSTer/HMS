@@ -7,7 +7,7 @@ var yAxis = {
     },
     min: 0
 };
-var series = [
+var series1 = [
     {
         name: 'Холодная вода',
         color: '#7cb5ec',
@@ -18,6 +18,7 @@ var series = [
         data: []
     }
 ];
+
 
 function setChartGlobalParams()
 {
@@ -62,7 +63,7 @@ function currentDayChart()
                 }
             }
         },
-        series: series
+        series: series1
     });
 }
 
@@ -93,9 +94,13 @@ function currentMonthChart()
             crosshair: {
                 enabled: true,
                 events: {
-                    click: function (e) {
-                        const category = cm_chart.options.xAxis[0].categories[cm_chart.columnIndex]
-                        //window.alert(category)
+                    click: function() {
+                        cm_chart.series[0].data.forEach(function(e){
+                            e.update({ color: '#7cb5ec' }, true, false);
+                        });
+                        cm_chart.series[1].data.forEach(function(e){
+                            e.update({ color: '#f45b5b' }, true, false);
+                        });
                         cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
                         cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
                         cm_chart.redraw();
@@ -109,18 +114,45 @@ function currentMonthChart()
                 var items = this.points || splat(this), s;
                 cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x)
                 // Build the header
-                s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
+                //s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
                 // build the values
-                s = s.concat(tooltip.bodyFormatter(items));
+                s = tooltip.bodyFormatter(items);
                 // footer
-                s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
+                //s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
                 return s;
             },
             shared: true,
             useHTML: true
         },
+        plotOptions: {
+            series: {
+                events: {
+                    click: function() {
+                        cm_chart.series[0].data.forEach(function(e){
+                            e.update({ color: '#7cb5ec' }, true, false);
+                        });
+                        cm_chart.series[1].data.forEach(function(e){
+                            e.update({ color: '#f45b5b' }, true, false);
+                        });
+                        cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
+                        cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
+                        cm_chart.redraw();
+                    }
+                }
+            }
+        },
 
-        series: series,
+        series: [
+            {
+                name: 'Холодная вода',
+                color: '#7cb5ec',
+                data: []
+            }, {
+                name: 'Горячая вода',
+                color: '#f45b5b',
+                data: []
+            }
+        ]
     };
     cm_chart = Highcharts.chart('current_month', options);
 }
