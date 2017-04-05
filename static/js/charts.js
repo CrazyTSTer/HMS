@@ -100,6 +100,18 @@ function currentMonthChart()
             shared: true,
             useHTML: true
         },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function () {
+                            alert('Category: ' + this.category + ', value: ' + this.y);
+                        }
+                    }
+                }
+            }
+        },
         series: series
     });
 }
