@@ -201,15 +201,27 @@ class WaterStat
                 }
 
                 for ($i = 1; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
-                    $ret[self::TIMESTAMP][] = strtotime($result[$i][self::TIMESTAMP])*1000;
-                    $ret[self::COLDWATER][] = $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER];
-                    $ret[self::HOTWATER][] = $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER];
+                    $dt = strtotime($result[$i][self::TIMESTAMP]) * 1000;
+                    $ret[self::COLDWATER][] = [
+                        $dt,
+                        $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER]
+                    ];
+                    $ret[self::HOTWATER][] =
+                        $dt,
+                        $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER]
+                    ];
                 }
 
                 if (date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])) != date('Y-m-d')) {
-                    $ret[self::TIMESTAMP][] = strtotime(date('Y-m-d'));
-                    $ret[self::COLDWATER][] = 0;
-                    $ret[self::HOTWATER][] = 0;
+                    $dt = strtotime(date('Y-m-d')) * 1000;
+                    $ret[self::COLDWATER][] = [
+                        $dt,
+                        0
+                    ];
+                    $ret[self::HOTWATER][] = [
+                        $dt,
+                        0
+                    ];
                 }
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
