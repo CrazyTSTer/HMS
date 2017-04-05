@@ -96,8 +96,8 @@ function currentMonthChart()
                     click: function (e) {
                         const category = cm_chart.options.xAxis[0].categories[cm_chart.columnIndex]
                         //window.alert(category)
-                        cm_chart.series[0].data[cm_chart.columnIndex].color = "blue";
-                        cm_chart.series[1].data[cm_chart.columnIndex].color = "red";
+                        cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
+                        cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
                         cm_chart.redraw();
                     }
                 }
