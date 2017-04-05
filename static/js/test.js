@@ -38,18 +38,7 @@ jQuery(document).ready(function() {
             var col_count = result['data']['ts'].length - 1;
             cm_chart.series[0].data[col_count].color = "blue";
             cm_chart.series[1].data[col_count].color = "red";
-            cm_chart.legend.update()
-            cm_chart.update({
-                plotOptions: {
-                    series: {
-                        events: {
-                            click: function () {
-                                alert('click on serie');
-                            }
-                        }
-                    }
-                }
-            });
+            cm_chart.legend.update();
         } else {
             $('.current_month').html(result['status'] + '<br>' + result['data']);
         }

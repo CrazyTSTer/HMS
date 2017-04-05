@@ -92,11 +92,10 @@ function currentMonthChart()
             categories: [],
             crosshair: {
                 enabled: true,
-
                 events: {
                     click: function (e) {
-                        var tmp = this;
-                        alert(e);
+                        const category = cm_chart.options.xAxis[0].categories[cm_chart.columnIndex]
+                        window.alert(category)
                     }
                 }
             }
