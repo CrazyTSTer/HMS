@@ -70,12 +70,7 @@ function currentMonthChart()
 {
     cm_chart = Highcharts.chart('current_month', {
         chart: {
-            type: 'column',
-            events: {
-                drilldown: function(e) {
-                    alert(e.seriesOptions.name);
-                }
-            }
+            type: 'column'
         },
         title: {
             text: 'Потребление холодной и горячей воды за месяц'
