@@ -100,6 +100,18 @@ function currentMonthChart()
             shared: true,
             useHTML: true
         },
+        plotOptions: {
+            series: {
+                allowPointSelect: true,
+                states: {
+                    select: {
+                        color: 'grey',
+                        borderWidth:5,
+                        //borderColor:'Blue'
+                    }
+                }
+            }
+        },
         series: series
     });
 }
