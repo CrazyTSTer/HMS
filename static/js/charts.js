@@ -86,33 +86,8 @@ function currentMonthChart()
             }
         },
         xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                /*day
-                    :
-                    "%e. %b"
-                hour
-                    :
-                    "%H:%M"
-                millisecond
-                    :
-                    "%H:%M:%S.%L"
-                minute
-                    :
-                    "%H:%M"
-                month
-                    :
-                    "%b '%y"
-                second
-                    :
-                    "%H:%M:%S"
-                week
-                    :
-                    "%e. %b"
-                year
-                    :
-                    "%Y"*/// don't display the dummy year
-                day: '"%e. %b"'
+            title: {
+                text: 'Число'
             },
             categories: [],
             crosshair: true
