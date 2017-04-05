@@ -73,7 +73,7 @@ function currentMonthChart()
             type: 'column',
             events:{
                 click:function(e){
-                    alert('Category: ' + this.category + ', value: ' + this.y);
+                    alert('x: ' + this.xAxis[0].category[categories[Math.floor(e.xAxis[0].value)]]);
                 }
             }
         },
