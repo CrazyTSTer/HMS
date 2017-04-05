@@ -92,11 +92,11 @@ function currentMonthChart()
             categories: [],
             crosshair: {
                 enabled: true,
-                events: {
+                /*events: {
                     click: function () {
                         alert('test');
                     }
-                }
+                }*/
             }
         },
         yAxis: yAxis,
