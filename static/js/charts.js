@@ -103,13 +103,14 @@ function currentMonthChart()
         yAxis: yAxis,
         tooltip: {
             formatter: function(tooltip) {
-                cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x);
+                var items = this.points || splat(this), s;
+                cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x)
                 // Build the header
-                var s = [tooltip.tooltipFooterHeaderFormatter('<span style="font-size:14px"><b>{point.key}</b></span><table>')];
+                s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
                 // build the values
-                s = s.concat(tooltip.bodyFormatter('<tr><td style="color:{series.color};padding:0">{series.name}: </td><td style="padding:0"><b>{point.y:1f} л</b></td></tr>'));
+                s = s.concat(tooltip.bodyFormatter(items));
                 // footer
-                s.push(tooltip.tooltipFooterHeaderFormatter('</table>', true));
+                s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
                 return s;
             },
             shared: true,
