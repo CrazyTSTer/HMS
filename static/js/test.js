@@ -20,9 +20,9 @@ jQuery(document).ready(function() {
 
     executeAjaxRequest({action: 'get', param: 'current_day'}, function (result) {
         if (result['status'] == 'success') {
+            cd_chart.setTitle(null, {text: result['data']['current_date']});
             cd_chart.series[0].setData(result['data']['coldwater']);
             cd_chart.series[1].setData(result['data']['hotwater']);
-            cd_chart.setTitle(null, {text: result['data']['current_date']});
 
             last_timestamp = result['data']['last_timestamp'];
         } else {
