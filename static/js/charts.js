@@ -1,6 +1,24 @@
 /**
  * Created by crazytster on 04.04.17.
  */
+var yAxis = {
+    title: {
+        text: 'Литры (л)'
+    },
+    min: 0,
+};
+var series = [
+    {
+        name: 'Холодная вода',
+        color: 'Blue',
+        data: []
+    }, {
+        name: 'Горячая вода',
+        color: 'Red',
+        data: []
+    }
+];
+
 function setChartGlobalParams()
 {
     Highcharts.setOptions({
@@ -32,17 +50,11 @@ function currentDayChart()
                 text: 'Время (ЧЧ:ММ)'
             }
         },
-        yAxis: {
-            title: {
-                text: 'Литры (л)'
-            },
-            min: 0,
-        },
+        yAxis: yAxis,
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
             pointFormat: '{point.x:%H:%M:%S}: {point.y:2f} л'
         },
-
         plotOptions: {
             spline: {
                 marker: {
@@ -50,16 +62,7 @@ function currentDayChart()
                 }
             }
         },
-
-        series: [{
-            name: 'Холодная вода',
-            color: 'Blue',
-            data: []
-        }, {
-            name: 'Горячая вода',
-            color: 'Red',
-            data: []
-        }]
+        series: series
     });
 }
 
@@ -89,12 +92,7 @@ function currentMonthChart()
             categories: [],
             crosshair: true
         },
-        yAxis: {
-            title: {
-                text: 'Литры (л)'
-            },
-            min: 0,
-        },
+        yAxis: yAxis,
         tooltip: {
             headerFormat: '<span style="font-size:14px"><b>{point.key}</b></span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td><td style="padding:0"><b>{point.y:1f} л</b></td></tr>',
@@ -102,16 +100,7 @@ function currentMonthChart()
             shared: true,
             useHTML: true
         },
-
-        series: [{
-            name: 'Холодная вода',
-            color: 'Blue',
-            data: []
-        }, {
-            name: 'Горячая вода',
-            color: 'Red',
-            data: []
-        }]
+        series: series
     });
 }
 
