@@ -111,10 +111,9 @@ function currentMonthChart()
             series: {
                 events: {
                     click: function () {
-
                         alert('click on serie');
-                    },
-                },
+                    }
+                }
             }
         },
         series: series,
