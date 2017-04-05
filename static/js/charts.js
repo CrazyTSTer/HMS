@@ -112,8 +112,12 @@ function currentMonthChart()
             series: {
                 events: {
                     click: function () {
-                        reloadFlash();
                         alert('click on serie');
+                    }
+                },
+                point: {
+                    click: function () {
+                        alert('click on serie point');
                     }
                 }
             }
