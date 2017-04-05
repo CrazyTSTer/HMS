@@ -98,6 +98,7 @@ function currentMonthChart()
                         //window.alert(category)
                         cm_chart.series[0].data[cm_chart.columnIndex].color = "blue";
                         cm_chart.series[1].data[cm_chart.columnIndex].color = "red";
+                        cm_chart.redraw();
                     }
                 }
             }
