@@ -68,7 +68,7 @@ function currentDayChart()
 
 function currentMonthChart()
 {
-    cm_chart = Highcharts.chart('current_month', {
+    var options = {
         chart: {
             type: 'column'
         },
@@ -110,5 +110,6 @@ function currentMonthChart()
         },
 
         series: series,
-    });
+    };
+    cm_chart = Highcharts.chart('current_month', options);
 }
