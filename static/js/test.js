@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
     executeAjaxRequest({action: 'get', param: 'current_month'}, function (result) {
         if (result['status'] == 'success') {
             cm_chart.series[0].setData(result['data']['coldwater']);
-            cm_chart.series[1].setData(result['data']['hotwater']);
+            //cm_chart.series[1].setData(result['data']['hotwater']);
             cm_chart.xAxis[0].setCategories(result['data']['ts']);
             var col_count = result['data']['ts'].length - 1;
             cm_chart.series[0].data[col_count].color = "blue";
