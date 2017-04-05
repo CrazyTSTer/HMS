@@ -110,19 +110,22 @@ function currentMonthChart()
         },
         yAxis: yAxis,
         tooltip: {
+            //headerFormat: '<span style="font-size:14px"><b>{point.key}</b></span><table>',
+            //pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td><td style="padding:0"><b>{point.y:1f} л</b></td></tr>',
+            //footerFormat: '</table>',
+            shared: true,
+            //useHTML: true,
             formatter: function(tooltip) {
                 var items = this.points || splat(this), s;
-                cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x)
+                cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x);
                 // Build the header
-                //s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
+                s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
                 // build the values
-                s = tooltip.bodyFormatter(items);
+                s = s.concat(tooltip.bodyFormatter(items));
                 // footer
-                //s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
+                s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
                 return s;
-            },
-            shared: true,
-            useHTML: true
+            }
         },
         plotOptions: {
             series: {
