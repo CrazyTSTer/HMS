@@ -71,9 +71,9 @@ function currentMonthChart()
     cm_chart = Highcharts.chart('current_month', {
         chart: {
             type: 'column',
-            events:{
-                click:function(e){
-                    alert('x: ' + this.xAxis[0].categories[Math.floor(Math.abs(e.xAxis[0].value))]);
+            events: {
+                drilldown: function(e) {
+                    alert(e.seriesOptions.name);
                 }
             }
         },
