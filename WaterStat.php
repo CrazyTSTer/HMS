@@ -151,7 +151,7 @@ class WaterStat
 
 
                 $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
-                $ret['current_date'] = date('Y-m-d', $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
+                $ret['current_date'] = date('Y-m-d', strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]));
 
                 for ($i = 0; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
                     $dt = strtotime($result[$i][self::TIMESTAMP]) * 1000;
