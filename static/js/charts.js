@@ -86,8 +86,33 @@ function currentMonthChart()
             }
         },
         xAxis: {
-            title: {
-                text: 'Число'
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                /*day
+                    :
+                    "%e. %b"
+                hour
+                    :
+                    "%H:%M"
+                millisecond
+                    :
+                    "%H:%M:%S.%L"
+                minute
+                    :
+                    "%H:%M"
+                month
+                    :
+                    "%b '%y"
+                second
+                    :
+                    "%H:%M:%S"
+                week
+                    :
+                    "%e. %b"
+                year
+                    :
+                    "%Y"*/// don't display the dummy year
+                day: '"%e. %b"'
             },
             categories: [],
             crosshair: true
@@ -99,18 +124,6 @@ function currentMonthChart()
             footerFormat: '</table>',
             shared: true,
             useHTML: true
-        },
-        plotOptions: {
-            series: {
-                allowPointSelect: true,
-                states: {
-                    select: {
-                        color: 'grey',
-                        borderWidth:5,
-                        //borderColor:'Blue'
-                    }
-                }
-            }
         },
         series: series
     });
