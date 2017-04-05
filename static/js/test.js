@@ -23,6 +23,7 @@ jQuery(document).ready(function() {
             cd_chart.series[0].setData(result['data']['coldwater']);
             cd_chart.series[1].setData(result['data']['hotwater']);
             cd_chart.setTitle(null, {text: result['data']['current_date']});
+            cb_chart.update();
             last_timestamp = result['data']['last_timestamp'];
         } else {
             $('.current_day').html(result['status'] + '<br>' + result['data']);
