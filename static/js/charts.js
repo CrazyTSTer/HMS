@@ -78,22 +78,6 @@ function currentMonthChart()
         subtitle: {
             text: '(разбивка по дням)'
         },
-        plotOptions: {
-            series: {
-                events: {
-                    click: function () {
-                        alert('click on serie');
-                    },
-                },
-                point: {
-                    events: {
-                        click: function () {
-                            alert('click on serie point');
-                        },
-                    }
-                }
-            }
-        },
         legend: {
             labelFormatter: function() {
                 var total = 0;
@@ -109,8 +93,8 @@ function currentMonthChart()
             crosshair: {
                 enabled: true,
                 events: {
-                    click: function () {
-                        alert('test');
+                    click: function (e) {
+                        alert(e);
                     }
                 }
             }
