@@ -95,7 +95,14 @@ function currentMonthChart()
                 text: 'Число'
             },
             categories: [],
-            crosshair: true
+            crosshair: {
+                enabled: true,
+                events: {
+                    click: function () {
+                        alert('test');
+                    }
+                }
+            }
         },
         yAxis: yAxis,
         tooltip: {
