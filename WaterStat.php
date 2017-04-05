@@ -206,7 +206,7 @@ class WaterStat
                         $dt,
                         $result[$i][self::COLDWATER] - $result[$i-1][self::COLDWATER]
                     ];
-                    $ret[self::HOTWATER][] =
+                    $ret[self::HOTWATER][] = [
                         $dt,
                         $result[$i][self::HOTWATER] - $result[$i-1][self::HOTWATER]
                     ];
