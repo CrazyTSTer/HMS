@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
             cm_chart.series[0].setData(result['data']['coldwater']);
             cm_chart.series[1].setData(result['data']['hotwater']);
             cm_chart.xAxis[0].setCategories(result['data']['ts']);
-            var col_count = cm_chart.categories[0].length - 1;
+            var col_count = result['data']['ts'].length - 1;
             cm_chart.series[0].data[col_count].color = "blue";
             cm_chart.series[1].data[col_count].color = "red";
             cm_chart.legend.update();
