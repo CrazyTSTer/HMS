@@ -147,9 +147,10 @@ class WaterStat
 
                 $coldWaterFirstValue = $result[0][self::COLDWATER];
                 $hotWaterFirstValue = $result[0][self::HOTWATER];
-                $result[0][self::TIMESTAMP] = (new DateTime($result[1][self::TIMESTAMP]))->format("Y-m-d 00:00:00");
+                $result[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($result[1][self::TIMESTAMP]));
 
                 $ret['last_timestamp'] = $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP];
+                $ret['current_date'] = date('Y-m-d', $result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
                 for ($i = 0; $i < $result[DB::MYSQL_ROWS_COUNT]; $i++) {
                     $dt = strtotime($result[$i][self::TIMESTAMP]) * 1000;
