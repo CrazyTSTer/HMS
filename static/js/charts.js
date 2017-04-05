@@ -107,18 +107,16 @@ function currentMonthChart()
             shared: true,
             useHTML: true
         },
+        series: series,
         plotOptions: {
             series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function () {
-                            alert('Category: ' + this.category + ', value: ' + this.y);
-                        }
+                events: {
+                    click: function () {
+                        reloadFlash();
+                        alert('click on serie');
                     }
                 }
             }
-        },
-        series: series
+        }
     });
 }
