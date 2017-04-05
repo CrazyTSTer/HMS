@@ -92,11 +92,11 @@ function currentMonthChart()
             categories: [],
             crosshair: {
                 enabled: true,
-                /*events: {
+                events: {
                     click: function () {
                         alert('test');
                     }
-                }*/
+                }
             }
         },
         yAxis: yAxis,
@@ -107,57 +107,16 @@ function currentMonthChart()
             shared: true,
             useHTML: true
         },
-        series: series,
         plotOptions: {
             series: {
-                dataLabels: {
-                    enabled: true,
-                    events: {
-                        dblclick: function () {
-                            reloadFlash();
-                            $('#report').html('dbclick on datalabel');
-                        },
-                        click: function () {
-                            reloadFlash();
-                            $('#report').html('click on datalabel');
-                        },
-                        contextmenu: function () {
-                            reloadFlash();
-                            $('#report').html('context menu on datalabel');
-                        }
-                    }
-                },
                 events: {
-                    dblclick: function () {
-                        reloadFlash();
-                        $('#report').html('dbclick on serie');
-                    },
                     click: function () {
-                        reloadFlash();
-                        $('#report').html('click on serie');
+
+                        alert('click on serie');
                     },
-                    contextmenu: function () {
-                        reloadFlash();
-                        $('#report').html('context menu on serie');
-                    }
                 },
-                point: {
-                    events: {
-                        dblclick: function () {
-                            reloadFlash();
-                            $('#report').html('dbclick on serie point');
-                        },
-                        click: function () {
-                            reloadFlash();
-                            $('#report').html('click on serie point');
-                        },
-                        contextmenu: function () {
-                            reloadFlash();
-                            $('#report').html('context menu on serie point');
-                        }
-                    }
-                }
             }
-        }
+        },
+        series: series,
     });
 }
