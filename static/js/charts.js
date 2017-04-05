@@ -5,7 +5,7 @@ var yAxis = {
     title: {
         text: 'Литры (л)'
     },
-    min: 0,
+    min: 10,
 };
 var series = [
     {
