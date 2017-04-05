@@ -116,8 +116,10 @@ function currentMonthChart()
                     }
                 },
                 point: {
-                    click: function () {
-                        alert('click on serie point');
+                    events: {
+                        click: function () {
+                            alert('click on serie point');
+                        }
                     }
                 }
             }
