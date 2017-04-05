@@ -35,6 +35,7 @@ jQuery(document).ready(function() {
             cm_chart.xAxis[0].setCategories(result['data']['ts']);
             var col_count = cm_chart.series[0].data.length - 1;
             cm_chart.series[0].data[col_count].color = "blue";
+            cm_chart.series[1].data[col_count].color = "red";
             cm_chart.legend.update();
         } else {
             $('.current_month').html(result['status'] + '<br>' + result['data']);
