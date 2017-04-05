@@ -10,11 +10,11 @@ var yAxis = {
 var series = [
     {
         name: 'Холодная вода',
-        color: 'Blue',
+        color: '#7cb5ec',
         data: []
     }, {
         name: 'Горячая вода',
-        color: 'Red',
+        color: '#f45b5b',
         data: []
     }
 ];
@@ -103,4 +103,3 @@ function currentMonthChart()
         series: series
     });
 }
-
