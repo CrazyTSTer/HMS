@@ -5,7 +5,7 @@ var yAxis = {
     title: {
         text: 'Литры (л)'
     },
-    min: 10,
+    min: 0
 };
 var series = [
     {
@@ -39,12 +39,12 @@ function currentDayChart()
             text: 'Потребление холодной и горячей воды за день'
         },
         subtitle: {
-            text: '%дата%'
+            text: ''
         },
         xAxis: {
             type: 'datetime',
-            dateTimeLabelFormats: { // don't display the dummy year
-                hour: '%H:%M:%S'
+            dateTimeLabelFormats: {
+                hour: '%H:%M'
             },
             title: {
                 text: 'Время (ЧЧ:ММ)'
@@ -58,7 +58,7 @@ function currentDayChart()
         plotOptions: {
             spline: {
                 marker: {
-                    enabled: true,
+                    enabled: true
                 }
             }
         },
