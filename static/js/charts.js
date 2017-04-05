@@ -110,14 +110,31 @@ function currentMonthChart()
         series: series,
         plotOptions: {
             series: {
+                dataLabels: {
+                    enabled: true,
+                    events: {
+                        dblclick: function () {
+                            reloadFlash();
+                            $('#report').html('dbclick on datalabel');
+                        },
+                        click: function () {
+                            reloadFlash();
+                            $('#report').html('click on datalabel');
+                        },
+                        contextmenu: function () {
+                            reloadFlash();
+                            $('#report').html('context menu on datalabel');
+                        }
+                    }
+                },
                 events: {
                     dblclick: function () {
                         reloadFlash();
-                        alert('dbclick on serie');
+                        $('#report').html('dbclick on serie');
                     },
                     click: function () {
                         reloadFlash();
-                        alert('click on serie');
+                        $('#report').html('click on serie');
                     },
                     contextmenu: function () {
                         reloadFlash();
@@ -132,7 +149,7 @@ function currentMonthChart()
                         },
                         click: function () {
                             reloadFlash();
-                            alert('click on serie point');
+                            $('#report').html('click on serie point');
                         },
                         contextmenu: function () {
                             reloadFlash();
