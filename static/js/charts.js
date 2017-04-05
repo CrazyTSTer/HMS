@@ -111,14 +111,32 @@ function currentMonthChart()
         plotOptions: {
             series: {
                 events: {
+                    dblclick: function () {
+                        reloadFlash();
+                        alert('dbclick on serie');
+                    },
                     click: function () {
+                        reloadFlash();
                         alert('click on serie');
+                    },
+                    contextmenu: function () {
+                        reloadFlash();
+                        $('#report').html('context menu on serie');
                     }
                 },
                 point: {
                     events: {
+                        dblclick: function () {
+                            reloadFlash();
+                            $('#report').html('dbclick on serie point');
+                        },
                         click: function () {
+                            reloadFlash();
                             alert('click on serie point');
+                        },
+                        contextmenu: function () {
+                            reloadFlash();
+                            $('#report').html('context menu on serie point');
                         }
                     }
                 }
