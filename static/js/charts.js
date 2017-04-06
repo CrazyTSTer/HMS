@@ -29,6 +29,13 @@ function setChartGlobalParams()
     });
 }
 
+function addSeries(chart)
+{
+    seriesData.forEach(function (data) {
+        chart.addSeries(data);
+    });
+}
+
 function currentDayChart()
 {
     cd_chart = Highcharts.chart('current_day', {
@@ -64,7 +71,7 @@ function currentDayChart()
         }
     });
     cd_chart.addAxis(yAxis, false);
-    cd_chart.addSeries(seriesData);
+    addSeries(cd_chart);
 }
 
 function currentMonthChart()
@@ -146,8 +153,6 @@ function currentMonthChart()
     };
     cm_chart = Highcharts.chart('current_month', options);
     cm_chart.addAxis(yAxis, false);
-    seriesData.forEach(function (data) {
-        cm_chart.addSeries(data);
-    });
+    addSeries(cm_chart);
 
 }
