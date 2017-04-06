@@ -7,18 +7,6 @@ var yAxis = {
     },
     min: 0
 };
-var seriesData = [
-    {
-        name: 'Холодная вода',
-        color: '#7cb5ec',
-        data: []
-    }, {
-        name: 'Горячая вода',
-        color: '#f45b5b',
-        data: []
-    }
-];
-
 
 function setChartGlobalParams()
 {
@@ -31,9 +19,17 @@ function setChartGlobalParams()
 
 function addSeries(chart)
 {
-    seriesData.forEach(function (data) {
-        chart.addSeries(data);
-    });
+    chart.addSeries({
+        name: 'Холодная вода',
+        color: '#7cb5ec',
+        data: []
+    }, false);
+    chart.addSeries({
+        name: 'Горячая вода',
+        color: '#f45b5b',
+        data: []
+    }, false);
+    chart.redraw();
 }
 
 function currentDayChart()
