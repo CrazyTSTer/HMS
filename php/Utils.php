@@ -8,6 +8,7 @@
 
 include_once "DB.php";
 include_once "Vars.php";
+include_once "Parser.php";
 
 class Utils
 {
