@@ -4,6 +4,7 @@ ini_set('display_errors',"1");
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
+define('CURRENT_DATE',           'SELECT CURDATE()');
 define('GET_LAST_VALUES',        'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('SET_VALUES',             'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_CURRENT_DAY_VALUES',
@@ -209,7 +210,7 @@ class WaterStat
 
                 if (date('Y-m-d',
                         strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])
-                    ) != date('Y-m-d')) {
+                    ) != date('Y-m-d', strtotime($this->db->fetchSingleValue(CURRENT_DATE)))) {
                     $ret[self::TIMESTAMP][] = date('jS M');
                     $ret[self::COLDWATER][] = 0;
                     $ret[self::HOTWATER][] = 0;

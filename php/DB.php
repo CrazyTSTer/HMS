@@ -143,11 +143,11 @@ class DB
         return $result;
     }
 
-    public function fetchSingleValue($query, $data = [], $add_quotes = false, $array_type = MYSQLI_NUM)
+    public function fetchSingleValue($query, $pos = 0, $data = [], $add_quotes = false, $array_type = MYSQLI_NUM)
     {
-        $result = $this->executeQuery($query, $data, $add_quotes, $array_type);
-        if (is_array($result) && isset($result[0]) && is_array($result[0]) && isset($result[0][0])) {
-            $result = $result[0][0];
+        $result = $this->fetchSingleRow($query, $data, $add_quotes, $array_type);
+        if (is_array($result) && isset($result[$pos])) {
+            $result = $result[$pos];
         }
         return $result;
     }
