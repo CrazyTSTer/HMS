@@ -32,6 +32,19 @@ function addSeries(chart)
     chart.redraw();
 }
 
+function selectSeries()
+{
+    cm_chart.series[0].data.forEach(function(e){
+        e.update({ color: '#7cb5ec' }, true, false);
+    });
+    cm_chart.series[1].data.forEach(function(e){
+        e.update({ color: '#f45b5b' }, true, false);
+    });
+    cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
+    cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
+    cm_chart.redraw();
+}
+
 function currentDayChart()
 {
     cd_chart = Highcharts.chart('current_day', {
@@ -54,6 +67,7 @@ function currentDayChart()
                 text: 'Время (ЧЧ:ММ)'
             }
         },
+        yAxis: yAxis,
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
             pointFormat: '{point.x:%H:%M:%S}: {point.y:2f} л'
@@ -72,7 +86,7 @@ function currentDayChart()
 
 function currentMonthChart()
 {
-    var options = {
+    cm_chart = Highcharts.chart('current_month', {
         chart: {
             type: 'column'
         },
@@ -82,13 +96,6 @@ function currentMonthChart()
         subtitle: {
             text: '(разбивка по дням)'
         },
-        legend: {
-            labelFormatter: function() {
-                var total = 0;
-                for(var i=this.yData.length; i--;) { total += this.yData[i]; };
-                return this.name + ' - Всего: ' + total;
-            }
-        },
         xAxis: {
             title: {
                 text: 'Число'
@@ -96,19 +103,15 @@ function currentMonthChart()
             categories: [],
             crosshair: {
                 enabled: true,
-                events: {
-                    click: function() {
-                        cm_chart.series[0].data.forEach(function(e){
-                            e.update({ color: '#7cb5ec' }, true, false);
-                        });
-                        cm_chart.series[1].data.forEach(function(e){
-                            e.update({ color: '#f45b5b' }, true, false);
-                        });
-                        cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
-                        cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
-                        cm_chart.redraw();
-                    }
-                }
+                events: {click: function() {selectSeries();}}
+            }
+        },
+        yAxis: yAxis,
+        legend: {
+            labelFormatter: function() {
+                var total = 0;
+                for(var i=this.yData.length; i--;) { total += this.yData[i]; };
+                return this.name + ' - Всего: ' + total;
             }
         },
         tooltip: {
@@ -131,23 +134,10 @@ function currentMonthChart()
         },
         plotOptions: {
             series: {
-                events: {
-                    click: function() {
-                        cm_chart.series[0].data.forEach(function(e){
-                            e.update({ color: '#7cb5ec' }, true, false);
-                        });
-                        cm_chart.series[1].data.forEach(function(e){
-                            e.update({ color: '#f45b5b' }, true, false);
-                        });
-                        cm_chart.series[0].data[cm_chart.columnIndex].update({ color: 'blue' }, true, false);
-                        cm_chart.series[1].data[cm_chart.columnIndex].update({ color: 'red' }, true, false);
-                        cm_chart.redraw();
-                    }
-                }
+                events: {click: function() {selectSeries();}}
             }
         }
-    };
-    cm_chart = Highcharts.chart('current_month', options);
+    });
     cm_chart.addAxis(yAxis, false);
     addSeries(cm_chart);
 
