@@ -146,7 +146,7 @@ function currentMonthChart()
     };
     cm_chart = Highcharts.chart('current_month', options);
     cm_chart.addAxis(yAxis, false);
-    seriesData.each(function (data) {
+    seriesData.forEach(function (data) {
         cm_chart.addSeries(data);
     });
 
