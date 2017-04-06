@@ -7,7 +7,7 @@ var yAxis = {
     },
     min: 0
 };
-var series1 = [
+var tmp = [
     {
         name: 'Холодная вода',
         color: '#7cb5ec',
@@ -63,7 +63,7 @@ function currentDayChart()
                 }
             }
         },
-        series: series1
+        series: tmp
     });
 }
 
@@ -145,7 +145,7 @@ function currentMonthChart()
             }
         },
 
-        series: [
+        series: tmp/*[
             {
                 name: 'Холодная вода',
                 color: '#7cb5ec',
@@ -155,7 +155,7 @@ function currentMonthChart()
                 color: '#f45b5b',
                 data: []
             }
-        ]
+        ]*/
     };
     cm_chart = Highcharts.chart('current_month', options);
 }
