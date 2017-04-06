@@ -80,7 +80,6 @@ function currentDayChart()
             }
         }
     });
-    cd_chart.addAxis(yAxis, false);
     addSeries(cd_chart);
 }
 
@@ -138,7 +137,5 @@ function currentMonthChart()
             }
         }
     });
-    cm_chart.addAxis(yAxis, false);
     addSeries(cm_chart);
-
 }
