@@ -7,7 +7,7 @@ var yAxis = {
     },
     min: 0
 };
-var tmp = [
+var seriesData = [
     {
         name: 'Холодная вода',
         color: '#7cb5ec',
@@ -51,7 +51,6 @@ function currentDayChart()
                 text: 'Время (ЧЧ:ММ)'
             }
         },
-        yAxis: yAxis,
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
             pointFormat: '{point.x:%H:%M:%S}: {point.y:2f} л'
@@ -62,9 +61,10 @@ function currentDayChart()
                     enabled: true
                 }
             }
-        },
-        series: tmp
+        }
     });
+    cd_chart.addAxis(yAxis, false);
+    cd_chart.addSeries(seriesData);
 }
 
 function currentMonthChart()
@@ -108,7 +108,6 @@ function currentMonthChart()
                 }
             }
         },
-        yAxis: yAxis,
         tooltip: {
             //headerFormat: '<span style="font-size:14px"><b>{point.key}</b></span><table>',
             //pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td><td style="padding:0"><b>{point.y:1f} л</b></td></tr>',
@@ -143,19 +142,9 @@ function currentMonthChart()
                     }
                 }
             }
-        },
-
-        series: tmp/*[
-            {
-                name: 'Холодная вода',
-                color: '#7cb5ec',
-                data: []
-            }, {
-                name: 'Горячая вода',
-                color: '#f45b5b',
-                data: []
-            }
-        ]*/
+        }
     };
     cm_chart = Highcharts.chart('current_month', options);
+    cm_chart.addAxis(yAxis, false);
+    cm_chart.addSeries(seriesData);
 }
