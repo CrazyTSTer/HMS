@@ -134,13 +134,21 @@ class DB
         return $ret;
     }
 
-    public function fetchOneRow($query, $data = [], $add_quotes = false, $array_type = MYSQLI_ASSOC)
+    public function fetchSingleRow($query, $data = [], $add_quotes = false, $array_type = MYSQLI_ASSOC)
     {
         $result = $this->executeQuery($query, $data, $add_quotes, $array_type);
         if (is_array($result) && isset($result[0])) {
             $result = $result[0];
         }
+        return $result;
+    }
 
+    public function fetchSingleValue($query, $data = [], $add_quotes = false, $array_type = MYSQLI_NUM)
+    {
+        $result = $this->executeQuery($query, $data, $add_quotes, $array_type);
+        if (is_array($result) && isset($result[0]) && is_array($result[0]) && isset($result[0][0])) {
+            $result = $result[0][0];
+        }
         return $result;
     }
 }

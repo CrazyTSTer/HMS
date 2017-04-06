@@ -90,7 +90,7 @@ class WaterStat
             Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
 
-        $result = $this->db->fetchOneRow(GET_LAST_VALUES);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
@@ -98,7 +98,6 @@ class WaterStat
                 self::HOTWATER => $tmp[self::HOTWATER],
             );
         } elseif (is_array($result)) {
-
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER] + $result[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
@@ -128,7 +127,7 @@ class WaterStat
 
         switch ($params) {
             case 'last':
-                $result = $this->db->fetchOneRow(GET_LAST_VALUES);
+                $result = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 if ($result == false) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Can\'t get current values from DB');
                 }
