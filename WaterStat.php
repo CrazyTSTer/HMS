@@ -210,7 +210,7 @@ class WaterStat
 
                 if (date('Y-m-d',
                         strtotime($result[$result[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])
-                    ) != $this->db->fetchOneRow('select curdate();')) {
+                    ) != date('Y-m-d')) {
                     $ret[self::TIMESTAMP][] = date('jS M');
                     $ret[self::COLDWATER][] = 0;
                     $ret[self::HOTWATER][] = 0;
