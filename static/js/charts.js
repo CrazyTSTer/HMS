@@ -44,6 +44,8 @@ function selectSeries(chart)
     chart.series[0].data[chart.columnIndex].update({ color: 'blue' }, true, false);
     chart.series[1].data[chart.columnIndex].update({ color: 'red' }, true, false);
     chart.redraw();
+
+    alert(chart.xAxis[0].categories[chart.columnIndex]);
 }
 
 function tooltipFormatter(obj, chart, tooltip)
