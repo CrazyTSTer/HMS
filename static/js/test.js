@@ -36,8 +36,8 @@ jQuery(document).ready(function() {
             if (result['data']['current_month']['status'] = 'success') {
                 cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
                 cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
-                cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts']);
-                var col_count = result['data']['current_month']['data']['ts'].length - 1;
+                cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
+                var col_count = result['data']['current_month']['data']['ts'][0].length - 1;
                 cm_chart.series[0].data[col_count].color = "blue";
                 cm_chart.series[1].data[col_count].color = "red";
                 cm_chart.legend.update();
@@ -49,8 +49,8 @@ jQuery(document).ready(function() {
             if (result['data']['last_12month']['status'] = 'success') {
                 last12Month_chart.series[0].setData(result['data']['last_12month']['data']['coldwater']);
                 last12Month_chart.series[1].setData(result['data']['last_12month']['data']['hotwater']);
-                last12Month_chart.xAxis[0].setCategories(result['data']['last_12month']['data']['ts']);
-                var col_count1 = result['data']['last_12month']['data']['ts'].length - 1;
+                last12Month_chart.xAxis[0].setCategories(result['data']['last_12month']['data']['ts'][0]);
+                var col_count1 = result['data']['last_12month']['data']['ts'][0].length - 1;
                 last12Month_chart.series[0].data[col_count1].color = "blue";
                 last12Month_chart.series[1].data[col_count1].color = "red";
                 last12Month_chart.legend.update();
