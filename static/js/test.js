@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
     last12Month();
 
 
-    executeAjaxRequest({action: 'get', param: 'last'}, function (result) {
+    executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             current_date = result['data']['current_date'];
             if (result['data']['current_values']['status'] = 'success') {
