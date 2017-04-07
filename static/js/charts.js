@@ -144,6 +144,7 @@ function currentMonthChart()
         }
     });
     addSeries(cm_chart);
+    cm_chart.name = 'cm_chart';
 }
 
 function last12Month()
@@ -192,4 +193,5 @@ function last12Month()
         }
     });
     addSeries(last12Month_chart);
+    last12Month_chart.name = 'last12Month_chart';
 }
