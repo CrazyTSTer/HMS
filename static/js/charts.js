@@ -46,6 +46,19 @@ function selectSeries(chart)
     chart.redraw();
 }
 
+function tooltipFormatter(chart, tooltip)
+{
+    var items = this.points || splat(this), s;
+    chart.columnIndex = chart.options.xAxis[0].categories.indexOf(this.x);
+    // Build the header
+    s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
+    // build the values
+    s = s.concat(tooltip.bodyFormatter(items));
+    // footer
+    s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
+    return s;
+}
+
 function currentDayChart()
 {
     cd_chart = Highcharts.chart('current_day', {
@@ -120,17 +133,7 @@ function currentMonthChart()
             //footerFormat: '</table>',
             shared: true,
             //useHTML: true,
-            formatter: function(tooltip) {
-                var items = this.points || splat(this), s;
-                cm_chart.columnIndex = cm_chart.options.xAxis[0].categories.indexOf(this.x);
-                // Build the header
-                s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
-                // build the values
-                s = s.concat(tooltip.bodyFormatter(items));
-                // footer
-                s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
-                return s;
-            }
+            formatter: function(tooltip) {return tooltipFormatter(cm_chart, tooltip);}
         },
         plotOptions: {
             series: {
@@ -168,8 +171,16 @@ function last12Month()
             labelFormatter: function() {
                 var total = 0;
                 var length = this.yData.length;
-                for(var i = length; i--;) {total += this.yData[i];};
-                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + total/length;
+                var average;
+                for(var i = 0; i < length; i++) {total += this.yData[i];}
+                if (length == 0) {
+                    average = 0;
+                } else if (length == 1 || length == 2) {
+                    average = total;
+                } else {
+                    average = (total - this.yData[length - 1]) / (length - 1);
+                }
+                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + average;
             }
         },
         tooltip: {
@@ -178,17 +189,7 @@ function last12Month()
             //footerFormat: '</table>',
             shared: true,
             //useHTML: true,
-            formatter: function(tooltip) {
-                var items = this.points || splat(this), s;
-                last12Month_chart.columnIndex = last12Month_chart.options.xAxis[0].categories.indexOf(this.x);
-                // Build the header
-                s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
-                // build the values
-                s = s.concat(tooltip.bodyFormatter(items));
-                // footer
-                s.push(tooltip.tooltipFooterHeaderFormatter(items[0], true));
-                return s;
-            }
+            formatter: function(tooltip) {selectSeries(last12Month_chart, tooltip);}
         },
         plotOptions: {
             series: {
