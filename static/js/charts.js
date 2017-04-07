@@ -46,10 +46,10 @@ function selectSeries(chart)
     chart.redraw();
 }
 
-function tooltipFormatter(chart, tooltip)
+function tooltipFormatter(obj, chart, tooltip)
 {
-    var items = this.points || splat(this), s;
-    chart.columnIndex = chart.options.xAxis[0].categories.indexOf(this.x);
+    var items = obj.points || splat(obj), s;
+    chart.columnIndex = chart.options.xAxis[0].categories.indexOf(obj.x);
     // Build the header
     s = [tooltip.tooltipFooterHeaderFormatter(items[0])];
     // build the values
@@ -133,7 +133,7 @@ function currentMonthChart()
             //footerFormat: '</table>',
             shared: true,
             //useHTML: true,
-            formatter: function(tooltip) {return tooltipFormatter(cm_chart, tooltip);}
+            formatter: function(tooltip) {return tooltipFormatter(this, cm_chart, tooltip);}
         },
         plotOptions: {
             series: {
@@ -189,7 +189,7 @@ function last12Month()
             //footerFormat: '</table>',
             shared: true,
             //useHTML: true,
-            formatter: function(tooltip) {tooltipFormatter(last12Month_chart, tooltip);}
+            formatter: function(tooltip) {tooltipFormatter(this, last12Month_chart, tooltip);}
         },
         plotOptions: {
             series: {
