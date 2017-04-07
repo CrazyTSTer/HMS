@@ -96,7 +96,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseCurrentMonth($data, $currentDate = null)
+    public static function parseCurrentMonth($data, $currentDate = null, $isLast12Month = false)
     {
         if ($data == false) {
             $ret = [
@@ -110,7 +110,7 @@ class Parser
             ];
         } else {
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
-                $ret['data'][self::TIMESTAMP][] = date('jS M', strtotime($data[$i][self::TIMESTAMP]));
+                $ret['data'][self::TIMESTAMP][] = $isLast12Month ? date('M Y', strtotime($data[$i][self::TIMESTAMP])) : date('jS M', strtotime($data[$i][self::TIMESTAMP]));
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i-1][self::COLDWATER];
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i-1][self::HOTWATER];
             }

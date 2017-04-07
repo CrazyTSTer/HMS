@@ -138,7 +138,7 @@ class WaterStat
         $ret['current_values'] = Parser::parserCurrentValues($current_values);
         $ret['current_day'] = Parser::parseCurrentDay($current_day);
         $ret['current_month'] = Parser::parseCurrentMonth($current_month, $current_date);
-        $ret['last_12month'] = Parser::parseCurrentMonth($last_12month, $current_date);
+        $ret['last_12month'] = Parser::parseCurrentMonth($last_12month, $current_date, true);
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
