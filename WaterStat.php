@@ -9,7 +9,7 @@ define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FR
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
-                                              UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date#');
+                                              UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)');
 
 define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',   '(SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                               WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') GROUP BY (1) ORDER BY ts DESC LIMIT 1)
