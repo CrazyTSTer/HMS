@@ -46,7 +46,7 @@ class Parser
                 "status" => Utils::STATUS_FAIL,
                 "data" => 'Can\'t get current day data from DB'
             ];
-        } elseif ((array_key_exists($data, DB::MYSQL_ROWS_COUNT) && $data[DB::MYSQL_ROWS_COUNT] < 2) || $data == DB::MYSQL_EMPTY_SELECTION) {
+        } elseif ((array_key_exists(DB::MYSQL_ROWS_COUNT, $data) && $data[DB::MYSQL_ROWS_COUNT] < 2) || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
                 "status" => Utils::STATUS_SUCCESS,
                 "data" => self::EMPTY_DATA
