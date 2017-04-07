@@ -115,11 +115,11 @@ class Parser
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i-1][self::HOTWATER];
             }
 
-            if (date('Y-m-d',
-                    strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])
-                ) != date('Y-m-d', strtotime($currentDate))) {
-
-                $ret['data'][self::TIMESTAMP][] = date('jS M', strtotime($currentDate));
+            if (
+                $isLast12Month ?
+                    date('Y-m', strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])) != date('Y-m', strtotime($currentDate)) :
+                    date('Y-m-d', strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP])) != date('Y-m-d', strtotime($currentDate))) {
+                $ret['data'][self::TIMESTAMP][] = $isLast12Month ? date('M Y', strtotime($currentDate)) : date('jS M', strtotime($currentDate));
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
             }
