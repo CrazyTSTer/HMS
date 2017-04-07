@@ -14,7 +14,7 @@ define('GET_CURRENT_DAY_VALUES',            '(SELECT ts, MAX(coldwater) as coldw
 define ('GET_CURRENT_MONTH_VALUES_BY_DAYS', 'SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                             WHERE DATE(ts) BETWEEN DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY AND CURDATE() GROUP BY (1)');
 
-define('GET_VALUES_FOR_LAST_12_MONTH',      'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
+define('GET_LAST_12_MONTH_VALUES_BY_MONTHS',      'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                             WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)');
 class WaterStat
 {
@@ -132,11 +132,13 @@ class WaterStat
         $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
         $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES);
         $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS);
+        $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
 
         $ret['current_date'] = $current_date;
         $ret['current_values'] = Parser::parserCurrentValues($current_values);
         $ret['current_day'] = Parser::parseCurrentDay($current_day);
         $ret['current_month'] = Parser::parseCurrentMonth($current_month, $current_date);
+        $ret['last_12month'] = Parser::parseCurrentMonth($last_12month, $current_date);
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }

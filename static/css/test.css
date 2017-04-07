@@ -59,14 +59,14 @@ body {
 }
 
 .current_month,
-.current_year {
+.last_12Month {
     position: relative;
     display: inline-block;
 
-    height: calc(50% - 10px);
+    height: calc(50% - 5px);
     width: calc(50% - 10px);
 
-    margin: 5px;
+    margin: 5px 5px 0px 5px;
     border: solid 1px;
     box-sizing: border-box;
 }
