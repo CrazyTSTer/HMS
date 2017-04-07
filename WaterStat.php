@@ -8,8 +8,8 @@ define('CURRENT_DATE',                        'SELECT CURDATE()');
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
-                                              WHERE DATE(ts) < DATE(CURDATE()) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
-                                              UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE()');
+                                              WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
+                                              UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date#');
 
 define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',   '(SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                               WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') GROUP BY (1) ORDER BY ts DESC LIMIT 1)
@@ -124,25 +124,41 @@ class WaterStat
 
     private function actionGet()
     {
-        /*if (!Vars::check('param')) {
+        if (!Vars::check('param')) {
             Utils::reportError(__CLASS__, 'Parameter should be passed', $this->debug);
         }
 
-        $params =  strtolower(Vars::get('param', null));*/
+        $params =  strtolower(Vars::get('param', null));
+        $date =  strtolower(Vars::get('date', null));
 
-        $current_date = date('Y-m-d', strtotime($this->db->fetchSingleValue(CURRENT_DATE)));
-        $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
-        $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES);
-        $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS);
-        $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
+        switch ($params) {
+            case 'current':
+                $current_date = date('Y-m-d', strtotime($this->db->fetchSingleValue(CURRENT_DATE)));
+                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS);
+                $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
 
-        $ret['current_date'] = $current_date;
-        $ret['current_values'] = Parser::parserCurrentValues($current_values);
-        $ret['current_day'] = Parser::parseCurrentDay($current_day);
-        $ret['current_month'] = Parser::parseMonth($current_month, $current_date);
-        $ret['last_12month'] = Parser::parseMonth($last_12month, $current_date, true);
+                $ret['current_date'] = $current_date;
+                $ret['current_values'] = Parser::parserCurrentValues($current_values);
+                $ret['current_day'] = Parser::parseCurrentDay($current_day);
+                $ret['current_month'] = Parser::parseMonth($current_month, $current_date);
+                $ret['last_12month'] = Parser::parseMonth($last_12month, $current_date, true);
 
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                break;
+            case 'day':
+                if ($date == null) {
+                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
+                }
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date]);
+                $ret['current_day'] = Parser::parseCurrentDay($current_day);
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                break;
+
+            default:
+                Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_PARAMETER);
+        }
     }
 }
 
