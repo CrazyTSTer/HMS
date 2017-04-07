@@ -180,7 +180,7 @@ function last12Month()
                 } else {
                     average = (total - this.yData[length - 1]) / (length - 1);
                 }
-                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + average;
+                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц(без учета текущего): ' + average;
             }
         },
         tooltip: {
