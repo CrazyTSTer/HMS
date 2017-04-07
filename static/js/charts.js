@@ -189,7 +189,7 @@ function last12Month()
             //footerFormat: '</table>',
             shared: true,
             //useHTML: true,
-            formatter: function(tooltip) {selectSeries(last12Month_chart, tooltip);}
+            formatter: function(tooltip) {tooltipFormatter(last12Month_chart, tooltip);}
         },
         plotOptions: {
             series: {
