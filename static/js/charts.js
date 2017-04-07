@@ -45,7 +45,9 @@ function selectSeries(chart)
     chart.series[1].data[chart.columnIndex].update({ color: 'red' }, true, false);
     chart.redraw();
 
-    alert(chart.xAxis[0].categories[chart.columnIndex]);
+    if (chart.name == 'cm_chart') {
+        var day = days[chart.xAxis[0].categories[chart.columnIndex]];
+    }
 }
 
 function tooltipFormatter(obj, chart, tooltip)
