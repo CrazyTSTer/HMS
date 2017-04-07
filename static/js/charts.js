@@ -171,16 +171,8 @@ function last12Month()
             labelFormatter: function() {
                 var total = 0;
                 var length = this.yData.length;
-                var average;
                 for(var i = 0; i < length; i++) {total += this.yData[i];}
-                if (length == 0) {
-                    average = 0;
-                } else if (length == 1 || length == 2) {
-                    average = total;
-                } else {
-                    average = (total - this.yData[length - 1]) / (length - 1);
-                }
-                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц(без учета текущего): ' + average;
+                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + total/length;
             }
         },
         tooltip: {
