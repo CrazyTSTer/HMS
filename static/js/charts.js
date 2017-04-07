@@ -46,7 +46,7 @@ function selectSeries(chart)
     chart.redraw();
 
     if (chart.name == 'cm_chart') {
-        var day = days[chart.xAxis[0].categories[chart.columnIndex]];
+        var day = days[chart.columnIndex];
     }
 }
 
