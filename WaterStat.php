@@ -151,7 +151,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date]);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
                 $ret['current_day'] = Parser::parseCurrentDay($current_day);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
