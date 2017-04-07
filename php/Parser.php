@@ -96,7 +96,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseCurrentMonth($data, $currentDate = null, $isLast12Month = false)
+    public static function parseMonth($data, $currentDate = null, $isLast12Month = false)
     {
         if ($data == false) {
             $ret = [

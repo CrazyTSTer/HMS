@@ -167,8 +167,9 @@ function last12Month()
         legend: {
             labelFormatter: function() {
                 var total = 0;
+                var length = this.yData.length
                 for(var i=this.yData.length; i--;) { total += this.yData[i]; };
-                return this.name + ' - Всего: ' + total;
+                return this.name + ' - Всего: ' + total + '<br>Среднее: ' + total/length;
             }
         },
         tooltip: {

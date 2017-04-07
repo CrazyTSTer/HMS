@@ -1,7 +1,13 @@
 var coldwater, hotwater;
-
-
 jQuery(document).ready(function() {
+    $( window ).resize(function() {
+        cd_chart.redraw();
+        cd_chart.reflow();
+        cm_chart.redraw();
+        cm_chart.reflow();
+        last12Month_chart.redraw();
+        last12Month_chart.reflow();
+    });
     setChartGlobalParams();
     currentDayChart();
     currentMonthChart();
