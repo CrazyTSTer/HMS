@@ -122,7 +122,7 @@ class Parser
                 $isLast12Month ?
                     date('Y-m', $ts) != date('Y-m', strtotime($currentDate)) :
                     date('Y-m-d', $ts) != date('Y-m-d', strtotime($currentDate))) {
-                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? date('M Y', strtotime($currentDate)) : date('jS M (D)', strtotime($currentDate));
+                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? date('M Y', strtotime($currentDate)) : date('jS M \(D\)', strtotime($currentDate));
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', strtotime($currentDate));
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
