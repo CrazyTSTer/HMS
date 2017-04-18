@@ -112,6 +112,11 @@ function currentDayChart()
             }
         },
         yAxis: yAxis,
+        legend: {
+            labelFormatter: function() {
+                return this.name + ': ' + this.yData[this.yData.length - 1];
+            }
+        },
         tooltip: {
             headerFormat: '<b>{series.name}</b><br>',
             pointFormat: '{point.x:%H:%M:%S}: {point.y:2f} л'
