@@ -49,10 +49,10 @@ function selectSeries(chart)
         var day = days[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'day', date: day}, function (result) {
             if (result['data']['current_day']['status'] = 'success') {
-                cd_chart.setTitle(null, {text: result['data']['current_date']});
-                cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
-                cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
-                cd_chart.redraw();
+                cb_chart.setTitle(null, {text: result['data']['current_date']});
+                cb_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
+                cb_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
+                cb_chart.redraw();
             } else {
                 $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
             }
@@ -63,12 +63,12 @@ function selectSeries(chart)
         var month = months[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'month', date: month}, function (result) {
             if (result['data']['current_month']['status'] = 'success') {
-                cd_chart.setTitle(null, {text: result['data']['current_month']});
-                cd_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
-                cd_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
-                cd_chart.redraw();
+                cm_chart.setTitle(null, {text: result['data']['current_month']});
+                cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
+                cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
+                cm_chart.redraw();
             } else {
-                $('.current_day').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
+                $('.current_month').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
             }
         });
     }
