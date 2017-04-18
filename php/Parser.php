@@ -118,7 +118,7 @@ class Parser
             }
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
-            if (
+            if ($currentDate != null &&
                 $isLast12Month ?
                     date('Y-m', $ts) != date('Y-m', strtotime($currentDate)) :
                     date('Y-m-d', $ts) != date('Y-m-d', strtotime($currentDate))) {
