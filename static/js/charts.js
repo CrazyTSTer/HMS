@@ -49,7 +49,7 @@ function selectSeries(chart)
         var day = days[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'day', date: day}, function (result) {
             if (result['data']['current_day']['status'] = 'success') {
-                cd_chart.setTitle(null, {text: result['data']['current_date']});
+                cd_chart.setTitle(null, {text: day});
                 cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
                 cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
                 cd_chart.redraw();
@@ -63,7 +63,6 @@ function selectSeries(chart)
         var month = months[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'month', date: month}, function (result) {
             if (result['data']['current_month']['status'] = 'success') {
-                cm_chart.setTitle(null, {text: result['data']['current_month']});
                 cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
                 cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
                 cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
