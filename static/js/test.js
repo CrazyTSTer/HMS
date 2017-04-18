@@ -6,7 +6,6 @@ jQuery(document).ready(function() {
     currentMonthChart();
     last12Month();
 
-
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             current_date = result['data']['current_date'];

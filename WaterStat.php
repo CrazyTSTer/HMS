@@ -36,15 +36,11 @@ class WaterStat
     const HOTWATER  = 'hotwater';
     const TIMESTAMP = 'ts';
 
-    const EMPTY_DATA = 'empty';
-
     /** @var  DB */
     private $db;
 
     private $debug;
     private $action;
-
-    private $currentDate;
 
     public function init($debug = false)
     {

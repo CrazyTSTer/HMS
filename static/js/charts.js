@@ -203,7 +203,7 @@ function last12Month()
                 var total = 0;
                 var length = this.yData.length;
                 for(var i = 0; i < length; i++) {total += this.yData[i];}
-                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + total/length;
+                return '<b>' + this.name + ':</b>' + '<br>- Всего: ' + total + '<br>- Среднее за месяц: ' + (+(total/length).toFixed(2));
             }
         },
         tooltip: {
