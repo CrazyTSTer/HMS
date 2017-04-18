@@ -115,7 +115,7 @@ class DB
 
         if ($result === true) {
             $ret = true;
-        } elseif($result === false) {
+        } elseif ($result === false) {
             $ret = false;
         } else {
             $num_rows = mysqli_num_rows($result);

@@ -13,10 +13,7 @@ class Parser
 
     const EMPTY_DATA = 'empty';
 
-    public static function parseCurrentDate()
-    {
-
-    }
+    public static function parseCurrentDate() {}
 
     public static function parserCurrentValues($data)
     {
@@ -68,22 +65,22 @@ class Parser
                     $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                 ];
 
-                if (!array_key_exists($i+1, $data)) continue;
+                if (!array_key_exists($i + 1, $data)) continue;
 
                 //Get time interval between two points
-                $dt1 = strtotime($data[$i+1][self::TIMESTAMP]);
+                $dt1 = strtotime($data[$i + 1][self::TIMESTAMP]);
                 $dt2 = strtotime($data[$i][self::TIMESTAMP]);
                 $interval = round(abs($dt1 - $dt2) / 60);
 
                 if ($interval > 5) {
                     $dt = ($dt1 - 60) * 1000;//Сдвигаемся на минуту назад
-                    if ($data[$i][self::COLDWATER] - $data[$i+1][self::COLDWATER] != 0) {
+                    if ($data[$i][self::COLDWATER] - $data[$i + 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
                             $dt,
                             $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                         ];
                     }
-                    if ($data[$i][self::HOTWATER] - $data[$i+1][self::HOTWATER] != 0) {
+                    if ($data[$i][self::HOTWATER] - $data[$i + 1][self::HOTWATER] != 0) {
                         $ret['data'][self::HOTWATER][] = [
                             $dt,
                             $data[$i][self::HOTWATER] - $hotWaterFirstValue,
@@ -113,16 +110,15 @@ class Parser
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? date('M Y', $ts) : date('jS M \(D\)', $ts);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $ts);
-                $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i-1][self::COLDWATER];
-                $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i-1][self::HOTWATER];
+                $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
+                $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
-            if (
-                !is_null($currentDate) &&
-                ($isLast12Month ?
-                    date('Y-m', $ts) != date('Y-m', strtotime($currentDate)) :
-                    date('Y-m-d', $ts) != date('Y-m-d', strtotime($currentDate))
+            if (!is_null($currentDate)
+                && ($isLast12Month
+                    ? date('Y-m', $ts) != date('Y-m', strtotime($currentDate))
+                    : date('Y-m-d', $ts) != date('Y-m-d', strtotime($currentDate))
                 )
             ) {
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? date('M Y', strtotime($currentDate)) : date('jS M \(D\)', strtotime($currentDate));
