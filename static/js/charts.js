@@ -58,6 +58,20 @@ function selectSeries(chart)
             }
         });
     }
+
+    if (chart.name == 'last12Month_chart') {
+        var month = months[chart.columnIndex];
+        executeAjaxRequest({action: 'get', param: 'month', date: month}, function (result) {
+            if (result['data']['current_month']['status'] = 'success') {
+                cm_chart.setTitle(null, {text: result['data']['current_date']});
+                cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
+                cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
+                cm_chart.redraw();
+            } else {
+                $('.current_month').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
+            }
+        });
+    }
 }
 
 function tooltipFormatter(obj, chart, tooltip)
