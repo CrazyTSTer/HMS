@@ -134,7 +134,7 @@ class WaterStat
                 $current_date = date('Y-m-d', strtotime($this->db->fetchSingleValue(CURRENT_DATE)));
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
                 $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
 
                 $ret['current_date'] = $current_date;
