@@ -63,6 +63,7 @@ function selectSeries(chart)
         var month = months[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'month', date: month}, function (result) {
             if (result['data']['current_month']['status'] = 'success') {
+                days = result['data']['current_month']['data']['ts'][1];
                 cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
                 cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
                 cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
