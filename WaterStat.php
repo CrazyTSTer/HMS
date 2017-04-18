@@ -17,7 +17,7 @@ define ('GET_CURRENT_MONTH_VALUES_BY_DAYS',   '(SELECT DATE(ts) as ts, MAX(coldw
                                               WHERE DATE(ts) BETWEEN DATE_FORMAT(CURDATE(), \'%Y-%m-01\') AND CURDATE() GROUP BY (1)');
 
 define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM test
-                                              WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)');
+                                              WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() + INTERVAL 1 MONTH GROUP BY (1)');
 class WaterStat
 {
     const MYSQL_HOST        = '192.168.1.2';
