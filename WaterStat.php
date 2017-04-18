@@ -158,7 +158,7 @@ class WaterStat
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => $date], true);
-                $ret['current_month'] = Parser::parseCurrentMonth($current_month);
+                $ret['current_month'] = Parser::parseMonth($current_month);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
