@@ -220,7 +220,7 @@ function currentMonthChart()
     cm_chart.name = 'cm_chart';
 }
 
-function last12Month()
+function last12MonthChart()
 {
     last12Month_chart = Highcharts.chart('last12Month_chart', {
         chart: {

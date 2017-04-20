@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
     setChartGlobalParams();
     currentDayChart();
     currentMonthChart();
-    last12Month();
+    last12MonthChart();
 
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
@@ -16,9 +16,7 @@ jQuery(document).ready(function() {
             }
 
             updateChart(cd_chart, result['data']['current_day']);
-
             updateChart(cm_chart, result['data']['current_month'], true);
-
             updateChart(last12Month_chart, result['data']['last_12month'], true);
         } else {
             alert('SMTH GOES WRONG!');
