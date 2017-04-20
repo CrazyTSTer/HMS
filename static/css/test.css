@@ -50,7 +50,7 @@ body {
     content: "";
 }
 
-.current_day {
+.cd_chart {
     height: calc(50% - 10px);
 
     margin: 5px 5px 0px 5px;
@@ -58,8 +58,8 @@ body {
     box-sizing: border-box;
 }
 
-.current_month,
-.last_12Month {
+.cm_chart,
+.last12Month_chart {
     position: relative;
     display: inline-block;
 
