@@ -49,7 +49,7 @@ function selectSeries(chart)
         var day = days[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'day', date: day}, function (result) {
             if (result['data']['current_day']['status'] = 'success') {
-                cd_chart.setTitle(null, {text: result['data']['current_day']['date']});
+                cd_chart.setTitle(null, {text: result['data']['current_day']['data']['date']});
                 cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
                 cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
                 cd_chart.redraw();
