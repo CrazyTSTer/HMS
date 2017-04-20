@@ -1,5 +1,4 @@
-var coldwater, hotwater;
-var days, months, current_date;
+var days, months;
 jQuery(document).ready(function() {
     setChartGlobalParams();
     currentDayChart();
@@ -8,7 +7,6 @@ jQuery(document).ready(function() {
 
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
-            current_date = result['data']['current_date'];
             if (result['data']['current_values']['status'] = 'success') {
                 $('.timestamp').html(result['data']['current_values']['data']['ts']);
                 $('.coldwater').html(result['data']['current_values']['data']['coldwater']);
