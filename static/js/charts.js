@@ -53,7 +53,7 @@ function selectSeries(chart)
                 cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
                 cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
                 cd_chart.redraw();
-                cm_chart.legend.update();
+                cd_chart.legend.update();
             } else {
                 $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
             }
