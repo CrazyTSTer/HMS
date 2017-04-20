@@ -155,7 +155,7 @@ class WaterStat
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
-                    $date == date('Y-m-d', $current_ts) ? $current_ts : null);
+                    $date == date('Y-m-d', $current_ts) ? $current_ts : strtotime(date('Y-m-d 23:59:59', strtotime($date))));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
