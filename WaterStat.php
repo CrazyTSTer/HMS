@@ -44,7 +44,7 @@ class WaterStat
 
     public function init($debug = false)
     {
-        setlocale(LC_ALL, 'ru_RU.UTF-8');
+        setlocale(LC_TIME, 'ru_RU.UTF-8');
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
         if (!$this->action) {
