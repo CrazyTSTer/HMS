@@ -50,11 +50,6 @@ function selectSeries(chart)
         executeAjaxRequest({action: 'get', param: 'day', date: day}, function (result) {
             if (result['data']['current_day']['status'] = 'success') {
                 updateChart(cd_chart, result['data']['current_day']);
-                /*cd_chart.setTitle(null, {text: result['data']['current_day']['data']['date']});
-                cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
-                cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
-                cd_chart.redraw();
-                cd_chart.legend.update();*/
             } else {
                 $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
             }
@@ -67,11 +62,6 @@ function selectSeries(chart)
             if (result['data']['current_month']['status'] = 'success') {
                 days = result['data']['current_month']['data']['ts'][1];
                 updateChart(cm_chart, result['data']['current_month']);
-                /*cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
-                cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
-                cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
-                cm_chart.redraw();
-                cm_chart.legend.update();*/
             } else {
                 $('.current_month').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
             }
