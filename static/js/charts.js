@@ -49,11 +49,12 @@ function selectSeries(chart)
         var day = days[chart.columnIndex];
         executeAjaxRequest({action: 'get', param: 'day', date: day}, function (result) {
             if (result['data']['current_day']['status'] = 'success') {
-                cd_chart.setTitle(null, {text: result['data']['current_day']['data']['date']});
+                updateChart(cd_chart, result['data']['current_day']);
+                /*cd_chart.setTitle(null, {text: result['data']['current_day']['data']['date']});
                 cd_chart.series[0].setData(result['data']['current_day']['data']['coldwater']);
                 cd_chart.series[1].setData(result['data']['current_day']['data']['hotwater']);
                 cd_chart.redraw();
-                cd_chart.legend.update();
+                cd_chart.legend.update();*/
             } else {
                 $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
             }
@@ -65,16 +66,37 @@ function selectSeries(chart)
         executeAjaxRequest({action: 'get', param: 'month', date: month}, function (result) {
             if (result['data']['current_month']['status'] = 'success') {
                 days = result['data']['current_month']['data']['ts'][1];
-                cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
+                updateChart(cm_chart, result['data']['current_month']);
+                /*cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
                 cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
                 cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
                 cm_chart.redraw();
-                cm_chart.legend.update();
+                cm_chart.legend.update();*/
             } else {
                 $('.current_month').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
             }
         });
     }
+}
+
+function updateChart(chart, data, selectSeries)
+{
+    selectSeries = selectSeries || false;
+    if (chart.name == 'last12Month_chart' || chart.name == 'cm_chart') {
+        chart.xAxis[0].setCategories(data['data']['ts'][0]);
+    }
+    if (chart.name == 'cd_chart') {
+        chart.setTitle(null, {text: data['data']['date']});
+    }
+    chart.series[0].setData(data['data']['coldwater']);
+    chart.series[1].setData(data['data']['hotwater']);
+    if (selectSeries) {
+        var col_count = data['data']['ts'][0].length - 1;
+        chart.series[0].data[col_count].color = "blue";
+        chart.series[1].data[col_count].color = "red";
+    }
+    chart.redraw();
+    chart.legend.update();
 }
 
 function tooltipFormatter(obj, chart, tooltip)
@@ -131,6 +153,7 @@ function currentDayChart()
         }
     });
     addSeries(cd_chart);
+    cd_chart.name = 'cd_chart';
 }
 
 function currentMonthChart()
