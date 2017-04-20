@@ -129,9 +129,11 @@ class WaterStat
         $params = strtolower(Vars::get('param', null));
         $date = strtolower(Vars::get('date', null));
 
+        $current_ts = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
+
         switch ($params) {
             case 'current':
-                $current_ts = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
+
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
@@ -150,8 +152,11 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
+
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
-                $ret['current_day'] = Parser::parseCurrentDay($current_day);
+                $ret['current_day'] = Parser::parseCurrentDay(
+                    $current_day,
+                    $date == date('Y-m-d', $current_ts) ? $current_ts : null);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 

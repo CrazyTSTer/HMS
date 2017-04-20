@@ -88,6 +88,7 @@ class Parser
                     }
                 }
             }
+
             if (!is_null($currentDate)) {
                 $ts = $currentDate * 1000;
                 $ret['data'][self::COLDWATER][] = [
