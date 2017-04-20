@@ -121,7 +121,7 @@ class Parser
         } else {
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
-                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h %Y', $ts) : strftime('%e %h \(%a\)', $ts);
+                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $ts);
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
@@ -134,7 +134,7 @@ class Parser
                     : date('Y-m-d', $ts) < date('Y-m-d', strtotime($currentDate))
                 )
             ) {
-                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h %Y', strtotime($currentDate)) : strftime('%e %h \(%a\)', strtotime($currentDate));
+                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', strtotime($currentDate)) : strftime('%e %h. (%a)', strtotime($currentDate));
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', strtotime($currentDate));
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
