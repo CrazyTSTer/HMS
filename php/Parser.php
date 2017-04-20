@@ -89,7 +89,7 @@ class Parser
                 }
             }
             if (!is_null($currentDate)) {
-                $ts = strtotime($currentDate) * 1000;
+                $ts = $currentDate * 1000;
                 $ret['data'][self::COLDWATER][] = [
                     $ts,
                     $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue,

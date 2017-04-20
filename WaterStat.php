@@ -4,7 +4,7 @@ ini_set('display_errors', "1");
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
-define('CURRENT_DATE',                        'SELECT CURDATE()');
+define('CURRENT_DATE',                        'SELECT NOW()');
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
