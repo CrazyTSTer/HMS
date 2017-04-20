@@ -49,6 +49,7 @@ class Parser
                 "data" => self::EMPTY_DATA
             ];
         } else {
+            $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
             $coldWaterFirstValue = $data[0][self::COLDWATER];
             $hotWaterFirstValue = $data[0][self::HOTWATER];
             $data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
