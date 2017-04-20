@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
 
             if (result['data']['current_month']['status'] = 'success') {
                 days = result['data']['current_month']['data']['ts'][1];
-                updateChart(cm_chart, result['data']['current_day']);
+                updateChart(cm_chart, result['data']['current_month']);
                 /*cm_chart.series[0].setData(result['data']['current_month']['data']['coldwater']);
                 cm_chart.series[1].setData(result['data']['current_month']['data']['hotwater']);
                 cm_chart.xAxis[0].setCategories(result['data']['current_month']['data']['ts'][0]);
@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
 
             if (result['data']['last_12month']['status'] = 'success') {
                 months = result['data']['last_12month']['data']['ts'][1];
-                updateChart(last12Month_chart, result['data']['current_day']);
+                updateChart(last12Month_chart, result['data']['last_12month']);
                 /*last12Month_chart.series[0].setData(result['data']['last_12month']['data']['coldwater']);
                 last12Month_chart.series[1].setData(result['data']['last_12month']['data']['hotwater']);
                 last12Month_chart.xAxis[0].setCategories(result['data']['last_12month']['data']['ts'][0]);
