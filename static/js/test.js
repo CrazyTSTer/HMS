@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
             }
 
             if (result['data']['current_day']['status'] = 'success') {
-                updateChart(cd_chart, result['data']['current_day'], true);
+                updateChart(cd_chart, result['data']['current_day']);
             } else {
                 $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
             }
