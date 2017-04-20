@@ -15,25 +15,11 @@ jQuery(document).ready(function() {
                 $('.current_values').html(result['data']['current_values']['status'] + '<br>' + result['data']['current_values']['data']);
             }
 
-            if (result['data']['current_day']['status'] = 'success') {
-                updateChart(cd_chart, result['data']['current_day']);
-            } else {
-                $('.current_day').html(result['data']['current_day']['status'] + '<br>' + result['data']['current_day']['data']);
-            }
+            updateChart(cd_chart, result['data']['current_day']);
 
-            if (result['data']['current_month']['status'] = 'success') {
-                days = result['data']['current_month']['data']['ts'][1];
-                updateChart(cm_chart, result['data']['current_month'], true);
-            } else {
-                $('.current_month').html(result['data']['current_month']['status'] + '<br>' + result['data']['current_month']['data']);
-            }
+            updateChart(cm_chart, result['data']['current_month'], true);
 
-            if (result['data']['last_12month']['status'] = 'success') {
-                months = result['data']['last_12month']['data']['ts'][1];
-                updateChart(last12Month_chart, result['data']['last_12month'], true);
-            } else {
-                $('.last_12Month').html(result['data']['last_12month']['status'] + '<br>' + result['data']['last_12month']['data']);
-            }
+            updateChart(last12Month_chart, result['data']['last_12month'], true);
         } else {
             alert('SMTH GOES WRONG!');
         }

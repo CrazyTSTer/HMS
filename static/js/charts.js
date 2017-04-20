@@ -87,22 +87,32 @@ function selectSeries(chart)
 
 function updateChart(chart, data, selectSeries)
 {
-    selectSeries = selectSeries || false;
-    if (chart.name == 'last12Month_chart' || chart.name == 'cm_chart') {
-        chart.xAxis[0].setCategories(data['data']['ts'][0]);
+    if (data['status'] == 'success') {
+        selectSeries = selectSeries || false;
+        if (chart.name == 'cm_chart') {
+            chart.xAxis[0].setCategories(data['data']['ts'][0]);
+            days = data['data']['ts'][1];
+        }
+        if (chart.name == 'last12Month_chart') {
+            chart.xAxis[0].setCategories(data['data']['ts'][0]);
+            months = data['data']['ts'][1];
+        }
+        if (chart.name == 'cd_chart') {
+            chart.setTitle(null, {text: data['data']['date']});
+        }
+        chart.series[0].setData(data['data']['coldwater']);
+        chart.series[1].setData(data['data']['hotwater']);
+        if (selectSeries) {
+            var col_count = data['data']['ts'][0].length - 1;
+            chart.series[0].data[col_count].color = "blue";
+            chart.series[1].data[col_count].color = "red";
+        }
+        chart.redraw();
+        chart.legend.update();
+    } else {
+        $('.' + chart.name).html(data['status'] + '<br>' + data['data']);
     }
-    if (chart.name == 'cd_chart') {
-        chart.setTitle(null, {text: data['data']['date']});
-    }
-    chart.series[0].setData(data['data']['coldwater']);
-    chart.series[1].setData(data['data']['hotwater']);
-    if (selectSeries) {
-        var col_count = data['data']['ts'][0].length - 1;
-        chart.series[0].data[col_count].color = "blue";
-        chart.series[1].data[col_count].color = "red";
-    }
-    chart.redraw();
-    chart.legend.update();
+
 }
 
 function tooltipFormatter(obj, chart, tooltip)
@@ -120,7 +130,7 @@ function tooltipFormatter(obj, chart, tooltip)
 
 function currentDayChart()
 {
-    cd_chart = Highcharts.chart('current_day', {
+    cd_chart = Highcharts.chart('cd_chart', {
         chart: {
             type: 'spline',
             zoomType: 'x'
@@ -164,7 +174,7 @@ function currentDayChart()
 
 function currentMonthChart()
 {
-    cm_chart = Highcharts.chart('current_month', {
+    cm_chart = Highcharts.chart('cm_chart', {
         chart: {
             type: 'column'
         },
@@ -212,7 +222,7 @@ function currentMonthChart()
 
 function last12Month()
 {
-    last12Month_chart = Highcharts.chart('last_12Month', {
+    last12Month_chart = Highcharts.chart('last12Month_chart', {
         chart: {
             type: 'column'
         },
