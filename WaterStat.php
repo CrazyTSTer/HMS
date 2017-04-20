@@ -131,17 +131,17 @@ class WaterStat
 
         switch ($params) {
             case 'current':
-                $current_date = date('Y-m-d', strtotime($this->db->fetchSingleValue(CURRENT_DATE)));
+                $current_ts = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
                 $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
 
-                $ret['current_date'] = $current_date;
+                $ret['current_date'] = date('Y-m-d', $current_ts);
                 $ret['current_values'] = Parser::parserCurrentValues($current_values);
-                $ret['current_day'] = Parser::parseCurrentDay($current_day);
-                $ret['current_month'] = Parser::parseMonth($current_month, $current_date);
-                $ret['last_12month'] = Parser::parseMonth($last_12month, $current_date, true);
+                $ret['current_day'] = Parser::parseCurrentDay($current_day, $current_ts);
+                $ret['current_month'] = Parser::parseMonth($current_month, $current_ts);
+                $ret['last_12month'] = Parser::parseMonth($last_12month, $current_ts, true);
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;

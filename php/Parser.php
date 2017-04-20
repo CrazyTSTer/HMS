@@ -36,7 +36,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseCurrentDay($data)
+    public static function parseCurrentDay($data, $currentDate = null)
     {
         if ($data == false) {
             $ret = [
@@ -54,39 +54,50 @@ class Parser
             $data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
 
             for ($i = 0; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
-                $dt = strtotime($data[$i][self::TIMESTAMP]) * 1000;
+                $ts = strtotime($data[$i][self::TIMESTAMP]) * 1000;
 
                 $ret['data'][self::COLDWATER][] = [
-                    $dt,
+                    $ts,
                     $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                 ];
                 $ret['data'][self::HOTWATER][] = [
-                    $dt,
+                    $ts,
                     $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                 ];
 
                 if (!array_key_exists($i + 1, $data)) continue;
 
                 //Get time interval between two points
-                $dt1 = strtotime($data[$i + 1][self::TIMESTAMP]);
-                $dt2 = strtotime($data[$i][self::TIMESTAMP]);
-                $interval = round(abs($dt1 - $dt2) / 60);
+                $ts1 = strtotime($data[$i + 1][self::TIMESTAMP]);
+                $ts2 = strtotime($data[$i][self::TIMESTAMP]);
+                $interval = round(abs($ts1 - $ts2) / 60);
 
                 if ($interval > 5) {
-                    $dt = ($dt1 - 60) * 1000;//Сдвигаемся на минуту назад
+                    $ts = ($ts1 - 60) * 1000;//Сдвигаемся на минуту назад
                     if ($data[$i][self::COLDWATER] - $data[$i + 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
-                            $dt,
+                            $ts,
                             $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                         ];
                     }
                     if ($data[$i][self::HOTWATER] - $data[$i + 1][self::HOTWATER] != 0) {
                         $ret['data'][self::HOTWATER][] = [
-                            $dt,
+                            $ts,
                             $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                         ];
                     }
                 }
+            }
+            if (!is_null($currentDate)) {
+                $ts = strtotime($currentDate) * 1000;
+                $ret['data'][self::COLDWATER][] = [
+                    $ts,
+                    $data[$i][self::COLDWATER] - $coldWaterFirstValue,
+                ];
+                $ret['data'][self::HOTWATER][] = [
+                    $ts,
+                    $data[$i][self::HOTWATER] - $hotWaterFirstValue,
+                ];
             }
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
