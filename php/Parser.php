@@ -92,11 +92,11 @@ class Parser
                 $ts = strtotime($currentDate) * 1000;
                 $ret['data'][self::COLDWATER][] = [
                     $ts,
-                    $data[$i][self::COLDWATER] - $coldWaterFirstValue,
+                    $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue,
                 ];
                 $ret['data'][self::HOTWATER][] = [
                     $ts,
-                    $data[$i][self::HOTWATER] - $hotWaterFirstValue,
+                    $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue,
                 ];
             }
             $ret['status'] = Utils::STATUS_SUCCESS;
