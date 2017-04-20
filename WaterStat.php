@@ -133,7 +133,6 @@ class WaterStat
 
         switch ($params) {
             case 'current':
-
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
