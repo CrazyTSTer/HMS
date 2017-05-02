@@ -90,7 +90,6 @@ boolean WiFiConnect()
 
 	for (int i = 0; i < 60 && WiFi.status() != WL_CONNECTED; i++) {
 		ChangeLedState();
-		Serial.println(i);
 		delay(500);
 	}
 
@@ -151,7 +150,7 @@ void hot_CheckMeterState(void)
 	}
 }
 
-boolean SendDataToRemoteHost(int coldwater, int hotwater)
+boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 {
 	if (WiFi.status() != WL_CONNECTED) {
 		return false;
@@ -195,7 +194,7 @@ void loop()
 			if (cold_volume != 0 || hot_volume != 0) {
 				cold_tmpVolume = cold_volume;
 				hot_tmpVolume = hot_volume;
-				boolean result = SendDataToRemoteHost(cold_volume, hot_volume);
+				boolean result = SendDataToRemoteHost(cold_tmpVolume, hot_tmpVolume);
 				if (result) {
 					if (cold_volume > cold_tmpVolume) {
 						cold_volume -= cold_tmpVolume;
