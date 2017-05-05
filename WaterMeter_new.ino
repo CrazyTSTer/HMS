@@ -18,7 +18,7 @@ const int BLINK_PERIOD  = 1000; //Интервал мигания диодом �
 
 //Переменные счетчиков
 int cold_nextPinState, cold_pinState, hot_nextPinState, hot_pinState;
-unsigned int cold_volume, hot_volume;
+unsigned int cold_volume, cold_tmpVolume, hot_volume, hot_tmpVolume;
 unsigned long cold_prevMillis, hot_prevMillis;
 
 boolean cold_waitForNextInterrupt = true;
@@ -44,11 +44,10 @@ void setup() {
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, OFF);
 
-	/*
     //0 -- -- -- -- 2 -- -- -- 9 -- -- -- 0
 	//       2      |    7     |     1
 	//  замкнуто    |разомкнуто| замкнуто
-	//       0           1           0
+	//   0(LOW)       1 (HIGH)    0 (LOW)
 
     //Если контроллер включился когда счетчик находился в положении замкнуто
 	//Тогда с первым изменением состояния счетчика дописываем 3 литра воды (часть уже утекла)
@@ -58,7 +57,7 @@ void setup() {
 
 	//Если контроллер включился когда счетчик находился в положении разомкнуто
 	//Тогда с первым изменением состояния счетчика дописываем 7 литров воды
-	//Должно утечь 3 литра воды*/
+
 	if (digitalRead(COLD_PIN) == LOW) {
 		cold_nextPinState = HIGH;
 	} else {
@@ -91,7 +90,6 @@ boolean WiFiConnect()
 
 	for (int i = 0; i < 60 && WiFi.status() != WL_CONNECTED; i++) {
 		ChangeLedState();
-		Serial.println(i);
 		delay(500);
 	}
 
@@ -152,7 +150,7 @@ void hot_CheckMeterState(void)
 	}
 }
 
-boolean SendDataToRemoteHost(int coldwater, int hotwater)
+boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 {
 	if (WiFi.status() != WL_CONNECTED) {
 		return false;
@@ -194,12 +192,23 @@ void loop()
 	if (millis() - prevMillis > SEND_PERIOD * MINUTE) {
 		if (isWiFiConnected && WiFi.status() == WL_CONNECTED) {
 			if (cold_volume != 0 || hot_volume != 0) {
-				boolean result = SendDataToRemoteHost(cold_volume, hot_volume);
+				cold_tmpVolume = cold_volume;
+				hot_tmpVolume = hot_volume;
+				boolean result = SendDataToRemoteHost(cold_tmpVolume, hot_tmpVolume);
 				if (result) {
+					if (cold_volume > cold_tmpVolume) {
+						cold_volume -= cold_tmpVolume;
+					} else {
+						cold_volume = 0;
+					}
+					if (hot_volume > hot_tmpVolume) {
+						hot_volume -= hot_tmpVolume;
+					} else {
+						hot_volume = 0;
+					}
+
 					Blink.detach();
 					digitalWrite(LED, ON);
-					cold_volume = 0;
-					hot_volume = 0;
 				} else {
 					Blink.attach(1, ChangeLedState);
 				}
