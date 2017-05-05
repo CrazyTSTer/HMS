@@ -148,8 +148,7 @@ function currentDayChart()
             },
             title: {
                 text: 'Время (ЧЧ:ММ)'
-            },
-            minRange: 500
+            }
         },
         yAxis: yAxis,
         legend: {
@@ -166,9 +165,6 @@ function currentDayChart()
                 marker: {
                     enabled: true
                 }
-            },
-            dataGrouping: {
-                enabled: false
             }
         }
     });
