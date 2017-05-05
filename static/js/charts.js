@@ -166,6 +166,9 @@ function currentDayChart()
                 marker: {
                     enabled: true
                 }
+            },
+            dataGrouping: {
+                enabled: false
             }
         }
     });
