@@ -11,10 +11,11 @@
 #define ON       LOW
 
 //Константы
-const int MINUTE        = 60 * 1000;  //60секунд * 1000милиСекунд
-const int DEBOUNCE_TIME = 100; //Интервал за который должен исчезнуть "дребезг" контактов
-const int SEND_PERIOD   = 1;    //Период отправки данных на сервер в минутах
-const int BLINK_PERIOD  = 1000; //Интервал мигания диодом при не удачном обращении к серверу
+const int MINUTE             = 60 * 1000; //60секунд * 1000милиСекунд
+const int DEBOUNCE_TIME      = 100;       //Интервал за который должен исчезнуть "дребезг" контактов
+const int SEND_PERIOD        = 1;         //Период отправки данных на сервер в минутах
+const int BLINK_PERIOD       = 1000;      //Интервал мигания диодом при не удачном обращении к серверу
+const int CHECK_METER_PERIOD = 10;         //Интервал опроса счетчика
 
 //Переменные счетчиков
 int cold_nextPinState, cold_pinState, hot_nextPinState, hot_pinState;
@@ -73,8 +74,8 @@ void setup() {
 	attachInterrupt(COLD_PIN, cold_InterruptHandler, CHANGE);
 	attachInterrupt(HOT_PIN, hot_InterruptHandler, CHANGE);
 
-	cold_CheckState.attach_ms(25, cold_CheckMeterState);
-	hot_CheckState.attach_ms(25, hot_CheckMeterState);
+	cold_CheckState.attach_ms(CHECK_METER_PERIOD, cold_CheckMeterState);
+	hot_CheckState.attach_ms(CHECK_METER_PERIOD, hot_CheckMeterState);
 
 	isWiFiConnected = WiFiConnect();
 }
@@ -118,7 +119,7 @@ void cold_CheckMeterState(void)
 {
 	unsigned long tmp;
 	tmp = millis() - cold_prevMillis;
-	if (tmp > DEBOUNCE_TIME && tmp < 2 * DEBOUNCE_TIME && cold_waitForNextInterrupt == false) {
+	if (tmp > DEBOUNCE_TIME && tmp < 3 * DEBOUNCE_TIME && cold_waitForNextInterrupt == false) {
 		cold_pinState = digitalRead(COLD_PIN);
 		if (cold_pinState == cold_nextPinState) {
 			cold_waitForNextInterrupt = true;
@@ -136,7 +137,7 @@ void hot_CheckMeterState(void)
 {
 	unsigned long tmp;
 	tmp = millis() - hot_prevMillis;
-	if (tmp > DEBOUNCE_TIME && tmp < 2 * DEBOUNCE_TIME && hot_waitForNextInterrupt == false) {
+	if (tmp > DEBOUNCE_TIME && tmp < 3 * DEBOUNCE_TIME && hot_waitForNextInterrupt == false) {
 		hot_pinState = digitalRead(HOT_PIN);
 		if (hot_pinState == hot_nextPinState) {
 			hot_waitForNextInterrupt = true;
