@@ -1,19 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="static/js/jquery-3.2.0.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <script src="static/js/test.js"></script>
-    <script src="static/js/charts.js"></script>
-    <script src="static/js/customEvents.js"></script>
-    <link rel="stylesheet" href="static/css/test.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous">
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous">
+    </script>
+
+    <title>Bootstrap 101 Шаблон</title>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Landing page</title>
+
+        <!--<script
+                src="https://code.jquery.com/jquery-3.2.1.js"
+                integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+                crossorigin="anonymous">
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+                integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+                crossorigin="anonymous">
+        </script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+              integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+              crossorigin="anonymous">
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+                integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+                crossorigin="anonymous">
+        </script>-->
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="static/js/bootstrap.js"></script>
+
+
+
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous">
+        </script>-->
+
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js">
+        </script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
+        </script>
+        <![endif]-->
+    </head>
 </head>
 
 <body>
-    <div class="main--wrapper">
-        <div class="sidebar--wrapper"></div>
-        <div class="content-area--wrapper"></div>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <header class="col-md-12">
+                    <h1 id="h1-heading">h1 heading</h1>
+                    <h2 id="h2-heading">h2 heading</h2>
+                    <a class="btn btn-secondary btn-lg" href="#" role="button">
+                        Link
+                    </a>
+                </header>
+            </div>
+        </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-4 col-md-4">
+                <h4>Some text with <small>secondary text</small></h4>
+            </div>
+            <div class="col-md-4">
+                <h4>Add to your favorites <small><kbd><kbd>ctrl</kbd> + <kbd>d</kbd></kbd></small></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <pre>&lt;p&gt;I love programming!&lt;/p&gt;
+&lt;p&gt;This paragraph is on my landing page&lt;/p&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;p&gt;Bootstrap by example&lt;/p&gt;
+    </pre>
+            </div>
+            <div class="col-md-8">
+                <img src="static/imgs/img_001.jpg" class="img-responsive mx-auto d-block">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">1/4</div>
+            <div class="col-md-6">
+                <blockquote class="blockquote">
+                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div>
+            <div class="col-md-3">1/4</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">1/4</div>
+            <div class="col-md-3">1/4</div>
+            <div class="col-md-3">1/4</div>
+            <div class="col-md-3">1/4</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">1/4</div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">1/4</div>
+                    <div class="col-md-6">1/4</div>
+                </div>
+            </div>
+            <div class="col-md-3">1/4</div>
+        </div>
+        <footer class="row">
+            <div class="col-md-2">1/6</div>
+            <div class="col-md-7">7/12</div>
+            <div class="col-md-3">1/4</div>
+        </footer>
+    </div>
+
 </body>
