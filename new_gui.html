@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="static/css/bootstrap.css">
         <script src="static/js/jquery-3.2.1.js"></script>
+
+        <!--
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+
+        <link rel="stylesheet" href="static/css/bootstrap.css">
         <script src="static/js/bootstrap.js"></script>
+
+
+
+        <link rel="stylesheet" href="static/css/new_gui.css">
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Home Meters Statistics</title>
     </head>
     <body>
-        <div class="jumbotron">
-            <div class="container-fluid">
+        <div class="jumbotron container">
+            <div class="container">
                 <div class="row">
                     <header class="col-md-12">
                         <h1>Home Meters Statistics</h1>
-                        <h3>All info about your home meters</h3>
+                        <h2>All info about your home meters</h2>
                         <a class="btn btn-primary btn-lg" href="#" role="button">Link</a>
                     </header>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="offset-md-4 col-md-4"><h5>Some test text with <small>small part</small></h5></div>
-                <div class="col-md-4"><h5>Add to favorites <kbd><kbd>Ctrl</kbd> + <kbd>d</kbd></kbd></h5></div>
+                <div class="col-md-offset-4  offset-md-4 col-md-4"><h4>Some test text with <small>small part</small></h4></div>
+                <div class="col-md-4"><h4>Add to your favorites <kbd class="nowrap"><kbd>Ctrl</kbd> + <kbd>d</kbd></kbd></h4></div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -35,11 +45,11 @@
 &lt;p&gt;Bootstrap by example&lt;/p&gt;</pre>
                 </div>
                 <div class="col-md-8">
-                    <img src="static/imgs/center.png" class="img-fluid">
+                    <img src="static/imgs/center.png" class="img-responsive img-fluid">
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3"><img src="static/imgs/bs.png" class="img-fluid"></div>
+                <div class="col-md-3"><img src="static/imgs/bs.png" class="img-responsive img-fluid"></div>
                 <div class="col-md-6">
                     <blockquote class="blockquote">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi distinctio dolore mollitia
@@ -48,7 +58,7 @@
                         <footer class="blockquote-footer">Some fucking text from <cite title="Fucking site">Fucking site</cite></footer>
                     </blockquote>
                 </div>
-                <div class="col-md-3"><img src="static/imgs/packt.png" class="img-fluid"></div>
+                <div class="col-md-3"><img src="static/imgs/packt.png" class="img-responsive img-fluid"></div>
             </div>
             <div class="row">
                 <div class="col-md-3"><p class="text-left"><code>&lt;Left&gt;</code></p></div>
@@ -86,8 +96,64 @@
                         veniam veritatis! Harum nihil suscipit voluptate?</p>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 offset-md-1">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th class="table-success">
+                                    <h4 class="text-center">Free plan</h4>
+                                </th>
+                                <th class="table-info">
+                                    <h4 class="text-center">Standart plan</h4>
+                                </th>
+                                <th class="table-danger">
+                                    <h4 class="text-center">Premium plan</h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><h3 class="text-center">$ 0</h3></td>
+                                <td><h3 class="text-center">$ 99</h3></td>
+                                <td><h3 class="text-center">$ 999</h3></td>
+                            </tr>
+                            <tr>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>Dolor sit amet</td>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td>Dolor sit amet</td>
+                                <td>Lorem ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>Lorem ipsum</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="btn btn-success btn-block">Purchase</a></td>
+                                <td><a href="#" class="btn btn-info btn-block">Purchase</a></td>
+                                <td><a href="#" class="btn btn-danger btn-block">Purchase</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <footer class="row jumbotron">
-                <div class="col-md-2"><img src="static/imgs/logo.png" class="img-fluid"></div>
+                <div class="col-md-2"><img src="static/imgs/logo.png" class="img-responsive img-fluid"></div>
                 <div class="col-md-7">
                     <ul class="list-unstyled">
                         <li class="list-inline-item"><a href="#">test1</a></li>
