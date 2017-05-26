@@ -2,6 +2,10 @@
     white-space: nowrap;
 }
 
+.preline {
+    white-space: pre-line;
+}
+
 @media (max-width: 48em) {
     table .btn {
         font-size: 0.75rem;
