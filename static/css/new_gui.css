@@ -217,3 +217,11 @@ section#features .feature-tag {
     margin-left: 1.5em;
     font-size: 1.7rem;
 }
+
+body {
+    padding-top: 3.6em;
+}
+
+#nav-menu {
+    margin-right: 1rem;
+}
