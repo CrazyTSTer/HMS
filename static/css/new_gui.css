@@ -195,3 +195,25 @@ section#team h5 {
 section#pricing .center-block {
     width: 90%
 }
+
+section#features .feature {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    text-align: center;
+}
+
+section#features .glyphicon {
+    font-size: 2rem;
+}
+
+section#features .glyphicon-heart {
+    color: #E04C4C;
+}
+
+section#features .feature-tag {
+    max-width: 10.7em;
+    display: inline-block;
+    text-align: left;
+    margin-left: 1.5em;
+    font-size: 1.7rem;
+}
