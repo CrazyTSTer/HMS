@@ -45,12 +45,12 @@ void setup() {
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, OFF);
 
-    //0 -- -- -- -- 2 -- -- -- 9 -- -- -- 0
+	//0 -- -- -- -- 2 -- -- -- 9 -- -- -- 0
 	//       2      |    7     |     1
 	//  замкнуто    |разомкнуто| замкнуто
 	//   0(LOW)       1 (HIGH)    0 (LOW)
 
-    //Если контроллер включился когда счетчик находился в положении замкнуто
+	//Если контроллер включился когда счетчик находился в положении замкнуто
 	//Тогда с первым изменением состояния счетчика дописываем 3 литра воды (часть уже утекла)
 	//Пример: счетчик перевалил за отметку 9 литров, кран выключили, ушли на работу,
 	//пока были на работе, вырубили и врубили свет. Пришли домой вечером, помыли руки, вода перевалила
@@ -99,14 +99,14 @@ boolean WiFiConnect()
 		return false;
 	}
 
-    digitalWrite(LED, ON);
+	digitalWrite(LED, ON);
 	return true;
 }
 
 void cold_InterruptHandler()
 {
-    cold_prevMillis = millis();
-    cold_waitForNextInterrupt = false;
+	cold_prevMillis = millis();
+	cold_waitForNextInterrupt = false;
 }
 
 void hot_InterruptHandler()
@@ -161,7 +161,7 @@ boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 
 	Client.begin("http://192.168.1.2/HMS/WaterStat.php?action=set&values[coldwater]=" + String(coldwater) + "&values[hotwater]=" + String(hotwater));
 
-    int httpCode = Client.GET();
+	int httpCode = Client.GET();
 
 	if (httpCode < 0 || httpCode != HTTP_CODE_OK) {
 		return false;
@@ -197,16 +197,8 @@ void loop()
 				hot_tmpVolume = hot_volume;
 				boolean result = SendDataToRemoteHost(cold_tmpVolume, hot_tmpVolume);
 				if (result) {
-					if (cold_volume > cold_tmpVolume) {
-						cold_volume -= cold_tmpVolume;
-					} else {
-						cold_volume = 0;
-					}
-					if (hot_volume > hot_tmpVolume) {
-						hot_volume -= hot_tmpVolume;
-					} else {
-						hot_volume = 0;
-					}
+					cold_volume -= cold_tmpVolume;
+					hot_volume -= hot_tmpVolume;
 
 					Blink.detach();
 					digitalWrite(LED, ON);
