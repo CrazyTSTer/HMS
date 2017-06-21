@@ -1,0 +1,43 @@
+.navbar-brand img {
+    height: 100%
+}
+
+.navbar-default {
+    background: black;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #00AF00;
+    font-weight: bold;
+}
+
+nav form#search {
+    float: right;
+    padding: 0.5em;
+}
+
+nav form#search .glyphicon-search {
+    z-index: 99;
+    position: absolute;
+    right: 0.7em;
+    top: 50%;
+    margin-top: -0.44em;
+}
+
+nav form#search .input-group .form-control {
+    border-radius: 0.25em;
+}
+
+#nav-options {
+    margin: 0.5em;
+}
+
+#nav-options button.thumbnail {
+    margin: 0;
+    padding: 0;
+}
+
+#nav-options img {
+    max-height: 2.3em;
+    border-radius: 0.3em;
+}
