@@ -34,10 +34,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
+                <button id="tweet" class="btn btn-default pull-right visible-xs-block">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    Tweet
+                </button>
             </div>
             <div id="nav-menu" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="#">
                             <span class="glyphicon glyphicon-home"></span>
                             Home
@@ -45,6 +50,7 @@
                     </li>
                     <li>
                         <a href="#">
+                            <span class="badge">5</span>
                             <span class="glyphicon glyphicon-bell"></span>
                             Notifications
                         </a>
@@ -55,12 +61,30 @@
                             Messages
                         </a>
                     </li>
+                    <li class="visible-xs-inline">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            Profile
+                        </a>
+                    </li>
+                    <li class="visible-xs-inline">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                            Logout
+                        </a>
+                    </li>
                 </ul>
 
-                <div id="nav-options" class="btn-group pull-right">
+                <button id="tweet" class="btn btn-default pull-right hidden-xs">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    Tweet
+                </button>
+
+                <div id="nav-options" class="btn-group pull-right hidden-xs">
                     <button type="button" class="btn btn-default dropdown-toggle thumbnail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="static/imgs/jon.png">
                     </button>
+
                     <ul class="dropdown-menu">
                         <li><a href="#">Profile</a></li>
                         <li><a href="#">Settings</a></li>
@@ -68,7 +92,8 @@
                         <li><a href="#">Logout</a></li>
                     </ul>
                 </div>
-                <form id="search" role="search">
+
+                <form id="search" role="search" class="hidden-sm">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search...">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
