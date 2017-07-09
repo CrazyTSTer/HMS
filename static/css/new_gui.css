@@ -1,227 +1,114 @@
-@media (max-width: 48em) {
-    table .btn {
-        font-size: 0.75rem;
-        font-size: 3.5vw;
-    }
+transition,
+transition:hover,
+transition:focus {
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -ms-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
 }
 
-.nowrap {
-    white-space: nowrap;
-}
-
-.preline {
-    white-space: pre-line;
-}
-
-
-header {
-    background-color: #F8F8F8;
-}
-
-header ul {
-    margin: 0;
-}
-
-header a,
-header li {
-    padding: 1.4rem 0;
-    color: #777;
-    font-weight: bold;
-}
-
-section#intro-header {
-    background-image: url(../imgs/landscape.jpg);
-    background-size: cover;
-}
-
-section#intro-header .wrap-headline {
+html, body {
     position: relative;
-    padding-top: 20%;
-    padding-bottom: 20%;
+    height: 100%;
+    background-color: #e5edec;
 }
 
-section#intro-header h1,
-section#intro-header h2 {
-    color: #FFF;
-}
-
-section#intro-header h2 {
-    font-size: 1.5rem;
-}
-
-section#intro-header hr {
-    width: 10%;
-}
-
-section#intro-header .btn-default {
-    background-color: rgba(255, 255, 255, 0.5);
+nav .navbar-fixed-top {
+    background-color: #FFF;
     border: none;
 }
 
-section#about img {
-    margin-top: 6.5rem;
-    margin-bottom: 5rem;
+nav .top-left-menu {
+    background-color: #252830;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
 }
 
-section#about h3 {
-    margin-top: 10rem;
+.navbar-brand {
+    height: auto;
 }
 
-section#features {
-    background-color: #eef2f5;
-    border-top: 0.1rem solid #e9e9e9;
-    border-bottom: 0.1rem solid #e9e9e9;
-}
-
-section#features * {
-    color: #657C8E;
-}
-
-section#features .feature {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    text-align: center;
-}
-
-section#pricing h3.price-headline {
-    margin-top: 5rem;
-    margin-bottom: 3rem;
-}
-
-section#pricing .white-text {
-    color: #FFF;
-}
-
-section#pricing thead .success {
-    background-color: #78CFBF;
-}
-
-section#pricing thead .info {
-    background-color: #3EC6E0;
-}
-
-section#pricing thead .danger {
-    background-color: #E3536C;
-}
-
-section#pricing tbody .success {
-    background-color: #82DACA;
-}
-
-section#pricing tbody .info {
-    background-color: #53CFE9;
-}
-
-section#pricing tbody .danger {
-    background-color: #EB6379;
-}
-
-footer {
-    background-color: #191919;
-    color: #ADADAD;
-    margin-top: 3em;
-}
-
-footer h5,
-footer img {
-    margin-top: 5em;
-    font-weight: bold;
-}
-
-footer address {
-    margin-top: 5em;
-    margin-bottom: 5em;
-    color: #5A5A5A;
-}
-
-footer ul {
-    margin-bottom: 5em;
-}
-
-footer address strong {
-    color: #ADADAD;
-    display: block;
-    padding-bottom: 0.62em;
-}
-
-footer a {
+.navbar-brand h1 {
+    margin: 0;
+    font-size: 1.5em;
     font-weight: 300;
-    color: #5A5A5A;
+    color: #00AF00;
 }
 
-footer a:hover {
-    text-decoration: none;
-    color: #FFF;
+.main-title {
+    height: auto;
+    background-color: #ffff00;
+    padding: 0.48em;
 }
 
-section#newsletter {
-    border-top: 1px solid #E0E0E0;
-    padding-top: 3.2em;
-    margin-top: 2em;
+/*.main-title::after {
+    position: absolute;
+    content: '';
+    left:0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
 }
 
-section#newsletter h4 {
-    padding: 1em;
-}
+.main-title::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}*/
 
-section#newsletter form {
-    padding: 1em;
-    margin-top: 2em;
-    margin-bottom: 5.5em;
+.main-title h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #00AF00;
+    text-align: center;
 }
-
-section#contact form {
-    padding-top: 9rem;
-    padding-bottom: 3rem;
-}
-
-.hidden-element {
-    display: none;
-}
-
-section#team ul {
-    margin: 5rem 0;
-}
-
-section#team li {
-    margin: 0 5rem;
-}
-
-section#team h5 {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-section#pricing .center-block {
-    width: 90%
-}
-
-section#features .feature {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
+.main-title h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 300;
+    color: #00AF00;
     text-align: center;
 }
 
-section#features .glyphicon {
-    font-size: 2rem;
+nav .header-refresh {
+    margin-left: auto;
+    color: #00AF00;
 }
 
-section#features .glyphicon-heart {
-    color: #E04C4C;
+nav #nav-menu {
+    padding: 0.4em;
+    padding-right: 1em;
 }
 
-section#features .feature-tag {
-    max-width: 10.7em;
-    display: inline-block;
-    text-align: left;
-    margin-left: 1.5em;
-    font-size: 1.7rem;
+nav form#search {
+    padding: 0.9em;
 }
 
-body {
-    padding-top: 3.6em;
+nav form#search .input-group {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
 }
 
-#nav-menu {
-    margin-right: 1rem;
+nav form#search .input-group .form-control {
+    border-radius: 0.25em;
+    border: none;
+    width: 70%;
+    padding-left: 1.9em;
+    background-color: #F3F3F3;
+    box-shadow: none;
+}
+
+nav form#search .input-group .form-control:focus {
+    width: 100%;
+    box-shadow: none;
+}
+
+nav form#search .glyphicon-search {
+    z-index: 99;
+    left: 1.7em;
 }
