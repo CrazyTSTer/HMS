@@ -79,6 +79,16 @@ nav .header-refresh {
     color: #00AF00;
 }
 
+.navbar-toggle {
+    border-color: #252830;
+    background-color: #e5e9ec;
+    margin-top: 13px
+}
+
+.navbar-toggle .icon-bar {
+    background-color: #252830;
+}
+
 nav #nav-menu {
     padding: 0.4em;
     padding-right: 1em;
