@@ -21,49 +21,27 @@
     <![endif]-->
 </head>
 <body>
-    <nav class="navbar navbar-fixed-top">
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 top-left-menu">
+        <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="row outer" style="height: 100px" >
+                <div class="col-sm-3 col-xs-5">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="new_gui.html">
-                            <h1>Main Menu</h1>
-                        </a>
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-menu" aria-expanded="false">
+                        <button type="button" class="navbar-toggle navbar-left collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                    </div>
-                    <a href="#" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="Refresh data"
-                       class="header-refresh pull-right">
-                       <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                    </a>
-                </div>
+                        <a class="navbar-brand outer" href="#">
+                            <img src="static/imgs/esp.jpg" class="img-circle img-responsive">
+                            <p class="inner hidden-xs">ESP-8266</p>
+                        </a>
 
-                <!--<form id="search" role="search" class="hidden-xs col-sm-3">
-                    <div class="input-group">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        <input type="text" class="form-control transition" placeholder="Search...">
                     </div>
-                </form>-->
-                <div id="nav-menu" class="collapse navbar-collapse pull-right">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <div id="btn-notifications" class="btn-group">
-                                <span class="badge">3</span>
-                                <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    Notifications
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
-                <div class="hidden-xs main-title pull-right">
-                    <h1>Automated System</h1>
-                    <h1>of Logging Water and Electricity Meters Data</h1>
+                <div class="col-sm-9 col-xs-7 text-center inner">
+                   Автоматизированная система снятия показаний счетчиков воды и электричества
                 </div>
             </div>
         </div>
