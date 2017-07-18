@@ -21,27 +21,34 @@
     <![endif]-->
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="row outer" style="height: 100px" >
-                <div class="col-sm-3 col-xs-5">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle navbar-left collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <div class="row">
+                <div class="col-xs-2 col-sm-3 vcenter">
+                    <div class="navbar-header pull-left">
+                        <a class="navbar-brand hidden-xs" href="webapp.html">
+                            <h1 class="text-green">Main Menu</h1>
+                        </a>
+                        <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#nav-menu" aria-expanded="false">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand outer" href="#">
-                            <img src="static/imgs/esp.jpg" class="img-circle img-responsive">
-                            <p class="inner hidden-xs">ESP-8266</p>
-                        </a>
-
                     </div>
-                </div>
-                <div class="col-sm-9 col-xs-7 text-center inner">
-                   Автоматизированная система снятия показаний счетчиков воды и электричества
+                </div><!--
+                --><div class="col-xs-8 col-sm-6 text-center vcenter">
+                    <a class="text-center navbar-text" href="#">
+                        <h2 class="text-green">Автоматизированная система снятия показаний счетчиков воды и электричества</h2>
+                    </a>
+                </div><!--
+                --><div class="col-xs-2 col-sm-3 vcenter">
+                    <div class="navbar-header pull-right">
+                        <a class="navbar-brand" href="#">
+                            <span class="hidden-xs text-green">ESP-8266</span>
+                            <img src="static/imgs/esp.jpg" class="img-circle img-responsive">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
