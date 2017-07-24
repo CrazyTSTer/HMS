@@ -68,6 +68,16 @@ html, body {
         margin-left: 255px;
         width:100%
     }
+
+    .navbar-brand-width {
+        width: 255px;
+    }
+
+    .navbar-header-width {
+        width: calc(100% - 256px);
+        margin-left: 255px;
+        /*width: 100%;*/
+    }
 }
 
 @media(max-width:768px) {
