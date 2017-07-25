@@ -93,3 +93,50 @@ nav .navbar-toggle {
         width: 100%;
     }
 }
+
+.side-nav ul.nav {
+    margin-top: 1rem;
+}
+
+.side-nav ul.nav a {
+    color: #8b91a0;
+}
+
+.side-nav ul.nav a:hover,
+.side-nav ul.nav a:focus {
+    color: #FFF;
+    background-color: inherit;
+}
+
+.side-nav ul.nav a .glyphicon {
+    margin-right: 0.7rem;
+}
+
+.side-nav ul.nav a .glyphicon.pull-right {
+    margin-top: 0.2rem;
+}
+
+.side-nav ul.nav a .badge {
+    background-color: #1ca095;
+}
+
+.side-nav ul.nav .nav-divider {
+    background-color: #252830;
+}
+
+.side-nav ul.nav ul {
+    margin-left: 10%;
+}
+
+.side-nav ul.nav ul a {
+    display: block;
+    background-color: #2b303b;
+    padding: 1rem;
+    margin-bottom: 0.3rem;
+    border-radius: 0.25em;
+}
+
+.side-nav ul.nav ul a:hover {
+    text-decoration: none;
+    background-color: #434857;
+}
