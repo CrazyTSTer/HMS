@@ -14,33 +14,39 @@ html, body {
     background-color: #e5e9ec;
 }
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
+.flex-container {
+    display: flex;
+}
+
+.flex-vcenter {
+    display: inline-flex;
+    align-items: center;
 }
 
 .navbar-brand {
     height: auto;
 }
 
+.navbar-header {
+    flex-grow: 1;
+}
+
 .navbar-brand img {
     margin-left: 10px;
     max-height: 50px;
-    display: inline-block;
 }
 
 .navbar-brand h1 {
     margin: 0px 0px 0px 10px;
     font-size: 20px;
     font-weight: 300;
-    display: inline-block;
 }
 
 .navbar-header h1 {
-    margin: 0;
+    flex-grow: 1;
     font-size: 20px;
     font-weight: 300;
+    margin: 0;
 }
 
 nav .navbar-toggle {
@@ -76,11 +82,7 @@ nav .navbar-toggle {
     }
 
     .navbar-brand-width {
-        width: 255px;
-    }
-
-    .navbar-header-width {
-        width: calc(100% - 255px);
+        min-width: 255px;
     }
 }
 
@@ -89,13 +91,5 @@ nav .navbar-toggle {
         position: fixed;
         top: 51px;
         width: 100%;
-    }
-
-    .navbar-header-width {
-        width: 100%;
-    }
-    .navbar-header h1 {
-        margin-top: 14px;
-        margin-bottom: 14px;
     }
 }
