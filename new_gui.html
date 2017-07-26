@@ -42,36 +42,44 @@
             </div>
         </div>
         <div class="collapse navbar-collapse collapse-target">
-            <div class="navbar-inverse side-nav">
-                <ul class="nav nav-pills nav-stacked">
-                    <li>
-                        <a href="#" class="transition">
-                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                            Main Stats
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="transition">
-                            <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-                            Meters
-                            <span class="glyphicon glyphicon-menu-left pull-right transition" aria-hidden="true"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="transition">
-                            <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-                            Additional links
-                        </a>
-                    </li>
-                    <li class="nav-divider"></li>
-                    <li>
-                        <a href="#" class="transition">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            Settings
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav navbar-nav navbar-inverse side-nav">
+                <li>
+                    <a href="#" class="transition">
+                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                        Main Stats
+                    </a>
+                </li>
+                <li>
+                    <a href="#meters" class="transition" role="button" data-target="#meters" aria-expanded="false" data-toggle="collapse" aria-controls="meters">
+                        <input type="checkbox" id="checkbox">
+                        <span class="glyphicon glyphicon-menu-left pull-right transition rotate" style="padding-right: 0px;" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-dashboard transition rotate" aria-hidden="true"></span>
+                        <label for="checkbox" class="fixed-label"></label>
+                        Meters
+                    </a>
+                    <ul id="meters" class="collapse list-unstyled toggle-target">
+                        <li>
+                            <a href="#" class="transition"><span class="glyphicon glyphicon-tint"></span>Water</a>
+                        </li>
+                        <li>
+                            <a href="#" class="transition"><span class="glyphicon glyphicon-flash"></span>Electricity</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="transition">
+                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                        Additional links
+                    </a>
+                </li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a href="#" class="transition">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        Settings
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
     <div class="main">

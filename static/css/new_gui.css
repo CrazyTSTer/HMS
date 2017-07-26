@@ -1,6 +1,6 @@
+/* Some transforms */
 .transition,
-.transition:hover,
-.transition:focus {
+.transition:hover {
     -webkit-transition: all 150ms ease-in-out;
     -moz-transition: all 150ms ease-in-out;
     -ms-transition: all 150ms ease-in-out;
@@ -8,6 +8,55 @@
     transition: all 150ms ease-in-out;
 }
 
+#checkbox:checked + .rotate {
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+/* Some media query */
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 61px;
+        width: 255px;
+        overflow-y: auto;
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+    }
+
+    .main {
+        position: fixed;
+        top: 61px;
+        margin-left: 255px;
+        width: 100%;
+    }
+
+    .navbar-brand-width {
+        min-width: 255px;
+    }
+
+    .side-nav > li a {
+        width: 255px;
+    }
+}
+
+@media(max-width:767px) {
+    .main {
+        position: fixed;
+        top: 51px;
+        width: 100%;
+    }
+
+    .side-nav > li > a {
+        width: 100%;
+    }
+}
+
+/* Common objects */
 html, body {
     position: relative;
     height: 100%;
@@ -23,6 +72,24 @@ html, body {
     align-items: center;
 }
 
+#checkbox {
+    display: none;
+}
+
+.fixed-label {
+    margin: 0;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.text-green {
+    color: #007700;
+}
+
+/* Top bar */
 .navbar-brand {
     height: auto;
 }
@@ -59,84 +126,43 @@ nav .navbar-toggle {
     padding: 5px 5px;
 }
 
-.text-green {
+/* Side bar */
+.navbar-inverse .navbar-nav > li > a {
     color: #007700;
 }
 
-@media(min-width:768px) {
-    .side-nav {
-        position: fixed;
-        top: 61px;
-        width: 255px;
-        overflow-y: auto;
-        bottom: 0;
-        overflow-x: hidden;
-        padding-bottom: 40px;
-    }
-
-    .main {
-        position: fixed;
-        top: 61px;
-        margin-left: 255px;
-        width: 100%;
-    }
-
-    .navbar-brand-width {
-        min-width: 255px;
-    }
+.side-nav li a:hover,
+.side-nav li a:focus {
+    background-color: #007700 !important;
 }
 
-@media(max-width:767px) {
-    .main {
-        position: fixed;
-        top: 51px;
-        width: 100%;
-    }
+.side-nav > li > ul {
+    padding: 0;
 }
 
-.side-nav ul.nav {
-    margin-top: 1rem;
-}
-
-.side-nav ul.nav a {
-    color: #8b91a0;
-}
-
-.side-nav ul.nav a:hover,
-.side-nav ul.nav a:focus {
-    color: #FFF;
-    background-color: inherit;
-}
-
-.side-nav ul.nav a .glyphicon {
-    margin-right: 0.7rem;
-}
-
-.side-nav ul.nav a .glyphicon.pull-right {
-    margin-top: 0.2rem;
-}
-
-.side-nav ul.nav a .badge {
-    background-color: #1ca095;
-}
-
-.side-nav ul.nav .nav-divider {
-    background-color: #252830;
-}
-
-.side-nav ul.nav ul {
-    margin-left: 10%;
-}
-
-.side-nav ul.nav ul a {
+.side-nav > li > ul > li > a {
     display: block;
-    background-color: #2b303b;
-    padding: 1rem;
-    margin-bottom: 0.3rem;
-    border-radius: 0.25em;
+    padding: 10px 15px 10px 10px;
+    text-decoration: none;
+    color: #007700;
+    border-left: solid 1px #007700;
+    margin-left: 28px;
 }
 
-.side-nav ul.nav ul a:hover {
-    text-decoration: none;
-    background-color: #434857;
+.side-nav > li > ul > li > a:hover,
+.side-nav > li > ul > li > a:focus {
+    color: #fff;
+}
+
+.nav .nav-divider {
+    height: 1px;
+    width:100%;
+    display:block; /* for use on default inline elements like span */
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #007700;
+}
+
+.side-nav > a > span {
+    padding-right: 10px;
 }
