@@ -166,3 +166,8 @@ nav .navbar-toggle {
 .side-nav > a > span {
     padding-right: 10px;
 }
+
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
+    max-height: 200px;
+}
