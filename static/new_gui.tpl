@@ -1,3 +1,4 @@
+<!-- BEGIN STATIC -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +14,6 @@
     <script src="static/js/jquery-3.2.1.js"></script>
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.js"></script>-->
     <script src="static/js/bootstrap_v3.js"></script>
-    <script src="static/js/new_gui.js"></script>
-    <script src="static/js/d3.v4.js"></script>
-    <script src="static/js/liquidFillGauge.js"></script>
-
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -44,25 +41,25 @@
         <div class="collapse navbar-collapse collapse-target">
             <ul class="nav navbar-nav navbar-inverse side-nav">
                 <li>
-                    <a href="#" class="transition js_set_focus">
+                    <a href="?page=main_stat" class="transition {{is_main_selected}}">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
                         Main Stats
                     </a>
                 </li>
                 <li>
                     <a href="#meters" class="transition" role="button" data-target="#meters" aria-expanded="false" data-toggle="collapse" aria-controls="meters">
-                        <input type="checkbox" id="checkbox">
+                        <input type="checkbox" id="checkbox" {{is_checked}}>
                         <span class="glyphicon glyphicon-menu-left pull-right transition rotate" style="padding-right: 0px;" aria-hidden="true"></span>
                         <span class="glyphicon glyphicon-dashboard transition rotate" aria-hidden="true"></span>
                         <label for="checkbox" class="fixed-label"></label>
                         Meters
                     </a>
-                    <ul id="meters" class="collapse list-unstyled toggle-target">
+                    <ul id="meters" class="collapse {{is_in}} list-unstyled toggle-target">
                         <li>
-                            <a href="#" class="transition" onclick="return false;"><span class="glyphicon glyphicon-tint"></span>Water</a>
+                            <a href="?page=water" class="transition {{ IF (page=="water") }}selected{{ END }}"><span class="glyphicon glyphicon-tint"></span>Water</a>
                         </li>
                         <li>
-                            <a href="#" class="transition"><span class="glyphicon glyphicon-flash"></span>Electricity</a>
+                            <a href="?page=electricity" class="transition {{is_electricity_selected}}"><span class="glyphicon glyphicon-flash"></span>Electricity</a>
                         </li>
                     </ul>
                 </li>
@@ -84,18 +81,25 @@
     </nav>
     <div class="main">
         <div class="container-fluid">
+            <!-- BEGIN MAIN_STAT -->
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card" id="pie-charts">
-                        <div class="card-block">
-                            <h2>Current water meters values</h2>
-                            <svg id="fillgauge1" width="250px" height="250"></svg>
-                            <svg id="fillgauge2" width="250px" height="250"></svg>
-                        </div>
-                    </div>
+                    <h1 class="text-green">Main Stat</h1>
                 </div>
             </div>
+            <!-- END MAIN_STAT -->
+            <!-- BEGIN WATER -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1 class="text-green">Water</h1>
+                </div>
+                <div class="col-sm-6">
+                    <h1 class="text-green">Stat</h1>
+                </div>
+            </div>
+            <!-- END WATER -->
         </div>
     </div>
 </body>
 </html>
+<!-- END STATIC -->

@@ -31,7 +31,7 @@
     .main {
         position: fixed;
         top: 61px;
-        margin-left: 255px;
+        padding-left: 255px;
         width: 100%;
     }
 
@@ -165,4 +165,27 @@ nav .navbar-toggle {
 
 .side-nav > a > span {
     padding-right: 10px;
+}
+
+.card {
+    position: relative;
+    border-radius: 0.25em;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+    background-color: #FFF;
+    margin: 1.25rem;
+    flex-grow: 5;
+}
+
+.card * {
+    color: #252830;
+}
+
+.card-block {
+    padding: 2rem;
+}
+
+.card-block h2 {
+    margin: 0;
+    margin-bottom: 1.5rem;
+    color: #252830;
 }
