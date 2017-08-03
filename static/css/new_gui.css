@@ -29,8 +29,8 @@
     }
 
     .main {
-        position: fixed;
-        top: 61px;
+        /*position: fixed;*/
+        margin-top: 61px;
         padding-left: 255px;
         width: 100%;
         overflow-y: scroll;
@@ -47,8 +47,8 @@
 
 @media(max-width:767px) {
     .main {
-        position: fixed;
-        top: 51px;
+        /*position: fixed;*/
+        margin-top: 51px;
         width: 100%;
         overflow-y: scroll;
     }
