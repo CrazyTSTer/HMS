@@ -167,6 +167,14 @@ nav .navbar-toggle {
     padding-right: 10px;
 }
 
+#main {
+    padding-top: 7.2rem;
+    display: -webkit-flex;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+}
+
 .card {
     position: relative;
     border-radius: 0.25em;
@@ -188,4 +196,25 @@ nav .navbar-toggle {
     margin: 0;
     margin-bottom: 1.5rem;
     color: #252830;
+}
+
+#quick-info .card-block {
+    display: flex;
+    flex-direction: column;
+}
+
+#quick-info .quick-stats {
+    font-size: 2rem;
+    line-height: 3rem;
+    border-bottom: 0.1rem solid #e5e9ec;
+}
+
+#quick-info .quick-stats strong {
+    font-weight: 300;
+}
+
+#quick-info .quick-stats span {
+    font-weight: 300;
+    float: right;
+    color: #8b91a0;
 }
