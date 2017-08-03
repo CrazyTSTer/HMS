@@ -33,6 +33,7 @@
         top: 61px;
         padding-left: 255px;
         width: 100%;
+        overflow-y: scroll;
     }
 
     .navbar-brand-width {
@@ -49,6 +50,7 @@
         position: fixed;
         top: 51px;
         width: 100%;
+        overflow-y: scroll;
     }
 
     .side-nav > li > a {
