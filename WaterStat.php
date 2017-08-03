@@ -133,6 +133,20 @@ class WaterStat
         $current_ts = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
 
         switch ($params) {
+            case 'current_val':
+                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
+                //var_dump($current_values);
+                $current_values[self::COLDWATER] = array(
+                    'cube' => intval(substr($current_values[self::COLDWATER], 0, -3)),
+                    'liter' => intval(substr($current_values[self::COLDWATER], -3))
+                );
+                $current_values[self::HOTWATER] = array(
+                    'cube' => intval(substr($current_values[self::HOTWATER], 0, -3)),
+                    'liter' => intval(substr($current_values[self::HOTWATER], -3))
+                );
+
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $current_values);
+                break;
             case 'current':
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
