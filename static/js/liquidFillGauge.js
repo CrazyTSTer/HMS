@@ -260,7 +260,7 @@
                         var i = d3.interpolate(from, to);
                         return function(t) {
                             if (_custom_text !== '') {
-                                that.text(finalText);
+                                that.text(_custom_text);
                             } else {
                                 that.text(textRounder(i(t)) + percentText);
                             }
