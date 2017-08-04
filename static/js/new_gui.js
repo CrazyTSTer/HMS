@@ -18,11 +18,11 @@ jQuery(document).ready(function() {
     };
 
     if ($(window).width() < 768) {
+        $("#coldwater").attr('viewBox', '0 0 100 100');
+        $("#hotwater").attr('viewBox', '0 0 100 100');
+    } else {
         $("#coldwater").attr('viewBox', '0 0 150 150');
         $("#hotwater").attr('viewBox', '0 0 150 150');
-    } else {
-        $("#coldwater").attr('viewBox', '0 0 250 250');
-        $("#hotwater").attr('viewBox', '0 0 250 250');
     }
 
     /*d3.select("#coldwater").call(d3.liquidfillgauge, 123, chart_common);
