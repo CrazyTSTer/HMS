@@ -43,6 +43,12 @@
     .side-nav > li a {
         width: 255px;
     }
+
+    .svg-size {
+        width: 250px;
+        height: 250px;
+        margin: 25px;
+    }
 }
 
 @media(max-width:767px) {
@@ -55,6 +61,12 @@
 
     .side-nav > li > a {
         width: 100%;
+    }
+
+    .svg-size {
+        width: 150px;
+        height: 150px;
+        margin: 15px;
     }
 }
 

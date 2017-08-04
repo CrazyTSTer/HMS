@@ -12,16 +12,43 @@ jQuery(document).ready(function() {
        valueCountUp: true,
        displayPercent: false,
        maxValue: 1000,
-       textSize: 0.5
+       textSize: 0.5,
+       /*width: $(window).width() < 768 ? "150" : "250",
+       height: $(window).width() < 768 ? "150" : "250",*/
     };
+
+    if ($(window).width() < 768) {
+        $("#coldwater").attr('viewBox', '0 0 150 150');
+        $("#hotwater").attr('viewBox', '0 0 150 150');
+    } else {
+        $("#coldwater").attr('viewBox', '0 0 250 250');
+        $("#hotwater").attr('viewBox', '0 0 250 250');
+    }
+
+    /*d3.select("#coldwater").call(d3.liquidfillgauge, 123, chart_common);
+    d3.select("#hotwater").call(
+        d3.liquidfillgauge,
+        567,
+        $.extend(
+            {},
+            chart_common,
+            {
+                circleColor: "#d73232",
+                waveColor: "#d73232",
+                textColor: "#9e1f1f",
+                waveTextColor: "#e37272"
+            }
+        )
+    );*/
+
     executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
         var cw_cube = result['data']['coldwater']['cube'];
         var cw_liter = result['data']['coldwater']['liter'];
         var hw_cube = result['data']['hotwater']['cube'];
         var hw_liter = result['data']['hotwater']['liter'];
 
-        d3.select("#fillgauge1").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
-        d3.select("#fillgauge2").call(
+        d3.select("#coldwater").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
+        d3.select("#hotwater").call(
             d3.liquidfillgauge,
             hw_liter,
             $.extend(
@@ -38,16 +65,16 @@ jQuery(document).ready(function() {
         );
     });
 
-    setInterval(function() {
+    /*setInterval(function() {
         executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
             var cw_cube = result['data']['coldwater']['cube'];
             var cw_liter = result['data']['coldwater']['liter'];
             var hw_cube = result['data']['hotwater']['cube'];
             var hw_liter = result['data']['hotwater']['liter'];
-            d3.select("#fillgauge1").on("valueChanged")(cw_liter, cw_cube + ',' + cw_liter);
-            d3.select("#fillgauge2").on("valueChanged")(hw_liter, hw_cube + ',' + hw_liter);
+            d3.select("#coldwater").on("valueChanged")(cw_liter, cw_cube + ',' + cw_liter);
+            d3.select("#hotwater").on("valueChanged")(hw_liter, hw_cube + ',' + hw_liter);
         });
-    }, 2000);
+    }, 2000);*/
 });
 
 /*$(document).on('click','.navbar-collapse.in',function(e) {
