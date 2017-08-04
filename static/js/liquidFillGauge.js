@@ -253,13 +253,13 @@
 
             var transition = function(from, to, riseWave, animateText, custom_text) {
                 // Update texts and animate
-                var finalText = custom_text || '';
+                var _custom_text = custom_text || '';
                 if (animateText) {
                     var textTween = function() {
                         var that = d3.select(this);
                         var i = d3.interpolate(from, to);
                         return function(t) {
-                            if (finalText != '') {
+                            if (_custom_text !== '') {
                                 that.text(finalText);
                             } else {
                                 that.text(textRounder(i(t)) + percentText);
@@ -274,9 +274,9 @@
                       .duration(config.get("waveRiseTime"))
                       .tween("text", textTween);
                 } else {
-                    if (finalText != '') {
-                        text1.text(finalText);
-                        text2.text(finalText);
+                    if (_custom_text !== '') {
+                        text1.text(_custom_text);
+                        text2.text(_custom_text);
                     } else {
                         text1.text(textRounder(to) + percentText);
                         text2.text(textRounder(to) + percentText);
