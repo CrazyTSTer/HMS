@@ -30,10 +30,9 @@
 
     .main {
         /*position: fixed;*/
-        margin-top: 61px;
+        padding-top: 61px;
         padding-left: 255px;
         width: 100%;
-        overflow-y: scroll;
     }
 
     .navbar-brand-width {
@@ -54,9 +53,8 @@
 @media(max-width:767px) {
     .main {
         /*position: fixed;*/
-        margin-top: 51px;
+        padding-top: 51px;
         width: 100%;
-        overflow-y: scroll;
     }
 
     .side-nav > li > a {
