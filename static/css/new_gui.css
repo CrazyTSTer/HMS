@@ -73,6 +73,7 @@ html, body {
     position: relative;
     height: 100%;
     background-color: #e5e9ec;
+    /*background-color: #777777;*/
 }
 
 .flex-container {
@@ -189,7 +190,7 @@ nav .navbar-toggle {
 .card {
     position: relative;
     border-radius: 0.25em;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+    border: solid 1px rgba(0, 0, 0, 0.17);
     background-color: #FFF;
     margin: 1.25rem;
     flex-grow: 5;
@@ -228,4 +229,26 @@ nav .navbar-toggle {
     font-weight: 300;
     float: right;
     color: #8b91a0;
+}
+
+/* Cards */
+.card-container {
+    /*background-color: lightgrey;
+    background-color: #555;*/
+    /* padding: 0.5rem; */
+    border-radius: 0.5em;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.37);
+    margin: 1.25rem;
+}
+.card-container--caption {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    /*background-color: #f7f7f9;*/
+    /*background-color: #eff0f1;*/
+    background-color: #3e3e3e;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 20px;
 }
