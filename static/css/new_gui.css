@@ -180,13 +180,6 @@ nav .navbar-toggle {
     padding-right: 10px;
 }
 
-#main {
-    display: -webkit-flex;
-    display: flex;
-    align-items: stretch;
-    flex-flow: row wrap;
-}
-
 .card {
     position: relative;
     border-radius: 0.25em;
@@ -200,7 +193,7 @@ nav .navbar-toggle {
     color: #252830;
 }
 
-.card-block {
+.card--body {
     padding: 2rem;
 }
 
@@ -210,25 +203,9 @@ nav .navbar-toggle {
     color: #252830;
 }
 
-#quick-info .card-block {
-    display: flex;
-    flex-direction: column;
-}
-
-#quick-info .quick-stats {
-    font-size: 2rem;
-    line-height: 3rem;
-    border-bottom: 0.1rem solid #e5e9ec;
-}
-
-#quick-info .quick-stats strong {
-    font-weight: 300;
-}
-
-#quick-info .quick-stats span {
-    font-weight: 300;
-    float: right;
-    color: #8b91a0;
+.card--header {
+    height: 25px;
+    background-color: #2e6da4;
 }
 
 /* Cards */
@@ -239,6 +216,7 @@ nav .navbar-toggle {
     border-radius: 0.5em;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.37);
     margin: 1.25rem;
+
 }
 .card-container--caption {
     padding: .75rem 1.25rem;
@@ -251,6 +229,13 @@ nav .navbar-toggle {
     border-top-right-radius: 0.5rem;
     font-weight: bold;
     font-size: 20px;
+}
+
+.card-container--body {
+    display: -webkit-flex;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
 }
 
 .flex-grow-1 {
