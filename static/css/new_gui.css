@@ -252,3 +252,11 @@ nav .navbar-toggle {
     font-weight: bold;
     font-size: 20px;
 }
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-grow-10 {
+    flex-grow: 10;
+}
