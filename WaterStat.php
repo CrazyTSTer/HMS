@@ -7,7 +7,7 @@ include_once "php/Utils.php";
 define('CURRENT_DATE',                        'SELECT NOW()');
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
-define('GET_FIRST_VALUE_OF_CURRENT_DAY',      'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) == CURDATE() - INTERVAL 1 DAY');
+define('GET_FIRST_VALUE_OF_CURRENT_DAY',      'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() - INTERVAL 1 DAY');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
                                               UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)'
