@@ -45,7 +45,7 @@ jQuery(document).ready(function() {
         var cw_cube = result['data']['coldwater']['cube'];
         var cw_liter = result['data']['coldwater']['liter'];
         var cw_day_rate = result['data']['coldwater']['day_rate'];
-        ar cw_month_rate = result['data']['coldwater']['month_rate'];
+        var cw_month_rate = result['data']['coldwater']['month_rate'];
 
         var hw_cube = result['data']['hotwater']['cube'];
         var hw_liter = result['data']['hotwater']['liter'];
