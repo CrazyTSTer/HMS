@@ -94,6 +94,10 @@ html, body {
     flex-grow: 10 !important;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 #checkbox {
     display: none;
 }
