@@ -115,6 +115,10 @@ html, body {
     color: #007700;
 }
 
+table > th, table > td {
+    vertical-align: middle !important;
+}
+
 /* Top bar */
 .navbar-brand {
     height: auto;
