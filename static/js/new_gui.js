@@ -45,10 +45,12 @@ jQuery(document).ready(function() {
         var cw_cube = result['data']['coldwater']['cube'];
         var cw_liter = result['data']['coldwater']['liter'];
         var cw_day_rate = result['data']['coldwater']['day_rate'];
+        ar cw_month_rate = result['data']['coldwater']['month_rate'];
 
         var hw_cube = result['data']['hotwater']['cube'];
         var hw_liter = result['data']['hotwater']['liter'];
         var hw_day_rate = result['data']['hotwater']['day_rate'];
+        var hw_month_rate = result['data']['hotwater']['month_rate'];
 
         d3.select("#coldwater").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
         d3.select("#hotwater").call(
@@ -70,9 +72,11 @@ jQuery(document).ready(function() {
 
         $(".js_cold_current_value").text(cw_cube + ',' + cw_liter);
         $(".js_cold_today_rate").text(cw_day_rate);
+        $(".js_cold_month_rate").text(cw_month_rate);
 
         $(".js_hot_current_value").text(hw_cube + ',' + hw_liter);
         $(".js_hot_today_rate").text(hw_day_rate);
+        $(".js_hot_month_rate").text(hw_month_rate);
 
     });
 

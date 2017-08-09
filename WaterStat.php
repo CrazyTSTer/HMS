@@ -137,21 +137,27 @@ class WaterStat
         switch ($params) {
             case 'current_val':
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
-                $first_valuses_of_current_day = $this->db->fetchSingleRow(GET_FIRST_VALUE_OF_CURRENT_DAY);
+                $first_value_of_current_day = $this->db->fetchSingleRow(GET_FIRST_VALUE_OF_CURRENT_DAY);
+                $first_value_of_current_month = $this->db->fetchSingleRow(GET_FIRST_VALUE_OF_CURRENT_MONTH);
 
-                $cw_day_rate = $current_values[self::COLDWATER] - $first_valuses_of_current_day[self::COLDWATER];
-                $hw_day_rate = $current_values[self::HOTWATER] - $first_valuses_of_current_day[self::HOTWATER];
+                $cw_day_rate = $current_values[self::COLDWATER] - $first_value_of_current_day[self::COLDWATER];
+                $hw_day_rate = $current_values[self::HOTWATER] - $first_value_of_current_day[self::HOTWATER];
+
+                $cw_month_rate = $current_values[self::COLDWATER] - $first_value_of_current_month[self::COLDWATER];
+                $hw_month_rate = $current_values[self::HOTWATER] - $first_value_of_current_month[self::HOTWATER];
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
                 $ret[self::COLDWATER] = array(
-                    'day_rate' => $cw_day_rate,
-                    'cube'     => substr($current_values[self::COLDWATER], 0, -3),
-                    'liter'    => substr($current_values[self::COLDWATER], -3)
+                    'day_rate'   => $cw_day_rate,
+                    'month_rate' => $cw_month_rate,
+                    'cube'       => substr($current_values[self::COLDWATER], 0, -3),
+                    'liter'      => substr($current_values[self::COLDWATER], -3)
                 );
                 $ret[self::HOTWATER] = array(
-                    'day_rate' => $hw_day_rate,
-                    'cube' => substr($current_values[self::HOTWATER], 0, -3),
-                    'liter' =>substr($current_values[self::HOTWATER], -3)
+                    'day_rate'   => $hw_day_rate,
+                    'month_rate' => $hw_month_rate,
+                    'cube'       => substr($current_values[self::HOTWATER], 0, -3),
+                    'liter'      => substr($current_values[self::HOTWATER], -3)
                 );
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
