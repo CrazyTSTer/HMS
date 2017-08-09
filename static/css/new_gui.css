@@ -76,10 +76,12 @@ html, body {
 }
 
 .flex-container {
+    display: -webkit-flex;
     display: flex;
 }
 
 .flex-vcenter {
+    display: -webkit-flex;
     display: flex;
     align-items: center;
 }
@@ -226,6 +228,7 @@ nav .navbar-toggle {
     border-top-right-radius: 7px;
     justify-content: center;
     align-items: center;
+    display: -webkit-flex;
     display: flex;
     font-size: 20px;
     color: #fff;
@@ -234,6 +237,7 @@ nav .navbar-toggle {
 .card__body {
     height: calc(100% - 50px);
     padding: 10px;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
