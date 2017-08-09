@@ -73,7 +73,6 @@ html, body {
     position: relative;
     height: 100%;
     background-color: #e5e9ec;
-    /*background-color: #777777;*/
 }
 
 .flex-container {
@@ -81,8 +80,16 @@ html, body {
 }
 
 .flex-vcenter {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+}
+
+.flex-grow-1 {
+    flex-grow: 1 !important;
+}
+
+.flex-grow-10 {
+    flex-grow: 10 !important;
 }
 
 #checkbox {
@@ -170,7 +177,7 @@ nav .navbar-toggle {
 .nav .nav-divider {
     height: 1px;
     width:100%;
-    display:block; /* for use on default inline elements like span */
+    display:block;
     margin: 9px 0;
     overflow: hidden;
     background-color: #007700;
@@ -180,72 +187,54 @@ nav .navbar-toggle {
     padding-right: 10px;
 }
 
-.card {
-    position: relative;
-    border-radius: 0.25em;
-    border: solid 1px rgba(0, 0, 0, 0.17);
-    background-color: #FFF;
-    margin: 1.25rem;
-    flex-grow: 5;
-}
-
-.card * {
-    color: #252830;
-}
-
-.card--body {
-    height: calc(100% - 50px);
-    padding: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-block h2 {
-    margin: 0;
-    margin-bottom: 1.5rem;
-    color: #252830;
-}
-
-.card--header {
-    height: 50px;
-    background-color: #2e6da4;
-}
-
 /* Cards */
 .card-container {
-    /*background-color: lightgrey;
-    background-color: #555;*/
-    /* padding: 0.5rem; */
-    border-radius: 0.5em;
+    border-radius: 10px;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.37);
-    margin: 1.25rem;
+    margin: 15px;
 
 }
-.card-container--caption {
+.card-container__header {
     padding: .75rem 1.25rem;
-    margin-bottom: 0;
-    /*background-color: #f7f7f9;*/
-    /*background-color: #eff0f1;*/
-    background-color: #3e3e3e;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    background-color: #222;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     font-weight: bold;
     font-size: 20px;
 }
 
-.card-container--body {
+.card-container__body {
     display: -webkit-flex;
     display: flex;
     align-items: stretch;
     flex-flow: row wrap;
 }
 
-.flex-grow-1 {
-    flex-grow: 1;
+.card {
+    position: relative;
+    border-radius: 7px;
+    border: solid 1px rgba(0, 0, 0, 0.17);
+    background-color: #FFF;
+    margin: 10px;
+    flex-grow: 5;
 }
 
-.flex-grow-10 {
-    flex-grow: 10;
+.card__header {
+    height: 50px;
+    background-color: #2e6da4;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 20px;
+    color: #fff;
+}
+
+.card__body {
+    height: calc(100% - 50px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
