@@ -8,12 +8,13 @@ define('CURRENT_DATE',                        'SELECT NOW()');
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 define('GET_FIRST_VALUE_OF_CURRENT_DAY',      'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() - INTERVAL 1 DAY');
+define('GET_FIRST_VALUE_OF_CURRENT_MONTH',    'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
                                               UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)'
 );
 define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    '(SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
-                                              WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') GROUP BY (1) ORDER BY ts DESC LIMIT 1)
+                                              WHERE DATE(ts) = DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY)
                                               UNION SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) BETWEEN DATE_FORMAT(#date#, \'%Y-%m-01\') AND (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) - INTERVAL 1 DAY GROUP BY (1)'
 );
