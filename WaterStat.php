@@ -14,7 +14,7 @@ define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as col
                                               UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)'
 );
 define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    '(SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
-                                              WHERE DATE(ts) = DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY)
+                                              WHERE DATE(ts) = DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY GROUP BY(1))
                                               UNION SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) BETWEEN DATE_FORMAT(#date#, \'%Y-%m-01\') AND (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) - INTERVAL 1 DAY GROUP BY (1)'
 );
