@@ -143,8 +143,8 @@ class WaterStat
                 $cw_day_rate = $current_values[self::COLDWATER] - $first_value_of_current_day[self::COLDWATER];
                 $hw_day_rate = $current_values[self::HOTWATER] - $first_value_of_current_day[self::HOTWATER];
 
-                $cw_month_rate = ($current_values[self::COLDWATER] - $first_value_of_current_month[self::COLDWATER])/1000;
-                $hw_month_rate = ($current_values[self::HOTWATER] - $first_value_of_current_month[self::HOTWATER])/1000;
+                $cw_month_rate = ($current_values[self::COLDWATER] - $first_value_of_current_month[self::COLDWATER]) / 1000;
+                $hw_month_rate = ($current_values[self::HOTWATER] - $first_value_of_current_month[self::HOTWATER]) / 1000;
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
                 $ret[self::COLDWATER] = array(
