@@ -72,7 +72,7 @@ jQuery(document).ready(function() {
         $(".js_cold_today_rate").text(cw_day_rate);
 
         $(".js_hot_current_value").text(hw_cube + ',' + hw_liter);
-        $(".js_cold_today_rate").text(hw_day_rate);
+        $(".js_hot_today_rate").text(hw_day_rate);
 
     });
 

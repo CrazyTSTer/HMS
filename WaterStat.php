@@ -141,6 +141,7 @@ class WaterStat
                 $cw_day_rate = $current_values[self::COLDWATER] - $first_valuses_of_current_day[self::COLDWATER];
                 $hw_day_rate = $current_values[self::HOTWATER] - $first_valuses_of_current_day[self::HOTWATER];
 
+                $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
                 $ret[self::COLDWATER] = array(
                     'day_rate' => $cw_day_rate,
                     'cube'     => substr($current_values[self::COLDWATER], 0, -3),
