@@ -7,8 +7,9 @@ include_once "php/Utils.php";
 define('CURRENT_DATE',                        'SELECT NOW()');
 define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
-define('GET_FIRST_VALUE_OF_CURRENT_DAY',      'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() - INTERVAL 1 DAY');
-define('GET_FIRST_VALUE_OF_CURRENT_MONTH',    'SELECT MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY');
+define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM ((SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) UNION ALL (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)) as smth;');
+define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM ((SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) UNION (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)) as smth;');
+define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH) - INTERVAL 1 DAY AND DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY');
 define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
                                               WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
                                               UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)'
@@ -137,25 +138,19 @@ class WaterStat
         switch ($params) {
             case 'current_val':
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
-                $first_value_of_current_day = $this->db->fetchSingleRow(GET_FIRST_VALUE_OF_CURRENT_DAY);
-                $first_value_of_current_month = $this->db->fetchSingleRow(GET_FIRST_VALUE_OF_CURRENT_MONTH);
-
-                $cw_day_rate = $current_values[self::COLDWATER] - $first_value_of_current_day[self::COLDWATER];
-                $hw_day_rate = $current_values[self::HOTWATER] - $first_value_of_current_day[self::HOTWATER];
-
-                $cw_month_rate = ($current_values[self::COLDWATER] - $first_value_of_current_month[self::COLDWATER]) / 1000;
-                $hw_month_rate = ($current_values[self::HOTWATER] - $first_value_of_current_month[self::HOTWATER]) / 1000;
+                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE);
+                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE);
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
                 $ret[self::COLDWATER] = array(
-                    'day_rate'   => $cw_day_rate,
-                    'month_rate' => $cw_month_rate,
+                    'day_rate'   => $current_day_rate['cw_rate'],
+                    'month_rate' => $current_month_rate['cw_rate'] / 1000,
                     'cube'       => substr($current_values[self::COLDWATER], 0, -3),
                     'liter'      => substr($current_values[self::COLDWATER], -3)
                 );
                 $ret[self::HOTWATER] = array(
-                    'day_rate'   => $hw_day_rate,
-                    'month_rate' => $hw_month_rate,
+                    'day_rate'   => $current_day_rate['hw_rate'],
+                    'month_rate' => $current_month_rate['hw_rate'] / 1000,
                     'cube'       => substr($current_values[self::HOTWATER], 0, -3),
                     'liter'      => substr($current_values[self::HOTWATER], -3)
                 );
