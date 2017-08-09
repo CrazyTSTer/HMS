@@ -21,8 +21,13 @@ define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater)-MIN(coldwat
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
-define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH) - INTERVAL 1 DAY AND DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY');
-define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
+define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM (
+                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
+                                                UNION ALL 
+                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
+                                              ) as smth;');
+
+define('GET_CURRENT_DAY_VALUES',              '(SELECT ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                               WHERE DATE(ts) < DATE(#date#) GROUP BY (1) ORDER BY ts DESC LIMIT 1)
                                               UNION SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE(#date#)'
 );
@@ -152,19 +157,22 @@ class WaterStat
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE);
                 $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE);
+                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE);
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
                 $ret[self::COLDWATER] = array(
-                    'day_rate'   => $current_day_rate['cw_rate'],
-                    'month_rate' => $current_month_rate['cw_rate'] / 1000,
-                    'cube'       => substr($current_values[self::COLDWATER], 0, -3),
-                    'liter'      => substr($current_values[self::COLDWATER], -3)
+                    'day_rate'        => $current_day_rate['cw_rate'],
+                    'month_rate'      => $current_month_rate['cw_rate'] / 1000,
+                    'prev_month_rate' => $prev_month_rate['cw_rate'] / 1000,
+                    'cube'            => substr($current_values[self::COLDWATER], 0, -3),
+                    'liter'           => substr($current_values[self::COLDWATER], -3)
                 );
                 $ret[self::HOTWATER] = array(
-                    'day_rate'   => $current_day_rate['hw_rate'],
-                    'month_rate' => $current_month_rate['hw_rate'] / 1000,
-                    'cube'       => substr($current_values[self::HOTWATER], 0, -3),
-                    'liter'      => substr($current_values[self::HOTWATER], -3)
+                    'day_rate'        => $current_day_rate['hw_rate'],
+                    'month_rate'      => $current_month_rate['hw_rate'] / 1000,
+                    'prev_month_rate' => $prev_month_rate['hw_rate'] / 1000,
+                    'cube'            => substr($current_values[self::HOTWATER], 0, -3),
+                    'liter'           => substr($current_values[self::HOTWATER], -3)
                 );
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
