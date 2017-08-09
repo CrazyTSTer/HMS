@@ -44,6 +44,7 @@ jQuery(document).ready(function() {
         var cw_liter = result['data']['coldwater']['liter'];
         var hw_cube = result['data']['hotwater']['cube'];
         var hw_liter = result['data']['hotwater']['liter'];
+        var last_insert = result['data']['ts'];
 
         d3.select("#coldwater").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
         d3.select("#hotwater").call(
@@ -61,6 +62,9 @@ jQuery(document).ready(function() {
             ),
             hw_cube + ',' + hw_liter
         );
+        $(".js_last_insert").text(last_insert);
+        $(".js_cold_current_value").text(cw_cube + ',' + cw_liter);
+        $(".js_hot_current_value").text(hw_cube + ',' + hw_liter);
     });
 
     /*setInterval(function() {
