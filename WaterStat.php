@@ -152,7 +152,7 @@ class WaterStat
                     'liter' =>substr($current_values[self::HOTWATER], -3)
                 );
 
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $current_values);
+                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'current':
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
