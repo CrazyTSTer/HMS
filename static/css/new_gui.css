@@ -115,7 +115,7 @@ html, body {
     color: #007700;
 }
 
-table > th, table > td {
+table th, table td {
     vertical-align: middle !important;
 }
 
