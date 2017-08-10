@@ -127,8 +127,8 @@ class Parser
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
 
-            var_export($ret['data']);
-            $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
+            //var_export($ret['data']);
+            $ts = strtotime($data[0][self::TIMESTAMP]);
             if (!is_null($currentDate)
                 && ($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m', strtotime($currentDate))
