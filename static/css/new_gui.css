@@ -244,6 +244,7 @@ nav .navbar-toggle {
 
 .card__body {
     height: calc(100% - 50px);
+    height: -webkit-calc(100% - 50px);
     padding: 10px;
     display: -webkit-flex;
     display: flex;
