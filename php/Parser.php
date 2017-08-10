@@ -36,7 +36,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseCurrentDay($data, $currentDate = null)
+    public static function parseCurrentDay($data, $currentDate)
     {
         if ($data == false) {
             $ret = [
@@ -49,12 +49,18 @@ class Parser
                 "data" => self::EMPTY_DATA
             ];
         } else {
-            $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
             $coldWaterFirstValue = $data[0][self::COLDWATER];
             $hotWaterFirstValue = $data[0][self::HOTWATER];
-            $data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
+            $ts = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
 
-            for ($i = 0; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
+            //Добавляем дату, которую будем показывать
+            $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
+
+            //Добавляем первую точку (начало дня)
+            $ret['data'][self::COLDWATER][] = [$ts, 0];
+            $ret['data'][self::HOTWATER][] = [$ts, 0];
+
+            for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ts = strtotime($data[$i][self::TIMESTAMP]) * 1000;
 
                 $ret['data'][self::COLDWATER][] = [
@@ -66,13 +72,12 @@ class Parser
                     $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                 ];
 
-                if (!array_key_exists($i + 1, $data)) continue;
-
-                //Get time interval between two points
+                //Смотрим интервал между двумя точками
                 $ts1 = strtotime($data[$i + 1][self::TIMESTAMP]);
                 $ts2 = strtotime($data[$i][self::TIMESTAMP]);
                 $interval = round(abs($ts1 - $ts2) / 60);
 
+                //Если интервал больше 5 минут, рисуем точку, на минуту раньше текущей
                 if ($interval > 5) {
                     $ts = ($ts1 - 60) * 1000;//Сдвигаемся на минуту назад
                     if ($data[$i][self::COLDWATER] - $data[$i + 1][self::COLDWATER] != 0) {
@@ -90,23 +95,23 @@ class Parser
                 }
             }
 
-            if (!is_null($currentDate)) {
-                $ts = $currentDate * 1000;
-                $ret['data'][self::COLDWATER][] = [
-                    $ts,
-                    $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue,
-                ];
-                $ret['data'][self::HOTWATER][] = [
-                    $ts,
-                    $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue,
-                ];
-            }
+            //Добавляем последнюю точку на вермя $currentDate
+            $ts = $currentDate * 1000;
+            $ret['data'][self::COLDWATER][] = [
+                $ts,
+                $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue,
+            ];
+            $ret['data'][self::HOTWATER][] = [
+                $ts,
+                $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue,
+            ];
+
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
         return $ret;
     }
 
-    public static function parseMonth($data, $currentDate = null, $isLast12Month = false)
+    public static function parseMonth($data, $currentDate, $isLast12Month = false)
     {
         if ($data == false) {
             $ret = [
@@ -129,12 +134,10 @@ class Parser
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
-            //Adding zero rate if new day/month begin, but we've got no data (first few seconds of the day/month)
-            if (!is_null($currentDate)
-                && ($isLast12Month
+            //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
+            if ($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m', $currentDate)
                     : date('Y-m-d', $ts) < date('Y-m-d', $currentDate)
-                )
             ) {
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $currentDate) : strftime('%e %h. (%a)', $currentDate);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $currentDate);
