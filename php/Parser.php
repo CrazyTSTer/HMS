@@ -136,8 +136,8 @@ class Parser
 
             //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
             if ($isLast12Month
-                    ? date('Y-m', $ts) < date('Y-m', $currentDate)
-                    : date('Y-m-d', $ts) < date('Y-m-d', $currentDate)
+                    ? date('Y-m', $ts) == date('Y-m', $currentDate)
+                    : date('Y-m-d', $ts) == date('Y-m-d', $currentDate)
             ) {
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $currentDate) : strftime('%e %h. (%a)', $currentDate);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $currentDate);
