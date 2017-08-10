@@ -123,6 +123,7 @@ class Parser
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $ts);
+                var_dump('CW' . $data[$i][self::COLDWATER]);
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
