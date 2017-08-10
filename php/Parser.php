@@ -64,17 +64,6 @@ class Parser
             $ret['data'][self::HOTWATER][] = [$ts, 0];
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
-                $ts = strtotime($data[$i][self::TIMESTAMP]) * 1000;
-
-                $ret['data'][self::COLDWATER][] = [
-                    $ts,
-                    $data[$i][self::COLDWATER] - $coldWaterFirstValue,
-                ];
-                $ret['data'][self::HOTWATER][] = [
-                    $ts,
-                    $data[$i][self::HOTWATER] - $hotWaterFirstValue,
-                ];
-
                 //Смотрим интервал между двумя точками
                 $ts1 = strtotime($data[$i][self::TIMESTAMP]);
                 $ts2 = strtotime($data[$i - 1][self::TIMESTAMP]);
@@ -96,6 +85,19 @@ class Parser
                         ];
                     }
                 }
+
+                $ts = strtotime($data[$i][self::TIMESTAMP]) * 1000;
+
+                $ret['data'][self::COLDWATER][] = [
+                    $ts,
+                    $data[$i][self::COLDWATER] - $coldWaterFirstValue,
+                ];
+                $ret['data'][self::HOTWATER][] = [
+                    $ts,
+                    $data[$i][self::HOTWATER] - $hotWaterFirstValue,
+                ];
+
+
             }
 
             //Добавляем последнюю точку на вермя $currentDate
