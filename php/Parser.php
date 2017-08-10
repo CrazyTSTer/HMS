@@ -135,7 +135,7 @@ class Parser
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
             //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
-            if ($isLast12Month
+            /*if ($isLast12Month
                     ? date('Y-m', $ts) == date('Y-m', $currentDate)
                     : date('Y-m-d', $ts) == date('Y-m-d', $currentDate)
             ) {
@@ -143,7 +143,7 @@ class Parser
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $currentDate);
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
-            }
+            }*/
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
         return $ret;
