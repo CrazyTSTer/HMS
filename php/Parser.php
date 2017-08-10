@@ -128,7 +128,7 @@ class Parser
             }
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
-            var_export($currentDate);
+            var_export(strtotime($currentDate));
             var_export(!is_null($currentDate));
 
             var_export(date('Y-m', $ts));
