@@ -128,20 +128,15 @@ class Parser
             }
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
-            var_export(strtotime($currentDate));
-            var_export(!is_null($currentDate));
 
-            var_export(date('Y-m', $ts));
-            var_export(date('Y-m', strtotime($currentDate)));
-            var_export(date('Y-m', $ts) < date('Y-m', strtotime($currentDate)));
             if (!is_null($currentDate)
                 && ($isLast12Month
-                    ? date('Y-m', $ts) < date('Y-m', strtotime($currentDate))
-                    : date('Y-m-d', $ts) < date('Y-m-d', strtotime($currentDate))
+                    ? date('Y-m', $ts) < date('Y-m', $currentDate)
+                    : date('Y-m-d', $ts) < date('Y-m-d', $currentDate)
                 )
             ) {
-                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', strtotime($currentDate)) : strftime('%e %h. (%a)', strtotime($currentDate));
-                $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', strtotime($currentDate));
+                $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $currentDate) : strftime('%e %h. (%a)', $currentDate);
+                $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $currentDate);
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
             }
