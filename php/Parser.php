@@ -86,13 +86,13 @@ class Parser
                     if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
                             $ts,
-                            $data[$i][self::COLDWATER] - $coldWaterFirstValue,
+                            $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue,
                         ];
                     }
                     if ($data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER] != 0) {
                         $ret['data'][self::HOTWATER][] = [
                             $ts,
-                            $data[$i][self::HOTWATER] - $hotWaterFirstValue,
+                            $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue,
                         ];
                     }
                 }
