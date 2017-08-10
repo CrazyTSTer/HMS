@@ -119,6 +119,7 @@ class Parser
                 "data" => self::EMPTY_DATA
             ];
         } else {
+            var_dump('CW' . $data[0][self::COLDWATER]);
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
