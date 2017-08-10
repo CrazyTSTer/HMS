@@ -129,6 +129,7 @@ class Parser
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
+            //Adding zero rate if new day/month begin, but we've got no data (first few seconds of the day/month)
             if (!is_null($currentDate)
                 && ($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m', $currentDate)
