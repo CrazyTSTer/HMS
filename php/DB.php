@@ -111,6 +111,7 @@ class DB
     {
         $query = Utils::addDataToTemplate($query, $data, $add_quotes, $this->debug);
         var_export($query);
+        var_dump('!!!!!');
         $result = mysqli_query($this->mysql_descriptor, $query)
             or Utils::reportError(__CLASS__, self::MYSQL_INCORRECT_QUERY . ' Query: ' . $query, $this->debug);
 
