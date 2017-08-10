@@ -51,9 +51,9 @@ class Parser
         } else {
             $coldWaterFirstValue = $data[0][self::COLDWATER];
             $hotWaterFirstValue = $data[0][self::HOTWATER];
-            var_export($data[1][self::TIMESTAMP]);
-            var_export(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP])));
-            $ts = strtotime(date('Y-m-d 00:00:00', $data[1][self::TIMESTAMP])) * 1000;
+            //var_export($data[1][self::TIMESTAMP]);
+            //var_export(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP])));
+            $ts = strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) * 1000;
             //$data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
 
             //Добавляем дату, которую будем показывать
