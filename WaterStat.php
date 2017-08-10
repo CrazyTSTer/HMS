@@ -9,32 +9,37 @@ define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater
 
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 
-define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM (
+define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                                ) as smth;');
 
-define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM (
+define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
-define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater)-MIN(coldwater) as cw_rate, MAX(hotwater)-MIN(hotwater) as hw_rate FROM (
+define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date# 
-                                                UNION 
+                                                UNION ALL
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
 
-define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    '(SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
-                                              WHERE DATE(ts) = DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY GROUP BY(1))
-                                              UNION SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter 
-                                              WHERE DATE(ts) BETWEEN DATE_FORMAT(#date#, \'%Y-%m-01\') AND (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) - INTERVAL 1 DAY GROUP BY (1)'
+define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    'SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater 
+                                               FROM WaterMeter WHERE 
+                                                  DATE(ts) > DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY 
+                                                  AND 
+                                                  DATE(ts) < (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) 
+                                               GROUP BY (1) 
+                                               UNION ALL 
+                                               (SELECT DATE(ts) as ts, coldwater, hotwater FROM WaterMeter 
+                                                  WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) ORDER BY ts'
 );
 define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                               WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)'
