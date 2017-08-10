@@ -127,7 +127,9 @@ class Parser
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
 
-            /*$ts = strtotime($data[0][self::TIMESTAMP]);
+            $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
+            var_export(!is_null($currentDate));
+            var_export(date('Y-m', $ts) < date('Y-m', strtotime($currentDate));
             if (!is_null($currentDate)
                 && ($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m', strtotime($currentDate))
@@ -138,7 +140,7 @@ class Parser
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', strtotime($currentDate));
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
-            }*/
+            }
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
         return $ret;
