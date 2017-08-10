@@ -51,53 +51,48 @@ class Parser
         } else {
             $coldWaterFirstValue = $data[0][self::COLDWATER];
             $hotWaterFirstValue = $data[0][self::HOTWATER];
-            //var_export($data[1][self::TIMESTAMP]);
-            //var_export(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP])));
-            $ts = strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) * 1000;
-            //$data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
 
             //Добавляем дату, которую будем показывать
             $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
 
             //Добавляем первую точку (начало дня)
+            $ts = strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) * 1000;
             $ret['data'][self::COLDWATER][] = [$ts, 0];
             $ret['data'][self::HOTWATER][] = [$ts, 0];
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 //Смотрим интервал между двумя точками
-                $ts1 = strtotime($data[$i][self::TIMESTAMP]);
-                $ts2 = strtotime($data[$i - 1][self::TIMESTAMP]);
-                $interval = round(abs($ts1 - $ts2) / 60);
+                $current_ts = strtotime($data[$i][self::TIMESTAMP]);
+                $prev_ts = strtotime($data[$i - 1][self::TIMESTAMP]);
+                $interval = round(abs($current_ts - $prev_ts) / 60);
 
                 //Если интервал больше 5 минут, рисуем точку, на минуту раньше текущей
                 if ($interval > 5) {
-                    $ts = ($ts1 - 60) * 1000;//Сдвигаемся на минуту назад
+                    $point_ts = ($current_ts - 60) * 1000;//Сдвигаемся на минуту назад
                     if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
-                            $ts,
+                            $point_ts,
                             $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue,
                         ];
                     }
                     if ($data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER] != 0) {
                         $ret['data'][self::HOTWATER][] = [
-                            $ts,
+                            $point_ts,
                             $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue,
                         ];
                     }
                 }
 
-                $ts = strtotime($data[$i][self::TIMESTAMP]) * 1000;
-
+                //Рисуем текущую точку
+                $current_ts = $current_ts * 1000;
                 $ret['data'][self::COLDWATER][] = [
-                    $ts,
+                    $current_ts,
                     $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                 ];
                 $ret['data'][self::HOTWATER][] = [
-                    $ts,
+                    $current_ts,
                     $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                 ];
-
-
             }
 
             //Добавляем последнюю точку на вермя $currentDate
