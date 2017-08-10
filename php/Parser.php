@@ -121,6 +121,7 @@ class Parser
         } else {
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
+                $isLast12Month ? var_export($ts) : var_export('');
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $ts);
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
