@@ -73,20 +73,20 @@ class Parser
                 ];
 
                 //Смотрим интервал между двумя точками
-                $ts1 = strtotime($data[$i + 1][self::TIMESTAMP]);
-                $ts2 = strtotime($data[$i][self::TIMESTAMP]);
+                $ts1 = strtotime($data[$i][self::TIMESTAMP]);
+                $ts2 = strtotime($data[$i - 1][self::TIMESTAMP]);
                 $interval = round(abs($ts1 - $ts2) / 60);
 
                 //Если интервал больше 5 минут, рисуем точку, на минуту раньше текущей
                 if ($interval > 5) {
                     $ts = ($ts1 - 60) * 1000;//Сдвигаемся на минуту назад
-                    if ($data[$i][self::COLDWATER] - $data[$i + 1][self::COLDWATER] != 0) {
+                    if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
                             $ts,
                             $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                         ];
                     }
-                    if ($data[$i][self::HOTWATER] - $data[$i + 1][self::HOTWATER] != 0) {
+                    if ($data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER] != 0) {
                         $ret['data'][self::HOTWATER][] = [
                             $ts,
                             $data[$i][self::HOTWATER] - $hotWaterFirstValue,
