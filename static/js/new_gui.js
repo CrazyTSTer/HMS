@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
     /*d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
     d3.select("#hotwater").call(
         d3.liquidfillgauge,
-        423,
+        823,
         $.extend(
             {},
             chart_common,
@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
                 circleColor: "#d73232",
                 waveColor: "#d73232",
                 textColor: "#9e1f1f",
-                waveTextColor: "#e37272"
+                waveTextColor: "#FFC8C8"
             }
         ), '121,423'
     );*/
@@ -65,7 +65,7 @@ jQuery(document).ready(function() {
                     circleColor: "#d73232",
                     waveColor: "#d73232",
                     textColor: "#9e1f1f",
-                    waveTextColor: "#ffc8c8",
+                    waveTextColor: "#FFC8C8",
                 }
             ),
             hw_cube + ',' + hw_liter
