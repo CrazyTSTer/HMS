@@ -65,7 +65,7 @@ jQuery(document).ready(function() {
                     circleColor: "#d73232",
                     waveColor: "#d73232",
                     textColor: "#9e1f1f",
-                    waveTextColor: "#e37272",
+                    waveTextColor: "#ffc8c8",
                 }
             ),
             hw_cube + ',' + hw_liter
