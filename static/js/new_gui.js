@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
         $("#hotwater").attr('viewBox', '0 0 150 150');
     }
 
-    d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
+    /*d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
     d3.select("#hotwater").call(
         d3.liquidfillgauge,
         823,
@@ -37,9 +37,9 @@ jQuery(document).ready(function() {
                 waveTextColor: "#FFC8C8"
             }
         ), '121,423'
-    );
+    );*/
 
-    /*executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
+    executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
         var last_insert = result['data']['ts'];
 
         var cw_cube = result['data']['coldwater']['cube'];
@@ -81,7 +81,7 @@ jQuery(document).ready(function() {
         $(".js_hot_today_rate").text(hw_day_rate);
         $(".js_hot_month_rate").text(hw_month_rate);
         $(".js_hot_prev_month_rate").text(hw_prev_month_rate);
-    });*/
+    });
 
     /*setInterval(function() {
         executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
