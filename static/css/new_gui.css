@@ -230,7 +230,10 @@ nav .navbar-toggle {
     border: solid 1px rgba(0, 0, 0, 0.17);
     background-color: #FFF;
     margin: 10px;
-    flex-grow: 5;
+}
+
+.card--equal {
+    flex: 1 0 0;
 }
 
 .card__header {
@@ -255,4 +258,12 @@ nav .navbar-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
+    /*position:absolute;
+    height: 100%;
+    width: 100%;*/
+}
+
+/* Objects */
+.water_graphs {
+    display: none;
 }
