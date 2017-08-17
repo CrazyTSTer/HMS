@@ -134,7 +134,7 @@ function chart() {
         if (result['status'] == 'success') {
             updateChart(cd_chart, result['data']['current_day']);
             updateChart(cm_chart, result['data']['current_month'], true);
-            updateChart(last12Month_chart, result['data']['last_12month'], true);*/
+            updateChart(last12Month_chart, result['data']['last_12month'], true);
         } else {
             alert('SMTH GOES WRONG!');
         }
