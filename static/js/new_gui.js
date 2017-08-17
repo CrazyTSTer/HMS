@@ -141,11 +141,13 @@ function chart() {
                         label: 'ColdWater',
                         data: result['data']['current_day']['data']['chart_js']['coldwater'],
                         borderWidth: 1,
+                        borderColor: "blue",
                         fill:false
                     },{
                         label: 'HotWater',
                         data: result['data']['current_day']['data']['chart_js']['hotwater'],
                         borderWidth: 1,
+                        borderColor: "red",
                         fill:false
                     }]
                 }
