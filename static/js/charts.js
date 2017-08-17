@@ -135,9 +135,9 @@ function currentDayChart()
             type: 'spline',
             zoomType: 'x'
         },
-        /*title: {
-            text: 'Потребление холодной и горячей воды за день'
-        },*/
+        title: {
+            text: null
+        },
         subtitle: {
             text: ''
         },
@@ -178,11 +178,11 @@ function currentMonthChart()
         chart: {
             type: 'column'
         },
-        /*title: {
-            text: 'Потребление холодной и горячей воды за месяц'
-        },*/
+        title: {
+            text: null
+        },
         subtitle: {
-            text: '(разбивка по дням)'
+            text: null
         },
         xAxis: {
             title: {
@@ -230,7 +230,7 @@ function last12MonthChart()
             text: null
         },
         subtitle: {
-            text: '(разбивка по месяцам)'
+            text: null
         },
         xAxis: {
             title: {
