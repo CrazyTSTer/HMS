@@ -269,28 +269,3 @@ function last12MonthChart()
     addSeries(last12Month_chart);
     last12Month_chart.name = 'last12Month_chart';
 }
-
-function chart() {
-    setChartGlobalParams();
-    currentDayChart();
-    currentMonthChart();
-    last12MonthChart();
-
-    executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
-        if (result['status'] == 'success') {
-            if (result['data']['current_values']['status'] = 'success') {
-                $('.timestamp').html(result['data']['current_values']['data']['ts']);
-                $('.coldwater').html(result['data']['current_values']['data']['coldwater']);
-                $('.hotwater').html(result['data']['current_values']['data']['hotwater']);
-            } else {
-                $('.current_values').html(result['data']['current_values']['status'] + '<br>' + result['data']['current_values']['data']);
-            }
-
-            updateChart(cd_chart, result['data']['current_day']);
-            updateChart(cm_chart, result['data']['current_month'], true);
-            updateChart(last12Month_chart, result['data']['last_12month'], true);
-        } else {
-            alert('SMTH GOES WRONG!');
-        }
-    });
-}
