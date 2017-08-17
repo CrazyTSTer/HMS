@@ -140,21 +140,14 @@ function chart() {
                     datasets: [{
                         label: 'ColdWater',
                         data: result['data']['current_day']['data']['chart_js']['coldwater'],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        fill:false
                     },{
                         label: 'HotWater',
                         data: result['data']['current_day']['data']['chart_js']['hotwater'],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        fill:false
                     }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
                 }
             });
             /*updateChart(cd_chart, result['data']['current_day']);
