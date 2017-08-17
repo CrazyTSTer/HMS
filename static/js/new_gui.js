@@ -161,8 +161,8 @@ function chart() {
                             displayFormats: {
                                 'hour': 'HH',
                             },
-                        }]
-                }
+                        }
+                }]
             });
             /*updateChart(cd_chart, result['data']['current_day']);
             updateChart(cm_chart, result['data']['current_month'], true);
