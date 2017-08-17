@@ -132,7 +132,7 @@ function chart() {
 
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
-            var ctx = document.getElementById("myChart").getContext('2d');
+            var ctx = document.getElementById("cd_chart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
