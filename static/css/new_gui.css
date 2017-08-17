@@ -73,7 +73,7 @@
 
     .card--equal {
         flex: 1 0 0;
-        min-width: 270px;
+        min-width: 250px;
     }
 }
 
