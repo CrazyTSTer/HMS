@@ -60,14 +60,11 @@ class Parser
             $ret['data'][self::COLDWATER][] = [$ts, 0];
             $ret['data'][self::HOTWATER][] = [$ts, 0];
 
-            var_export($data);
-            foreach ($data as $key => $value) {
-                var_export($key);
-                if ($key == DB::MYSQL_ROWS_COUNT) {continue; }
-                var_export($value);
-                $ret['data']['chart_js'][self::TIMESTAMP][] = $value[self::TIMESTAMP];
-                $ret['data']['chart_js'][self::COLDWATER][] = $value[self::COLDWATER];
-                $ret['data']['chart_js'][self::HOTWATER][] = $value[self::HOTWATER];
+
+            for ($i = 0; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
+                $ret['data']['chart_js'][self::TIMESTAMP][] = $data[$i][self::TIMESTAMP];
+                $ret['data']['chart_js'][self::COLDWATER][] = $data[$i][self::COLDWATER];
+                $ret['data']['chart_js'][self::HOTWATER][] = $data[$i][self::HOTWATER];
             }
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
