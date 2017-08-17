@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
         $("#hotwater").attr('viewBox', '0 0 150 150');
     }
 
-    get_main_stats(true);
+    get_main_stats(false);
 
 
     /*setInterval(function() {
