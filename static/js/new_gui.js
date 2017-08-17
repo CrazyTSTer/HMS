@@ -150,6 +150,18 @@ function chart() {
                         borderColor: "red",
                         fill:false
                     }]
+                },
+                scales:{
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            format: "HH",
+                            unit: 'hour',
+                            unitStepSize: 2,
+                            displayFormats: {
+                                'hour': 'HH',
+                            },
+                        }]
                 }
             });
             /*updateChart(cd_chart, result['data']['current_day']);
