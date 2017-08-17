@@ -153,15 +153,7 @@ function chart() {
                 },
                 scales: {
                     xAxes: [{
-                        type: 'time',
-                        time: {
-                            format: "HH",
-                            unit: 'hour',
-                            unitStepSize: 2,
-                            displayFormats: {
-                                'hour': 'HH',
-                            },
-                        }
+                        type: 'time'
                     }]
                 }
             });
