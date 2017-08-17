@@ -59,7 +59,12 @@ class Parser
             $ts = strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) * 1000;
             $ret['data'][self::COLDWATER][] = [$ts, 0];
             $ret['data'][self::HOTWATER][] = [$ts, 0];
-            $ret['data']['chart_js'] = $data;
+
+            foreach ($data as $key => $value) {
+                $ret['data']['chart_js'][self::TIMESTAMP][] = $value[self::TIMESTAMP];
+                $ret['data']['chart_js'][self::COLDWATER][] = $value[self::COLDWATER];
+                $ret['data']['chart_js'][self::HOTWATER][] = $value[self::HOTWATER];
+            }
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 //Смотрим интервал между двумя точками
