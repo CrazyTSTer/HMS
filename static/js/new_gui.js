@@ -151,7 +151,7 @@ function chart() {
                         fill:false
                     }]
                 },
-                scales:{
+                scales: {
                     xAxes: [{
                         type: 'time',
                         time: {
@@ -162,7 +162,8 @@ function chart() {
                                 'hour': 'HH',
                             },
                         }
-                }]
+                    }]
+                }
             });
             /*updateChart(cd_chart, result['data']['current_day']);
             updateChart(cm_chart, result['data']['current_month'], true);
