@@ -226,9 +226,9 @@ function last12MonthChart()
         chart: {
             type: 'column'
         },
-        /*title: {
-            text: 'Потребление холодной и горячей воды за последние 12 месяцев'
-        },*/
+        title: {
+            text: null
+        },
         subtitle: {
             text: '(разбивка по месяцам)'
         },
