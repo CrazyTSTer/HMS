@@ -92,6 +92,8 @@ function get_main_stats(debug)
             var hw_month_rate = result['data']['hotwater']['month_rate'];
             var hw_prev_month_rate = result['data']['hotwater']['prev_month_rate'];
 
+            $("#coldwater").html("");
+            $("#hotwater").html("");
             d3.select("#coldwater").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
             d3.select("#hotwater").call(
                 d3.liquidfillgauge,
