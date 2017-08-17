@@ -64,7 +64,7 @@ class Parser
             $ret['data']['chart_js'][self::COLDWATER][] = 0;
             $ret['data']['chart_js'][self::HOTWATER][] = 0;
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
-                $ret['data']['chart_js'][self::TIMESTAMP][] = $data[$i][self::TIMESTAMP];
+                $ret['data']['chart_js'][self::TIMESTAMP][] = strtotime($data[$i][self::TIMESTAMP]);
                 $ret['data']['chart_js'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $coldWaterFirstValue;
                 $ret['data']['chart_js'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $hotWaterFirstValue;
             }
