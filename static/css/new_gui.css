@@ -274,6 +274,5 @@ nav .navbar-toggle {
 }
 
 .test {
-    /*min-width: calc(100% - 20px);*/
-    width:100%;
+    min-width: calc(100% - 20px);
 }
