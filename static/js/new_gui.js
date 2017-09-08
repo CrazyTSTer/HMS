@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
         $("#coldwater").attr('viewBox', '0 0 150 150');
         $("#hotwater").attr('viewBox', '0 0 150 150');
     }
-    get_main_stats(true);
+    get_main_stats(false);
 });
 
 /*$(document).on('click','.navbar-collapse.in',function(e) {
@@ -35,7 +35,7 @@ function show_water_stats()
 {
     $('.js_main_stats').hide();
     $('.js_water_graphs').show();
-    chart(true);
+    chart(false);
 }
 
 function show_main_stats()
@@ -172,13 +172,48 @@ function get_main_stats(debug)
 function chart(debug) {
     if(!debug) {
         setChartGlobalParams();
-        currentDayChart();
+        //currentDayChart();
         currentMonthChart();
         last12MonthChart();
 
         executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
             if (result['status'] == 'success') {
-                updateChart(cd_chart, result['data']['current_day']);
+                //updateChart(cd_chart, result['data']['current_day']);
+                var chart = bb.generate({
+                    bindto: "#cd_chart",
+                    padding: {
+                        right: 25
+                    },
+                    data: {
+                        xFormat: '%Y-%m-%d %H:%M:%S',
+                        type: 'line',
+                        columns: [
+                            result['data']['current_day']['data']['bb']['ts']['x1'],
+                            result['data']['current_day']['data']['bb']['ts']['x2'],
+                            result['data']['current_day']['data']['bb']['coldwater'],
+                            result['data']['current_day']['data']['bb']['hotwater']
+                        ],
+                        xs: {
+                            'coldwater': 'x1',
+                            'hotwater': 'x2',
+                        },
+                        colors: {
+                            coldwater: "blue",
+                            hotwater: "red"
+                        }
+                    },
+                    "axis": {
+                        "x": {
+                            "type": "timeseries",
+                            "tick": {
+                                count: 10,
+                                "rotate": 45,
+                                "format": "%H:%M"
+                            }
+                        }
+                    },
+
+                });
                 updateChart(cm_chart, result['data']['current_month'], true);
                 updateChart(last12Month_chart, result['data']['last_12month'], true);
             } else {
