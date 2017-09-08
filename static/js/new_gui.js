@@ -15,13 +15,13 @@ var chart_common = {
 
 jQuery(document).ready(function() {
     $(".js_set_focus").focus();
-    /*if ($(window).width() < 768) {
+    if ($(window).width() < 768) {
         $("#coldwater").attr('viewBox', '0 0 100 100');
         $("#hotwater").attr('viewBox', '0 0 100 100');
     } else {
-        $("#coldwater").attr('viewBox', '0 0 200 200');
-        $("#hotwater").attr('viewBox', '0 0 200 200');
-    }*/
+        $("#coldwater").attr('viewBox', '0 0 150 150');
+        $("#hotwater").attr('viewBox', '0 0 150 150');
+    }
     get_main_stats(true);
 });
 
@@ -35,7 +35,7 @@ function show_water_stats()
 {
     $('.js_main_stats').hide();
     $('.js_water_graphs').show();
-    chart();
+    chart(true);
 }
 
 function show_main_stats()
@@ -48,7 +48,7 @@ function show_main_stats()
 function get_main_stats(debug)
 {
     if (debug) {
-        var chart = bb.generate({
+        /*var chart = bb.generate({
             "data": {
                 "columns": [
                     ["data", 91.4]
@@ -105,8 +105,8 @@ function get_main_stats(debug)
                 "height": 100
             },
             "bindto": "#hotwater"
-        });
-        /*d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
+        });*/
+        d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
         d3.select("#hotwater").call(
             d3.liquidfillgauge,
             423,
@@ -120,7 +120,7 @@ function get_main_stats(debug)
                     waveTextColor: "#FFC8C8"
                 }
             ), '121,423'
-        );*/
+        );
     } else {
         executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
             var last_insert = result['data']['ts'];
@@ -169,64 +169,67 @@ function get_main_stats(debug)
         });
     }
 }
-function chart() {
-    /*setChartGlobalParams();
-    currentDayChart();
-    currentMonthChart();
-    last12MonthChart();
+function chart(debug) {
+    if(!debug) {
+        setChartGlobalParams();
+        currentDayChart();
+        currentMonthChart();
+        last12MonthChart();
 
-    executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
-        if (result['status'] == 'success') {
-            updateChart(cd_chart, result['data']['current_day']);
-            updateChart(cm_chart, result['data']['current_month'], true);
-            updateChart(last12Month_chart, result['data']['last_12month'], true);
-        } else {
-            alert('SMTH GOES WRONG!');
-        }
-    });*/
-    var chart = bb.generate({
-        "data": {
-            "xs": {
-                "data1": "x1",
-                "data2": "x2"
+        executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
+            if (result['status'] == 'success') {
+                updateChart(cd_chart, result['data']['current_day']);
+                updateChart(cm_chart, result['data']['current_month'], true);
+                updateChart(last12Month_chart, result['data']['last_12month'], true);
+            } else {
+                alert('SMTH GOES WRONG!');
+            }
+        });
+    } else {
+        var chart = bb.generate({
+            "data": {
+                "xs": {
+                    "data1": "x1",
+                    "data2": "x2"
+                },
+                "columns": [
+                    ["x1", 10, 30, 45, 50, 70, 100],
+                    ["x2", 30, 50, 75, 100, 120],
+                    ["data1", 30, 200, 100, 400, 150, 250],
+                    ["data2", 20, 180, 240, 100, 190]
+                ]
             },
-            "columns": [
-                ["x1", 10, 30, 45, 50, 70, 100],
-                ["x2", 30, 50, 75, 100, 120],
-                ["data1", 30, 200, 100, 400, 150, 250],
-                ["data2", 20, 180, 240, 100, 190]
-            ]
-        },
-        "bindto": "#cd_chart"
-    });
-    var chart1 = bb.generate({
-        "data": {
-            "xs": {
-                "data1": "x1",
-                "data2": "x2"
+            "bindto": "#cd_chart"
+        });
+        var chart1 = bb.generate({
+            "data": {
+                "xs": {
+                    "data1": "x1",
+                    "data2": "x2"
+                },
+                "columns": [
+                    ["x1", 10, 30, 45, 50, 70, 100],
+                    ["x2", 30, 50, 75, 100, 120],
+                    ["data1", 30, 200, 100, 400, 150, 250],
+                    ["data2", 20, 180, 240, 100, 190]
+                ]
             },
-            "columns": [
-                ["x1", 10, 30, 45, 50, 70, 100],
-                ["x2", 30, 50, 75, 100, 120],
-                ["data1", 30, 200, 100, 400, 150, 250],
-                ["data2", 20, 180, 240, 100, 190]
-            ]
-        },
-        "bindto": "#cm_chart"
-    });
-    var chart2 = bb.generate({
-        "data": {
-            "xs": {
-                "data1": "x1",
-                "data2": "x2"
+            "bindto": "#cm_chart"
+        });
+        var chart2 = bb.generate({
+            "data": {
+                "xs": {
+                    "data1": "x1",
+                    "data2": "x2"
+                },
+                "columns": [
+                    ["x1", 10, 30, 45, 50, 70, 100],
+                    ["x2", 30, 50, 75, 100, 120],
+                    ["data1", 30, 200, 100, 400, 150, 250],
+                    ["data2", 20, 180, 240, 100, 190]
+                ]
             },
-            "columns": [
-                ["x1", 10, 30, 45, 50, 70, 100],
-                ["x2", 30, 50, 75, 100, 120],
-                ["data1", 30, 200, 100, 400, 150, 250],
-                ["data2", 20, 180, 240, 100, 190]
-            ]
-        },
-        "bindto": "#last12Month_chart"
-    });
+            "bindto": "#last12Month_chart"
+        });
+    }
 }

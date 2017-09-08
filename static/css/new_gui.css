@@ -270,7 +270,7 @@ nav .navbar-toggle {
 
 .card--fill {
     width: 100%;
-    min-width: 250px;
+    min-width: 0px;
 }
 
 /* Objects */
