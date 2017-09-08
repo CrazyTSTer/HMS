@@ -19,8 +19,8 @@ jQuery(document).ready(function() {
         $("#coldwater").attr('viewBox', '0 0 100 100');
         $("#hotwater").attr('viewBox', '0 0 100 100');
     } else {
-        $("#coldwater").attr('viewBox', '0 0 150 150');
-        $("#hotwater").attr('viewBox', '0 0 150 150');
+        $("#coldwater").attr('viewBox', '0 0 200 200');
+        $("#hotwater").attr('viewBox', '0 0 200 200');
     }*/
     get_main_stats(true);
 });
@@ -48,7 +48,65 @@ function show_main_stats()
 function get_main_stats(debug)
 {
     if (debug) {
-        d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
+        var chart = bb.generate({
+            "data": {
+                "columns": [
+                    ["data", 91.4]
+                ],
+                "type": "gauge",
+            },
+            "gauge": {},
+            "color": {
+                "pattern": [
+                    "#FF0000",
+                    "#F97600",
+                    "#F6C600",
+                    "#60B044"
+                ],
+                "threshold": {
+                    "values": [
+                        30,
+                        60,
+                        90,
+                        100
+                    ]
+                }
+            },
+            "size": {
+                "height": 100
+            },
+            "bindto": "#coldwater"
+        });
+        var chart1 = bb.generate({
+            "data": {
+                "columns": [
+                    ["data", 91.4]
+                ],
+                "type": "gauge",
+            },
+            "gauge": {},
+            "color": {
+                "pattern": [
+                    "#FF0000",
+                    "#F97600",
+                    "#F6C600",
+                    "#60B044"
+                ],
+                "threshold": {
+                    "values": [
+                        30,
+                        60,
+                        90,
+                        100
+                    ]
+                }
+            },
+            "size": {
+                "height": 100
+            },
+            "bindto": "#hotwater"
+        });
+        /*d3.select("#coldwater").call(d3.liquidfillgauge, 872, chart_common, '138,872');
         d3.select("#hotwater").call(
             d3.liquidfillgauge,
             423,
@@ -62,7 +120,7 @@ function get_main_stats(debug)
                     waveTextColor: "#FFC8C8"
                 }
             ), '121,423'
-        );
+        );*/
     } else {
         executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
             var last_insert = result['data']['ts'];

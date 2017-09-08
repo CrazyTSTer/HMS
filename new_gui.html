@@ -21,6 +21,9 @@
     <script src="static/js/billboard.js"></script>
     <link rel="stylesheet" href="static/css/billboard.css">
 
+    <!-- Load Gauge with style -->
+    <script src="static/js/liquidFillGauge.js"></script>
+
     <!--------LOADING MAIN JS AND CSS---------------->
     <script src="static/js/ajax.js"></script>
     <script src="static/js/new_gui.js"></script>
@@ -156,8 +159,8 @@
                     <div class="card flex-grow-1">
                         <div class="card__header">Current values</div>
                         <div class="card__body">
-                            <svg id="coldwater" class="svg-size"></svg>
-                            <svg id="hotwater" class="svg-size"></svg>
+                            <div id="coldwater"></div>
+                            <div id="hotwater"></div>
                         </div>
                     </div>
                     <div class="card flex-grow-10">
