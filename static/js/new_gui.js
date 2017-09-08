@@ -15,27 +15,14 @@ var chart_common = {
 
 jQuery(document).ready(function() {
     $(".js_set_focus").focus();
-    if ($(window).width() < 768) {
+    /*if ($(window).width() < 768) {
         $("#coldwater").attr('viewBox', '0 0 100 100');
         $("#hotwater").attr('viewBox', '0 0 100 100');
     } else {
         $("#coldwater").attr('viewBox', '0 0 150 150');
         $("#hotwater").attr('viewBox', '0 0 150 150');
-    }
-
-    get_main_stats(false);
-
-
-    /*setInterval(function() {
-        executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
-            var cw_cube = result['data']['coldwater']['cube'];
-            var cw_liter = result['data']['coldwater']['liter'];
-            var hw_cube = result['data']['hotwater']['cube'];
-            var hw_liter = result['data']['hotwater']['liter'];
-            d3.select("#coldwater").on("valueChanged")(cw_liter, cw_cube + ',' + cw_liter);
-            d3.select("#hotwater").on("valueChanged")(hw_liter, hw_cube + ',' + hw_liter);
-        });
-    }, 2000);*/
+    }*/
+    get_main_stats(true);
 });
 
 /*$(document).on('click','.navbar-collapse.in',function(e) {
@@ -55,7 +42,7 @@ function show_main_stats()
 {
     $('.js_water_graphs').hide();
     $('.js_main_stats').show();
-    get_main_stats(false);
+    get_main_stats(true);
 }
 
 function get_main_stats(debug)
@@ -125,7 +112,7 @@ function get_main_stats(debug)
     }
 }
 function chart() {
-    setChartGlobalParams();
+    /*setChartGlobalParams();
     currentDayChart();
     currentMonthChart();
     last12MonthChart();
@@ -138,5 +125,50 @@ function chart() {
         } else {
             alert('SMTH GOES WRONG!');
         }
+    });*/
+    var chart = bb.generate({
+        "data": {
+            "xs": {
+                "data1": "x1",
+                "data2": "x2"
+            },
+            "columns": [
+                ["x1", 10, 30, 45, 50, 70, 100],
+                ["x2", 30, 50, 75, 100, 120],
+                ["data1", 30, 200, 100, 400, 150, 250],
+                ["data2", 20, 180, 240, 100, 190]
+            ]
+        },
+        "bindto": "#cd_chart"
+    });
+    var chart1 = bb.generate({
+        "data": {
+            "xs": {
+                "data1": "x1",
+                "data2": "x2"
+            },
+            "columns": [
+                ["x1", 10, 30, 45, 50, 70, 100],
+                ["x2", 30, 50, 75, 100, 120],
+                ["data1", 30, 200, 100, 400, 150, 250],
+                ["data2", 20, 180, 240, 100, 190]
+            ]
+        },
+        "bindto": "#cm_chart"
+    });
+    var chart2 = bb.generate({
+        "data": {
+            "xs": {
+                "data1": "x1",
+                "data2": "x2"
+            },
+            "columns": [
+                ["x1", 10, 30, 45, 50, 70, 100],
+                ["x2", 30, 50, 75, 100, 120],
+                ["data1", 30, 200, 100, 400, 150, 250],
+                ["data2", 20, 180, 240, 100, 190]
+            ]
+        },
+        "bindto": "#last12Month_chart"
     });
 }

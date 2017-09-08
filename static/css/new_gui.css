@@ -268,13 +268,14 @@ nav .navbar-toggle {
     width: 100%;*/
 }
 
+.card--fill {
+    width: 100%;
+    min-width: 250px;
+}
+
 /* Objects */
 .water_graphs {
     display: none;
-}
-
-.test {
-    min-width: calc(100% - 20px);
 }
 
 .wrapper {
