@@ -178,7 +178,6 @@ function chart(debug) {
 
         executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
             if (result['status'] == 'success') {
-                //updateChart(cd_chart, result['data']['current_day']);
                 var chart = bb.generate({
                     bindto: "#cd_chart",
                     padding: {
@@ -214,8 +213,72 @@ function chart(debug) {
                     },
 
                 });
-                updateChart(cm_chart, result['data']['current_month'], true);
-                updateChart(last12Month_chart, result['data']['last_12month'], true);
+                var chart1 = bb.generate({
+                    "data": {
+                        "type": "bar",
+                        "x": "x2",
+                        "columns": [
+                            result['data']['current_month']['data']['bb']['ts']['x2'],
+                            result['data']['current_month']['data']['bb']['coldwater'],
+                            result['data']['current_month']['data']['bb']['hotwater']
+                        ]
+                    },
+                    "bar": {
+                        "width": {
+                            "ratio": 0.5
+                        }
+                    },
+                    "axis": {
+                        "x": {
+                            "type": "timeseries",
+                            "tick": {
+                                "rotate": 45,
+                                format: function (x) {
+                                    var options = {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        weekday: 'short',
+                                    };
+                                    return x.toLocaleString("ru", options);
+                                }
+                            }
+                        }
+                    },
+                    "bindto": "#cm_chart"
+                });
+                var chart2 = bb.generate({
+                    "data": {
+                        "type": "bar",
+                        "x": "x2",
+                        "columns": [
+                            result['data']['last_12month']['data']['bb']['ts']['x2'],
+                            result['data']['last_12month']['data']['bb']['coldwater'],
+                            result['data']['last_12month']['data']['bb']['hotwater']
+                        ]
+                    },
+                    "bar": {
+                        "width": {
+                            "ratio": 0.5
+                        }
+                    },
+                    "axis": {
+                        "x": {
+                            "type": "timeseries",
+                            "tick": {
+                                "rotate": 45,
+                                format: function (x) {
+                                    var options = {
+                                        year: 'numeric',
+                                        month: 'short',
+                                    };
+                                    return x.toLocaleString("ru", options);
+                                }
+                            }
+                        }
+                    },
+                    "bindto": "#last12Month_chart"
+                });
+                //updateChart(last12Month_chart, result['data']['last_12month'], true);
             } else {
                 alert('SMTH GOES WRONG!');
             }

@@ -58,14 +58,16 @@ class Parser
             //Добавляем первую точку (начало дня)
             $ts = strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) * 1000;
             $ret['data'][self::COLDWATER][] = [$ts, 0];
-            $ret['data']['bb'][self::COLDWATER][] = 'coldwater';
-            $ret['data']['bb'][self::COLDWATER][] = 0;
             $ret['data'][self::HOTWATER][] = [$ts, 0];
+
+            $ret['data']['bb'][self::COLDWATER][] = 'coldwater';
             $ret['data']['bb'][self::HOTWATER][] = 'hotwater';
+            $ret['data']['bb'][self::COLDWATER][] = 0;
             $ret['data']['bb'][self::HOTWATER][] = 0;
             $ret['data']['bb'][self::TIMESTAMP]['x1'][] = 'x1';
             $ret['data']['bb'][self::TIMESTAMP]['x2'][] = 'x2';
-            $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
+            $ret['data']['bb'][self::TIMESTAMP]['x1'][] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
+            $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 //Смотрим интервал между двумя точками
@@ -76,9 +78,6 @@ class Parser
                 //Если интервал больше 5 минут, рисуем точку, на минуту раньше текущей
                 if ($interval > 5) {
                     $point_ts = ($current_ts - 60) * 1000;//Сдвигаемся на минуту назад
-                    //$ret['data']['bb'][self::TIMESTAMP][] = date('Y-m-d H:i:s', $point_ts/1000);
-                    //$ret['data']['bb'][self::COLDWATER][] = $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue;
-                    //$ret['data']['bb'][self::HOTWATER][] = $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue;
                     if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
                         $ret['data'][self::COLDWATER][] = [
                             $point_ts,
@@ -101,33 +100,40 @@ class Parser
 
                 //Рисуем текущую точку
                 $current_ts = $current_ts * 1000;
-                $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $ret['data']['bb'][self::TIMESTAMP]['x2'][] = $data[$i][self::TIMESTAMP];
+
                 $ret['data'][self::COLDWATER][] = [
                     $current_ts,
                     $data[$i][self::COLDWATER] - $coldWaterFirstValue,
                 ];
-                $ret['data']['bb'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $coldWaterFirstValue;
                 $ret['data'][self::HOTWATER][] = [
                     $current_ts,
                     $data[$i][self::HOTWATER] - $hotWaterFirstValue,
                 ];
+
+                $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $data[$i][self::TIMESTAMP];
+                $ret['data']['bb'][self::TIMESTAMP]['x2'][] = $data[$i][self::TIMESTAMP];
+                $ret['data']['bb'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $coldWaterFirstValue;
                 $ret['data']['bb'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $hotWaterFirstValue;
             }
 
             //Добавляем последнюю точку на вермя $currentDate
             $ts = $currentDate * 1000;
-            $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date("Y-m-d H:i:s", $currentDate);
+
             $ret['data'][self::COLDWATER][] = [
                 $ts,
                 $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue,
             ];
-            $ret['data']['bb'][self::COLDWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue;
 
             $ret['data'][self::HOTWATER][] = [
                 $ts,
                 $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue,
             ];
+
+            $ret['data']['bb'][self::TIMESTAMP]['x1'][] = date("Y-m-d H:i:s", $currentDate);
+            $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date("Y-m-d H:i:s", $currentDate);
+            $ret['data']['bb'][self::COLDWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue;
             $ret['data']['bb'][self::HOTWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue;
+
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
         return $ret;
@@ -146,12 +152,22 @@ class Parser
                 "data" => self::EMPTY_DATA
             ];
         } else {
+            $ret['data']['bb'][self::TIMESTAMP]['x1'][] = 'x1';
+            $ret['data']['bb'][self::TIMESTAMP]['x2'][] = 'x2';
+            $ret['data']['bb'][self::COLDWATER][] = 'coldwater';
+            $ret['data']['bb'][self::HOTWATER][] = 'hotwater';
+
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ts = strtotime($data[$i][self::TIMESTAMP]);
                 $ret['data'][self::TIMESTAMP][0][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $ts);
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
+
+                $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $isLast12Month ? strftime('%h. %Y', $ts) : strftime('%e %h. (%a)', $ts);
+                $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date('Y-m-d', $ts);
+                $ret['data']['bb'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER];
+                $ret['data']['bb'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
 
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
@@ -165,6 +181,11 @@ class Parser
                 $ret['data'][self::TIMESTAMP][1][] = date('Y-m-d', $currentDate);
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
+
+                $ret['data']['bb'][self::TIMESTAMP]['x1'][] = $isLast12Month ? strftime('%h. %Y', $currentDate) : strftime('%e %h. (%a)', $currentDate);
+                $ret['data']['bb'][self::TIMESTAMP]['x2'][] = date('Y-m-d', $currentDate);
+                $ret['data']['bb'][self::COLDWATER][] = 0;
+                $ret['data']['bb'][self::HOTWATER][] = 0;
             }
             $ret['status'] = Utils::STATUS_SUCCESS;
         }
