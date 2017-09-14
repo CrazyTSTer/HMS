@@ -171,114 +171,122 @@ function get_main_stats(debug)
 }
 function chart(debug) {
     if(!debug) {
-        setChartGlobalParams();
-        //currentDayChart();
-        currentMonthChart();
-        last12MonthChart();
-
         executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
             if (result['status'] == 'success') {
-                var chart = bb.generate({
-                    bindto: "#cd_chart",
-                    padding: {
-                        right: 25
-                    },
-                    data: {
-                        xFormat: '%Y-%m-%d %H:%M:%S',
-                        type: 'line',
-                        columns: [
-                            result['data']['current_day']['data']['bb']['ts']['x1'],
-                            result['data']['current_day']['data']['bb']['ts']['x2'],
-                            result['data']['current_day']['data']['bb']['coldwater'],
-                            result['data']['current_day']['data']['bb']['hotwater']
-                        ],
-                        xs: {
-                            'coldwater': 'x1',
-                            'hotwater': 'x2',
+                if (result['data']['current_day']['status'] == 'success') {
+                    var chart = bb.generate({
+                        bindto: "#cd_chart",
+                        padding: {
+                            right: 25
                         },
-                        colors: {
-                            coldwater: "blue",
-                            hotwater: "red"
-                        }
-                    },
-                    "axis": {
-                        "x": {
-                            "type": "timeseries",
-                            "tick": {
-                                count: 10,
-                                "rotate": 45,
-                                "format": "%H:%M"
+                        data: {
+                            xFormat: '%Y-%m-%d %H:%M:%S',
+                            type: 'line',
+                            columns: [
+                                result['data']['current_day']['data']['bb']['ts']['x1'],
+                                result['data']['current_day']['data']['bb']['ts']['x2'],
+                                result['data']['current_day']['data']['bb']['coldwater'],
+                                result['data']['current_day']['data']['bb']['hotwater']
+                            ],
+                            xs: {
+                                coldwater: "x1",
+                                hotwater: "x2",
+                            },
+                            colors: {
+                                coldwater: "blue",
+                                hotwater: "red"
                             }
-                        }
-                    },
+                        },
+                        axis: {
+                            x: {
+                                type: "timeseries",
+                                tick: {
+                                    count: 10,
+                                    rotate: 45,
+                                    format: "%H:%M"
+                                }
+                            }
+                        },
 
-                });
-                var chart1 = bb.generate({
-                    "data": {
-                        "type": "bar",
-                        "x": "x2",
-                        "columns": [
-                            result['data']['current_month']['data']['bb']['ts']['x2'],
-                            result['data']['current_month']['data']['bb']['coldwater'],
-                            result['data']['current_month']['data']['bb']['hotwater']
-                        ]
-                    },
-                    "bar": {
-                        "width": {
-                            "ratio": 0.5
-                        }
-                    },
-                    "axis": {
-                        "x": {
-                            "type": "timeseries",
-                            "tick": {
-                                "rotate": 45,
-                                format: function (x) {
-                                    var options = {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        weekday: 'short',
-                                    };
-                                    return x.toLocaleString("ru", options);
+                    });
+                }
+                if (result['data']['current_month']['status'] == 'success') {
+                    var chart1 = bb.generate({
+                        data: {
+                            type: "bar",
+                            x: "x2",
+                            columns: [
+                                result['data']['current_month']['data']['bb']['ts']['x2'],
+                                result['data']['current_month']['data']['bb']['coldwater'],
+                                result['data']['current_month']['data']['bb']['hotwater']
+                            ],
+                            colors: {
+                                coldwater: "blue",
+                                hotwater: "red"
+                            }
+                        },
+                        bar: {
+                            width: {
+                                ratio: 0.5
+                            }
+                        },
+                        axis: {
+                            x: {
+                                type: "timeseries",
+                                tick: {
+                                    rotate: 45,
+                                    format: function (x) {
+                                        var options = {
+                                            month: 'short',
+                                            day: 'numeric',
+                                            weekday: 'short',
+                                        };
+                                        return x.toLocaleString("ru", options);
+                                    }
                                 }
                             }
-                        }
-                    },
-                    "bindto": "#cm_chart"
-                });
-                var chart2 = bb.generate({
-                    "data": {
-                        "type": "bar",
-                        "x": "x2",
-                        "columns": [
-                            result['data']['last_12month']['data']['bb']['ts']['x2'],
-                            result['data']['last_12month']['data']['bb']['coldwater'],
-                            result['data']['last_12month']['data']['bb']['hotwater']
-                        ]
-                    },
-                    "bar": {
-                        "width": {
-                            "ratio": 0.5
-                        }
-                    },
-                    "axis": {
-                        "x": {
-                            "type": "timeseries",
-                            "tick": {
-                                "rotate": 45,
-                                format: function (x) {
-                                    var options = {
-                                        year: 'numeric',
-                                        month: 'short',
-                                    };
-                                    return x.toLocaleString("ru", options);
+                        },
+                        bindto: "#cm_chart"
+                    });
+                }
+                if (result['data']['last_12month']['status'] == 'success') {
+                    var chart2 = bb.generate({
+                        data: {
+                            type: "bar",
+                            x: "x2",
+                            columns: [
+                                result['data']['last_12month']['data']['bb']['ts']['x2'],
+                                result['data']['last_12month']['data']['bb']['coldwater'],
+                                result['data']['last_12month']['data']['bb']['hotwater']
+                            ],
+                            colors: {
+                                coldwater: "blue",
+                                hotwater: "red"
+                            }
+                        },
+                        bar: {
+                            width: {
+                                ratio: 0.5
+                            }
+                        },
+                        axis: {
+                            x: {
+                                type: "timeseries",
+                                tick: {
+                                    rotate: 45,
+                                    format: function (x) {
+                                        var options = {
+                                            year: 'numeric',
+                                            month: 'short',
+                                        };
+                                        return x.toLocaleString("ru", options);
+                                    }
                                 }
                             }
-                        }
-                    },
-                    "bindto": "#last12Month_chart"
-                });
-                //updateChart(last12Month_chart, result['data']['last_12month'], true);
+                        },
+                        bindto: "#last12Month_chart"
+                    });
+                }
             } else {
                 alert('SMTH GOES WRONG!');
             }
