@@ -24,7 +24,6 @@ jQuery(document).ready(function() {
     });
 });
 
-
 //-----------------AJAX REQUEST--------------------------------//
 function executeAjaxRequest(params, success_callback, error_callback) {
     error_callback = error_callback ? error_callback : function (jqXHR, status, message) {
