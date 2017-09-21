@@ -36,7 +36,7 @@ function show_main_stats()
 {
     $('.js_water_graphs').hide();
     $('.js_main_stats').show();
-    gexecuteAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
+    executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
         var last_insert = result['data']['ts'];
 
         var cw_cube = result['data']['coldwater']['cube'];
