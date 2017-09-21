@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
     });
 });
 
-//-----------------AJAX REQUEST-------------------------------- //
+//-----------------AJAX REQUEST--------------------------------//
 function executeAjaxRequest(params, success_callback, error_callback) {
     error_callback = error_callback ? error_callback : function (jqXHR, status, message) {
         /*$('.alert_js').addClass('alert-danger');
