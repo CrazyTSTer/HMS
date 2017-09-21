@@ -1,6 +1,13 @@
 /**
  * Created by crazytster on 03.08.17.
  */
+
+/*$(document).on('click','.navbar-collapse.in',function(e) {
+ if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+ $(this).collapse('hide');
+ }
+ });*/
+
 var chart_common = {
     textVertPosition: 0.8,
     waveAnimateTime: 5000,
@@ -13,8 +20,6 @@ var chart_common = {
     textSize: 0.5,
 };
 
-var debug = false;
-
 jQuery(document).ready(function() {
     $(".js_set_focus").focus();
     if ($(window).width() < 768) {
@@ -24,32 +29,14 @@ jQuery(document).ready(function() {
         $("#coldwater").attr('viewBox', '0 0 150 150');
         $("#hotwater").attr('viewBox', '0 0 150 150');
     }
-    get_main_stats(debug);
+    show_main_stats();
 });
-
-/*$(document).on('click','.navbar-collapse.in',function(e) {
-    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
-        $(this).collapse('hide');
-    }
-});*/
-
-function show_water_stats()
-{
-    $('.js_main_stats').hide();
-    $('.js_water_graphs').show();
-    chart(debug);
-}
 
 function show_main_stats()
 {
     $('.js_water_graphs').hide();
     $('.js_main_stats').show();
-    get_main_stats(debug);
-}
-
-function get_main_stats(debug)
-{
-    executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
+    gexecuteAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
         var last_insert = result['data']['ts'];
 
         var cw_cube = result['data']['coldwater']['cube'];
@@ -95,7 +82,11 @@ function get_main_stats(debug)
         $(".js_hot_prev_month_rate").text(hw_prev_month_rate);
     });
 }
-function chart(debug) {
+
+function show_water_stats()
+{
+    $('.js_main_stats').hide();
+    $('.js_water_graphs').show();
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             $.each(result['data'], function (key, value) {
