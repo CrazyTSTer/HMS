@@ -10,6 +10,123 @@ var yAxis = {
     min: 0
 };
 
+function generateChart(key, value)
+{
+    if (key == 'current_day' && value['status'] == 'success') {
+        cd_chart = bb.generate({
+            bindto: "#cd_chart",
+            padding: {
+                right: 25
+            },
+            data: {
+                xFormat: '%Y-%m-%d %H:%M:%S',
+                type: 'line',
+                columns: [
+                    value['data']['bb']['tsx1'],
+                    value['data']['bb']['tsx2'],
+                    value['data']['bb']['coldwater'],
+                    value['data']['bb']['hotwater'],
+                ],
+                xs: {
+                    coldwater: "x1",
+                    hotwater: "x2",
+                },
+                colors: {
+                    coldwater: "blue",
+                    hotwater: "red"
+                }
+            },
+            axis: {
+                x: {
+                    type: "timeseries",
+                    tick: {
+                        count: 10,
+                        rotate: 45,
+                        format: "%H:%M"
+                    }
+                }
+            },
+        });
+    }
+    if (key == 'current_month' && value['status'] == 'success') {
+        cm_chart = bb.generate({
+            data: {
+                type: "bar",
+                x: "x2",
+                columns: [
+                    value['data']['bb']['tsx2'],
+                    value['data']['bb']['coldwater'],
+                    value['data']['bb']['hotwater'],
+                ],
+                colors: {
+                    coldwater: "blue",
+                    hotwater: "red"
+                }
+            },
+            bar: {
+                width: {
+                    ratio: 0.5
+                }
+            },
+            axis: {
+                x: {
+                    type: "timeseries",
+                    tick: {
+                        rotate: 45,
+                        format: function (x) {
+                            var options = {
+                                month: 'short',
+                                day: 'numeric',
+                                weekday: 'short',
+                            };
+                            return x.toLocaleString("ru", options);
+                        }
+                    }
+                }
+            },
+            bindto: "#cm_chart"
+        });
+    }
+    if (key == 'last_12month' && value['status'] == 'success') {
+        last12Month_chart = bb.generate({
+            data: {
+                type: "bar",
+                x: "x2",
+                columns: [
+                    value['data']['bb']['tsx2'],
+                    value['data']['bb']['coldwater'],
+                    value['data']['bb']['hotwater'],
+                ],
+                colors: {
+                    coldwater: "blue",
+                    hotwater: "red"
+                }
+            },
+            bar: {
+                width: {
+                    ratio: 0.5
+                }
+            },
+            axis: {
+                x: {
+                    type: "timeseries",
+                    tick: {
+                        rotate: 45,
+                        format: function (x) {
+                            var options = {
+                                year: 'numeric',
+                                month: 'short',
+                            };
+                            return x.toLocaleString("ru", options);
+                        }
+                    }
+                }
+            },
+            bindto: "#last12Month_chart"
+        });
+    }
+}
+
 function setChartGlobalParams()
 {
     Highcharts.setOptions({
