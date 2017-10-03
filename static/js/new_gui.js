@@ -20,15 +20,34 @@ var chart_common = {
     textSize: 0.5,
 };
 
+var chart, chart1;
+
+$(window).resize(function() {
+    if ($(window).width() < 768) {
+        chart.resize({
+            height:125,
+            width:125
+        });
+        chart1.resize({
+            height:125,
+            width:125
+        });
+    } else {
+        chart.resize({
+            height:150,
+            width:150
+        });
+        chart1.resize({
+            height:150,
+            width:150
+        });
+    }
+});
+
+
 jQuery(document).ready(function() {
     $(".js_set_focus").focus();
-    if ($(window).width() < 768) {
-        $("#coldwater").attr('viewBox', '0 0 100 100');
-        $("#hotwater").attr('viewBox', '0 0 100 100');
-    } else {
-        $("#coldwater").attr('viewBox', '0 0 150 150');
-        $("#hotwater").attr('viewBox', '0 0 150 150');
-    }
+
     show_main_stats();
 });
 
@@ -53,22 +72,65 @@ function show_main_stats()
 
         $("#coldwater").html("");
         $("#hotwater").html("");
-        d3.select("#coldwater").call(d3.liquidfillgauge, cw_liter, chart_common, cw_cube + ',' + cw_liter);
-        d3.select("#hotwater").call(
-            d3.liquidfillgauge,
-            hw_liter,
-            $.extend(
-                {},
-                chart_common,
-                {
-                    circleColor: "#d73232",
-                    waveColor: "#d73232",
-                    textColor: "#9e1f1f",
-                    waveTextColor: "#FFC8C8",
-                }
-            ),
-            hw_cube + ',' + hw_liter
-        );
+
+         chart = bb.generate({
+            data: {
+                columns: [
+                    ["data", cw_liter]
+                ],
+                type: "gauge",
+            },
+            color: {
+                pattern: ["blue"],
+            },
+            gauge: {
+                min: 0,
+                max: 1000,
+                label: {
+                    format: function(value) {return cw_cube + ',' + value;},
+                    show: false, //show min max labels
+                },
+                fullCircle: true,
+            },
+            size: {
+                height: ($(window).width() < 768) ? 125 : 150,
+                width: ($(window).width() < 768) ? 125 : 150
+            },
+            tooltip: {
+                show: false
+            },
+            bindto: "#coldwater"
+        });
+
+         chart1 = bb.generate({
+            data: {
+                columns: [
+                    ["data", hw_liter]
+                ],
+                type: "gauge",
+            },
+            color: {
+                pattern: ["red"],
+            },
+            gauge: {
+                min: 0,
+                max: 1000,
+                label: {
+                    format: function(value) {return hw_cube + ',' + value;},
+                    show: false, //show min max labels
+                },
+                fullCircle: true,
+            },
+            size: {
+                height: ($(window).width() < 768) ? 125 : 150,
+                width: ($(window).width() < 768) ? 125 : 150
+            },
+            tooltip: {
+                show: false
+            },
+            bindto: "#hotwater"
+        });
+
         $(".js_last_insert").text(last_insert);
 
         $(".js_cold_current_value").text(cw_cube + ',' + cw_liter);

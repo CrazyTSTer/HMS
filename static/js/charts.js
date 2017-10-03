@@ -40,12 +40,25 @@ function generateChart(key, value)
                 x: {
                     type: "timeseries",
                     tick: {
-                        count: 10,
-                        rotate: 45,
-                        format: "%H:%M"
-                    }
+                        count: 24,
+                        format: "%H:%M",
+                        rotate: 75,
+                        multiline: false
+                    },
+                    height: 50
                 }
             },
+            grid: {
+                x: {
+                    show: true
+                },
+                y: {
+                    show: true
+                }
+            },
+            /*zoom: {
+                enabled: true
+            },*/
         });
     }
     if (key == 'current_month' && value['status'] == 'success') {
@@ -72,7 +85,7 @@ function generateChart(key, value)
                 x: {
                     type: "timeseries",
                     tick: {
-                        rotate: 45,
+                        rotate: 75,
                         format: function (x) {
                             var options = {
                                 month: 'short',
@@ -81,7 +94,8 @@ function generateChart(key, value)
                             };
                             return x.toLocaleString("ru", options);
                         }
-                    }
+                    },
+                    height: 50
                 }
             },
             bindto: "#cm_chart"
@@ -111,7 +125,7 @@ function generateChart(key, value)
                 x: {
                     type: "timeseries",
                     tick: {
-                        rotate: 45,
+                        rotate: 75,
                         format: function (x) {
                             var options = {
                                 year: 'numeric',
@@ -119,7 +133,8 @@ function generateChart(key, value)
                             };
                             return x.toLocaleString("ru", options);
                         }
-                    }
+                    },
+                    height: 80
                 }
             },
             bindto: "#last12Month_chart"
