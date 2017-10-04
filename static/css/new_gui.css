@@ -171,8 +171,10 @@ nav .navbar-toggle {
 }
 
 .side-nav li a:hover,
-.side-nav li a:focus {
+.side-nav li a:focus,
+.on_click {
     background-color: #007700 !important;
+    color: #fff !important;
 }
 
 .side-nav > li > ul {
@@ -188,10 +190,11 @@ nav .navbar-toggle {
     margin-left: 28px;
 }
 
-.side-nav > li > ul > li > a:hover,
-.side-nav > li > ul > li > a:focus {
+/*.side-nav > li > ul > li > a:hover,
+.side-nav > li > ul > li > a:focus,
+.on_click {
     color: #fff;
-}
+}*/
 
 .nav .nav-divider {
     height: 1px;

@@ -9,13 +9,14 @@
  });*/
 jQuery(document).ready(function() {
     $(".js_set_focus").focus();
-    show_main_stats();
+    show_main_stats('');
 });
 
-function show_main_stats()
+function show_main_stats(element)
 {
     $('.js_water_graphs').hide();
     $('.js_main_stats').show();
+    set_element_selected(element);
     executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
         if (result['status'] == 'success') {
             $(".js_last_insert").text(result['data']['ts']);
@@ -40,10 +41,12 @@ function show_main_stats()
     });
 }
 
-function show_water_stats()
+function show_water_stats(element)
 {
     $('.js_main_stats').hide();
     $('.js_water_graphs').show();
+    set_element_selected(element);
+
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             $.each(result['data'], function (key, value) {
@@ -53,4 +56,11 @@ function show_water_stats()
             alert(result['status'] + ": " + result['data']);
         }
     });
+}
+
+function set_element_selected(element) {
+    $('.on_click').each(function () {
+       $(this).removeClass("on_click");
+    });
+    $(element).addClass("on_click");
 }

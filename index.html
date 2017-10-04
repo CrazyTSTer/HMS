@@ -53,7 +53,7 @@
         <div class="collapse navbar-collapse collapse-target">
             <ul class="nav navbar-nav navbar-inverse side-nav">
                 <li>
-                    <a href="#" onclick="show_main_stats(); return false;" class="transition js_set_focus">
+                    <a href="#" onclick="show_main_stats(this); return false;" class="transition js_set_focus">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
                         Main Stats
                     </a>
@@ -68,7 +68,7 @@
                     </a>
                     <ul id="meters" class="collapse list-unstyled toggle-target">
                         <li>
-                            <a href="#" class="transition" onclick="show_water_stats(); return false;"><span class="glyphicon glyphicon-tint"></span>Water</a>
+                            <a href="#" class="transition" onclick="show_water_stats(this); return false;"><span class="glyphicon glyphicon-tint"></span>Water</a>
                         </li>
                         <li>
                             <a href="#" class="transition"><span class="glyphicon glyphicon-flash"></span>Electricity</a>
