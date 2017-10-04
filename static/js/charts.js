@@ -36,7 +36,7 @@ var gaugeOptions = {
 var barOptions = {
     data: {
         type: "bar",
-        x: "x2",
+        x: "ts",
         columns: [],
         colors: {
             coldwater: "blue",
@@ -143,7 +143,7 @@ function generateChart(key, value)
                         rotate: 75,
                         multiline: false
                     },
-                    height: 50
+                    height: 80
                 }
             },
             grid: {
@@ -164,11 +164,11 @@ function generateChart(key, value)
         };
 
         barOptions.data.columns = [
-            value['data']['bb']['tsx2'],
-            value['data']['bb']['coldwater'],
-            value['data']['bb']['hotwater']
+            value['data']['ts'],
+            value['data']['coldwater'],
+            value['data']['hotwater']
         ];
-        barOptions.axis.x.height = 80;
+
         barOptions.bindto = "#cm_chart"
         cm_chart = bb.generate(barOptions);
     }
@@ -179,11 +179,11 @@ function generateChart(key, value)
         };
 
         barOptions.data.columns = [
-            value['data']['bb']['tsx2'],
-            value['data']['bb']['coldwater'],
-            value['data']['bb']['hotwater']
+            value['data']['ts'],
+            value['data']['coldwater'],
+            value['data']['hotwater']
         ];
-        barOptions.axis.x.height = 80;
+
         barOptions.bindto = "#last12Month_chart"
         last12Month_chart = bb.generate(barOptions);
     }

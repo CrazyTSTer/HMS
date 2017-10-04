@@ -41,7 +41,7 @@ define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    'SELECT DATE(ts) as ts, MAX(coldwa
                                                (SELECT DATE(ts) as ts, coldwater, hotwater FROM WaterMeter 
                                                   WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY WaterMeter.ts DESC LIMIT 1) ORDER BY ts'
 );
-define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
+define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m-01\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
                                               WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)'
 );
 
@@ -155,7 +155,7 @@ class WaterStat
         $params = strtolower(Vars::get('param', null));
         $date = strtolower(Vars::get('date', null));
 
-        $current_ts = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
+        $current_date = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
 
         switch ($params) {
             case 'current_val':
@@ -184,25 +184,25 @@ class WaterStat
                 break;
             case 'current':
                 $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
-                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
-                $last_12month = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
-                $ret['current_date'] = date('Y-m-d', $current_ts);
+                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
+                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
+                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
+                $ret['current_date'] = date('Y-m-d', $current_date);
                 $ret['current_values'] = Parser::parserCurrentValues($current_values);
-                $ret['current_day'] = Parser::parseCurrentDay($current_day, $current_ts);
-                $ret['current_month'] = Parser::parseMonth($current_month, $current_ts);
-                $ret['last_12month'] = Parser::parseMonth($last_12month, $current_ts, true);
+                $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
+                $ret['current_month'] = Parser::parseMonth($current_month_values, false);
+                $ret['last_12month'] = Parser::parseMonth($last_12month_values, true);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
-            case 'day':
+            /*case 'day':
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
-                    $date == date('Y-m-d', $current_ts) ? $current_ts : strtotime(date('Y-m-d 23:59:59', strtotime($date))));
+                    $date == date('Y-m-d', $current_date) ? $current_date : strtotime(date('Y-m-d 23:59:59', strtotime($date))));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
@@ -213,7 +213,7 @@ class WaterStat
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => $date], true);
                 $ret['current_month'] = Parser::parseMonth($current_month, strtotime($date));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
-                break;
+                break;*/
 
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_PARAMETER);
