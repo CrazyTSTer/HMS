@@ -111,9 +111,9 @@ function generateChart(key, value)
     if (key == 'current_day' && value['status'] == 'success') {
         cd_chart = bb.generate({
             bindto: "#cd_chart",
-            padding: {
+            /*padding: {
                 right: 25
-            },
+            },*/
             data: {
                 xFormat: '%Y-%m-%d %H:%M:%S',
                 type: 'line',
