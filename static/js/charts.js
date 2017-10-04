@@ -57,7 +57,7 @@ var barOptions = {
                     return x.toLocaleString("ru", dateFormatOptions);
                 }
             },
-            height: ""
+            height: 80,
         }
     },
     grid: {
@@ -120,14 +120,14 @@ function generateChart(key, value)
                 xFormat: '%Y-%m-%d %H:%M:%S',
                 type: 'line',
                 columns: [
-                    value['data']['bb']['tsx1'],
-                    value['data']['bb']['tsx2'],
-                    value['data']['bb']['coldwater'],
-                    value['data']['bb']['hotwater'],
+                    value['data']['tscw'],
+                    value['data']['tshw'],
+                    value['data']['coldwater'],
+                    value['data']['hotwater'],
                 ],
                 xs: {
-                    coldwater: "x1",
-                    hotwater: "x2",
+                    coldwater: "cw",
+                    hotwater: "hw",
                 },
                 colors: {
                     coldwater: "blue",

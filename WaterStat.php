@@ -9,6 +9,10 @@ define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater
 
 define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
 
+define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date# 
+                                                UNION ALL
+                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
+
 define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
@@ -26,10 +30,6 @@ define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldw
                                                 UNION ALL 
                                                 (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
-
-define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date# 
-                                                UNION ALL
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
 
 define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    'SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater 
                                                FROM WaterMeter WHERE 
@@ -153,9 +153,6 @@ class WaterStat
         }
 
         $params = strtolower(Vars::get('param', null));
-        $date = strtolower(Vars::get('date', null));
-
-        $current_date = strtotime($this->db->fetchSingleValue(CURRENT_DATE));
 
         switch ($params) {
             case 'current_val':
@@ -183,15 +180,14 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'current':
-                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
                 $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
                 $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
                 $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
-                $ret['current_date'] = date('Y-m-d', $current_date);
-                $ret['current_values'] = Parser::parserCurrentValues($current_values);
+
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
                 $ret['current_month'] = Parser::parseMonth($current_month_values, false);
                 $ret['last_12month'] = Parser::parseMonth($last_12month_values, true);
+
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
