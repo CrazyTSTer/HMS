@@ -35,7 +35,7 @@ function show_main_stats()
                 generateGauge(key, value);
             });
         } else {
-            alert('SMTH GOES WRONG!');
+            alert(result['status'] + ": " + result['data']);
         }
     });
 }
@@ -50,7 +50,7 @@ function show_water_stats()
                 generateChart(key, value);
             });
         } else {
-            alert('SMTH GOES WRONG!');
+            alert(result['status'] + ": " + result['data']);
         }
     });
 }
