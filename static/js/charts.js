@@ -3,7 +3,6 @@
  */
 var cd_chart, cm_chart, last12Month_chart;
 var cw_gauge, hw_gauge;
-var dateFormatOptions;
 
 var gaugeOptions = {
     cube: "",
@@ -37,6 +36,7 @@ var barOptions = {
     data: {
         type: "bar",
         x: "ts",
+        xFormat: "",
         columns: [],
         colors: {
             coldwater: "blue",
@@ -53,9 +53,7 @@ var barOptions = {
             type: "timeseries",
             tick: {
                 rotate: 45,
-                format: function (x) {
-                    return x.toLocaleString("ru", dateFormatOptions);
-                }
+                format: "",
             },
             height: 80,
         }
@@ -140,7 +138,7 @@ function generateChart(key, value)
                     tick: {
                         count: 24,
                         format: "%H:%M",
-                        rotate: 75,
+                        rotate: 45,
                         multiline: false
                     },
                     height: 80
@@ -157,12 +155,8 @@ function generateChart(key, value)
         });
     }
     if (key == 'current_month' && value['status'] == 'success') {
-        dateFormatOptions = {
-            month: 'short',
-            day: 'numeric',
-            weekday: 'short',
-        };
-
+        barOptions.data.xFormat = "%Y-%m-%d";
+        barOptions.axis.x.tick.format = "%_d %b. (%a)";
         barOptions.data.columns = [
             value['data']['ts'],
             value['data']['coldwater'],
@@ -173,11 +167,8 @@ function generateChart(key, value)
         cm_chart = bb.generate(barOptions);
     }
     if (key == 'last_12month' && value['status'] == 'success') {
-        dateFormatOptions = {
-            year: 'numeric',
-            month: 'short',
-        };
-
+        barOptions.data.xFormat = "%Y-%m";
+        barOptions.axis.x.tick.format = "%b. %Y";
         barOptions.data.columns = [
             value['data']['ts'],
             value['data']['coldwater'],

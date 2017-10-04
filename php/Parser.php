@@ -72,13 +72,13 @@ class Parser
 
                 //Если интервал больше 5 минут, рисуем точку, на минуту раньше текущей
                 if ($interval > 5) {
-                    $point_ts = ($current_ts - 60) * 1000;//Сдвигаемся на минуту назад
+                    $point_ts = $current_ts - 60; //Сдвигаемся на минуту назад
                     if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
-                        $ret['data'][self::TIMESTAMP . 'cw'][] = date('Y-m-d H:i:s', $point_ts/1000);
+                        $ret['data'][self::TIMESTAMP . 'cw'][] = date('Y-m-d H:i:s', $point_ts);
                         $ret['data'][self::COLDWATER][] = $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue;
                     }
                     if ($data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER] != 0) {
-                        $ret['data'][self::TIMESTAMP . 'hw'][] = date('Y-m-d H:i:s', $point_ts/1000);
+                        $ret['data'][self::TIMESTAMP . 'hw'][] = date('Y-m-d H:i:s', $point_ts);
                         $ret['data'][self::HOTWATER][] = $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue;
                     }
                 }
