@@ -54,12 +54,12 @@ class Parser
             $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
 
             //Добавляем первую точку (начало дня)
-            $ret['data'][self::TIMESTAMP . 'cw'][] = 'cw';
+            $ret['data'][self::TIMESTAMP . 'cw'][] = 'tscw';
             $ret['data'][self::TIMESTAMP . 'cw'][] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
             $ret['data'][self::COLDWATER][] = 'coldwater';
             $ret['data'][self::COLDWATER][] = 0;
 
-            $ret['data'][self::TIMESTAMP . 'hw'][] = 'hw';
+            $ret['data'][self::TIMESTAMP . 'hw'][] = 'tshw';
             $ret['data'][self::TIMESTAMP . 'hw'][] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
             $ret['data'][self::HOTWATER][] = 'hotwater';
             $ret['data'][self::HOTWATER][] = 0;

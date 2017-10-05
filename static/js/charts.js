@@ -32,16 +32,17 @@ var gaugeOptions = {
     bindto: ""
 };
 
-var barOptions = {
+var chartOptions = {
     data: {
-        type: "bar",
-        x: "ts",
+        type: "",
         xFormat: "",
-        columns: [],
+        x: "",
+        xs: "",
         colors: {
             coldwater: "blue",
-            hotwater: "red"
-        }
+            hotwater: "red",
+        },
+        columns: [],
     },
     bar: {
         width: {
@@ -51,19 +52,24 @@ var barOptions = {
     axis: {
         x: {
             type: "timeseries",
+            height: 80,
             tick: {
+                count:"",
                 rotate: 45,
+                multiline: false,
                 format: "",
             },
-            height: 80,
         }
     },
     grid: {
-        y: {
+        x: {
             show: true
         },
+        y: {
+            show: true
+        }
     },
-    bindto: ""
+    bindto: "",
 };
 
 $(window).resize(function() {
@@ -109,73 +115,55 @@ function generateGauge(key, value)
 function generateChart(key, value)
 {
     if (key == 'current_day' && value['status'] == 'success') {
-        cd_chart = bb.generate({
-            bindto: "#cd_chart",
-            /*padding: {
-                right: 25
-            },*/
-            data: {
-                xFormat: '%Y-%m-%d %H:%M:%S',
-                type: 'line',
-                columns: [
-                    value['data']['tscw'],
-                    value['data']['tshw'],
-                    value['data']['coldwater'],
-                    value['data']['hotwater'],
-                ],
-                xs: {
-                    coldwater: "cw",
-                    hotwater: "hw",
-                },
-                colors: {
-                    coldwater: "blue",
-                    hotwater: "red"
-                }
-            },
-            axis: {
-                x: {
-                    type: "timeseries",
-                    tick: {
-                        count: 24,
-                        format: "%H:%M",
-                        rotate: 45,
-                        multiline: false
-                    },
-                    height: 80
-                }
-            },
-            grid: {
-                x: {
-                    show: true
-                },
-                y: {
-                    show: true
-                }
-            },
-        });
+        chartOptions.data.type = "line";
+        chartOptions.data.xFormat = "%Y-%m-%d %H:%M:%S";
+        chartOptions.data.x = "";
+        chartOptions.data.xs = {
+            coldwater: "tscw",
+            hotwater: "tshw",
+        };
+        chartOptions.data.columns = [
+            value['data']['tscw'],
+            value['data']['tshw'],
+            value['data']['coldwater'],
+            value['data']['hotwater'],
+        ];
+        chartOptions.axis.x.tick.count = 24;
+        chartOptions.axis.x.tick.format = "%H:%M";
+        chartOptions.grid.x.show = true;
+        chartOptions.bindto = "#cd_chart";
+        cd_chart = bb.generate(chartOptions);
     }
     if (key == 'current_month' && value['status'] == 'success') {
-        barOptions.data.xFormat = "%Y-%m-%d";
-        barOptions.axis.x.tick.format = "%_d %b. (%a)";
-        barOptions.data.columns = [
+        chartOptions.data.type = "bar";
+        chartOptions.data.xFormat = "%Y-%m-%d";
+        chartOptions.data.x = "ts";
+        chartOptions.data.xs = "";
+        chartOptions.data.columns = [
             value['data']['ts'],
             value['data']['coldwater'],
             value['data']['hotwater']
         ];
-
-        barOptions.bindto = "#cm_chart"
-        cm_chart = bb.generate(barOptions);
+        chartOptions.axis.x.tick.count = "";
+        chartOptions.axis.x.tick.format = "%_d %b. (%a)";
+        chartOptions.grid.x.show = false;
+        chartOptions.bindto = "#cm_chart";
+        cm_chart = bb.generate(chartOptions);
     }
     if (key == 'last_12month' && value['status'] == 'success') {
-        barOptions.data.xFormat = "%Y-%m";
-        barOptions.axis.x.tick.format = "%b. %Y";
-        barOptions.data.columns = [
+        chartOptions.data.type = "bar";
+        chartOptions.data.xFormat = "%Y-%m";
+        chartOptions.data.x = "ts";
+        chartOptions.data.xs = "";
+        chartOptions.data.columns = [
             value['data']['ts'],
             value['data']['coldwater'],
             value['data']['hotwater']
         ];
-
-        barOptions.bindto = "#last12Month_chart"
-        last12Month_chart = bb.generate(barOptions);
+        chartOptions.axis.x.tick.count = "";
+        chartOptions.axis.x.tick.format = "%b. %Y";
+        chartOptions.grid.x.show = false;
+        chartOptions.bindto = "#last12Month_chart";
+        last12Month_chart = bb.generate(chartOptions);
     }
 }
