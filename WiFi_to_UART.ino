@@ -15,18 +15,21 @@
 #define ON       LOW
 
 
-const char *ssid = "BD-GUEST";  // Your ROUTER SSID
-const char *password = "yabadabadoo!"; // and WiFi PASSWORD
+const char *ssid = "";  // Your ROUTER SSID
+const char *password = ""; // and WiFi PASSWORD
+
 const int port = 23;
 
-WiFiServer WiFiServer1(port);
-WiFiClient WiFiClient1;
+int i = 0;
 
-unsigned char buf1[bufferSize];
-int i1=0;
+WiFiServer WiFi_Server(port);
+WiFiClient WiFi_Client;
 
-unsigned char buf2[bufferSize];
-uint8_t i2=0;
+uint8_t WiFiBuffer[bufferSize];
+uint8_t WiFiByteCounter=0;
+
+uint8_t SerialBuffer[bufferSize];
+uint8_t SerialByteCounter=0;
 
 boolean isWiFiConnected;
 
@@ -41,6 +44,7 @@ void ChangeLedState(void)
 
 boolean WiFiConnect()
 {
+	Serial.println("Connecting to WiFi...");
 	digitalWrite(LED, OFF);
 
 	WiFi.disconnect(true);
@@ -59,48 +63,65 @@ boolean WiFiConnect()
 	}
 
     digitalWrite(LED, ON);
-    Serial.print("Connected to WIFI; IP=");Serial.println(WiFi.localIP());
+    Serial.print("Connected to WiFi; IP="); Serial.println(WiFi.localIP());
+    delay(500);
 	return true;
 }
 
 void setup() {
-	delay(500);
+	//Turn build-in led off
+	pinMode(LED, OUTPUT);
+	digitalWrite(LED, OFF);
 
+	//Init uart interface
 	Serial.begin(UART_BAUD);
 
+	Serial.println("ESP-8266: Init begin");
 	isWiFiConnected = WiFiConnect();
 
-	Serial.println("Starting TCP Server");
-	WiFiServer1.begin(); // start TCP server
+	if (isWiFiConnected) {
+		Serial.println("Starting TCP Server...");
+		delay(500);
+		WiFi_Server.begin(); // start TCP server
+		Serial.println("TCP Server now running...");
+		delay(500);
+	} else {
+		Serial.println("Failed to start TCP Server due to WiFi connection failed");
+		delay(500);
+	}
+
+	Serial.println("ESP-8266: Init finish... Now swapping serial pins");
+	delay(500);
+	Serial.swap();
 }
 
 void loop()
 {
-	if(!WiFiClient1.connected()) { // if client not connected
-		WiFiClient1 = WiFiServer1.available(); // wait for it to connect
+	if (!WiFi_Client.connected()) { // if client not connected
+		WiFi_Client = WiFi_Server.available(); // wait for it to connect
 		return;
 	}
 
 	// here we have a connected client
-	if(WiFiClient1.available()) {
-		while(WiFiClient1.available()) {
-			buf1[i1] = (uint8_t)WiFiClient1.read(); // read char from client
-			if (i1 < bufferSize - 1) {
-				i1++;
+	if (WiFi_Client.available()) {
+		while (WiFi_Client.available()) {
+			WiFiBuffer[WiFiByteCounter] = (uint8_t)WiFi_Client.read(); // read char from client
+			if (WiFiByteCounter < bufferSize - 1) {
+				WiFiByteCounter++;
 			}
 		}
 		// now send to UART:
-		Serial.write(buf1, i1);
-		i1 = 0;
+		Serial.write(WiFiBuffer, WiFiByteCounter);
+		WiFiByteCounter = 0;
 	}
 
-	if(Serial.available()) {
+	if (Serial.available()) {
 		// read the data until pause:
-		while(1) {
-    		if(Serial.available()) {
-    			buf2[i2] = (char)Serial.read(); // read char from UART
-    			if (i2 < bufferSize - 1) {
-    				i2++;
+		while (1) {
+    		if (Serial.available()) {
+    			SerialBuffer[SerialByteCounter] = (char)Serial.read(); // read char from UART
+    			if (SerialByteCounter < bufferSize - 1) {
+    				SerialByteCounter++;
     			}
     		} else {
     			//delayMicroseconds(packTimeoutMicros);
@@ -111,7 +132,7 @@ void loop()
     		}
     	}
     	// now send to WiFi:
-    	WiFiClient1.write((char*)buf2, i2);
-    	i2 = 0;
+		WiFi_Client.write((char*)SerialBuffer, SerialByteCounter);
+		SerialByteCounter = 0;
 	}
 }
