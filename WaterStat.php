@@ -166,16 +166,14 @@ class WaterStat
                     'day_rate'        => $current_day_rate['cw_rate'],
                     'month_rate'      => $current_month_rate['cw_rate'] / 1000,
                     'prev_month_rate' => $prev_month_rate['cw_rate'] / 1000,
-                    'cube'            => substr($current_values[self::COLDWATER], 0, -3),
-                    'liter'           => substr($current_values[self::COLDWATER], -3)
                 );
+                list($ret[self::COLDWATER]['cube'], $ret[self::COLDWATER]['liter']) = explode(".",$current_values[self::COLDWATER]/1000);
                 $ret[self::HOTWATER] = array(
                     'day_rate'        => $current_day_rate['hw_rate'],
                     'month_rate'      => $current_month_rate['hw_rate'] / 1000,
                     'prev_month_rate' => $prev_month_rate['hw_rate'] / 1000,
-                    'cube'            => substr($current_values[self::HOTWATER], 0, -3),
-                    'liter'           => substr($current_values[self::HOTWATER], -3)
                 );
+                list($ret[self::HOTWATER]['cube'], $ret[self::HOTWATER]['liter']) = explode(".",$current_values[self::HOTWATER]/1000);
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
