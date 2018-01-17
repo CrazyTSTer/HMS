@@ -5,43 +5,43 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 include_once "php/Utils.php";
 define('CURRENT_DATE',                        'SELECT NOW()');
-define('SET_VALUES',                          'INSERT INTO WaterMeter (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
+define('SET_VALUES',                          'INSERT INTO Water (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 
-define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM WaterMeter ORDER BY ts DESC LIMIT 1');
+define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM Water ORDER BY ts DESC LIMIT 1');
 
-define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = #date# 
+define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = #date# 
                                                 UNION ALL
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
 
 define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                                ) as smth;');
 
 define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as cw_rate, MAX(hotwater) - MIN(hotwater) as hw_rate FROM (
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM WaterMeter WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    'SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater 
-                                               FROM WaterMeter WHERE 
+                                               FROM Water WHERE 
                                                   DATE(ts) > DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY 
                                                   AND 
                                                   DATE(ts) < (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) 
                                                GROUP BY (1) 
                                                UNION ALL 
-                                               (SELECT DATE(ts) as ts, coldwater, hotwater FROM WaterMeter 
-                                                  WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY WaterMeter.ts DESC LIMIT 1) ORDER BY ts'
+                                               (SELECT DATE(ts) as ts, coldwater, hotwater FROM Water 
+                                                  WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY Water.ts DESC LIMIT 1) ORDER BY ts'
 );
-define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM WaterMeter
+define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM Water
                                               WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)'
 );
 
@@ -49,9 +49,9 @@ class WaterStat
 {
     const MYSQL_HOST        = '192.168.1.2';
     const MYSQL_PORT        = 3306;
-    const MYSQL_LOGIN       = 'water_meter';
-    const MYSQL_PASS        = 'calcwater';
-    const MYSQL_BASE        = 'HomeMetersStats';
+    const MYSQL_LOGIN       = 'hms';
+    const MYSQL_PASS        = 'HMSStats1';
+    const MYSQL_BASE        = 'HMS';
     const MYSQL_BASE_LOCALE = 'utf8';
 
     const ACTION_SET      = 'set';
