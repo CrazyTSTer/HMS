@@ -7,25 +7,25 @@
 
     <title>Automated System of Logging Water and Electricity Meters Data</title>
     <!--------LOADING JQUERY LIBRARY---------------->
-    <script src="static/js/jquery-3.2.1.js"></script>
+    <script src="static/js/jquery-3.3.1.js"></script>
 
     <!--------LOADING BOOTSTRAP LIBRARY---------------->
-    <script src="static/js/bootstrap_v3.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap_v3.css">
+    <script src="static/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
 
     <!--------LOADING CHARTS LIBRARY---------------->
     <!-- Load D3.js -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!--<script src="https://d3js.org/d3.v4.min.js"></script> -->
 
     <!-- Load billboard.js with style -->
-    <script src="static/js/billboard.js"></script>
-    <link rel="stylesheet" href="static/css/billboard.css">
+    <!--<script src="static/js/billboard.js"></script>
+    <link rel="stylesheet" href="static/css/billboard.css"> -->
 
     <!--------LOADING MAIN JS AND CSS---------------->
     <script src="static/js/ajax.js"></script>
-    <script src="static/js/new_gui.js"></script>
+    <!--<script src="static/js/new_gui.js"></script>
     <script src="static/js/charts.js"></script>
-    <link rel="stylesheet" href="static/css/new_gui.css">
+    <link rel="stylesheet" href="static/css/new_gui.css"> -->
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -50,129 +50,7 @@
                 <h1 class="text-green visible-xs">ADLS from WEM</h1>
             </div>
         </div>
-        <div class="collapse navbar-collapse collapse-target">
-            <ul class="nav navbar-nav navbar-inverse side-nav">
-                <li>
-                    <a href="#" onclick="show_main_stats(this); return false;" class="transition js_set_focus">
-                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                        Main Stats
-                    </a>
-                </li>
-                <li>
-                    <a href="#meters" class="transition" role="button" data-target="#meters" aria-expanded="false" data-toggle="collapse" aria-controls="meters">
-                        <input type="checkbox" id="checkbox">
-                        <span class="glyphicon glyphicon-menu-left pull-right transition rotate" style="padding-right: 0px;" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-dashboard transition rotate" aria-hidden="true"></span>
-                        <label for="checkbox" class="fixed-label"></label>
-                        Meters
-                    </a>
-                    <ul id="meters" class="collapse list-unstyled toggle-target">
-                        <li>
-                            <a href="#" class="transition" onclick="show_water_stats(this); return false;"><span class="glyphicon glyphicon-tint"></span>Water</a>
-                        </li>
-                        <li>
-                            <a href="#" class="transition"><span class="glyphicon glyphicon-flash"></span>Electricity</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="transition">
-                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
-                        Additional links
-                    </a>
-                </li>
-                <li class="nav-divider"></li>
-                <li>
-                    <a href="#" class="transition">
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        Settings
-                    </a>
-                </li>
-            </ul>
-        </div>
     </nav>
-    <div class="main">
-        <div class="wrapper">
-            <div class="card-container main_stats js_main_stats">
-                <div class="card-container__header text-green">Water meters statistic</div>
-                <div class="card-container__body">
-                    <div class="card flex-grow-1">
-                        <div class="card__header">Current values</div>
-                        <div class="card__body">
-                            <div id="coldwater" class=""></div>
-                            <div id="hotwater" class=""></div>
-                        </div>
-                    </div>
-                    <div class="card flex-grow-10">
-                        <div class="card__header">Current info</div>
-                        <div class="card__body">
-                            <table class="table table-bordered no-margin">
-                                <colgroup>
-                                    <col class="none" />
-                                    <col class="red" />
-                                    <col class="blue" />
-                                </colgroup>
-                                <thead>
-                                    <th></th>
-                                    <th class="text-center">Cold Water</th>
-                                    <th class="text-center">Hot Water</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Last insert</th>
-                                        <td colspan="2" class="text-center js_last_insert"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Current values:</th>
-                                        <td class="text-center js_cold_current_value"></td>
-                                        <td class="text-center js_hot_current_value"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Today rate (L):</th>
-                                        <td class="text-center js_cold_today_rate"></td>
-                                        <td class="text-center js_hot_today_rate"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Month rate (m<sup><small>3</small></sup>):</th>
-                                        <td class="text-center js_cold_month_rate"></td>
-                                        <td class="text-center js_hot_month_rate"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Prev month (m<sup><small>3</small></sup>):</th>
-                                        <td class="text-center js_cold_prev_month_rate"></td>
-                                        <td class="text-center js_hot_prev_month_rate"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-container water_graphs js_water_graphs">
-                <div class="card-container__header text-center text-green">Water rate</div>
-                <div class="card-container__body">
-                    <div class="card card--fill">
-                        <div class="card__header">Current day rate</div>
-                        <div class="card__body">
-                            <div id="cd_chart" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="card card--equal">
-                        <div class="card__header">Month rate by days</div>
-                        <div class="card__body">
-                            <div id="cm_chart" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="card card--equal">
-                        <div class="card__header">Last 12 month rate by month</div>
-                        <div class="card__body">
-                            <div id="last12Month_chart" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
 
