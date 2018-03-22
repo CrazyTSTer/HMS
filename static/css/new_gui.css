@@ -1,5 +1,5 @@
 /* Some transforms */
-.transition,
+/*.transition,
 .transition:hover {
     -webkit-transition: all 150ms ease-in-out;
     -moz-transition: all 150ms ease-in-out;
@@ -17,7 +17,7 @@
 }
 
 /* Some media query */
-@media(min-width:768px) {
+/*@media(min-width:768px) {
     .side-nav {
         position: fixed;
         top: 61px;
@@ -30,7 +30,7 @@
 
     .main {
         /*position: fixed;*/
-        padding-top: 61px;
+ /*       padding-top: 61px;
         padding-left: 255px;
         width: 100%;
     }
@@ -57,7 +57,7 @@
 @media(max-width:767px) {
     .main {
         /*position: fixed;*/
-        padding-top: 51px;
+  /*      padding-top: 51px;
         width: 100%;
     }
 
@@ -78,7 +78,7 @@
 }
 
 /* Common objects */
-html, body {
+/*html, body {
     position: relative;
     height: 100%;
     background-color: #e5e9ec;
@@ -129,7 +129,7 @@ table th, table td {
 }
 
 /* Top bar */
-.navbar-brand {
+/*.navbar-brand {
     height: auto;
 }
 
@@ -166,7 +166,7 @@ nav .navbar-toggle {
 }
 
 /* Side bar */
-.navbar-inverse .navbar-nav > li > a {
+/*.navbar-inverse .navbar-nav > li > a {
     color: #007700;
 }
 
@@ -196,7 +196,7 @@ nav .navbar-toggle {
     color: #fff;
 }*/
 
-.nav .nav-divider {
+/*.nav .nav-divider {
     height: 1px;
     width:100%;
     display:block;
@@ -210,7 +210,7 @@ nav .navbar-toggle {
 }
 
 /* Cards */
-.card-container {
+/*.card-container {
     border-radius: 10px;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.37);
     margin: 15px;
@@ -271,16 +271,32 @@ nav .navbar-toggle {
     width: 100%;*/
 }
 
-.card--fill {
+/*.card--fill {
     width: 100%;
     min-width: 0px;
 }
 
 /* Objects */
-.water_graphs {
+/*.water_graphs {
     display: none;
 }
 
 .wrapper {
     width: 100%;
+}*/
+
+.page-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+
+#sidebar {
+    position: fixed;
+    top: 61px;
+    width: 255px;
+    overflow-y: auto;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px;
 }
