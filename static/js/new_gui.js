@@ -11,9 +11,11 @@ jQuery(document).ready(function() {
             $(this).addClass('active');
         } else {
             if ($(this).siblings('ul').hasClass('sub-active')) {
-                var sibl = $(this).siblings('ul').removeClass('sub-active');
-                var fnd = $(sibl).find('.sub-active').get().reverse();
-                $(fnd).removeClass('sub-active').siblings('a').click();
+                var sibl = $(this).siblings('ul');
+                $(sibl).removeClass('sub-active');
+                var fnd = $(sibl).find('.sub-active');
+                var a_sibl = $(fnd).siblings('a').get().reverse();
+                $(a_sibl).click();
             } else {
                 $(this).siblings('ul').addClass('sub-active');
             }
