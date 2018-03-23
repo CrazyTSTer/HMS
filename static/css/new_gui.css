@@ -290,13 +290,30 @@ nav .navbar-toggle {
     align-items: stretch;
 }
 
+.sub-active {
+    border-left: 2px solid red;
+}
+
 
 #sidebar {
     position: fixed;
-    top: 61px;
+    top: 56px;
     width: 255px;
     overflow-y: auto;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;
+    left: 0;
+}
+
+#sidebar li ul a {
+    padding-left: 30px;
+}
+
+#sidebar li ul li ul a {
+    padding-left: 60px;
+}
+
+#sidebar li ul li ul li ul a {
+    padding-left: 90px;
 }
