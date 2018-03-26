@@ -284,26 +284,34 @@ nav .navbar-toggle {
 .wrapper {
     width: 100%;
 }*/
+html, body {
+    position: relative;
+    height: 100%;
+    background-color: #e5e9ec;
+}
 
 .page-wrapper {
-    display: flex;
-    align-items: stretch;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .sub-active {
     border-left: 2px solid red;
 }
 
+.img-width {
+    width: 255px;
+}
+
 
 #sidebar {
     position: fixed;
-    top: 56px;
+    top: 60px;
     width: 255px;
-    overflow-y: auto;
+    overflow-y: hidden;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;
-    left: 0;
 }
 
 #sidebar li ul a {
