@@ -268,7 +268,7 @@ nav .navbar-toggle {
     justify-content: center;
     /*position:absolute;
     height: 100%;
-    width: 100%;*/
+    width: 100%;
 }
 
 /*.card--fill {
@@ -284,15 +284,10 @@ nav .navbar-toggle {
 .wrapper {
     width: 100%;
 }*/
-html, body {
-    position: relative;
-    height: 100%;
-    background-color: #e5e9ec;
-}
 
 .page-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
 }
 
 .sub-active {
