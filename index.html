@@ -33,52 +33,56 @@
     <![endif]-->
 </head>
     <body>
-    <div class="page-wrapper">
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <a class="navbar-brand float-md-left mr-0" href="#"><img class="img-fluid img-width" src="static/imgs/espressif.png"></a>
-            <a class="navbar-brand mx-auto" href="#">Automated Smart Meters System</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md pl-0 pr-0">
+            <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#"><img class="mx-auto d-block img-width" src="static/imgs/espressif.png"></a>
+            <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
+            <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
+            <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="sidebar">
-                <ul class="nav navbar-nav bg-dark nav-pills flex-column" style="width: 100%;">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#MainStats">Main Stats</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="#Meters" data-toggle="collapse" href="#">Meters</a>
-                        <ul class="list-unstyled collapse" id="Meters">
-                            <li class="nav-item">
-                                <a class="nav-link" data-target="#WaterMeters" data-toggle="collapse" href="#">Water</a>
-                                <ul class="list-unstyled collapse" id="WaterMeters">
-                                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Cold">Cold</a></li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Hot">Hot</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-target="#ElMeters" data-toggle="collapse" href="#">Electricity</a>
-                                <ul class="list-unstyled collapse" id="ElMeters">
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-target="#test" data-toggle="collapse" href="#Meters/ElMeter/El1">El1</a>
-                                        <ul class="list-unstyled collapse" id="test">
-                                            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El1">El1</a></li>
-                                            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Settings">Settings</a></li>
-                </ul>
-            </div>
+            <ul class="navbar-collapse collapse list-unstyled bg-dark flex-column align-items-start nav-pills pl-2 pr-2" id="sidebar">
+                <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#MainStats">Main Stats</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#Meters" data-toggle="collapse" href="#">Meters</a>
+                    <ul class="list-unstyled collapse" id="Meters">
+                        <li class="nav-item">
+                            <a class="nav-link" data-target="#WaterMeters" data-toggle="collapse" href="#">Water</a>
+                            <ul class="list-unstyled collapse" id="WaterMeters">
+                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Cold">Cold</a></li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Hot">Hot</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-target="#ElMeters" data-toggle="collapse" href="#">Electricity</a>
+                            <ul class="list-unstyled collapse" id="ElMeters">
+                                <li class="nav-item">
+                                    <a class="nav-link" data-target="#test" data-toggle="collapse" href="#Meters/ElMeter/El1">El1</a>
+                                    <ul class="list-unstyled collapse" id="test">
+                                        <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El1">El1</a></li>
+                                        <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li><li class="nav-item"><a class="nav-link" data-toggle="pill" href="#AdditionalLinks">Additional links</a></li>-->
+                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Settings">Settings</a></li>
+            </ul>
         </nav>
 
         <!-- Page Content -->
         <div id="content">
-            <!-- We'll fill this with dummy content -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+                    <div class="col-sm-4" style="background-color:lavenderblush;">.col-sm-4</div>
+                    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+                </div>
+            </div>
         </div>
-    </div>
+
 <!--<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="flex-container">
         <div class="navbar-brand navbar-brand-width navbar-brand-padding flex-vcenter hidden-xs" href="#">
