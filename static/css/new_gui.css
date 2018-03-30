@@ -316,70 +316,44 @@ html, body {
     padding-left: 1rem;
 }
 
-#sidebar ul>li::before {
+#sidebar li {
+    position: relative;
+    width: 100%;
+}
+
+#sidebar ul li::before {
     content: "";
     display: block;
     position: absolute;
     z-index: 1;
     top: 0;
     bottom: 0;
-    left: 15px;
-    border-left: 1px solid #7A7A7A;
+    left: -7px;
+    border-left: 2px solid #7A7A7A;
 }
 
-/*#sidebar>li>ul::before {
-    left: 20px;
+#sidebar ul li:first-child::before {
+    top: -22px
 }
 
-#sidebar li>ul>li>ul::before {
-    left: 40px;
+#sidebar ul li:last-child::before {
+    bottom: auto;
+    height: 20px;
 }
 
-#sidebar li>ul>li>ul>li>ul::before {
-    left: 60px;
-}*/
-
-
-/*#sidebar ul li::before {
+#sidebar ul li a::after {
     content: "";
     display: block;
-    position: relative;
-    width: 8px;
-    top: 20px;
-    border-top: 1px solid #7A7A7A;
+    position: absolute;
+    width: 15px;
+    top: 18px;
+    border-top: 2px solid #7A7A7A;
     z-index: 1;
+    left: -5px;
 }
-
-/*#sidebar ul>li::before {
-    left: 20px;
-}
-
-#sidebar ul>li>ul>li::before {
-    left: 40px;
-}
-
-#sidebar ul>li>ul>li>ul>li::before {
-    left: 60px;
-}
-
-#sidebar li ul a {
-  padding-left: 30px;
-}
-
-#sidebar li ul li ul a {
-  padding-left: 60px;
-}
-
-#sidebar li ul li ul li ul a {
-  padding-left: 90px;
-}*/
 
 .sub-active {
     background: rgba(69,69,69,.6);
-}
-
-.a_sub-active {
-    border-bottom: 1px solid black;
 }
 
 .img-width {
@@ -390,6 +364,22 @@ html, body {
     width: 255px;
 }
 
-.nav-item {
-    width: 100%;
+.carret {
+    display: block;
+    float: right;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 11px;
+    border: none;
+}
+
+.carret::before {
+    rotate(0);
+    content: '\f054';
+    display: block;
+    text-align: center;
+    transition: all .2s linear;
+    opacity: .5;
 }
