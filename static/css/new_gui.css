@@ -321,6 +321,10 @@ html, body {
     width: 100%;
 }
 
+#sidebar li a:hover {
+    background: rgba(0,0,0,0.1);
+}
+
 #sidebar ul li::before {
     content: "";
     display: block;
@@ -330,7 +334,32 @@ html, body {
     bottom: 0;
     left: -7px;
     border-left: 2px solid #7A7A7A;
+    padding-left: 1rem;
 }
+
+/*#sidebar ul li ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    border-left: 2px solid #7A7A7A;
+    padding-left: 1rem;
+}
+
+#sidebar ul li ul li ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 24px;
+    border-left: 2px solid #7A7A7A;
+    padding-left: 1rem;
+}*/
 
 #sidebar ul li:first-child::before {
     top: -22px
@@ -341,7 +370,7 @@ html, body {
     height: 20px;
 }
 
-#sidebar ul li a::after {
+#sidebar ul li a::before {
     content: "";
     display: block;
     position: absolute;
@@ -351,6 +380,41 @@ html, body {
     z-index: 1;
     left: -5px;
 }
+
+#sidebar a[aria-expanded="true"] .carret::before {
+    -webkit-transform-origin: right;
+    -ms-transform-origin: right;
+    -o-transform-origin: right;
+    transform-origin: right;
+    -webkit-transform: rotate(90deg) translate(0, -50%);
+    -ms-transform: rotate(90deg) translate(0, -50%);
+    -o-transform: rotate(90deg) translate(0, -50%);
+    transform: rotate(90deg) translate(0, -50%);
+}
+
+/*#sidebar ul a {
+    padding-left: 20px;
+}
+
+#sidebar ul li ul a {
+    padding-left: 40px;
+}
+
+#sidebar ul li ul li ul a {
+    padding-left: 60px;
+}
+
+#sidebar ul a::after {
+    left: -5px;
+}
+
+#sidebar ul li ul a::after {
+    left: 11px;
+}
+
+#sidebar ul li ul li ul a::after {
+    left: 40px;
+}*/
 
 .sub-active {
     background: rgba(69,69,69,.6);
