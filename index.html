@@ -46,10 +46,15 @@
                 <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#MainStats">Main Stats</a></li>
                 <li class="nav-item">
                     <a class="nav-link" data-target="#Meters" data-toggle="collapse" aria-expanded="false" href="#">
-                        <i class="fa "Meter<b class="fa carret"></b></a>
+                        <span>Meter</span>
+                        <span class="fa fa-chevron-right carret"></span>
+                    </a>
                     <ul class="list-unstyled collapse" id="Meters">
                         <li class="nav-item">
-                            <a class="nav-link" data-target="#WaterMeters" data-toggle="collapse" href="#">Water</a>
+                            <a class="nav-link" data-target="#WaterMeters" data-toggle="collapse" aria-expanded="false" href="#">
+                                <span>Water</span>
+                                <span class="fa fa-chevron-right carret"></span>
+                            </a>
                             <ul class="list-unstyled collapse" id="WaterMeters">
                                 <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Cold">Cold</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Hot">Hot</a></li>
@@ -85,7 +90,11 @@
             </div>
         </div>
 
-<!--<nav class="navbar navbar-inverse navbar-fixed-top">
+<!--
+<svg version="1.1" id="Layer_1" x="0" y="0" viewBox="0 0 76 76" style="enable-background:new 0 0 40 40;" width="16" height="16" fill="#FF0000">
+    <path class="st0" d="M38,16c-9.7,0-17.9,6.3-20.9,15H14v14h3.1c2.9,8.7,11.2,15,20.9,15s17.9-6.3,20.9-15H62V31h-3.1  C55.9,22.3,47.7,16,38,16z M38,48c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S39.7,48,38,48z M47,34H29c-1.7,0-3-1.3-3-3s1.3-3,3-3h18  c1.7,0,3,1.3,3,3S48.7,34,47,34z M2,49h10V27H2V49z M4,29h6v3H4V29z M64,27v22h10V27H64z M72,32h-6v-3h6V32z" fill="#FF0000" style="fill: rgb(255, 0, 0);"></path>
+</svg>
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="flex-container">
         <div class="navbar-brand navbar-brand-width navbar-brand-padding flex-vcenter hidden-xs" href="#">
             <img src="static/imgs/esp.jpg" class="img-circle img-responsive">

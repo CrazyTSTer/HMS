@@ -285,6 +285,54 @@ nav .navbar-toggle {
     width: 100%;
 }*/
 
+/*#sidebar ul li ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    border-left: 2px solid #7A7A7A;
+    padding-left: 1rem;
+}
+
+#sidebar ul li ul li ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 24px;
+    border-left: 2px solid #7A7A7A;
+    padding-left: 1rem;
+}
+
+#sidebar ul a {
+    padding-left: 20px;
+}
+
+#sidebar ul li ul a {
+    padding-left: 40px;
+}
+
+#sidebar ul li ul li ul a {
+    padding-left: 60px;
+}
+
+#sidebar ul a::after {
+    left: -5px;
+}
+
+#sidebar ul li ul a::after {
+    left: 11px;
+}
+
+#sidebar ul li ul li ul a::after {
+    left: 40px;
+}*/
+
 html, body {
     position: relative;
     height: 100%;
@@ -333,33 +381,9 @@ html, body {
     top: 0;
     bottom: 0;
     left: -7px;
-    border-left: 2px solid #7A7A7A;
+    border-left: 2px solid #007700;
     padding-left: 1rem;
 }
-
-/*#sidebar ul li ul li::before {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    bottom: 0;
-    left: 10px;
-    border-left: 2px solid #7A7A7A;
-    padding-left: 1rem;
-}
-
-#sidebar ul li ul li ul li::before {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    bottom: 0;
-    left: 24px;
-    border-left: 2px solid #7A7A7A;
-    padding-left: 1rem;
-}*/
 
 #sidebar ul li:first-child::before {
     top: -22px
@@ -376,45 +400,21 @@ html, body {
     position: absolute;
     width: 15px;
     top: 18px;
-    border-top: 2px solid #7A7A7A;
+    border-top: 2px solid #007700;
     z-index: 1;
     left: -5px;
 }
 
-#sidebar a[aria-expanded="true"] .carret::before {
-    -webkit-transform-origin: right;
-    -ms-transform-origin: right;
-    -o-transform-origin: right;
-    transform-origin: right;
-    -webkit-transform: rotate(90deg) translate(0, -50%);
-    -ms-transform: rotate(90deg) translate(0, -50%);
-    -o-transform: rotate(90deg) translate(0, -50%);
-    transform: rotate(90deg) translate(0, -50%);
+#sidebar a[aria-expanded="true"] .carret{
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    -o-transform-origin: center;
+    transform-origin: center;
+    -webkit-transform: rotate(90deg) translate(0, 25%);
+    -ms-transform: rotate(90deg) translate(0, 25%);
+    -o-transform: rotate(90deg) translate(0, 25%);
+    transform: rotate(90deg) translate(0, 25%);
 }
-
-/*#sidebar ul a {
-    padding-left: 20px;
-}
-
-#sidebar ul li ul a {
-    padding-left: 40px;
-}
-
-#sidebar ul li ul li ul a {
-    padding-left: 60px;
-}
-
-#sidebar ul a::after {
-    left: -5px;
-}
-
-#sidebar ul li ul a::after {
-    left: 11px;
-}
-
-#sidebar ul li ul li ul a::after {
-    left: 40px;
-}*/
 
 .sub-active {
     background: rgba(69,69,69,.6);
@@ -429,21 +429,10 @@ html, body {
 }
 
 .carret {
-    display: block;
-    float: right;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-size: 11px;
-    border: none;
-}
-
-.carret::before {
-    rotate(0);
-    content: '\f054';
-    display: block;
-    text-align: center;
-    transition: all .2s linear;
+    position: absolute;
+    top: 12px;
+    /* bottom: 0; */
+    right: 20px;
     opacity: .5;
+    transition: all 250ms linear;
 }
