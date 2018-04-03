@@ -46,32 +46,37 @@
                 <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#MainStats">Main Stats</a></li>
                 <li class="nav-item">
                     <a class="nav-link" data-target="#Meters" data-toggle="collapse" aria-expanded="false" href="#">
-                        <span>Meter</span>
-                        <span class="fa fa-chevron-right carret"></span>
+                        <i class="fa fa-tachometer"></i>
+                        <span>Meters</span>
+                        <span class="glyphicon glyphicon-menu-right carret"></span>
                     </a>
                     <ul class="list-unstyled collapse" id="Meters">
                         <li class="nav-item">
                             <a class="nav-link" data-target="#WaterMeters" data-toggle="collapse" aria-expanded="false" href="#">
+                                <i class="fa fa-tint"></i>
                                 <span>Water</span>
                                 <span class="fa fa-chevron-right carret"></span>
                             </a>
                             <ul class="list-unstyled collapse" id="WaterMeters">
-                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Cold">Cold</a></li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/Water/Hot">Hot</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#Meters/Water/Cold">
+                                        <img src="static/imgs/water_meter_cold.png">
+                                        <span>Cold Water</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#Meters/Water/Hot">
+                                        <img src="static/imgs/water_meter_hot.png">
+                                        <span>Hot Water</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-target="#ElMeters" data-toggle="collapse" href="#">Electricity</a>
-                            <ul class="list-unstyled collapse" id="ElMeters">
-                                <li class="nav-item">
-                                    <a class="nav-link" data-target="#test" data-toggle="collapse" href="#Meters/ElMeter/El1">El1</a>
-                                    <ul class="list-unstyled collapse" id="test">
-                                        <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El1">El1</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Meters/ElMeter/El2">El2</a></li>
-                            </ul>
+                            <a class="nav-link" data-target="#ElMeters" data-toggle="collapse" href="#">
+                                <i class="fa fa-bolt"></i>
+                                <span>Electricity</span>
+                            </a>
                         </li>
                     </ul>
                 </li>

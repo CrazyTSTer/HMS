@@ -374,7 +374,7 @@ html, body {
 }
 
 #sidebar ul li::before {
-    content: "";
+    /*content: "";
     display: block;
     position: absolute;
     z-index: 1;
@@ -382,11 +382,21 @@ html, body {
     bottom: 0;
     left: -7px;
     border-left: 2px solid #007700;
+    padding-left: 1rem;*/
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    bottom: 0;
+    left: 3px;
+    border-left: 2px solid #007700;
     padding-left: 1rem;
 }
 
 #sidebar ul li:first-child::before {
-    top: -22px
+    /*top: -22px*/
+    top: -10px;
 }
 
 #sidebar ul li:last-child::before {
@@ -395,14 +405,22 @@ html, body {
 }
 
 #sidebar ul li a::before {
-    content: "";
+    /*content: "";
     display: block;
     position: absolute;
     width: 15px;
     top: 18px;
     border-top: 2px solid #007700;
     z-index: 1;
-    left: -5px;
+    left: -5px;*/
+    content: "";
+    display: block;
+    position: absolute;
+    width: 7px;
+    top: 18px;
+    border-top: 2px solid #007700;
+    z-index: 1;
+    left: 5px;
 }
 
 #sidebar a[aria-expanded="true"] .carret{
@@ -431,7 +449,6 @@ html, body {
 .carret {
     position: absolute;
     top: 12px;
-    /* bottom: 0; */
     right: 20px;
     opacity: .5;
     transition: all 250ms linear;
