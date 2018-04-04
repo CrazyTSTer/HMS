@@ -35,65 +35,59 @@
     <![endif]-->
 </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md pl-0 pr-0">
-            <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#"><img class="mx-auto d-block img-width" src="static/imgs/espressif.png"></a>
-            <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
-            <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
-            <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <ul class="navbar-collapse collapse list-unstyled flex-column align-items-start pl-2 pr-2 mb-0" id="sidebar">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#MainStats">
-                        <img height="23px" src="static/imgs/main_stat1.png">
-                        <span>Main Stats</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-target="#Meters" data-toggle="collapse" aria-expanded="false" href="#">
+        <header>
+            <nav class="navbar navbar-dark bg-dark navbar-expand-md pl-0 pr-0">
+                <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#"><img class="mx-auto d-block img-width" src="static/imgs/espressif.png"></a>
+                <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
+                <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
+                <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </header>
+        <aside>
+            <ul class="collapse list-unstyled flex-column align-items-start pl-2 pr-2 mb-0 d-md-block" id="sidebar">
+                <li><a class="active" href="#MainStats">
+                    <img height="23px" src="static/imgs/main_stat1.png">
+                    <span>Main Stats</span>
+                </a></li>
+                <li>
+                    <a data-target="#Meters" data-toggle="collapse" aria-expanded="false" href="#">
                         <img height="23px" src="static/imgs/Meters3.png">
                         <span>Meters</span>
                         <span class="fa fa-chevron-right carret"></span>
                     </a>
                     <ul class="list-unstyled collapse" id="Meters">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        <li><a href="#">
                                 <img height="23px" src="static/imgs/WaterMeter4.png">
                                 <span>Water</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" data-target="#ElMeters" href="#">
+                        </a></li>
+                        <li>
+                            <a data-toggle="collapse" data-target="#ElMeters" href="#">
                                 <img height="23px" src="static/imgs/ElMeter1.png">
                                 <span>Electricity</span>
                                 <span class="fa fa-chevron-right carret"></span>
                             </a>
                             <ul class="list-unstyled collapse" id="ElMeters">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <img height="23px" src="static/imgs/WaterMeter4.png">
-                                        <span>Water</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <img height="23px" src="static/imgs/ElMeter1.png">
-                                        <span>Electricity</span>
-                                    </a>
-                                </li>
+                                <li><a href="#">
+                                    <img height="23px" src="static/imgs/WaterMeter4.png">
+                                    <span>Water</span>
+                                </a></li>
+                                <li><a href="#">
+                                    <img height="23px" src="static/imgs/ElMeter1.png">
+                                    <span>Electricity</span>
+                                </a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#Settings">
+                <li><a href="#Settings">
                         <img height="23px" src="static/imgs/settings.png">
                         <span>Settings</span>
                     </a>
                 </li>
             </ul>
-        </nav>
+        </aside>
 
         <!-- Page Content -->
         <div id="content">
