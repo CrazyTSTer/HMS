@@ -118,3 +118,13 @@ html, body {
 .bg-dark {
     background: #181d2a !important;
 }
+
+.shadowfilter {
+    /*-webkit-filter: drop-shadow(0px 0px 0px rgba(255,255,255,0.80));*/
+    -webkit-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+#sidebar a:hover .shadowfilter {
+     -webkit-filter: drop-shadow(0px 0px 1px rgba(0, 231, 255, 0.8));
+}
