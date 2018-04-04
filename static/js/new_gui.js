@@ -4,15 +4,16 @@
 
 jQuery(document).ready(function() {
     $('#sidebar a').on('click', function (e) {
-        $('#sidebar').find('.active').removeClass('active');
+
         if ($(this).attr('data-toggle') != 'collapse') {
+            $('#sidebar').find('.active').removeClass('active');
             $(this).addClass('active');
         } else {
-            if (!$(this).hasClass('a_sub-active')) {
+            /*if (!$(this).hasClass('a_sub-active')) {
                 $(this).addClass('a_sub-active');
             } else {
                 $(this).removeClass('a_sub-active');
-            }
+            }*/
             if ($(this).siblings('ul').hasClass('sub-active')) {
                 var el = $(this).siblings('ul').removeClass('sub-active').find('.sub-active').siblings('a').get().reverse();
                 $(el).click();
