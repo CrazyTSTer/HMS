@@ -35,9 +35,10 @@ html, body {
 }
 
 #sidebar li a {
-    display: block;
+    display: flex;
+    align-items: center;
     color: #007700;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
     text-decoration: none;
 }
 
@@ -52,6 +53,11 @@ html, body {
     color: #fff ;
 }
 
+#sidebar li a img {
+    height: 40px;
+    padding-right: 10px;
+}
+
 #sidebar ul li::before {
     content: "";
     display: block;
@@ -59,17 +65,17 @@ html, body {
     z-index: 1;
     top: 0px;
     bottom: 0;
-    left: -6px;
+    left: 2px;
     border-left: 2px solid #007700;
 }
 
 #sidebar ul li:first-child::before {
-    top: -5px;
+    top: -10px;
 }
 
 #sidebar ul li:last-child::before {
     bottom: auto;
-    height: 20px;
+    height: 35px;
 }
 
 #sidebar ul li a::before {
@@ -77,10 +83,10 @@ html, body {
     display: block;
     position: absolute;
     width: 15px;
-    top: 18px;
+    top: 35px;
     border-top: 2px solid #007700;
     z-index: 1;
-    left: -5px;
+    left: 2px;
 }
 
 #sidebar a[aria-expanded="true"] .carret{
@@ -109,7 +115,6 @@ html, body {
 
 .carret {
     position: absolute;
-    top: 12px;
     right: 20px;
     opacity: .5;
     transition: all 250ms linear;
