@@ -37,7 +37,9 @@
     <body>
         <header>
             <nav class="navbar navbar-dark bg-dark navbar-expand-md pl-0 pr-0">
-                <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#"><img class="mx-auto d-block img-width" src="static/imgs/espressif.png"></a>
+                <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#">
+                    <img class="mx-auto d-block img-width logo-shadow" src="static/imgs/espressif.png">
+                </a>
                 <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
                 <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
                 <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,8 +47,8 @@
                 </button>
             </nav>
         </header>
-        <aside>
-            <ul class="list-unstyled collapse d-md-block pl-2 pr-2 mb-0" id="sidebar">
+        <aside class="sidebar bg-dark pl-2 pr-2">
+            <ul class="list-unstyled collapse d-md-block pt-1 mb-0" id="sidebar">
                 <li><a class="active" href="#MainStats">
                     <img class="shadowfilter" src="static/imgs/main_stat1.png">
                     <span>Main Stats</span>
@@ -89,7 +91,7 @@
         </aside>
 
         <!-- Page Content -->
-        <div id="content">
+        <div id="content" class="pt-1">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>

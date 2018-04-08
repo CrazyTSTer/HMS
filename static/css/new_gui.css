@@ -1,13 +1,6 @@
-html, body {
-    position: relative;
-    height: 100%;
-    background-color: #333;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
+/* ----- Main media query ----- */
 @media(min-width:768px) {
-    #sidebar {
+    .sidebar {
         position: fixed;
         top: 56px;
         width: 255px;
@@ -19,10 +12,39 @@ html, body {
     }
 
     #content {
-      margin-left: 255px;
+        margin-left: 255px;
     }
 }
 
+/* ----- Common blocks ----- */
+html, body {
+    position: relative;
+    height: 100%;
+    background-color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bg-dark {
+    background: #181d2a !important;
+}
+
+/* ----- Additional Header CSS ----- */
+.img-width {
+    width: 225px;
+    height: 30px;
+}
+
+.navbrand-width {
+    width: 255px;
+}
+
+.logo-shadow {
+    -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 0, 0, 1));
+}
+
+
+/* ----- SideBar CSS ----- */
 #sidebar ul {
     position: relative;
     width: 100%;
@@ -48,7 +70,6 @@ html, body {
 }
 
 #sidebar li a.active {
-    /*background: rgba(0,0,0,0.2);*/
     background: #2d3950;
     color: #fff ;
 }
@@ -101,16 +122,7 @@ html, body {
 }
 
 .sub-active {
-    /*background: rgba(69,69,69,.6);*/
     background: rgba(0,0,30,.5);
-}
-
-.img-width {
-  width: 225px;
-}
-
-.navbrand-width {
-    width: 255px;
 }
 
 .carret {
@@ -120,10 +132,6 @@ html, body {
     transition: all 250ms linear;
 }
 
-.bg-dark {
-    background: #181d2a !important;
-}
-
 .shadowfilter {
     /*-webkit-filter: drop-shadow(0px 0px 0px rgba(255,255,255,0.80));*/
     -webkit-transition: all 0.5s linear;
@@ -131,5 +139,5 @@ html, body {
     transition: all 0.5s linear;
 }
 #sidebar a:hover .shadowfilter {
-     -webkit-filter: drop-shadow(0px 0px 1px rgba(0, 231, 255, 0.8));
+     -webkit-filter: drop-shadow(0px 0px 5px rgba(0, 255, 0, 1));
 }
