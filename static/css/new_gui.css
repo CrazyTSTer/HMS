@@ -25,9 +25,16 @@
 html, body {
     position: relative;
     height: 100%;
-    background-color: #383f48;
+    /*background: #383f48;*/
+    background: #1f2023;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.page-wrapper {
+    width: 100%;
+    height: 100%;
+    background: #383f48;
 }
 
 .bg-dark {
@@ -78,13 +85,16 @@ html, body {
 }
 
 #sidebar li a:hover {
-    background: rgba(0,0,0,0.1);
+    /*background: rgba(0,0,0,0.1);*/
+    background: #343b44;
     color: #fff;
+    border-radius: 0.5rem;
 }
 
 #sidebar li a.active {
     background: #2d3950;
     color: #fff ;
+    border-radius: 0.5rem;
 }
 
 #sidebar li a img {
@@ -136,10 +146,25 @@ html, body {
 
 .sub-active {
     /*background: rgba(62,78,86, 0.2);*/
-    background: rgba(38,198,218, 0.2);
+    /*background: rgba(38,198,218, 0.2);*/
+    background: #101b2d99;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
 }
 
-.sub-active .sub-active { background: transparent; }
+.sub-active .sub-active {
+    background: transparent;
+}
+
+.a_sub-active {
+    background: #101b2d99;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.sub-active .a_sub-active {
+    background: transparent;
+}
 
 .carret {
     position: absolute;
@@ -157,4 +182,21 @@ html, body {
 }
 #sidebar a:hover .shadowfilter {
      -webkit-filter: drop-shadow(0px 0px 5px rgba(0, 255, 0, 1));
+}
+
+/* ----- Page Content ----- */
+#content .tab-pane {
+    display: none;
+}
+
+#content .tab-pane.active{
+    display: block;
+}
+
+/* ----- Cards ----- */
+.card {
+    margin-bottom: 30px;
+    background: #263238;
+    border-color: #3e4e56
+
 }
