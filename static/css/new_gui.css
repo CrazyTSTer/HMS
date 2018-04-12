@@ -16,8 +16,15 @@
         -moz-box-sizing: border-box;
     }
 
-    #content {
+    .content {
+        position: absolute;
+        top: 57px;
         margin-left: 255px;
+        right: 0px;
+        bottom:0px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
     }
 }
 
@@ -185,6 +192,10 @@ html, body {
 }
 
 /* ----- Page Content ----- */
+.content {
+    color: #fff
+}
+
 #content .tab-pane {
     display: none;
 }
@@ -199,4 +210,12 @@ html, body {
     background: #263238;
     border-color: #3e4e56
 
+}
+
+.card hr {
+    border-top: 1px solid #26c6da;
+}
+
+.progress {
+    background-color: #383f48;
 }
