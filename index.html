@@ -35,230 +35,228 @@
     <![endif]-->
 </head>
 <body>
-    <div class="page-wrapper">
-        <!-- Page Header -->
-        <header class="header fixed-top bg-dark navbar-dark">
-            <nav class="navbar navbar-expand-md pl-0 pr-0">
-                <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#">
-                    <img class="mx-auto d-block img-width logo-shadow" src="static/imgs/espressif.png">
+    <!-- Page Header -->
+    <header class="header bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-md pl-0 pr-0">
+            <a class="navbar-brand navbrand-width m-sm-0 d-none d-sm-block pl-2 pr-2" href="#">
+                <img class="mx-auto d-block img-width logo-shadow" src="static/imgs/espressif.png">
+            </a>
+            <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
+            <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
+            <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+    <!-- Page Sidebar -->
+    <aside class="sidebar bg-dark pl-2 pr-2">
+        <ul class="list-unstyled collapse d-md-block pt-1 mb-0" id="sidebar">
+            <li><a class="active" href="#main_stat" data-target="#main_stat">
+                <img class="shadowfilter" src="static/imgs/main_stat1.png">
+                <span>Main Stats</span>
+            </a></li>
+            <li>
+                <a href="#" data-target="#Meters" data-toggle="collapse">
+                    <img class="shadowfilter" src="static/imgs/Meters3.png">
+                    <span>Meters</span>
+                    <i class="fa fa-chevron-right carret"></i>
                 </a>
-                <a class="navbar-brand d-none d-md-block m-auto" href="#">Automated Smart Meters System</a>
-                <a class="navbar-brand m-auto d-md-none" href="#">ASMS</a>
-                <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
-        </header>
-        <!-- Page Sidebar -->
-        <aside class="sidebar bg-dark pl-2 pr-2">
-            <ul class="list-unstyled collapse d-md-block pt-1 mb-0" id="sidebar">
-                <li><a class="active" href="#main_stat" data-target="#main_stat">
-                    <img class="shadowfilter" src="static/imgs/main_stat1.png">
-                    <span>Main Stats</span>
-                </a></li>
-                <li>
-                    <a href="#" data-target="#Meters" data-toggle="collapse">
-                        <img class="shadowfilter" src="static/imgs/Meters3.png">
-                        <span>Meters</span>
-                        <i class="fa fa-chevron-right carret"></i>
-                    </a>
-                    <ul class="list-unstyled collapse" id="Meters">
-                        <li><a href="#water" data-target="#water">
-                            <img class="shadowfilter" src="static/imgs/WaterMeter4.png">
-                            <span>Water</span>
-                        </a></li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#ElMeters">
+                <ul class="list-unstyled collapse" id="Meters">
+                    <li><a href="#water" data-target="#water">
+                        <img class="shadowfilter" src="static/imgs/WaterMeter4.png">
+                        <span>Water</span>
+                    </a></li>
+                    <li>
+                        <a href="#" data-toggle="collapse" data-target="#ElMeters">
+                            <img class="shadowfilter" src="static/imgs/ElMeter1.png">
+                            <span>Electricity</span>
+                            <span class="fa fa-chevron-right carret"></span>
+                        </a>
+                        <ul class="list-unstyled collapse" id="ElMeters">
+                            <li><a href="#water1">
+                                <img class="shadowfilter" src="static/imgs/WaterMeter4.png">
+                                <span>Water</span>
+                            </a></li>
+                            <li><a href="#electricity1">
                                 <img class="shadowfilter" src="static/imgs/ElMeter1.png">
                                 <span>Electricity</span>
-                                <span class="fa fa-chevron-right carret"></span>
-                            </a>
-                            <ul class="list-unstyled collapse" id="ElMeters">
-                                <li><a href="#water1">
-                                    <img class="shadowfilter" src="static/imgs/WaterMeter4.png">
-                                    <span>Water</span>
-                                </a></li>
-                                <li><a href="#electricity1">
-                                    <img class="shadowfilter" src="static/imgs/ElMeter1.png">
-                                    <span>Electricity</span>
-                                </a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#settings">
-                    <img class="shadowfilter" src="static/imgs/settings.png">
-                    <span>Settings</span>
-                </a></li>
-            </ul>
-        </aside>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#settings">
+                <img class="shadowfilter" src="static/imgs/settings.png">
+                <span>Settings</span>
+            </a></li>
+        </ul>
+    </aside>
 
-        <!-- Page Content -->
-        <div id="content" class="content pt-1 pl-2 pr-2">
-            <div class="container-fluid">
-                <div id="main_stat" class="tab-pane active">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h4 class="card-title">Water</h4>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-7 text-left align-self-center">Current value:</div>
-                                        <div class="col-5 text-left align-self-center">255.123</div>
+    <!-- Page Content -->
+    <div id="content" class="content pt-1 pl-2 pr-2">
+        <div class="container-fluid">
+            <div id="main_stat" class="tab-pane active">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Water</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-7 text-left align-self-center">Current value:</div>
+                                    <div class="col-5 text-left align-self-center">255.123</div>
+                                </div>
+                                <div class="row">
+                                    <table class="no-border">
+                                    <tbody>
+                                    <tr class="">
+                                        <td>Curr. M. Rate:</td>
+                                        <td>
+                                            <span>0</span>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 30%; height: 6px;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10"></div>
+                                            </div>
+                                            <span>10</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">Prev M. Rate:</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-warning"><i class="mdi mdi-cellphone-link"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">$2376</h3>
+                                        <h5 class="text-muted m-b-0">Online Revenue</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-primary"><i class="mdi mdi-cart-outline"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">$1795</h3>
+                                        <h5 class="text-muted m-b-0">Offline Revenue</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-danger"><i class="mdi mdi-bullseye"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">$687</h3>
+                                        <h5 class="text-muted m-b-0">Ad. Expense</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card card-inverse card-primary">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="m-r-20 align-self-center">
+                                        <h1 class="text-white"><i class="ti-pie-chart"></i></h1></div>
+                                    <div>
+                                        <h3 class="card-title">Bandwidth usage</h3>
+                                        <h6 class="card-subtitle">March  2017</h6> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 align-self-center">
+                                        <h2 class="font-light text-white">50 GB</h2>
                                     </div>
-                                    <div class="row">
-                                        <table class="no-border">
-                                        <tbody>
-                                        <tr class="">
-                                            <td>Curr. M. Rate:</td>
-                                            <td>
-                                                <span>0</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%; height: 6px;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10"></div>
-                                                </div>
-                                                <span>10</span>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">Prev M. Rate:</div>
+                                    <div class="col-8 p-t-10 p-b-20 align-self-center">
+                                        <div class="usage chartist-chart" style="height:65px"><div class="chartist-tooltip" style="top: -30px; left: 5.78125px;"></div><svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-line" style="width: 100%; height: 100%;"><g class="ct-grids"></g><g><g class="ct-series ct-series-a"><path d="M30,60L30,37.5C33.129,41.25,42.518,65.25,48.777,60C55.036,54.75,61.295,6.75,67.554,6C73.813,5.25,80.071,52.5,86.33,55.5C92.589,58.5,98.848,25.5,105.107,24C111.366,22.5,117.625,49.5,123.884,46.5C130.143,43.5,136.402,15,142.661,6C148.92,-3,158.308,-5.25,161.438,-7.5L161.438,60Z" class="ct-area"></path><path d="M30,37.5C33.129,41.25,42.518,65.25,48.777,60C55.036,54.75,61.295,6.75,67.554,6C73.813,5.25,80.071,52.5,86.33,55.5C92.589,58.5,98.848,25.5,105.107,24C111.366,22.5,117.625,49.5,123.884,46.5C130.143,43.5,136.402,15,142.661,6C148.92,-3,158.308,-5.25,161.438,-7.5" class="ct-line"></path><line x1="30" y1="37.5" x2="30.01" y2="37.5" class="ct-point" ct:value="5"></line><line x1="48.776785714285715" y1="60" x2="48.78678571428571" y2="60" class="ct-point" ct:value="0"></line><line x1="67.55357142857143" y1="6" x2="67.56357142857144" y2="6" class="ct-point" ct:value="12"></line><line x1="86.33035714285714" y1="55.5" x2="86.34035714285714" y2="55.5" class="ct-point" ct:value="1"></line><line x1="105.10714285714286" y1="24" x2="105.11714285714287" y2="24" class="ct-point" ct:value="8"></line><line x1="123.88392857142858" y1="46.5" x2="123.89392857142859" y2="46.5" class="ct-point" ct:value="3"></line><line x1="142.66071428571428" y1="6" x2="142.67071428571427" y2="6" class="ct-point" ct:value="12"></line><line x1="161.4375" y1="-7.5" x2="161.4475" y2="-7.5" class="ct-point" ct:value="15"></line></g></g><g class="ct-labels"></g></svg></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-row">
-                                        <div class="round round-lg align-self-center round-warning"><i class="mdi mdi-cellphone-link"></i></div>
-                                        <div class="m-l-10 align-self-center">
-                                            <h3 class="m-b-0 font-lgiht">$2376</h3>
-                                            <h5 class="text-muted m-b-0">Online Revenue</h5></div>
-                                    </div>
+                        <div class="card card-inverse card-success">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="m-r-20 align-self-center">
+                                        <h1 class="text-white"><i class="icon-cloud-download"></i></h1></div>
+                                    <div>
+                                        <h3 class="card-title">Download count</h3>
+                                        <h6 class="card-subtitle">March  2017</h6> </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-row">
-                                        <div class="round round-lg align-self-center round-primary"><i class="mdi mdi-cart-outline"></i></div>
-                                        <div class="m-l-10 align-self-center">
-                                            <h3 class="m-b-0 font-lgiht">$1795</h3>
-                                            <h5 class="text-muted m-b-0">Offline Revenue</h5></div>
+                                <div class="row">
+                                    <div class="col-4 align-self-center">
+                                        <h2 class="font-light text-white">35487</h2>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-row">
-                                        <div class="round round-lg align-self-center round-danger"><i class="mdi mdi-bullseye"></i></div>
-                                        <div class="m-l-10 align-self-center">
-                                            <h3 class="m-b-0 font-lgiht">$687</h3>
-                                            <h5 class="text-muted m-b-0">Ad. Expense</h5></div>
+                                    <div class="col-8 p-t-10 p-b-20 text-right">
+                                        <div class="spark-count" style="height:65px"><canvas width="146" height="70" style="display: inline-block; width: 146px; height: 70px; vertical-align: top;"></canvas></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card card-inverse card-primary">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="m-r-20 align-self-center">
-                                            <h1 class="text-white"><i class="ti-pie-chart"></i></h1></div>
-                                        <div>
-                                            <h3 class="card-title">Bandwidth usage</h3>
-                                            <h6 class="card-subtitle">March  2017</h6> </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4 align-self-center">
-                                            <h2 class="font-light text-white">50 GB</h2>
-                                        </div>
-                                        <div class="col-8 p-t-10 p-b-20 align-self-center">
-                                            <div class="usage chartist-chart" style="height:65px"><div class="chartist-tooltip" style="top: -30px; left: 5.78125px;"></div><svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-line" style="width: 100%; height: 100%;"><g class="ct-grids"></g><g><g class="ct-series ct-series-a"><path d="M30,60L30,37.5C33.129,41.25,42.518,65.25,48.777,60C55.036,54.75,61.295,6.75,67.554,6C73.813,5.25,80.071,52.5,86.33,55.5C92.589,58.5,98.848,25.5,105.107,24C111.366,22.5,117.625,49.5,123.884,46.5C130.143,43.5,136.402,15,142.661,6C148.92,-3,158.308,-5.25,161.438,-7.5L161.438,60Z" class="ct-area"></path><path d="M30,37.5C33.129,41.25,42.518,65.25,48.777,60C55.036,54.75,61.295,6.75,67.554,6C73.813,5.25,80.071,52.5,86.33,55.5C92.589,58.5,98.848,25.5,105.107,24C111.366,22.5,117.625,49.5,123.884,46.5C130.143,43.5,136.402,15,142.661,6C148.92,-3,158.308,-5.25,161.438,-7.5" class="ct-line"></path><line x1="30" y1="37.5" x2="30.01" y2="37.5" class="ct-point" ct:value="5"></line><line x1="48.776785714285715" y1="60" x2="48.78678571428571" y2="60" class="ct-point" ct:value="0"></line><line x1="67.55357142857143" y1="6" x2="67.56357142857144" y2="6" class="ct-point" ct:value="12"></line><line x1="86.33035714285714" y1="55.5" x2="86.34035714285714" y2="55.5" class="ct-point" ct:value="1"></line><line x1="105.10714285714286" y1="24" x2="105.11714285714287" y2="24" class="ct-point" ct:value="8"></line><line x1="123.88392857142858" y1="46.5" x2="123.89392857142859" y2="46.5" class="ct-point" ct:value="3"></line><line x1="142.66071428571428" y1="6" x2="142.67071428571427" y2="6" class="ct-point" ct:value="12"></line><line x1="161.4375" y1="-7.5" x2="161.4475" y2="-7.5" class="ct-point" ct:value="15"></line></g></g><g class="ct-labels"></g></svg></div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Our Visitors</h3>
+                                <h6 class="card-subtitle">Different Devices Used to Visit</h6>
                             </div>
-                            <div class="card card-inverse card-success">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="m-r-20 align-self-center">
-                                            <h1 class="text-white"><i class="icon-cloud-download"></i></h1></div>
-                                        <div>
-                                            <h3 class="card-title">Download count</h3>
-                                            <h6 class="card-subtitle">March  2017</h6> </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4 align-self-center">
-                                            <h2 class="font-light text-white">35487</h2>
-                                        </div>
-                                        <div class="col-8 p-t-10 p-b-20 text-right">
-                                            <div class="spark-count" style="height:65px"><canvas width="146" height="70" style="display: inline-block; width: 146px; height: 70px; vertical-align: top;"></canvas></div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div>
+                                <hr class="m-t-0 m-b-0">
+                            </div>
+                            <div class="card-body text-center ">
+                                <ul class="list-inline m-b-0">
+                                    <li>
+                                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Mobile</h6> </li>
+                                    <li>
+                                        <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Desktop</h6> </li>
+                                    <li>
+                                        <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Tablet</h6> </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="card-title">Our Visitors</h3>
-                                    <h6 class="card-subtitle">Different Devices Used to Visit</h6>
-                                </div>
-                                <div>
-                                    <hr class="m-t-0 m-b-0">
-                                </div>
-                                <div class="card-body text-center ">
-                                    <ul class="list-inline m-b-0">
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Current Visitors</h4>
+                                <h6 class="card-subtitle">Different Devices Used to Visit</h6>
+                                <div class="text-center">
+                                    <ul class="list-inline">
                                         <li>
-                                            <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10 "></i>Mobile</h6> </li>
+                                            <h6 class="text-success"><i class="fa fa-circle font-10 m-r-10 "></i>Valley</h6> </li>
                                         <li>
-                                            <h6 class="text-muted  text-primary"><i class="fa fa-circle font-10 m-r-10"></i>Desktop</h6> </li>
+                                            <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Newyork</h6> </li>
                                         <li>
-                                            <h6 class="text-muted  text-success"><i class="fa fa-circle font-10 m-r-10"></i>Tablet</h6> </li>
+                                            <h6 class="text-danger"><i class="fa fa-circle font-10 m-r-10"></i>Kansas</h6> </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Current Visitors</h4>
-                                    <h6 class="card-subtitle">Different Devices Used to Visit</h6>
-                                    <div class="text-center">
-                                        <ul class="list-inline">
-                                            <li>
-                                                <h6 class="text-success"><i class="fa fa-circle font-10 m-r-10 "></i>Valley</h6> </li>
-                                            <li>
-                                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Newyork</h6> </li>
-                                            <li>
-                                                <h6 class="text-danger"><i class="fa fa-circle font-10 m-r-10"></i>Kansas</h6> </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/material-pro/dark/index.html</div>
-                        <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">http://wrapbootstrap.com/preview/WB0521C46</div>
-                        <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/monster-admin/dark/index.html</div>
                     </div>
                 </div>
 
-                <div id="water" class="tab-pane">
-                    <div class="row">
-                        <div class="col-12">HUY</div>
-                    </div>
+                <div class="row">
+                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/material-pro/dark/index.html</div>
+                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">http://wrapbootstrap.com/preview/WB0521C46</div>
+                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/monster-admin/dark/index.html</div>
+                </div>
+            </div>
+
+            <div id="water" class="tab-pane">
+                <div class="row">
+                    <div class="col-12">HUY</div>
                 </div>
             </div>
         </div>

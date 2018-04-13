@@ -11,6 +11,10 @@ jQuery(document).ready(function() {
                 $('#content').find('.active').removeClass('active');
                 $($(this).attr('data-target')).addClass('active');
             }
+            if ($('#sidebar').hasClass('show')) {
+                $('.navbar-toggler').button().click()
+                $('body,html').animate({scrollTop: 0}, 400);
+            }
         } else {
             if (!$(this).hasClass('a_sub-active')) {
                 $(this).addClass('a_sub-active');
