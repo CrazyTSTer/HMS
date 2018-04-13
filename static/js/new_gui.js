@@ -3,6 +3,7 @@
  */
 
 jQuery(document).ready(function() {
+    show_main_stats();
     $('#sidebar a').on('click', function (e) {
         if ($(this).attr('data-toggle') != 'collapse') {
             $('#sidebar').find('.active').removeClass('active');
@@ -37,3 +38,24 @@ jQuery(document).ready(function() {
         $(el).click();
     });
 });
+
+function show_main_stats()
+{
+    executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
+        if (result['status'] == 'success') {
+            $(".js_water_last_update").text(result['data']['ts']);
+
+            $(".js_cold_curr_value").text(result['data']['coldwater']['cube'] + ',' + result['data']['coldwater']['liter']);
+            $(".js_cold_curr_day_rate").text(result['data']['coldwater']['day_rate']);
+            $(".js_cold_curr_month_rate").text(result['data']['coldwater']['month_rate']);
+            $(".js_cold_prev_month_rate").text(result['data']['coldwater']['prev_month_rate']);
+
+            $(".js_hot_curr_value").text(result['data']['hotwater']['cube'] + ',' + result['data']['hotwater']['liter']);
+            $(".js_hot_curr_day_rate").text(result['data']['hotwater']['day_rate']);
+            $(".js_hot_curr_month_rate").text(result['data']['hotwater']['month_rate']);
+            $(".js_hot_prev_month_rate").text(result['data']['hotwater']['prev_month_rate']);
+        } else {
+            alert(result['status'] + ": " + result['data']);
+        }
+    });
+}

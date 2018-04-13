@@ -219,12 +219,29 @@ html, body {
 .card {
     margin-bottom: 30px;
     background: #263238;
-    border-color: #3e4e56
-
+    border-color: #3e4e56;
 }
 
-.card hr {
+.card .card-header {
+    border-bottom: 1px solid #007700;
+    color: #007700;
+    font-size: 1.5rem;
+}
+
+.card table.cold td {
     border-top: 1px solid #26c6da;
+}
+
+.card table.hot td {
+    border-top: 1px solid #dc3545;
+}
+
+.card .card-title.cold {
+    color: #26c6da;
+}
+
+.card .card-title.hot {
+    color: #dc3545;
 }
 
 .progress {
