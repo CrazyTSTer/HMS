@@ -244,6 +244,14 @@ html, body {
     color: #dc3545;
 }
 
+tr.cold {
+    color: #26c6da;
+}
+
+tr.hot {
+    color: #dc3545;
+}
+
 .progress {
     background-color: #383f48;
 }
