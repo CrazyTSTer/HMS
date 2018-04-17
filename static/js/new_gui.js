@@ -73,9 +73,26 @@ function show_graph_rate()
             tickColor: "#3e4e56", // or same color as background
         },
         xaxis: {
+            mode: "time",
+            tickFormatter: function (val, axis) {
+                return moment(val).format("DD-MM-YYYY HH:mm:ss");
+            },
+            timeformat: "%Y/%m/%d H:i:s",
+            tickSize: [1, "hour"],
             tickColor: "#3e4e56", // or same color as background
         }
     };
+
+    executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
+        if (result['status'] == 'success') {
+            var data = result["data"]["current_day"]["data"];
+            $.plot("#day_rate", [ data["flot"]["coldwater"] ], options);
+            alert(data);
+        } else {
+            alert(result['status'] + ": " + result['data']);
+        }
+    });
+
     var d1 = [];
     for (var i = 0; i < 14; i += 0.5) {
         d1.push([i, Math.sin(i)]);
@@ -84,7 +101,7 @@ function show_graph_rate()
     var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
     var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
 
-    $.plot("#day_rate", [ d1, d2, d3 ], options);
-    $.plot("#month_rate", [ d1, d2, d3 ], options);
-    $.plot("#12_month_rate", [ d1, d2, d3 ], options);
+
+    //$.plot("#month_rate", [ d1, d2, d3 ], options);
+    //$.plot("#12_month_rate", [ d1, d2, d3 ], options);
 }

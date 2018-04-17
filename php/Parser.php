@@ -64,6 +64,9 @@ class Parser
             $ret['data'][self::HOTWATER][] = 'hotwater';
             $ret['data'][self::HOTWATER][] = 0;
 
+            $ret['data']['flot'][self::COLDWATER][] = [strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))), 0];
+            $ret['data']['flot'][self::HOTWATER][] = [strtotime(date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]))) ,0];
+
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 //Смотрим интервал между двумя точками
                 $current_ts = strtotime($data[$i][self::TIMESTAMP]);
@@ -76,10 +79,14 @@ class Parser
                     if ($data[$i][self::COLDWATER] - $data[$i - 1][self::COLDWATER] != 0) {
                         $ret['data'][self::TIMESTAMP . 'cw'][] = date('Y-m-d H:i:s', $point_ts);
                         $ret['data'][self::COLDWATER][] = $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue;
+
+                        $ret['data']['flot'][self::COLDWATER][] = [strtotime(date('Y-m-d H:i:s', $point_ts)), $data[$i - 1][self::COLDWATER] - $coldWaterFirstValue];
                     }
                     if ($data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER] != 0) {
                         $ret['data'][self::TIMESTAMP . 'hw'][] = date('Y-m-d H:i:s', $point_ts);
                         $ret['data'][self::HOTWATER][] = $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue;
+
+                        $ret['data']['flot'][self::HOTWATER][] = [strtotime(date('Y-m-d H:i:s', $point_ts)), $data[$i - 1][self::HOTWATER] - $hotWaterFirstValue];
                     }
                 }
 
@@ -87,8 +94,12 @@ class Parser
                 $ret['data'][self::TIMESTAMP . 'cw'][] = $data[$i][self::TIMESTAMP];
                 $ret['data'][self::COLDWATER][] = $data[$i][self::COLDWATER] - $coldWaterFirstValue;
 
+
                 $ret['data'][self::TIMESTAMP . 'hw'][] = $data[$i][self::TIMESTAMP];
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $hotWaterFirstValue;
+
+                $ret['data']['flot'][self::COLDWATER][] = [strtotime($data[$i][self::TIMESTAMP]), $data[$i][self::COLDWATER] - $coldWaterFirstValue];
+                $ret['data']['flot'][self::HOTWATER][] = [strtotime($data[$i][self::TIMESTAMP]), $data[$i][self::HOTWATER] - $hotWaterFirstValue];
             }
 
             //Добавляем последнюю точку на вермя текущее время
