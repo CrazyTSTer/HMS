@@ -44,10 +44,15 @@
 
 /* ----- Common blocks ----- */
 html, body {
-    position: relative;
     height: 100%;
+    width:100%;
     /*background: #383f48;*/
     background: #1f2023;
+}
+
+.app-wrapper {
+    position: relative;
+    height: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -289,4 +294,13 @@ hr.cold {
 
 .flot-text {
     color: #fff !important;
+}
+
+.legendLabel {
+    color: #fff !important;
+}
+
+.tooltip1 {
+    color: #fff !important;
+    background: #3e4e56 !important;
 }

@@ -66,28 +66,75 @@ function show_graph_rate()
         grid: {
             borderColor: "#3e4e56",
             borderWidth: 1,
-            backgroundColor: { colors: ["#263238", "#3e4e56"] }
+            backgroundColor: { colors: ["#263238", "#3e4e56"] },
+            hoverable: true,
+            clickable: true,
         },
-
         yaxis: {
             tickColor: "#3e4e56", // or same color as background
         },
         xaxis: {
             mode: "time",
-            tickFormatter: function (val, axis) {
-                return moment(val).format("DD-MM-YYYY HH:mm:ss");
-            },
-            timeformat: "%Y/%m/%d H:i:s",
-            tickSize: [1, "hour"],
+            /*tickFormatter: function (val, axis) {
+                return moment(val).format("HH:mm");
+            },*/
+            timezone: "browser",
+            timeformat: "%H:%M",
+            tickSize: [2, "hour"],
+
             tickColor: "#3e4e56", // or same color as background
-        }
+        },
+        legend: {
+            position: "nw",
+            noColumns: 0,
+            backgroundColor: "transparent",
+            labelBoxBorderColor: null,
+            labelFormatter: function(label, series) {
+                // just add some space to labes
+                return '&nbsp;&nbsp;' + label + ' &nbsp;&nbsp;';
+            },
+            width: 30,
+            height: 2
+        },
+        series: {
+            lines: {
+                show: true,
+                lineWidth: 1
+            },
+            points: {
+                show:true,
+                radius: 2,
+                fill: true,
+                borderColor: "#fff"
+            }
+        },
+        tooltip: {
+            show: true,
+            content: "<h6>%s</h6><ul><li>Time: %x</li><li>Value: %y</li></ul>",
+            cssClass: "tooltip1",
+            relative: true
+        },
+        colors: ["#26c6da", "#dc3545"],
     };
 
     executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
-            var data = result["data"]["current_day"]["data"];
-            $.plot("#day_rate", [ data["flot"]["coldwater"] ], options);
-            alert(data);
+            if (result["data"]["current_day"]["status"] == "success") {
+                var data = result["data"]["current_day"]["data"]["flot"];
+                console.log(data);
+                $.plot("#day_rate", [{
+                    label: "ColdWater",
+                    data: data["coldwater"],
+                    points: {fillColor: "#26c6da"}
+                },
+                    {
+                        label: "HotWater",
+                        data: data["hotwater"],
+                        points: {fillColor: "#dc3545"}
+                    }], options);
+            } else {
+                alert(result["data"]["current_day"]["status"] + ": " + result["data"]["current_day"]["data"]);
+            }
         } else {
             alert(result['status'] + ": " + result['data']);
         }

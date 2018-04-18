@@ -78,6 +78,7 @@ class WaterStat
     public function init($debug = false)
     {
         setlocale(LC_TIME, 'ru_RU.UTF-8');
+        date_default_timezone_set('Europe/Moscow');
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
         if (!$this->action) {
