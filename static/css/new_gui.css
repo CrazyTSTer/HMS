@@ -269,13 +269,21 @@ hr.cold {
     width: 100%;
     height: 100%;
     font-size: 14px;
-    line-height: 1.2em
+    line-height: 1.2em;
+    color: black;
 }
 
 .demo-container {
+    border: 1px solid #3e4e56;
+    background: linear-gradient(#263238, #3e4e56);
+    background: -o-linear-gradient(#263238, #3e4e56);
+    background: -ms-linear-gradient(#263238, #3e4e56);
+    background: -moz-linear-gradient(#263238, #3e4e56);
+    background: -webkit-linear-gradient(#263238, #3e4e56 );
     box-sizing: border-box;
     /*width: 100%;*/
-    height: 300px;
+    height: 370px;
+    margin:10px;
     /*padding: 20px 15px 15px 15px;
     margin: 15px auto 30px auto;
     border: 1px solid #ddd;
@@ -292,24 +300,22 @@ hr.cold {
     -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);*/
 }
 
-#day_rate {
-    border: 1px solid #3e4e56;
-    background: linear-gradient(#263238, #3e4e56);
-    background: -o-linear-gradient(#263238, #3e4e56);
-    background: -ms-linear-gradient(#263238, #3e4e56);
-    background: -moz-linear-gradient(#263238, #3e4e56);
-    background: -webkit-linear-gradient(#263238, #3e4e56 );
+.bb svg {
+    font: 12px sans-serif;
+    -webkit-tap-highlight-color: transparent; }
+
+.bb path, .bb line {
+    fill: none;
+    stroke: #fff; }
+
+.bb-axis {
+    fill: #fff;
 }
 
-.flot-text {
-    color: #fff !important;
+.bb-grid line {
+    stroke: #3e4e56;
 }
 
-.legendLabel {
-    color: #fff !important;
-}
-
-.tooltip1 {
-    color: #fff !important;
-    background: #3e4e56 !important;
+.bb-grid text {
+    fill: #3e4e56;
 }

@@ -39,14 +39,14 @@ var chartOptions = {
         x: "",
         xs: "",
         colors: {
-            coldwater: "blue",
-            hotwater: "red",
+            coldwater: "#26c6da",
+            hotwater: "#dc3545",
         },
         columns: [],
     },
     bar: {
         width: {
-            ratio: 0.3
+            ratio: 0.5
         }
     },
     axis: {
@@ -58,21 +58,38 @@ var chartOptions = {
                 rotate: 45,
                 multiline: false,
                 format: "",
+
+                    outer: true
+
             },
+            padding: {
+                top: 0,
+                bottom: 0
+            }
+        },
+        y: {
+            tick: {
+                /*count: 10,*/
+                min: 0,
+            },
+
         }
     },
-    /*grid: {
+    grid: {
         x: {
             show: true
         },
         y: {
             show: true
         }
-    },*/
+    },
+    legend: {
+        position: "inset"
+    },
     bindto: "",
 };
 
-$(window).resize(function() {
+/*$(window).resize(function() {
     if ($(window).width() < 768) {
         cw_gauge.resize({
             height:120,
@@ -92,7 +109,7 @@ $(window).resize(function() {
             width:150
         });
     }
-});
+});*/
 
 function generateGauge(key, value)
 {
@@ -130,11 +147,11 @@ function generateChart(key, value)
         ];
         chartOptions.axis.x.tick.count = 24;
         chartOptions.axis.x.tick.format = "%H:%M";
-        //chartOptions.grid.x.show = true;
+        chartOptions.grid.x.show = true;
         chartOptions.bindto = "#day_rate";
         cd_chart = bb.generate(chartOptions);
     }
-    /*if (key == 'current_month' && value['status'] == 'success') {
+    if (key == 'current_month' && value['status'] == 'success') {
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m-%d";
         chartOptions.data.x = "ts";
@@ -146,8 +163,8 @@ function generateChart(key, value)
         ];
         chartOptions.axis.x.tick.count = "";
         chartOptions.axis.x.tick.format = "%_d %b. (%a)";
-        chartOptions.grid.x.show = false;
-        chartOptions.bindto = "#cm_chart";
+        chartOptions.grid.x.show = true;
+        chartOptions.bindto = "#month_rate";
         cm_chart = bb.generate(chartOptions);
     }
     if (key == 'last_12month' && value['status'] == 'success') {
@@ -163,7 +180,7 @@ function generateChart(key, value)
         chartOptions.axis.x.tick.count = "";
         chartOptions.axis.x.tick.format = "%b. %Y";
         chartOptions.grid.x.show = false;
-        chartOptions.bindto = "#last12Month_chart";
+        chartOptions.bindto = "#last_12_month_rate";
         last12Month_chart = bb.generate(chartOptions);
-    }*/
+    }
 }

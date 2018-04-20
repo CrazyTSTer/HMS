@@ -9,12 +9,12 @@
  */
 /*-- Chart --*/
 .bb svg {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
   -webkit-tap-highlight-color: transparent; }
 
 .bb path, .bb line {
   fill: none;
-  stroke: #000; }
+  stroke: #fff; }
 
 .bb text {
   -webkit-user-select: none;
@@ -38,10 +38,10 @@
 /*-- Axis --*/
 /*-- Grid --*/
 .bb-grid line {
-  stroke: #aaa; }
+  stroke: #3e4e56; }
 
 .bb-grid text {
-  fill: #aaa; }
+  fill: #3e4e56; }
 
 .bb-xgrid, .bb-ygrid {
   stroke-dasharray: 3 3; }
