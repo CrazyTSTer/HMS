@@ -118,11 +118,9 @@
         });
 
         function mouseMove(e){
-
             var pos = {};
             pos.x = e.pageX;
             pos.y = e.pageY;
-            console.log(pos.x);
             plot.setTooltipPosition(pos);
         }
 
