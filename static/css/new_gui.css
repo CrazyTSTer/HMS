@@ -275,7 +275,7 @@ hr.cold {
 .demo-container {
     box-sizing: border-box;
     /*width: 100%;*/
-    height: 350px;
+    height: 300px;
     /*padding: 20px 15px 15px 15px;
     margin: 15px auto 30px auto;
     border: 1px solid #ddd;
@@ -290,6 +290,15 @@ hr.cold {
     -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);*/
+}
+
+#day_rate {
+    border: 1px solid #3e4e56;
+    background: linear-gradient(#263238, #3e4e56);
+    background: -o-linear-gradient(#263238, #3e4e56);
+    background: -ms-linear-gradient(#263238, #3e4e56);
+    background: -moz-linear-gradient(#263238, #3e4e56);
+    background: -webkit-linear-gradient(#263238, #3e4e56 );
 }
 
 .flot-text {

@@ -62,7 +62,18 @@ function show_main_stats()
 
 function show_graph_rate()
 {
-    var options = {
+
+        executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
+            if (result['status'] == 'success') {
+                $.each(result['data'], function (key, value) {
+                    generateChart(key, value);
+                });
+            } else {
+                alert(result['status'] + ": " + result['data']);
+            }
+        });
+
+    /*var options = {
         grid: {
             borderColor: "#3e4e56",
             borderWidth: 1,
@@ -78,7 +89,7 @@ function show_graph_rate()
             /*tickFormatter: function (val, axis) {
                 return moment(val).format("HH:mm");
             },*/
-            timezone: "browser",
+    /*        timezone: "browser",
             timeformat: "%H:%M",
             tickSize: [2, "hour"],
 
@@ -150,5 +161,5 @@ function show_graph_rate()
 
 
     //$.plot("#month_rate", [ d1, d2, d3 ], options);
-    //$.plot("#12_month_rate", [ d1, d2, d3 ], options);
+    //$.plot("#12_month_rate", [ d1, d2, d3 ], options);*/
 }

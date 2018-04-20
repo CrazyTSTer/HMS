@@ -61,14 +61,14 @@ var chartOptions = {
             },
         }
     },
-    grid: {
+    /*grid: {
         x: {
             show: true
         },
         y: {
             show: true
         }
-    },
+    },*/
     bindto: "",
 };
 
@@ -130,11 +130,11 @@ function generateChart(key, value)
         ];
         chartOptions.axis.x.tick.count = 24;
         chartOptions.axis.x.tick.format = "%H:%M";
-        chartOptions.grid.x.show = true;
-        chartOptions.bindto = "#cd_chart";
+        //chartOptions.grid.x.show = true;
+        chartOptions.bindto = "#day_rate";
         cd_chart = bb.generate(chartOptions);
     }
-    if (key == 'current_month' && value['status'] == 'success') {
+    /*if (key == 'current_month' && value['status'] == 'success') {
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m-%d";
         chartOptions.data.x = "ts";
@@ -165,5 +165,5 @@ function generateChart(key, value)
         chartOptions.grid.x.show = false;
         chartOptions.bindto = "#last12Month_chart";
         last12Month_chart = bb.generate(chartOptions);
-    }
+    }*/
 }
