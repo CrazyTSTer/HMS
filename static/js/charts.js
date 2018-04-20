@@ -55,7 +55,7 @@ var chartOptions = {
             height: 80,
             tick: {
                 count:"",
-                rotate: 45,
+                rotate: -45,
                 multiline: false,
                 format: "",
 
@@ -132,6 +132,7 @@ function generateGauge(key, value)
 function generateChart(key, value)
 {
     if (key == 'current_day' && value['status'] == 'success') {
+        $('.js_day').text(value["data"]["date"]);
         chartOptions.data.type = "line";
         chartOptions.data.xFormat = "%Y-%m-%d %H:%M:%S";
         chartOptions.data.x = "";
@@ -152,6 +153,7 @@ function generateChart(key, value)
         cd_chart = bb.generate(chartOptions);
     }
     if (key == 'current_month' && value['status'] == 'success') {
+        $('.js_month').text(value["data"]["date"]);
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m-%d";
         chartOptions.data.x = "ts";

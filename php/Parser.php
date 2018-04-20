@@ -53,7 +53,7 @@ class Parser
 
 
             //Добавляем дату, которую будем показывать
-            $ret['data']['date'] = date('Y-m-d', strtotime($data[1][self::TIMESTAMP]));
+            $ret['data']['date'] = date('d-m-Y', strtotime($data[1][self::TIMESTAMP]));
 
             //Добавляем первую точку (начало дня)
             $ret['data'][self::TIMESTAMP . 'cw'][] = 'tscw';
@@ -135,6 +135,8 @@ class Parser
             $ret['data'][self::TIMESTAMP][] = 'ts';
             $ret['data'][self::COLDWATER][] = 'coldwater';
             $ret['data'][self::HOTWATER][] = 'hotwater';
+
+            if (!$isLast12Month) $ret['data']["date"] = date('F', strtotime($data[1][self::TIMESTAMP]));
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ret['data'][self::TIMESTAMP][] = $data[$i][self::TIMESTAMP];
