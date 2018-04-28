@@ -190,6 +190,5 @@ function generateChart(key, value)
         chartOptions.grid.x.show = false;
         chartOptions.bindto = "#last_12_month_rate";
         last12Month_chart = bb.generate(chartOptions);
-        var axis = bb;
     }
 }
