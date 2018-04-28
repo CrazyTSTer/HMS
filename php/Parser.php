@@ -136,7 +136,7 @@ class Parser
             $ret['data'][self::COLDWATER][] = 'coldwater';
             $ret['data'][self::HOTWATER][] = 'hotwater';
 
-            if (!$isLast12Month) $ret['data']["date"] = date('F', strtotime($data[1][self::TIMESTAMP]));
+            if (!$isLast12Month) $ret['data']["date"] = date('Y-m', strtotime($data[1][self::TIMESTAMP]));
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ret['data'][self::TIMESTAMP][] = $data[$i][self::TIMESTAMP];

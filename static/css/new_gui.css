@@ -249,6 +249,10 @@ html, body {
     color: #dc3545;
 }
 
+.card .year-title-padding {
+    padding-top: 0.65rem !important;
+}
+
 tr.cold {
     color: #26c6da;
 }

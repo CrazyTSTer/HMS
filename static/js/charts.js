@@ -153,7 +153,16 @@ function generateChart(key, value)
         cd_chart = bb.generate(chartOptions);
     }
     if (key == 'current_month' && value['status'] == 'success') {
-        $('.js_month').text(value["data"]["date"]);
+        var date = new Date(value["data"]["date"]);
+        $('.js_month').text(date.toLocaleString('en-us', { month: "long" }));
+        for (var i=1; i < 12; i++) {
+            var month = date.getMonth() - i;
+            if (month <= 0) {
+                date = new(date.getFullYear()-1, month, date);
+            }
+
+            $('.js_month_list').append('<a class="dropdown-item" href="#">' + month.toLocaleString('en-us', { month: "long" }) + '</a>');
+        }
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m-%d";
         chartOptions.data.x = "ts";
