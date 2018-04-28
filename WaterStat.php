@@ -55,8 +55,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'crazytster.ddns.net';//'192.168.1.2';
-    const MYSQL_PORT        = 6033;//3306;
+    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
@@ -198,7 +198,7 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
-            /*case 'day':
+            case 'day':
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
@@ -209,7 +209,7 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
-            case 'month':
+            /*case 'month':
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
