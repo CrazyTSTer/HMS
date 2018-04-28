@@ -155,14 +155,6 @@ function generateChart(key, value)
     if (key == 'current_month' && value['status'] == 'success') {
         var date = new Date(value["data"]["date"]);
         $('.js_month').text(date.toLocaleString('en-us', { month: "long" }));
-        for (var i=1; i < 12; i++) {
-            var month = date.getMonth() - i;
-            if (month <= 0) {
-                date = new(date.getFullYear()-1, month, date);
-            }
-
-            $('.js_month_list').append('<a class="dropdown-item" href="#">' + month.toLocaleString('en-us', { month: "long" }) + '</a>');
-        }
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m-%d";
         chartOptions.data.x = "ts";
@@ -179,6 +171,11 @@ function generateChart(key, value)
         cm_chart = bb.generate(chartOptions);
     }
     if (key == 'last_12month' && value['status'] == 'success') {
+        for (var i = value['data']['ts'].length - 2; i > 0 ; i--) {
+            var tmp = value["data"]["ts"][i];
+            var date = new Date(tmp);
+            $('.js_month_list').append('<a class="dropdown-item" href="#">' + date.toLocaleString('en-us', { month: "long" }) + '</a>');
+        }
         chartOptions.data.type = "bar";
         chartOptions.data.xFormat = "%Y-%m";
         chartOptions.data.x = "ts";
@@ -193,5 +190,6 @@ function generateChart(key, value)
         chartOptions.grid.x.show = false;
         chartOptions.bindto = "#last_12_month_rate";
         last12Month_chart = bb.generate(chartOptions);
+        var axis = bb;
     }
 }
