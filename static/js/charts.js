@@ -61,7 +61,7 @@ var chartOptions = {
 
 function generateDayChart(data)
 {
-    var _chartOptions = chartOptions;
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
     _chartOptions.data.type = "line";
     _chartOptions.data.xFormat = "%Y-%m-%d %H:%M:%S";
     _chartOptions.data.xs = {
@@ -83,7 +83,7 @@ function generateDayChart(data)
 
 function generateMonthChart(data)
 {
-    var _chartOptions = chartOptions;
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
     _chartOptions.data.type = "bar";
     _chartOptions.data.xFormat = "%Y-%m-%d";
     _chartOptions.data.x = "ts";
@@ -100,7 +100,7 @@ function generateMonthChart(data)
 
 function generateLast12MonthChart(data)
 {
-    var _chartOptions = chartOptions;
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
     _chartOptions.data.type = "bar";
     _chartOptions.data.xFormat = "%Y-%m";
     _chartOptions.data.x = "ts";
@@ -109,7 +109,6 @@ function generateLast12MonthChart(data)
         data['coldwater'],
         data['hotwater']
     ];
-    _chartOptions.axis.x.tick.count = "";
     _chartOptions.axis.x.tick.format = "%b. %Y";
     _chartOptions.grid.x.show = false;
     _chartOptions.bindto = "#last_12_month_rate";
