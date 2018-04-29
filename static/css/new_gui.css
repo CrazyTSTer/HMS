@@ -190,7 +190,7 @@ html, body {
 .content {
     overflow-x: hidden;
     background: #383f48;
-    color: #fff
+    color: #FFF;
 }
 
 #content .tab-pane {
@@ -276,4 +276,8 @@ tr.hot {
 
 .bb-grid text {
     fill: #3e4e56;
+}
+
+.bb-tooltip {
+    color: #000;
 }
