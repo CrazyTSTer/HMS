@@ -3,7 +3,6 @@
  */
 
 jQuery(document).ready(function() {
-    show_main_stats();
     $('#sidebar a').on('click', function (e) {
         if ($(this).attr('data-toggle') != 'collapse') {
             $('#sidebar').find('.active').removeClass('active');
@@ -37,20 +36,22 @@ jQuery(document).ready(function() {
         var el = $("#sidebar a[data-toggle*='collapse'][aria-expanded*='true']").get().reverse();
         $(el).click();
     });
+
+    show_main_stats();
 });
 
 function show_main_stats()
 {
-    executeAjaxRequest({action: 'get', param: 'current_val'}, function (result) {
+    executeAjaxRequest({action: 'get', param: 'main_stat'}, function (result) {
         if (result['status'] == 'success') {
             $(".js_water_last_update").text(result['data']['ts']);
 
-            $(".js_cold_curr_value").text(result['data']['coldwater']['cube'] + ',' + result['data']['coldwater']['liter']);
+            $(".js_cold_curr_value").text(result['data']['coldwater']['current_value']);
             $(".js_cold_curr_day_rate").text(result['data']['coldwater']['day_rate']);
             $(".js_cold_curr_month_rate").text(result['data']['coldwater']['month_rate']);
             $(".js_cold_prev_month_rate").text(result['data']['coldwater']['prev_month_rate']);
 
-            $(".js_hot_curr_value").text(result['data']['hotwater']['cube'] + ',' + result['data']['hotwater']['liter']);
+            $(".js_hot_curr_value").text(result['data']['hotwater']['current_value']);
             $(".js_hot_curr_day_rate").text(result['data']['hotwater']['day_rate']);
             $(".js_hot_curr_month_rate").text(result['data']['hotwater']['month_rate']);
             $(".js_hot_prev_month_rate").text(result['data']['hotwater']['prev_month_rate']);
@@ -87,7 +88,7 @@ function show_graph_rate()
                             for (var i = data['ts'].length - 1; i > 0 ; i--) {
                                 $('.js_month_list').append('<a class="dropdown-item" href="#">' + moment(data['ts'][i]).format("MMMM") + '</a>');
                             }
-                            generateLast12MonthChart(value['data'])
+                            generateLast12MonthChart(value['data']);
                             break;
                     }
                 }
