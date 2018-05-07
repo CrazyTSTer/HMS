@@ -86,7 +86,7 @@ function show_graph_rate()
                         case 'last_12month':
                             $('.js_month_list').html('');
                             for (var i = data['ts'].length - 1; i > 0 ; i--) {
-                                $('.js_month_list').append('<a class="dropdown-item" href="#">' + moment(data['ts'][i]).format("MMMM") + '</a>');
+                                $('.js_month_list').append('<a class="dropdown-item" href="#" onclick="loadMonthData(\'' + data['ts'][i] + '\'); return false;"> ' + moment(data['ts'][i]).format("MMMM") + '</a>');
                             }
                             generateLast12MonthChart(value['data']);
                             break;
@@ -100,5 +100,32 @@ function show_graph_rate()
 }
 
 function loadDayData(data) {
-    alert(data);
+    executeAjaxRequest({action: 'get', param: 'day', date: data}, function (result) {
+        if (result['status'] == 'success') {
+            if (result['data']['current_day']['status'] == 'success') {
+                $('.js_day').text(result['data']['current_day']['data']['date']);
+                generateDayChart(result['data']['current_day']['data']);
+            }
+        } else {
+            alert(result['status'] + ": " + result['data']);
+        }
+    });
+}
+
+function loadMonthData(data) {
+    executeAjaxRequest({action: 'get', param: 'month', date: data}, function (result) {
+        if (result['status'] == 'success') {
+            if (result['data']['current_month']['status'] == 'success') {
+                $('.js_month').text(moment(result['data']['current_month']['data']['date']).format('MMMM'));
+                $('.js_day_list').html('');
+                for (var i = result['data']['current_month']['data']['ts'].length - 1; i > 0 ; i--) {
+                    $('.js_day_list').append('<a class="dropdown-item" href="#" onclick="loadDayData(\'' + result['data']['current_month']['data']['ts'][i] + '\'); return false;">' + moment(result['data']['current_month']['data']['ts'][i]).format('DD MMMM') + '</a>');
+                }
+                generateMonthChart(result['data']['current_month']['data']);
+                loadDayData(result['data']['current_month']['data']['ts'][result['data']['current_month']['data']['ts'].length - 1]);
+            }
+        } else {
+            alert(result['status'] + ": " + result['data']);
+        }
+    });
 }

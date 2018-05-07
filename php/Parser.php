@@ -34,7 +34,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseCurrentDay($data)
+    public static function parseCurrentDay($data, $isCurrentDay = true)
     {
         if ($data == false || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
@@ -108,10 +108,10 @@ class Parser
             }
 
             //Добавляем последнюю точку на текущее время
-            $ret['data'][self::TIMESTAMP . 'cw'][] = date("Y-m-d H:i:s");
+            $ret['data'][self::TIMESTAMP . 'cw'][] = $isCurrentDay ? date("Y-m-d H:i:s") : date('Y-m-d 23:59:59', strtotime($data[1][self::TIMESTAMP]));
             $ret['data'][self::COLDWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue;
 
-            $ret['data'][self::TIMESTAMP . 'hw'][] = date("Y-m-d H:i:s");
+            $ret['data'][self::TIMESTAMP . 'hw'][] = $isCurrentDay ? date("Y-m-d H:i:s") : date('Y-m-d 23:59:59', strtotime($data[1][self::TIMESTAMP]));
             $ret['data'][self::HOTWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::HOTWATER] - $hotWaterFirstValue;
 
             $ret['status'] = Utils::STATUS_SUCCESS;
@@ -119,7 +119,7 @@ class Parser
         return $ret;
     }
 
-    public static function parseMonth($data, $isLast12Month = false)
+    public static function parseMonth($data, $isLast12Month = false, $isCurrentMonth = true)
     {
         if ($data == false) {
             $ret = [
@@ -150,6 +150,7 @@ class Parser
             if (($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m')
                     : date('Y-m-d', $ts) < date('Y-m-d'))
+                && $isCurrentMonth
             ) {
                 $ret['data'][self::TIMESTAMP][] = date('Y-m-d');
                 $ret['data'][self::COLDWATER][] = 0;

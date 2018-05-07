@@ -195,31 +195,33 @@ class WaterStat
                 $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
 
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
-                $ret['current_month'] = Parser::parseMonth($current_month_values, false);
+                $ret['current_month'] = Parser::parseMonth($current_month_values);
                 $ret['last_12month'] = Parser::parseMonth($last_12month_values, true);
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
-            /*case 'day':
+            case 'day':
+                $date = strtolower(Vars::get('date', null));
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
-                    $date == date('Y-m-d', $current_date) ? $current_date : strtotime(date('Y-m-d 23:59:59', strtotime($date))));
+                    $date == date('Y-m-d'));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
             case 'month':
+                $date = strtolower(Vars::get('date', null));
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => $date], true);
-                $ret['current_month'] = Parser::parseMonth($current_month, strtotime($date));
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => $date . '-01'], true);
+                $ret['current_month'] = Parser::parseMonth($current_month, false, false);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
-                break;*/
+                break;
 
             default:
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_PARAMETER);
