@@ -107,7 +107,7 @@ class Parser
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $hotWaterFirstValue;
             }
 
-            //Добавляем последнюю точку на вермя текущее время
+            //Добавляем последнюю точку на текущее время
             $ret['data'][self::TIMESTAMP . 'cw'][] = date("Y-m-d H:i:s");
             $ret['data'][self::COLDWATER][] = $data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::COLDWATER] - $coldWaterFirstValue;
 
