@@ -1,36 +1,7 @@
 /**
  * Created by crazytster on 04.04.17.
  */
-var cd_chart, cm_chart, last12Month_chart;
-var cw_gauge, hw_gauge;
-
-var gaugeOptions = {
-    cube: "",
-    data: {
-        columns: [],
-        type: "gauge",
-    },
-    gauge: {
-        min: 0,
-        max: 1000,
-        label: {
-            format: function(value) {return gaugeOptions.cube + ',' + value;},
-            show: false, //show min max labels
-        },
-        fullCircle: true,
-    },
-    size: {
-        height: ($(window).width() < 768) ? 120 : 150,
-        width: ($(window).width() < 768) ? 120 : 150
-    },
-    tooltip: {
-        show: false
-    },
-    color: {
-        pattern: "",
-    },
-    bindto: ""
-};
+var DayChart, MonthChart, Last12MonthChart;
 
 var chartOptions = {
     data: {
@@ -58,14 +29,8 @@ var chartOptions = {
                 rotate: -45,
                 multiline: false,
                 format: "",
-
-                    outer: true
-
+                outer: true
             },
-            padding: {
-                top: 0,
-                bottom: 0
-            }
         },
         y: {
             tick: {
@@ -86,109 +51,66 @@ var chartOptions = {
     legend: {
         position: "inset"
     },
+    padding: {
+        top: 0,
+        bottom: 0,
+        right: 10,
+    },
     bindto: "",
 };
 
-/*$(window).resize(function() {
-    if ($(window).width() < 768) {
-        cw_gauge.resize({
-            height:120,
-            width:120
-        });
-        hw_gauge.resize({
-            height:120,
-            width:120
-        });
-    } else {
-        cw_gauge.resize({
-            height:150,
-            width:150
-        });
-        hw_gauge.resize({
-            height:150,
-            width:150
-        });
-    }
-});*/
-
-function generateGauge(key, value)
+function generateDayChart(data)
 {
-    gaugeOptions.data.columns = [["data", value['liter']]];
-    gaugeOptions.cube = value['cube'];
-
-    if (key == 'coldwater') {
-        gaugeOptions.bindto = "#coldwater";
-        gaugeOptions.color.pattern = ["blue"];
-        $("#coldwater").html("");
-        cw_gauge = bb.generate(gaugeOptions);
-    } else if (key == 'hotwater') {
-        gaugeOptions.bindto = "#hotwater";
-        gaugeOptions.color.pattern = ["red"];
-        $("#hotwater").html("");
-        hw_gauge = bb.generate(gaugeOptions);
-    }
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
+    _chartOptions.data.type = "line";
+    _chartOptions.data.xFormat = "%Y-%m-%d %H:%M:%S";
+    _chartOptions.data.xs = {
+        coldwater: "tscw",
+        hotwater: "tshw",
+    };
+    _chartOptions.data.columns = [
+        data['tscw'],
+        data['tshw'],
+        data['coldwater'],
+        data['hotwater'],
+    ];
+    _chartOptions.axis.x.tick.count = 24;
+    _chartOptions.axis.x.tick.format = "%H:%M";
+    _chartOptions.grid.x.show = true;
+    _chartOptions.bindto = "#day_rate";
+    DayChart = bb.generate(_chartOptions);
 }
 
-function generateChart(key, value)
+function generateMonthChart(data)
 {
-    if (key == 'current_day' && value['status'] == 'success') {
-        $('.js_day').text(value["data"]["date"]);
-        chartOptions.data.type = "line";
-        chartOptions.data.xFormat = "%Y-%m-%d %H:%M:%S";
-        chartOptions.data.x = "";
-        chartOptions.data.xs = {
-            coldwater: "tscw",
-            hotwater: "tshw",
-        };
-        chartOptions.data.columns = [
-            value['data']['tscw'],
-            value['data']['tshw'],
-            value['data']['coldwater'],
-            value['data']['hotwater'],
-        ];
-        chartOptions.axis.x.tick.count = 24;
-        chartOptions.axis.x.tick.format = "%H:%M";
-        chartOptions.grid.x.show = true;
-        chartOptions.bindto = "#day_rate";
-        cd_chart = bb.generate(chartOptions);
-    }
-    if (key == 'current_month' && value['status'] == 'success') {
-        var date = new Date(value["data"]["date"]);
-        $('.js_month').text(date.toLocaleString('en-us', { month: "long" }));
-        chartOptions.data.type = "bar";
-        chartOptions.data.xFormat = "%Y-%m-%d";
-        chartOptions.data.x = "ts";
-        chartOptions.data.xs = "";
-        chartOptions.data.columns = [
-            value['data']['ts'],
-            value['data']['coldwater'],
-            value['data']['hotwater']
-        ];
-        chartOptions.axis.x.tick.count = "";
-        chartOptions.axis.x.tick.format = "%_d %b. (%a)";
-        chartOptions.grid.x.show = true;
-        chartOptions.bindto = "#month_rate";
-        cm_chart = bb.generate(chartOptions);
-    }
-    if (key == 'last_12month' && value['status'] == 'success') {
-        for (var i = value['data']['ts'].length - 2; i > 0 ; i--) {
-            var tmp = value["data"]["ts"][i];
-            var date = new Date(tmp);
-            $('.js_month_list').append('<a class="dropdown-item" href="#">' + date.toLocaleString('en-us', { month: "long" }) + '</a>');
-        }
-        chartOptions.data.type = "bar";
-        chartOptions.data.xFormat = "%Y-%m";
-        chartOptions.data.x = "ts";
-        chartOptions.data.xs = "";
-        chartOptions.data.columns = [
-            value['data']['ts'],
-            value['data']['coldwater'],
-            value['data']['hotwater']
-        ];
-        chartOptions.axis.x.tick.count = "";
-        chartOptions.axis.x.tick.format = "%b. %Y";
-        chartOptions.grid.x.show = false;
-        chartOptions.bindto = "#last_12_month_rate";
-        last12Month_chart = bb.generate(chartOptions);
-    }
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
+    _chartOptions.data.type = "bar";
+    _chartOptions.data.xFormat = "%Y-%m-%d";
+    _chartOptions.data.x = "ts";
+    _chartOptions.data.columns = [
+        data['ts'],
+        data['coldwater'],
+        data['hotwater']
+    ];
+    _chartOptions.axis.x.tick.format = "%_d %b. (%a)";
+    _chartOptions.grid.x.show = true;
+    _chartOptions.bindto = "#month_rate";
+    MonthChart = bb.generate(_chartOptions);
+}
+
+function generateLast12MonthChart(data)
+{
+    var _chartOptions = jQuery.extend(true, {}, chartOptions);
+    _chartOptions.data.type = "bar";
+    _chartOptions.data.xFormat = "%Y-%m";
+    _chartOptions.data.x = "ts";
+    _chartOptions.data.columns = [
+        data['ts'],
+        data['coldwater'],
+        data['hotwater']
+    ];
+    _chartOptions.axis.x.tick.format = "%b. %Y";
+    _chartOptions.grid.x.show = false;
+    _chartOptions.bindto = "#last_12_month_rate";
+    Last12MonthChart = bb.generate(_chartOptions);
 }
