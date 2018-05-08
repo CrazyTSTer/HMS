@@ -130,7 +130,7 @@ class WaterStat
             Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
 
-        $result = $this->db->fetchSingleRow(GET_LAST_VALUES);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
