@@ -15,15 +15,10 @@ class Parser
 
     public static function parserCurrentValues($data)
     {
-        if ($data == false) {
+        if ($data == false || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
                 "status" => Utils::STATUS_FAIL,
                 "data" => 'Can\'t get currnet values from DB'
-            ];
-        } elseif ($data == DB::MYSQL_EMPTY_SELECTION) {
-            $ret = [
-                "status" => Utils::STATUS_SUCCESS,
-                "data" => self::EMPTY_DATA
             ];
         } else {
             $ret = [
@@ -41,33 +36,13 @@ class Parser
                 "status" => Utils::STATUS_FAIL,
                 "data" => 'Can\'t get current day data from DB'
             ];
-        } elseif (isset($data[DB::MYSQL_ROWS_COUNT]) && $data[DB::MYSQL_ROWS_COUNT] == 1)  {
-            //На начало дня данных нет, поэтому расход нулевой
-            $ret['data'][self::TIMESTAMP . 'cw'][] = 'tscw';
-            $ret['data'][self::TIMESTAMP . 'cw'][] = date("Y-m-d 00:00:00");
-            $ret['data'][self::COLDWATER][] = 'coldwater';
-            $ret['data'][self::COLDWATER][] = 0;
-
-            $ret['data'][self::TIMESTAMP . 'hw'][] = 'tshw';
-            $ret['data'][self::TIMESTAMP . 'hw'][] = date("Y-m-d 00:00:00");
-            $ret['data'][self::HOTWATER][] = 'hotwater';
-            $ret['data'][self::HOTWATER][] = 0;
-
-            //расход по прежнему нулевой до текущего времени, поэтому ресуем точку с текущием временем и нулевым расходом
-            $ret['data'][self::TIMESTAMP . 'cw'][] = date("Y-m-d H:i:s");
-            $ret['data'][self::COLDWATER][] = 0;
-
-            $ret['data'][self::TIMESTAMP . 'hw'][] = date("Y-m-d H:i:s");
-            $ret['data'][self::HOTWATER][] = 0;
-
-            $ret['status'] = Utils::STATUS_SUCCESS;
         } else {
             $coldWaterFirstValue = $data[0][self::COLDWATER];
             $hotWaterFirstValue = $data[0][self::HOTWATER];
-            $data[0][self::TIMESTAMP] = date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP]));
+            $data[0][self::TIMESTAMP] = isset($data[1][self::TIMESTAMP]) ? date('Y-m-d 00:00:00', strtotime($data[1][self::TIMESTAMP])) : date('Y-m-d 00:00:00');
 
             //Добавляем дату, которую будем показывать
-            $ret['data']['date'] = date('d-m-Y', strtotime($data[1][self::TIMESTAMP]));
+            $ret['data']['date'] = isset($data[1][self::TIMESTAMP]) ? date('d-m-Y', strtotime($data[1][self::TIMESTAMP])) : date('d-m-Y');
 
             //Добавляем первую точку (начало дня)
             $ret['data'][self::TIMESTAMP . 'cw'][] = 'tscw';
@@ -119,30 +94,17 @@ class Parser
         return $ret;
     }
 
-    public static function parseMonth($data, $isLast12Month = false, $isCurrentMonth = true)
+    public static function parseMonth($data, $isCurrentMonth = true, $isLast12Month = false)
     {
         if ($data == false || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
                 "status" => Utils::STATUS_FAIL,
-                "data" => 'Can\'t get current month data from DB'
+                "data" => 'Can\'t get current ' . !$isLast12Month ? 'day' : 'month' .  ' data from DB'
             ];
-        } elseif (isset($data[DB::MYSQL_ROWS_COUNT]) && $data[DB::MYSQL_ROWS_COUNT] == 1 && $isLast12Month == false) {
-            //На начало месяца данных нет, поэтому расход нулевой
-            $ret['data'][self::TIMESTAMP][] = 'ts';
-            $ret['data'][self::COLDWATER][] = 'coldwater';
-            $ret['data'][self::HOTWATER][] = 'hotwater';
-
-            $ret['data'][self::TIMESTAMP][] = date("Y-m-d");
-            $ret['data'][self::COLDWATER][] = 0;
-            $ret['data'][self::HOTWATER][] = 0;
-
-            $ret['status'] = Utils::STATUS_SUCCESS;
         } else {
             $ret['data'][self::TIMESTAMP][] = 'ts';
             $ret['data'][self::COLDWATER][] = 'coldwater';
             $ret['data'][self::HOTWATER][] = 'hotwater';
-
-            if (!$isLast12Month) $ret['data']["date"] = date('Y-m', strtotime($data[1][self::TIMESTAMP]));
 
             for ($i = 1; $i < $data[DB::MYSQL_ROWS_COUNT]; $i++) {
                 $ret['data'][self::TIMESTAMP][] = $data[$i][self::TIMESTAMP];
@@ -150,16 +112,18 @@ class Parser
                 $ret['data'][self::HOTWATER][] = $data[$i][self::HOTWATER] - $data[$i - 1][self::HOTWATER];
             }
 
+            if (!$isLast12Month) {
+                $ret['data']["date"] = isset($data[1][self::TIMESTAMP]) ? date('Y-m', strtotime($data[1][self::TIMESTAMP])) : date('Y-m');
+            }
+
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
             //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
-
-            if (($isLast12Month
-                    ? date('Y-m', $ts) < date('Y-m')
-                    : date('Y-m-d', $ts) < date('Y-m-d'))
-                && $isCurrentMonth
+            if (!$isLast12Month ?
+                (date('Y-m-d', $ts) < date('Y-m-d') && $isCurrentMonth) :
+                date('Y-m', $ts) < date('Y-m')
             ) {
-                $ret['data'][self::TIMESTAMP][] = $isLast12Month ? date('Y-m') : date('Y-m-d');
+                $ret['data'][self::TIMESTAMP][] = !$isLast12Month ? date('Y-m-d') : date('Y-m');
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
             }

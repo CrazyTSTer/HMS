@@ -56,13 +56,13 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'crazytster.ddns.net';
-    const MYSQL_PORT        = 6033;
+    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
     const MYSQL_BASE_LOCALE = 'utf8';
-    const MYSQL_TABLE_WATER = 'WaterTest';
+    const MYSQL_TABLE_WATER = 'Water';
 
     const ACTION_SET      = 'set';
     const ACTION_GET      = 'get';
@@ -196,8 +196,8 @@ class WaterStat
                 $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => self::MYSQL_TABLE_WATER]);
 
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
-                $ret['current_month'] = Parser::parseMonth($current_month_values);
-                $ret['last_12month'] = Parser::parseMonth($last_12month_values, true);
+                $ret['current_month'] = Parser::parseMonth($current_month_values, true, false);
+                $ret['last_12month'] = Parser::parseMonth($last_12month_values, false, true);
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
@@ -220,7 +220,7 @@ class WaterStat
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'' , 'table' => self::MYSQL_TABLE_WATER]);
-                $ret['current_month'] = Parser::parseMonth($current_month, false, false);
+                $ret['current_month'] = Parser::parseMonth($current_month, $date == date('Y-m'));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
