@@ -136,11 +136,13 @@ class WaterStat
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER],
+                'table' => self::MYSQL_TABLE_WATER,
             );
         } elseif (is_array($result)) {
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER] + $result[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
+                'table' => self::MYSQL_TABLE_WATER,
             );
         } else {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get previous Values from DB');
