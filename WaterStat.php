@@ -12,56 +12,57 @@ include_once "php/Utils.php";
   PRIMARY KEY (`ts`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
-define('SET_VALUES',                          'INSERT INTO Water (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
+define('SET_VALUES',                          'INSERT INTO #table# (coldwater, hotwater) VALUES (#coldwater#, #hotwater#)');
 
-define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM Water ORDER BY ts DESC LIMIT 1');
+define('GET_LAST_VALUES',                     'SELECT ts, coldwater, hotwater FROM #table# ORDER BY ts DESC LIMIT 1');
 
 /* ----- Get rate ----- */
 define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater) - MIN(coldwater) as coldwater, MAX(hotwater) - MIN(hotwater) as hotwater FROM (
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                                ) as smth;');
 
 define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater) - MIN(coldwater) as coldwater, MAX(hotwater) - MIN(hotwater) as hotwater FROM (
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as coldwater, MAX(hotwater) - MIN(hotwater) as hotwater FROM (
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) = DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 /* ----- Get values ----- */
-define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) = #date# 
+define('GET_CURRENT_DAY_VALUES',              'SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) = #date# 
                                                 UNION ALL
-                                                (SELECT ts, coldwater, hotwater FROM Water WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) < #date# ORDER BY ts DESC LIMIT 1) ORDER BY ts');
 
 define('GET_CURRENT_MONTH_VALUES_BY_DAYS',    'SELECT DATE(ts) as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater 
-                                               FROM Water WHERE 
+                                               FROM #table# WHERE 
                                                   DATE(ts) > DATE_FORMAT(#date#, \'%Y-%m-01\') - INTERVAL 1 DAY 
                                                   AND 
                                                   DATE(ts) < (DATE_FORMAT(#date#, \'%Y-%m-01\') + INTERVAL 1 MONTH) 
                                                GROUP BY (1) 
                                                UNION ALL 
-                                               (SELECT DATE(ts) as ts, coldwater, hotwater FROM Water 
-                                                  WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY Water.ts DESC LIMIT 1) ORDER BY ts'
+                                               (SELECT DATE(ts) as ts, coldwater, hotwater FROM #table# 
+                                                  WHERE DATE(ts) < DATE_FORMAT(#date#, \'%Y-%m-01\') ORDER BY #table#.ts DESC LIMIT 1) ORDER BY ts'
 );
-define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM Water
+define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') as ts, MAX(coldwater) as coldwater, MAX(hotwater) as hotwater FROM #table#
                                               WHERE DATE(ts) BETWEEN (DATE_FORMAT(CURDATE() - INTERVAL 12 MONTH, \'%Y-%m-01\')) AND CURDATE() GROUP BY (1)'
 );
 
 class WaterStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
-    const MYSQL_PORT        = 3306;
+    const MYSQL_HOST        = 'crazytster.ddns.net';
+    const MYSQL_PORT        = 6033;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
     const MYSQL_BASE_LOCALE = 'utf8';
+    const MYSQL_TABLE_WATER = 'WaterTest';
 
     const ACTION_SET      = 'set';
     const ACTION_GET      = 'get';
@@ -166,10 +167,10 @@ class WaterStat
 
         switch ($params) {
             case 'main_stat':
-                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES);
-                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE);
-                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE);
-                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE);
+                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
 
@@ -190,9 +191,9 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'current':
-                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()']);
-                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()']);
-                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS);
+                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
+                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => self::MYSQL_TABLE_WATER]);
 
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
                 $ret['current_month'] = Parser::parseMonth($current_month_values);
@@ -206,7 +207,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => $date], true);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date  . '\'', 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
                     $date == date('Y-m-d'));
@@ -218,7 +219,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => $date . '-01'], true);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'' , 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_month'] = Parser::parseMonth($current_month, false, false);
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;

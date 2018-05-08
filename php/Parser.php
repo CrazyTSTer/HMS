@@ -121,16 +121,22 @@ class Parser
 
     public static function parseMonth($data, $isLast12Month = false, $isCurrentMonth = true)
     {
-        if ($data == false) {
+        if ($data == false || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
                 "status" => Utils::STATUS_FAIL,
                 "data" => 'Can\'t get current month data from DB'
             ];
-        } elseif ($data[DB::MYSQL_ROWS_COUNT] < 2 || $data == DB::MYSQL_EMPTY_SELECTION) {
-            $ret = [
-                "status" => Utils::STATUS_SUCCESS,
-                "data" => self::EMPTY_DATA
-            ];
+        } elseif (isset($data[DB::MYSQL_ROWS_COUNT]) && $data[DB::MYSQL_ROWS_COUNT] == 1 && $isLast12Month == false) {
+            //На начало месяца данных нет, поэтому расход нулевой
+            $ret['data'][self::TIMESTAMP][] = 'ts';
+            $ret['data'][self::COLDWATER][] = 'coldwater';
+            $ret['data'][self::HOTWATER][] = 'hotwater';
+
+            $ret['data'][self::TIMESTAMP][] = date("Y-m-d");
+            $ret['data'][self::COLDWATER][] = 0;
+            $ret['data'][self::HOTWATER][] = 0;
+
+            $ret['status'] = Utils::STATUS_SUCCESS;
         } else {
             $ret['data'][self::TIMESTAMP][] = 'ts';
             $ret['data'][self::COLDWATER][] = 'coldwater';
@@ -147,12 +153,13 @@ class Parser
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][self::TIMESTAMP]);
 
             //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
+
             if (($isLast12Month
                     ? date('Y-m', $ts) < date('Y-m')
                     : date('Y-m-d', $ts) < date('Y-m-d'))
                 && $isCurrentMonth
             ) {
-                $ret['data'][self::TIMESTAMP][] = date('Y-m-d');
+                $ret['data'][self::TIMESTAMP][] = $isLast12Month ? date('Y-m') : date('Y-m-d');
                 $ret['data'][self::COLDWATER][] = 0;
                 $ret['data'][self::HOTWATER][] = 0;
             }
