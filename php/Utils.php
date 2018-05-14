@@ -9,6 +9,7 @@
 include_once "DB.php";
 include_once "Vars.php";
 include_once "Parser.php";
+include_once "WaterStat.php";
 
 class Utils
 {
@@ -18,6 +19,7 @@ class Utils
 
     const UNKNOWN_ACTION    = 'Unknown action';
     const UNKNOWN_PARAMETER = 'Unknown parameter';
+    const DB_IS_NOT_READY   = 'DB is not ready';
 
     public static function reportError($class, $errorMsg, $debug = false)
     {

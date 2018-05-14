@@ -11,7 +11,7 @@ function executeAjaxRequest(params, success_callback, error_callback) {
     };
 
     $.ajax({
-        url: 'WaterStat.php',
+        url: 'index.php',
         type: 'GET',
         data: params,
         dataType: 'json',
