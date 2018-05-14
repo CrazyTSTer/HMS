@@ -130,17 +130,19 @@ class WaterStat
             Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
 
-        $result = $this->db->fetchSingleRow(GET_LAST_VALUES);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER],
+                'table' => self::MYSQL_TABLE_WATER,
             );
         } elseif (is_array($result)) {
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER] + $result[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
+                'table' => self::MYSQL_TABLE_WATER,
             );
         } else {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get previous Values from DB');
