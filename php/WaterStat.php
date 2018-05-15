@@ -58,9 +58,6 @@ class WaterStat
     const MYSQL_BASE_LOCALE = 'utf8';
     const MYSQL_TABLE_WATER = 'Water';
 
-    const ACTION_SET      = 'set';
-    const ACTION_GET      = 'get';
-
     const COLDWATER = 'coldwater';
     const HOTWATER  = 'hotwater';
     const TIMESTAMP = 'ts';
