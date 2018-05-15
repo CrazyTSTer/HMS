@@ -65,7 +65,7 @@ class WaterStat
     /** @var  DB */
     private static $db;
 
-    public static function initDB($debug)
+    private static function initDB($debug)
     {
         self::$db = DB::getInstance();
         self::$db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $debug);
@@ -201,7 +201,7 @@ class WaterStat
                 break;
 
             default:
-                Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::UNKNOWN_PARAMETER);
+                Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER);
         }
     }
 }
