@@ -38,7 +38,7 @@ class ASMS
                 break;
 
             default:
-                echo file_get_contents("index.html");
+                echo file_get_contents("static/index.html");
         }
     }
 }
