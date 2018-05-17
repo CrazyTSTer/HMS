@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include <ArduinoJson.h>
+#include "ArduinoJson-v5.13.1.h"
 #include <Ticker.h>
 
 
@@ -159,7 +159,7 @@ boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 
 	HTTPClient Client;
 
-	Client.begin("http://192.168.1.2/HMS/WaterStat.php?action=set&values[coldwater]=" + String(coldwater) + "&values[hotwater]=" + String(hotwater));
+	Client.begin("http://192.168.1.2/HMS/index.php?action=set&values[coldwater]=" + String(coldwater) + "&values[hotwater]=" + String(hotwater));
 
     int httpCode = Client.GET();
 
