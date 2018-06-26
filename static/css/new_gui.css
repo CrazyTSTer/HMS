@@ -208,6 +208,20 @@ html, body {
     border-color: #3e4e56;
 }
 
+fieldset.card .card-body {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+}
+
+fieldset.card .card-header {
+    width: auto;
+    margin-bottom: 0;
+    margin-left: 1.25rem;
+    padding: 0 0.25rem 0 0.25rem;
+    background: linear-gradient(#383f48 35%, #263238);
+    border: none;
+    color: #fff;
+}
+
 .card .card-header {
     border-bottom: 1px solid #007700;
     color: #007700;
