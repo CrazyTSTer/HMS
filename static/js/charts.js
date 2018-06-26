@@ -33,11 +33,8 @@ var chartOptions = {
             },
         },
         y: {
-            tick: {
-                /*count: 10,*/
-                min: 0,
-            },
-
+            min: 0,
+            padding: {bottom:0},
         }
     },
     grid: {
