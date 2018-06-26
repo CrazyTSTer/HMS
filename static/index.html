@@ -57,7 +57,7 @@
     </header>
     <!-- App Sidebar -->
     <aside class="sidebar bg-dark pl-2 pr-2">
-        <ul class="list-unstyled collapse d-md-block pt-1 mb-0" id="sidebar">
+        <ul class="list-unstyled collapse d-md-block pt-1 pb-1 mb-0" id="sidebar">
             <li><a class="active" href="#main_stat" data-target="#main_stat" onclick="show_main_stats(); return false;">
                 <img class="shadowfilter" src="static/imgs/mainStatistic.png">
                 <span>Main Stats</span>
@@ -228,6 +228,32 @@
                     <div class="col-12">
                         <fieldset class="border p-2">
                             <legend class="w-auto">Input your paycode and flat number:</legend>
+                            <form class="flex-fill">
+                                <div class="form-row align-items-center">
+                                    <div class="col">
+                                        <label class="sr-only" for="inlineFormInput">Name</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">PayCode:</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="inlineFormInput" placeholder="Jane Doe">
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="sr-only" for="inlineFormInputGroup">Имя пользователя</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Flat:</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Имя пользователя">
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
                         </fieldset>
                     </div>
                 </div>
