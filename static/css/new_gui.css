@@ -53,6 +53,9 @@ hr {
     color: #609060;
 }
 
+.form-text {
+    color: #deb887;
+}
 /* ----- App Header CSS ----- */
 .header {
     border-color: #3e4e56 !important;
