@@ -25,7 +25,7 @@
 
     <!-- Load billboard.js with style -->
     <script src="static/js/billboard.min.js"></script>
-    <link rel="stylesheet" href="/static/css/billboard.min.css">
+    <link rel="stylesheet" href="static/css/billboard.min.css">
 
     <!--------LOADING MAIN JS AND CSS---------------->
     <script src="static/js/ajax.js"></script>
@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="col-12">
                         <fieldset class="card">
-                            <legend class="card-header">Current Water Rate:</legend>
+                            <legend class="card-header">Water Rate:</legend>
                             <div class="card-body text-center">
                                 <div class="row">
                                     <div class="col-12 mb-1 mt-1 text-center">
@@ -227,30 +227,84 @@
                 <div class="row">
                     <div class="col-12">
                         <fieldset class="border p-2">
-                            <legend class="w-auto">Input your paycode and flat number:</legend>
-                            <form>
-                                <div class="form-row">
-                                    <div class="col-xs-12 col-sm-6">
-                                        <label class="sr-only" for="inlineFormInput">PayCode</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">PayCode</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="inlineFormInput" placeholder="PayCode">
+                            <legend class="w-auto mb-0">Water meter settings:</legend>
+                            <form class="form-row">
+                                <div class="form-text col-12 text-center">Input your PayCode and Flat number</div>
+                                <div class="form-group col-12 col-sm-6 mb-1 mb-sm-0">
+                                    <label class="sr-only" for="PayCodeInput">PayCode</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text justify-content-center">PayCode</div>
+                                        </div>
+                                        <input type="text" class="form-control" id="PayCodeInput" placeholder="PayCode" name="paycode">
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 col-sm-4 mb-1 mb-sm-0">
+                                    <label class="sr-only" for="FlatInput">Flat</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text justify-content-center">Flat</div>
+                                        </div>
+                                        <input type="text" class="form-control" id="FlatInput" placeholder="Flat" name="flat">
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 col-sm-2 mb-0 mb-sm-0">
+                                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                </div>
+                            </form>
+                            <hr/>
+                            <form class="form-row">
+                                <div class="form-text col-12 text-center">Check that your adress is correct:</div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-3 text-right pr-1" for="staticDistrict">District:</label>
+                                        <div class="col-9 pl-1">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticDistrict" value="ЗАО; Район Кунцево">
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-3">
-                                        <label class="sr-only" for="inlineFormInputGroup">Flat</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">Flat</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Flat">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-3 text-right pr-1" for="staticStreet">Street:</label>
+                                        <div class="col-9 pl-1">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticStreet" value="Рублёвское шоссе">
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-3">
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-3 col-sm-6 text-right pr-1" for="staticHouse">House:</label>
+                                        <div class="col-9 col-sm-6 pl-1">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticHouse" value="127">
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-3 col-sm-6 text-right pr-1" for="staticBuilding">Building:</label>
+                                        <div class="col-9 col-sm-6 pl-1">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticBuilding" value="-">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-3 col-sm-6 text-right pr-1" class="col-form-label" for="staticFlat">Flat:</label>
+                                        <div class="col-9 col-sm-6 pl-1">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticFlat" value="324">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr/>
+                            <form class="form-row">
+                                <div class="form-text col-12 text-center">Bind your meter(ID/Number) to Cold or Hot water</div>
+                                <div class="form-group row col-6">
+                                    <label class="col-5 col-form-label" class="col-form-label">ColdWater Meter</label>
+                                </div>
+                                <div class="form-group row col-6">
+                                    <label class="col-5 col-form-label" class="col-form-label">HotWater Meter</label>
+
                                 </div>
                             </form>
                         </fieldset>
