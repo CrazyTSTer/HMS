@@ -227,102 +227,97 @@
                 <div class="row">
                     <div class="col-12">
                         <fieldset class="card">
-                            <legend class="card-header">Water meter settings:</legend>
+                            <legend class="card-header">Счетчики воды:</legend>
                             <div class="card-body">
-                                <form class="form-row">
-                                    <div class="form-text col-12 text-center">Input your PayCode and Flat number</div>
-                                    <div class="form-group col-12 col-sm-6 mb-1 mb-sm-0">
-                                        <label class="sr-only" for="PayCodeInput">PayCode</label>
+                                <form class="form-row" id="payCodeForm">
+                                    <div class="form-text col-12 text-center">Введите код плательщика и номер квартиры:</div>
+                                    <div class="form-group col-12 col-sm-8 col-md-12 col-lg-6 mb-1">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <div class="input-group-text justify-content-center">PayCode:</div>
+                                                <div class="input-group-text justify-content-center">Код плательщика:</div>
                                             </div>
-                                            <input type="text" class="form-control" id="PayCodeInput" placeholder="PayCode" name="paycode">
+                                            <input type="text" class="form-control" id="payCodeInput" placeholder="Код плательщика" name="paycode">
                                         </div>
                                     </div>
-                                    <div class="form-group col-12 col-sm-4 mb-1 mb-sm-0">
-                                        <label class="sr-only" for="FlatInput">Flat</label>
+                                    <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3 mb-1">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <div class="input-group-text justify-content-center">Flat:</div>
+                                                <div class="input-group-text justify-content-center">Квартира:</div>
                                             </div>
-                                            <input type="text" class="form-control" id="FlatInput" placeholder="Flat" name="flat">
+                                            <input type="text" class="form-control" id="flatInput" placeholder="Квартира" name="flat">
                                         </div>
                                     </div>
-                                    <div class="form-group col-12 col-sm-2 mb-0 mb-sm-0">
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                    <div class="form-group col-12 col-lg-3 mb-1">
+                                        <button type="submit" class="btn btn-primary btn-block" id="payCodeFormGetData">Получить данные</button>
                                     </div>
                                 </form>
                                 <hr/>
-                                <!--<div class="col-12 col-md-6 align-self-center">
-                                    <div class="d-flex justify-content-center">
-                                        <span class="align-self-center">Округ/Район:&nbsp</span>
-                                        <span class="align-self-center">ЗАО; Орехово-Борисово Северное</span>
-                                    </div>
-                                </div>-->
-                                <form class="form-row">
-                                    <div class="form-text col-12 text-center">Check that your adress is correct:</div>
-                                    <div class="col-12 col-md-6 align-self-center">
+                                <form class="form-row" id="addressForm">
+                                    <div class="form-text col-12 text-center">Проверьте адрес установки счетчиков:</div>
+                                    <div class="col-12 col-lg-6 align-self-center">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-5 col-sm-4 col-md-4 text-sm-right align-self-center text-right" for="staticDistrict">Округ/Район:</label>
-                                            <div class="col-7 col-sm-8 col-md-8 align-self-center">
-                                                <p class="form-control-plaintext text-md-center" id="staticDistrict">ЗАО; Район Кунцево</p>
+                                            <label class="col-form-label col-5 align-self-center text-right">Округ/Район:</label>
+                                            <div class="col-7 align-self-center">
+                                                <p class="form-control-plaintext js_district"></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6 align-self-center">
+                                    <div class="col-12 col-lg-6 align-self-center">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-5 col-sm-4 col-md-4 text-sm-right align-self-center text-right" for="staticStreet">Улица:</label>
-                                            <div class="col-7 col-sm-8 col-md-8 align-self-center">
-                                                <p class="form-control-plaintext text-md-center" id="staticStreet">Рублевское шоссе</p>
+                                            <label class="col-form-label col-5 align-self-center text-right">Улица:</label>
+                                            <div class="col-7 align-self-center">
+                                                <p class="form-control-plaintext js_street"></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-3">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-5 col-sm-6 text-right" for="staticHouse">Дом:</label>
+                                            <label class="col-form-label col-5 col-sm-6 text-right">Дом:</label>
                                             <div class="col-7 col-sm-6">
-                                                <p class="form-control-plaintext" id="staticHouse">127</p>
+                                                <p class="form-control-plaintext js_house"></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-5">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-5 col-sm-7 text-right" for="staticBuilding">Корпус:</label>
+                                            <label class="col-form-label col-5 col-sm-7 text-right">Корпус:</label>
                                             <div class="col-7 col-sm-5">
-                                                <p class="form-control-plaintext" id="staticBuilding">10</p>
+                                                <p class="form-control-plaintext js_building"></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group row">
-                                            <label class="col-form-label col-5 col-sm-8 text-right" class="col-form-label" for="staticFlat">Квартира:</label>
+                                            <label class="col-form-label col-5 col-sm-8 text-right">Квартира:</label>
                                             <div class="col-7 col-sm-4">
-                                                <p class="form-control-plaintext" id="staticFlat">324</p>
+                                                <p class="form-control-plaintext js_flat"></p>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 <hr/>
-                                <form class="form-row">
-                                    <div class="form-text col-12 text-center">Bind your meter(ID/Number) to Cold or Hot water</div>
-                                    <div class="input-group col-12 col-sm-6">
+                                <form class="form-row" id="bindForm">
+                                    <div class="form-text col-12 text-center">Свяжите Номер/ID счетчика и тип воды</div>
+                                    <div class="input-group col-12 col-sm-6 mb-1">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text justify-content-center">Cold Water:</div>
+                                            <div class="input-group-text justify-content-center">ХВС:</div>
                                         </div>
                                         <select class="form-control" id="coldWaterMeterID">
                                             <option>Meter 1</option>
                                             <option>Meter 2</option>
                                         </select>
                                     </div>
-                                    <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group col-12 col-sm-6 mb-1">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text justify-content-center">Hot Water:</div>
+                                            <div class="input-group-text justify-content-center">ГВС:</div>
                                         </div>
                                         <select class="form-control" id="hotWaterMeterID">
                                             <option>Meter 1</option>
                                             <option>Meter 2</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <button type="submit" class="btn btn-primary btn-block" id="bindFormSave">Сохранить настройки</button>
                                     </div>
                                 </form>
                             </div>
