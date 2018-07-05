@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
 
 function show_main_stats()
 {
-    executeAjaxRequest({action: 'get', param: 'main_stat'}, function (result) {
+    executeAjaxGetRequest({action: 'get', param: 'main_stat'}, function (result) {
         if (result['status'] == 'success') {
             $(".js_water_last_update").text(result['data']['ts']);
 
@@ -63,7 +63,7 @@ function show_main_stats()
 
 function show_graph_rate()
 {
-    executeAjaxRequest({action: 'get', param: 'current'}, function (result) {
+    executeAjaxGetRequest({action: 'get', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             $.each(result['data'], function (key, value) {
                 if (value['status'] == 'success') {
@@ -93,37 +93,6 @@ function show_graph_rate()
                     }
                 }
             });
-        } else {
-            alert(result['status'] + ": " + result['data']);
-        }
-    });
-}
-
-function loadDayData(data) {
-    executeAjaxRequest({action: 'get', param: 'day', date: data}, function (result) {
-        if (result['status'] == 'success') {
-            if (result['data']['current_day']['status'] == 'success') {
-                $('.js_day').text(result['data']['current_day']['data']['date']);
-                generateDayChart(result['data']['current_day']['data']);
-            }
-        } else {
-            alert(result['status'] + ": " + result['data']);
-        }
-    });
-}
-
-function loadMonthData(data) {
-    executeAjaxRequest({action: 'get', param: 'month', date: data}, function (result) {
-        if (result['status'] == 'success') {
-            if (result['data']['current_month']['status'] == 'success') {
-                $('.js_month').text(moment(result['data']['current_month']['data']['date']).format('MMMM'));
-                $('.js_day_list').html('');
-                for (var i = result['data']['current_month']['data']['ts'].length - 1; i > 0 ; i--) {
-                    $('.js_day_list').append('<a class="dropdown-item" href="#" onclick="loadDayData(\'' + result['data']['current_month']['data']['ts'][i] + '\'); return false;">' + moment(result['data']['current_month']['data']['ts'][i]).format('DD MMMM') + '</a>');
-                }
-                generateMonthChart(result['data']['current_month']['data']);
-                loadDayData(result['data']['current_month']['data']['ts'][result['data']['current_month']['data']['ts'].length - 1]);
-            }
         } else {
             alert(result['status'] + ": " + result['data']);
         }
