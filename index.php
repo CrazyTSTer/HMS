@@ -38,7 +38,8 @@ class ASMS
                 break;
 
             default:
-                echo file_get_contents("static/index.html");
+                //$target = 'Meters/Water';
+                require ("static/index.html");
         }
     }
 }

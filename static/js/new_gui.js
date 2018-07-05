@@ -37,7 +37,20 @@ jQuery(document).ready(function() {
         $(el).click();
     });
 
-    show_main_stats();
+    if(window.target != "") {
+        var targets = window.target.split('/');
+        for (var i = 0; i < targets.length; i++) {
+            var target = targets[0];
+            if (i > 0) {
+                 for (var i1 = 1; i1 < i + 1 ; i1++) {
+                     target = target + '/' + targets[i1];
+                 }
+            }
+            $('a[href="#' + target + '"]').click();
+        }
+    } else {
+        show_main_stats();
+    }
 });
 
 function show_main_stats()

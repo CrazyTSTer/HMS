@@ -28,9 +28,14 @@
     <link rel="stylesheet" href="static/css/billboard.min.css">
 
     <!--------LOADING MAIN JS AND CSS---------------->
+    <script type="text/javascript">
+        var target = '<?= htmlentities($target) ?>';
+    </script>
     <script src="static/js/ajax.js"></script>
     <script src="static/js/new_gui.js"></script>
     <script src="static/js/charts.js"></script>
+    <script src="static/js/settings.js"></script>
+
 
     <link rel="stylesheet" href="static/css/new_gui.css">
     <link rel="stylesheet" href="static/css/fontawesome-all.css">
@@ -58,28 +63,28 @@
     <!-- App Sidebar -->
     <aside class="sidebar bg-dark pl-2 pr-2">
         <ul class="list-unstyled collapse d-md-block pt-1 pb-1 mb-0" id="sidebar">
-            <li><a class="active" href="#main_stat" data-target="#main_stat" onclick="show_main_stats(); return false;">
+            <li><a class="active" href="#MainStat" data-target="#MainStat" onclick="show_main_stats();">
                 <img class="shadowfilter" src="static/imgs/mainStatistic.png">
                 <span>Main Stats</span>
             </a></li>
             <li>
-                <a href="#" data-target="#Meters" data-toggle="collapse">
+                <a href="#Meters" data-target="#Meters" data-toggle="collapse">
                     <img class="shadowfilter" src="static/imgs/meters.png">
                     <span>Meters</span>
                     <i class="fa fa-chevron-right carret"></i>
                 </a>
                 <ul class="list-unstyled collapse" id="Meters">
-                    <li><a href="#water" data-target="#water" onclick="show_graph_rate(); return false;">
+                    <li><a href="#Meters/Water" data-target="#Water" onclick="show_graph_rate();">
                         <img class="shadowfilter" src="static/imgs/waterMeter.png">
                         <span>Water</span>
                     </a></li>
-                    <li><a href="#" data-target="#ElMeters">
+                    <li><a href="#Meters/Electricity">
                         <img class="shadowfilter" src="static/imgs/electricityMeter.png">
                         <span>Electricity</span>
                     </a></li>
                 </ul>
             </li>
-            <li><a href="#settings" data-target="#settings">
+            <li><a href="#Settings" data-target="#Settings">
                 <img class="shadowfilter" src="static/imgs/settings.png">
                 <span>Settings</span>
             </a></li>
@@ -89,7 +94,7 @@
     <!-- App Content -->
     <div id="content" class="content pt-2">
         <div class="container-fluid">
-            <div id="main_stat" class="tab-pane active">
+            <div id="MainStat" class="tab-pane active">
                 <div class="row">
                     <div class="col-12">
                         <fieldset class="card">
@@ -168,7 +173,7 @@
                     <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/monster-admin/dark/index.html</div>
                 </div>-->
             </div>
-            <div id="water" class="tab-pane">
+            <div id="Water" class="tab-pane">
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-0">
@@ -223,7 +228,7 @@
                     </div>
                 </div>
             </div>
-            <div id="settings" class="tab-pane">
+            <div id="Settings" class="tab-pane">
                 <div class="row">
                     <div class="col-12">
                         <fieldset class="card">
@@ -248,7 +253,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-12 col-lg-3 mb-1">
-                                        <button type="submit" class="btn btn-primary btn-block" id="payCodeFormGetData">Получить данные</button>
+                                        <button type="submit" class="btn btn-primary btn-block" id="payCodeFormGetData" onclick="sendPayCode(); return false;">Получить данные</button>
                                     </div>
                                 </form>
                                 <hr/>
