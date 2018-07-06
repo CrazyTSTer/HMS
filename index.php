@@ -17,6 +17,7 @@ class ASMS
 
     private $debug;
     private $action;
+    private $target;
 
     public function init($debug = false)
     {
@@ -24,6 +25,7 @@ class ASMS
         date_default_timezone_set('Europe/Moscow');
         $this->debug = $debug;
         $this->action = Vars::get('action', null);
+        $this->target = Vars::get('target', "");
     }
 
     public function run()
@@ -38,7 +40,7 @@ class ASMS
                 break;
 
             default:
-                //$target = 'Meters/Water';
+                $target = $this->target;
                 require ("static/index.html");
         }
     }
