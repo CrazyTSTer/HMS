@@ -12,36 +12,36 @@ include_once "php/Utils.php";
 
 class ASMS
 {
-    const ACTION_SET = 'set';
-    const ACTION_GET = 'get';
-
     private $debug;
+    private $location;
     private $action;
-    private $target;
 
     public function init($debug = false)
     {
         setlocale(LC_TIME, 'ru_RU.UTF-8');
         date_default_timezone_set('Europe/Moscow');
         $this->debug = $debug;
+        $this->location = Vars::get('location', null);
         $this->action = Vars::get('action', null);
-        $this->target = Vars::get('target', "");
+
     }
 
     public function run()
     {
-        switch ($this->action) {
-            case self::ACTION_SET:
-                WaterStat::actionSet($this->debug);
-                break;
-
-            case self::ACTION_GET:
-                WaterStat::actionGet($this->debug);
-                break;
-
-            default:
-                $target = $this->target;
-                require ("static/index.html");
+        if ($this->location) {
+            if (class_exists($this->location)) {
+                $obj = new $this->location($this->debug);
+                if (method_exists($obj, $this->action)) {
+                    $method = $this->action;
+                    $obj->$method();
+                } else {
+                    Utils::reportError(__CLASS__, "Unknown action '$this->action' for location '$this->location'", $this->debug);
+                }
+            } else {
+                Utils::reportError(__CLASS__, "Unknown location '$this->location'", $this->debug);
+            }
+        } else {
+            require "static/index.html";
         }
     }
 }

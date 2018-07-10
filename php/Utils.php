@@ -19,7 +19,6 @@ class Utils
 
     const UNKNOWN_ACTION    = 'Unknown action';
     const UNKNOWN_PARAMETER = 'Unknown parameter';
-    const DB_IS_NOT_READY   = 'DB is not ready';
 
     public static function reportError($class, $errorMsg, $debug = false)
     {
@@ -34,7 +33,7 @@ class Utils
         }
 
         if ($debug) {
-            $errorMsg = "Error at class: {$class}." . PHP_EOL . $errorMsg;
+            $errorMsg = "Error at class: '{$class}'." . PHP_EOL . $errorMsg;
         } else {
             $errorMsg = 'Please contact to Administrator. Something goes wrong';
         }
@@ -60,7 +59,6 @@ class Utils
     public static function unifiedExitPoint($status, $result = '')
     {
         print_r(json_encode(array("status" => $status, "data" => $result)));
-        DB::getInstance()->disconnect();
         exit(0);
     }
 }

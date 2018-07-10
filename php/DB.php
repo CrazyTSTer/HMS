@@ -23,6 +23,7 @@ class DB
     const MYSQL_CONNECT_FAIL = 'Can\'t connect to mysql server';
     const MYSQL_DISCONNECT_FAIL = 'Can\'t disconnect from mysql server';
     const MYSQL_SET_LOCALE_FAIL = 'Can\'t set locale';
+    const MYSQL_DB_IS_NOT_READY = 'DB is not ready';
     const MYSQL_ROWS_COUNT = 'rows_count';
 
     public static function getInstance()

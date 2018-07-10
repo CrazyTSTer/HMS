@@ -50,8 +50,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
-    const MYSQL_PORT        = 3306;
+    const MYSQL_HOST        = 'crazytster.ddns.net';
+    const MYSQL_PORT        = 6033;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
@@ -63,26 +63,35 @@ class WaterStat
     const TIMESTAMP = 'ts';
 
     /** @var  DB */
-    private static $db;
+    private $db;
+    private $debug;
 
-    private static function initDB($debug)
+    public function __construct($debug)
     {
-        self::$db = DB::getInstance();
-        self::$db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $debug);
-        self::$db->connect();
-        self::$db->selectDB(self::MYSQL_BASE);
-        self::$db->setLocale(self::MYSQL_BASE_LOCALE);
+        $this->db = DB::getInstance();
+        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $debug);
+        $this->db->connect();
+        $this->db->selectDB(self::MYSQL_BASE);
+        $this->db->setLocale(self::MYSQL_BASE_LOCALE);
+
+        $this->debug = $debug;
     }
 
-    public static function actionSet($debug)
+    public function __destruct()
+    {
+        $this->db->disconnect();
+        unset($this->db);
+    }
+
+    public function actionSet()
     {
         if (!Vars::check('values')) {
-            Utils::reportError(__CLASS__, 'Meters Values should be passed', $debug);
+            Utils::reportError(__CLASS__, 'Meters Values should be passed', $this->debug);
         }
 
         $valuesToSet = Vars::get('values', null);
         if (!is_array($valuesToSet)) {
-            Utils::reportError(__CLASS__, 'Values to set should be passed as array', $debug);
+            Utils::reportError(__CLASS__, 'Values to set should be passed as array', $this->debug);
         }
 
         $tmp = array();
@@ -91,15 +100,15 @@ class WaterStat
         }
 
         if (!array_key_exists(self::COLDWATER, $tmp) || !array_key_exists(self::HOTWATER, $tmp)) {
-            Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $debug);
+            Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
 
-        self::initDB($debug);
-        if (!self::$db->isDBReady()) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::DB_IS_NOT_READY);
+
+        if (!$this->db->isDBReady()) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
         }
 
-        $result = self::$db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
@@ -117,36 +126,35 @@ class WaterStat
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get previous Values from DB');
         }
 
-        $result = self::$db->executeQuery(SET_VALUES, $data, false);
+        $result = $this->db->executeQuery(SET_VALUES, $data, false);
 
         if ($result === true) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS);
         } elseif ($result === false) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL);
         } else {
-            Utils::reportError(__CLASS__, 'Unknown error while adding Values to DB', $debug);
+            Utils::reportError(__CLASS__, 'Unknown error while adding Values to DB', $this->debug);
         }
     }
 
-    public static function actionGet($debug)
+    public function actionGet()
     {
         if (!Vars::check('param')) {
-            Utils::reportError(__CLASS__, 'Parameter should be passed', $debug);
+            Utils::reportError(__CLASS__, 'Parameter should be passed', $this->debug);
         }
 
         $params = strtolower(Vars::get('param', null));
 
-        self::initDB($debug);
-        if (!self::$db->isDBReady()) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::DB_IS_NOT_READY);
+        if (!$this->db->isDBReady()) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
         }
 
         switch ($params) {
             case 'main_stat':
-                $current_values = self::$db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
-                $current_day_rate = self::$db->fetchSingleRow(GET_CURRENT_DAY_RATE, ['table' => self::MYSQL_TABLE_WATER]);
-                $current_month_rate = self::$db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
-                $prev_month_rate = self::$db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
 
@@ -167,9 +175,9 @@ class WaterStat
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
             case 'current':
-                $current_day_values = self::$db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
-                $current_month_values = self::$db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
-                $last_12month_values = self::$db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
+                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => self::MYSQL_TABLE_WATER]);
 
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
                 $ret['current_month'] = Parser::parseMonth($current_month_values, true, false);
@@ -183,7 +191,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_day = self::$db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date  . '\'', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date  . '\'', 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
                     $date == date('Y-m-d'));
@@ -195,7 +203,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_month = self::$db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'' , 'table' => self::MYSQL_TABLE_WATER]);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'' , 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_month'] = Parser::parseMonth($current_month, $date == date('Y-m'));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
