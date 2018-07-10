@@ -15,6 +15,7 @@ class ASMS
     private $debug;
     private $location;
     private $action;
+    private $target = '';
 
     public function init($debug = false)
     {
@@ -41,6 +42,7 @@ class ASMS
                 Utils::reportError(__CLASS__, "Unknown location '$this->location'", $this->debug);
             }
         } else {
+            $target = $this->target;
             require "static/index.html";
         }
     }
