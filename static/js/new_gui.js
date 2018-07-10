@@ -55,7 +55,7 @@ jQuery(document).ready(function() {
 
 function show_main_stats()
 {
-    executeAjaxGetRequest({action: 'get', param: 'main_stat'}, function (result) {
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'main_stat'}, function (result) {
         if (result['status'] == 'success') {
             $(".js_water_last_update").text(result['data']['ts']);
 
@@ -76,7 +76,7 @@ function show_main_stats()
 
 function show_graph_rate()
 {
-    executeAjaxGetRequest({action: 'get', param: 'current'}, function (result) {
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
             $.each(result['data'], function (key, value) {
                 if (value['status'] == 'success') {

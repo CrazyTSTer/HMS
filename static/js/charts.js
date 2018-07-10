@@ -114,7 +114,7 @@ function generateLast12MonthChart(data)
 
 
 function loadDayData(data) {
-    executeAjaxGetRequest({action: 'get', param: 'day', date: data}, function (result) {
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'day', date: data}, function (result) {
         if (result['status'] == 'success') {
             if (result['data']['current_day']['status'] == 'success') {
                 $('.js_day').text(result['data']['current_day']['data']['date']);
@@ -127,7 +127,7 @@ function loadDayData(data) {
 }
 
 function loadMonthData(data) {
-    executeAjaxGetRequest({action: 'get', param: 'month', date: data}, function (result) {
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'month', date: data}, function (result) {
         if (result['status'] == 'success') {
             if (result['data']['current_month']['status'] == 'success') {
                 $('.js_month').text(moment(result['data']['current_month']['data']['date']).format('MMMM'));
