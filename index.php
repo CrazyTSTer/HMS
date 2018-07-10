@@ -24,7 +24,6 @@ class ASMS
         $this->debug = $debug;
         $this->location = Vars::get('location', null);
         $this->action = Vars::get('action', null);
-
     }
 
     public function run()

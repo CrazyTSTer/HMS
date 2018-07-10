@@ -10,6 +10,7 @@ include_once "DB.php";
 include_once "Vars.php";
 include_once "Parser.php";
 include_once "WaterStat.php";
+include_once "Settings.php";
 
 class Utils
 {
