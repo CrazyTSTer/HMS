@@ -9,6 +9,7 @@
 class Settings
 {
     private $debug;
+
     public function __construct($debug)
     {
         $this->debug = $debug;
@@ -52,6 +53,8 @@ class Settings
             )
         )));
 
+        //$result = false;
+
         $result = json_decode($result, true);
 
         if (isset($result['code']) || isset($result['error'])) {
@@ -59,6 +62,13 @@ class Settings
         }
 
         if ($result) {
+            if (isset($result['address'])) {
+                $address['district'] = ($result['address']['okrug'] ?? '-') . ' / ' . ($result['address']['district'] ?? '-');
+                $address['street'] =  $result['address']['street'] ?? '-';
+                $address['house'] =  $result['address']['house'] ?? '-';
+                $address['building'] =  $result['address']['korpus'] ?? '-';
+                $address['flat'] =  $result['address']['flat'] ?? '-';
+            }
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
         }
 
