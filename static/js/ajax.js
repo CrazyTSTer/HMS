@@ -3,11 +3,8 @@
  */
 //-----------------AJAX REQUEST--------------------------------//
 function executeAjaxGetRequest(params, success_callback, error_callback) {
-    error_callback = error_callback ? error_callback : function (jqXHR, status, message) {
-        /*$('.alert_js').addClass('alert-danger');
-         $('.modal-text_js').html("<strong>Can't complete request!</strong><br> Status: " + status + "<br> Message: " + message);
-         $("#modalAlert").modal();*/
-        alert("AJAX GET REQUEST FAILED");
+    error_callback = error_callback ? error_callback : function(jqXHR, status, message) {
+        ajax_error_callback(jqXHR, status, message);
     };
 
     $.ajax({
@@ -21,11 +18,8 @@ function executeAjaxGetRequest(params, success_callback, error_callback) {
 }
 
 function executeAjaxPostRequest(params, success_callback, error_callback) {
-    error_callback = error_callback ? error_callback : function (jqXHR, status, message) {
-        /*$('.alert_js').addClass('alert-danger');
-         $('.modal-text_js').html("<strong>Can't complete request!</strong><br> Status: " + status + "<br> Message: " + message);
-         $("#modalAlert").modal();*/
-        alert("AJAX POST REQUEST FAILED");
+    error_callback = error_callback ? error_callback : function(jqXHR, status, message) {
+        ajax_error_callback(jqXHR, status, message);
     };
 
     $.ajax({
@@ -36,4 +30,10 @@ function executeAjaxPostRequest(params, success_callback, error_callback) {
         success: success_callback,
         error: error_callback
     });
+}
+
+function ajax_error_callback(jqXHR, status, message) {
+    $('.js_modal-title').html("<strong>Can't complete request!</strong>");
+    $('.js_modal-body').html("<strong>Status:</strong> " + status + "<br><strong>Message: </strong>" + message);
+    $("#modalAlert").modal();
 }

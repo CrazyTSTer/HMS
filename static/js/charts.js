@@ -121,7 +121,7 @@ function loadDayData(data) {
                 generateDayChart(result['data']['current_day']['data']);
             }
         } else {
-            alert(result['status'] + ": " + result['data']);
+            showModalAlert(result['status'], result['data']);
         }
     });
 }
@@ -139,7 +139,7 @@ function loadMonthData(data) {
                 loadDayData(result['data']['current_month']['data']['ts'][result['data']['current_month']['data']['ts'].length - 1]);
             }
         } else {
-            alert(result['status'] + ": " + result['data']);
+            showModalAlert(result['status'], result['data']);
         }
     });
 }

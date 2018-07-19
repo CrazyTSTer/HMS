@@ -8,15 +8,14 @@ function sendPayCode()
     };
 
     executeAjaxPostRequest(param, function(result) {
-        /*if (result['status'] == 'success') {
-            $('.js_district').text(result['data']['district']);
-            $('.js_street').text(result['data']['street']);
-            $('.js_house').text(result['data']['house']);
-            $('.js_building').text(result['data']['building']);
-            $('.js_flat').text(result['data']['flat']);
+        if (result['status'] == 'success') {
+            $('.js_district').text(result['data']['address']['district']);
+            $('.js_street').text(result['data']['address']['street']);
+            $('.js_house').text(result['data']['address']['house']);
+            $('.js_building').text(result['data']['address']['building']);
+            $('.js_flat').text(result['data']['address']['flat']);
         } else {
-            alert(result['status'] + ": " + result['data']);
-        }*/
-        console.log(result);
+            showModalAlert(result['status'], result['data']);
+        }
     });
 }

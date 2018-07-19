@@ -69,7 +69,7 @@ function show_main_stats()
             $(".js_hot_curr_month_rate").text(result['data']['hotwater']['month_rate']);
             $(".js_hot_prev_month_rate").text(result['data']['hotwater']['prev_month_rate']);
         } else {
-            alert(result['status'] + ": " + result['data']);
+            showModalAlert(result['status'], result['data']);
         }
     });
 }
@@ -107,7 +107,13 @@ function show_graph_rate()
                 }
             });
         } else {
-            alert(result['status'] + ": " + result['data']);
+            showModalAlert(result['status'], result['data']);
         }
     });
+}
+
+function showModalAlert(status, message) {
+    $('.js_modal-title').html("<strong>Request " + status  + "</strong>");
+    $('.js_modal-body').html("<strong>Message: </strong>" + message);
+    $("#modalAlert").modal();
 }
