@@ -68,10 +68,12 @@ class Settings
 
             if (isset($result['counter'])) {
                 foreach($result['counter'] as $value) {
-                    $meters[]['id'] = $value['counterId'] ?? '-';
-                    $meters[]['type'] = $value['type'] ?? '-';
-                    $meters[]['number'] = $value['num'] ?? '-';
-                    $meters[]['checkup'] = $value['checkup'] ?? '-';
+                    $meters[] = [
+                        'id'      => $value['counterId'] ?? '-',
+                        'type'    => $value['type'] ?? '-',
+                        'number'  => $value['num'] ?? '-',
+                        'checkup' => $value['checkup'] ?? '-',
+                    ];
                 }
             } else {
                 $meters = [];
