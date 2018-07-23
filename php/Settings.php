@@ -72,7 +72,7 @@ class Settings
                         'id'      => $value['counterId'] ?? '-',
                         'type'    => $value['type'] ?? '-',
                         'number'  => $value['num'] ?? '-',
-                        'checkup' => $value['checkup'] ?? '-',
+                        'checkup' => date("d-m-Y",strtotime($value['checkup'])) ?? '-',
                     ];
                 }
             } else {

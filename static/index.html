@@ -111,7 +111,7 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-striped cold mb-0">
                                                         <tbody>
-                                                            <tr  class="cold">
+                                                            <tr class="cold">
                                                                 <td>Curr. Value:</td><td class="js_cold_curr_value"></td>
                                                             </tr>
                                                             <tr>
@@ -301,59 +301,31 @@
                                     </div>
                                 </form>
                                 <hr/>
-                                <form class="form-row" id="addressForm1">
-                                    <div class="form-text col-12 text-center">Проверьте адрес установки счетчиков:</div>
+                                <form class="form-row" id="metersInfo">
+                                    <div class="form-text col-12 text-center">Информация о счетчиках:</div>
                                     <div class="col-12">
-                                        <table class="table table-bordered table-striped table-dark table-sm" id="no-more-tables">
-                                            <thead class="cf">
+                                        <table class="table table-bordered table-striped table-dark table-sm" id="tableMetersInfo">
+                                            <thead>
                                                 <tr>
-                                                    <th></th>
-                                                    <th>ID: </th>
-                                                    <th>Номер: </th>
-                                                    <th>Тип: </th>
-                                                    <th>Поверка: </th>
+                                                    <th class="meter_header"></th>
+                                                    <th>ID:</th>
+                                                    <th>Номер:</th>
+                                                    <th>Тип:</th>
+                                                    <th>Поверка:</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Meter 1</td>
-                                                    <td data-title="ID:">1162345</td>
-                                                    <td data-title="Номер:">№D14СА 053803</td>
-                                                    <td data-title="Тип:">Холодная вода</td>
-                                                    <td data-title="Поверка:">2020-05-05+03:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1162345</td>
-                                                    <td>№12-035290</td>
-                                                    <td>Горячая вода</td>
-                                                    <td>2020-05-05+03:00</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </form>
-                                <form class="form-row" id="bindForm">
-                                    <div class="form-text col-12 text-center">Свяжите Номер/ID счетчика и тип воды</div>
-                                    <div class="input-group col-12 col-sm-6 mb-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text justify-content-center">ХВС:</div>
-                                        </div>
-                                        <select class="form-control" id="coldWaterMeterID">
-                                            <option>Meter 1</option>
-                                            <option>Meter 2</option>
-                                        </select>
+                                <hr>
+                                <form class="form-row" id="saveForm">
+                                    <div class="form-group col-6">
+                                        <button type="submit" class="btn btn-primary btn-block" id="Save">Сохранить</button>
                                     </div>
-                                    <div class="input-group col-12 col-sm-6 mb-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text justify-content-center">ГВС:</div>
-                                        </div>
-                                        <select class="form-control" id="hotWaterMeterID">
-                                            <option>Meter 1</option>
-                                            <option>Meter 2</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-12">
-                                        <button type="submit" class="btn btn-primary btn-block" id="bindFormSave">Сохранить настройки</button>
+                                    <div class="form-group col-6">
+                                        <button type="submit" class="btn btn-primary btn-block" id="Reset">Сбросить</button>
                                     </div>
                                 </form>
                             </div>

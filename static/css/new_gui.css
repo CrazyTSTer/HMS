@@ -54,6 +54,71 @@
     }
 }
 
+@media (max-width: 575px), (min-width: 768px) and (max-width: 991px) {
+
+    /* Force table to not be like tables anymore */
+    #tableMetersInfo table,
+    #tableMetersInfo thead,
+    #tableMetersInfo tbody,
+    #tableMetersInfo th,
+    #tableMetersInfo td,
+    #tableMetersInfo tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    #tableMetersInfo thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #tableMetersInfo tr {
+        border-bottom: 1px solid #ccc;
+    }
+
+    #tableMetersInfo tr:last-child {
+        border-bottom: none;
+    }
+
+    #tableMetersInfo td {
+        /* Behave  like a "row" */
+        border: none;
+        /*border-bottom: 1px solid #eee;*/
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align:left;
+    }
+
+    #tableMetersInfo td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align:left;
+        font-weight: bold;
+    }
+
+    /*
+    Label the data
+    */
+    #tableMetersInfo td:before {
+        content: attr(data-title);
+    }
+
+    #tableMetersInfo .meter_header {
+        display: block !important;
+        padding-left: 0;
+        text-align: center;
+        color: #fff;
+    }
+}
+
 /* ----- Common blocks ----- */
 html, body {
     height: 100%;
@@ -223,7 +288,7 @@ hr {
 .content {
     overflow-x: hidden;
     background: #383f48;
-    color: #FFF;
+    color: #fff;
 }
 
 #content .tab-pane {
@@ -234,6 +299,13 @@ hr {
     display: block;
 }
 
+#tableMetersInfo .meter_header {
+    display: none;
+}
+
+#tableMetersInfo td {
+    vertical-align: middle;
+}
 /* ----- Cards ----- */
 .card {
     margin-bottom: 30px;
@@ -294,6 +366,10 @@ tr.hot {
     color: #deb887;
 }
 
+#tableMetersInfo tbody {
+    color: #609060;
+}
+
 /* ----- DropDown Button ----- */
 .dropdown-custom {
     max-height: 250px;
@@ -335,57 +411,4 @@ tr.hot {
 
 .bb-tooltip {
     color: #000;
-}
-
-
-
-
-@media (max-width: 575px), (min-width: 768px) and (max-width: 991px) {
-
-    /* Force table to not be like tables anymore */
-    #no-more-tables table,
-    #no-more-tables thead,
-    #no-more-tables tbody,
-    #no-more-tables th,
-    #no-more-tables td,
-    #no-more-tables tr {
-        display: block;
-    }
-
-    /* Hide table headers (but not display: none;, for accessibility) */
-    #no-more-tables thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-
-    /*#no-more-tables tr { border: 1px solid #ccc; }*/
-
-    #no-more-tables td {
-        /* Behave  like a "row" */
-        border: none;
-        /*border-bottom: 1px solid #eee;*/
-        position: relative;
-        padding-left: 50%;
-        white-space: normal;
-        text-align:left;
-    }
-
-    #no-more-tables td:before {
-        /* Now like a table header */
-        position: absolute;
-        /* Top/left values mimic padding */
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        text-align:left;
-        font-weight: bold;
-    }
-
-    /*
-    Label the data
-    */
-    #no-more-tables td:before { content: attr(data-title); }
 }
