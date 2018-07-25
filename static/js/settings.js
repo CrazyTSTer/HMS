@@ -40,3 +40,13 @@ function sendPayCode()
         }
     });
 }
+
+function resetWaterSettings() {
+    $('.js_district').text('');
+    $('.js_street').text('');
+    $('.js_house').text('');
+    $('.js_building').text('');
+    $('.js_flat').text('');
+
+    $("#tableMetersInfo tbody").html("");
+}
