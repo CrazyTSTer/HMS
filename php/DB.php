@@ -1,6 +1,6 @@
 <?php
 
-include_once "Utils.php";
+//include_once "Utils.php";
 
 class DB
 {

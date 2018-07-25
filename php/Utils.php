@@ -11,6 +11,7 @@ include_once "Vars.php";
 include_once "Parser.php";
 include_once "WaterStat.php";
 include_once "Settings.php";
+include_once "Config.php";
 
 class Utils
 {
