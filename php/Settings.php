@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: crazytster
- * Date: 10.07.18
- * Time: 17:45
- */
 
 class Settings
 {

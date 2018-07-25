@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: CrazyTSTer
- * Date: 07.04.17
- * Time: 0:18
- */
+
 class Parser
 {
     public static function parserCurrentValues($data)
