@@ -1,4 +1,5 @@
 <?php
+
 class Vars
 {
     public static function get($key, $default = false)
