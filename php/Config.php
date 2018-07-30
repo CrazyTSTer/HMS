@@ -53,6 +53,14 @@ class Config
 
     /**
      * @param $path
+     */
+    public function drop($path)
+    {
+        unset($this->config[$path]);
+    }
+
+    /**
+     * @param $path
      * @return mixed|null
      */
     public function get($path)
