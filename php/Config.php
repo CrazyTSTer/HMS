@@ -48,7 +48,12 @@ class Config
      */
     public function set($path, $var)
     {
-        $this->config[$path] = $var;
+        $path_array = array_reverse(explode('/', $path));
+        $tmp = [$path_array[0] => $var];
+        for ($i = 1; $i < count($path_array); $i++) {
+            $tmp = [$path_array[$i] => $tmp];
+        }
+        $this->config = array_replace_recursive($this->config, $tmp);
     }
 
     /**
@@ -56,7 +61,12 @@ class Config
      */
     public function drop($path)
     {
-        unset($this->config[$path]);
+        $path_array = explode('/', $path);
+        $tmp = &$this->config;
+        for ($i = 0; $i < count($path_array) - 1; $i++) {
+            $tmp = &$tmp[$path_array[$i]];
+        }
+        unset($tmp[$path_array[count($path_array) - 1]]);
     }
 
     /**
@@ -65,7 +75,12 @@ class Config
      */
     public function get($path)
     {
-        return $this->config[$path] ?? null;
+        $path_array = explode('/', $path);
+        $tmp = $this->config;
+        for ($i = 0; $i < count($path_array); $i++) {
+            $tmp = $tmp[$path_array[$i]] ?? null;
+        }
+        return $tmp;
     }
 
     /**
