@@ -12,6 +12,7 @@ include_once "Parser.php";
 include_once "WaterStat.php";
 include_once "Settings.php";
 include_once "Config.php";
+include_once "PguApi.php";
 
 class Utils
 {

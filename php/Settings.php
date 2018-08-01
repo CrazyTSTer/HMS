@@ -32,25 +32,7 @@ class Settings
             Utils::reportError(__CLASS__, 'Passed empty Flat number', $this->debug);
         }
 
-        $url = 'https://www.mos.ru/pgu/common/ajax/index.php';
-        $params = [
-            'ajaxModule' => 'Guis',
-            'ajaxAction' => 'getCountersInfo',
-            'items' => [
-                'paycode' => $paycode,
-                'flat' => $flat,
-            ]
-        ];
-
-        $result = file_get_contents($url, false, stream_context_create(array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => 'Content-type: application/x-www-form-urlencoded; charset=UTF-8',
-                'content' => http_build_query($params)
-            )
-        )));
-
-        $result = json_decode($result, true);
+        $result = PguApi::getWaterMetersInfo($paycode, $flat);
 
         if (isset($result['code']) || isset($result['error'])) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
