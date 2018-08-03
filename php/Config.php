@@ -46,10 +46,10 @@ class Config
      * @param $path
      * @param $var
      */
-    public function set($path, $var)
+    public function set($path = null, $var)
     {
         $path_array = array_reverse(explode('/', $path));
-        $tmp = [$path_array[0] => $var];
+        isset($path) ? $tmp = [$path_array[0] => $var] : $tmp = $var;
         for ($i = 1; $i < count($path_array); $i++) {
             $tmp = [$path_array[$i] => $tmp];
         }
@@ -63,23 +63,30 @@ class Config
     {
         $path_array = explode('/', $path);
         $tmp = &$this->config;
-        for ($i = 0; $i < count($path_array) - 1; $i++) {
-            $tmp = &$tmp[$path_array[$i]];
+        $last_el = array_pop($path_array);
+        foreach ($path_array as $el) {
+            if (!isset($tmp[$el])) return;
+            $tmp = &$tmp[$el];
         }
-        unset($tmp[$path_array[count($path_array) - 1]]);
+        unset($tmp[$last_el]);
     }
 
     /**
      * @param $path
      * @return mixed|null
      */
-    public function get($path)
+    public function get($path = null)
     {
-        $path_array = explode('/', $path);
-        $tmp = $this->config;
-        for ($i = 0; $i < count($path_array); $i++) {
-            $tmp = $tmp[$path_array[$i]] ?? null;
+        if (!isset($path)) {
+            return $this->config;
         }
+
+        $path_array = explode('/', $path);
+        $tmp = &$this->config;
+        foreach ($path_array as $el) {
+            $tmp = &$tmp[$el] ?? null;
+        }
+
         return $tmp;
     }
 
