@@ -12,7 +12,7 @@ class Settings
         $this->cfg = Config::getConfig('Water');
     }
 
-    public function actionGetPayCodeInfo()
+    public function actionGetWaterMetersInfo()
     {
         if (!Vars::check('paycode')) {
             Utils::reportError(__CLASS__, 'PayCode should be passed', $this->debug);
@@ -60,15 +60,10 @@ class Settings
 
             $ret = [
                 'address' => $address,
-                'meters'  => $meters
+                'meters'  => $meters,
+                'paycode' => $paycode,
+                'flat'    => $flat,
             ];
-
-            $this->cfg->set('payCode', $paycode);
-            $this->cfg->set('flat', $flat);
-            $this->cfg->set('address', $address);
-            $this->cfg->set('meters', $meters);
-            $this->cfg->set('save_status', false);
-            $this->cfg->save();
 
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
         }
@@ -76,13 +71,16 @@ class Settings
         Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get data from PGU.MOS.RU');
     }
 
-    public function actionSaveWaterSettings() {
-        $this->cfg->set('save_status', true);
+    public function actionSaveWaterSettings()
+    {
+        $dataToSave = Vars::get('dataToSave', null);
+        $this->cfg->set(null, $dataToSave);
         $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
     }
 
-    public function actionResetWaterSettings() {
+    public function actionResetWaterSettings()
+    {
         $this->cfg->drop('payCode');
         $this->cfg->drop('flat');
         $this->cfg->drop('address');
@@ -93,17 +91,15 @@ class Settings
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
     }
 
-    public function actionGetSettingsFromConfig() {
-        if ($this->cfg->get('save_status')) {
-            $ret = [
-                'address' => $this->cfg->get('address'),
-                'meters'  => $this->cfg->get('meters'),
-                'payCode' => $this->cfg->get('payCode'),
-                'flat'    => $this->cfg->get('flat'),
-            ];
-        } else {
-            $ret = [];
-        }
+    public function actionGetSettingsFromConfig()
+    {
+        /*$ret = [
+            'address' => $this->cfg->get('address'),
+            'meters'  => $this->cfg->get('meters'),
+            'paycode' => $this->cfg->get('paycode'),
+            'flat'    => $this->cfg->get('flat'),
+        ];*/
+        $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
 }
