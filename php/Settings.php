@@ -6,10 +6,10 @@ class Settings
     /** @var  Config */
     private $cfg;
 
-    public function __construct($debug)
+    public function __construct($debug, $cfgName)
     {
         $this->debug = $debug;
-        $this->cfg = Config::getConfig('Water');
+        $this->cfg = Config::getConfig($cfgName);
     }
 
     public function actionGetWaterMetersInfo()
@@ -73,7 +73,7 @@ class Settings
 
     public function actionSaveWaterSettings()
     {
-        $dataToSave = Vars::get('dataToSave', null);
+        $dataToSave = json_decode(Vars::get('dataToSave', null), true);
         $this->cfg->set(null, $dataToSave);
         $this->cfg->save();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');

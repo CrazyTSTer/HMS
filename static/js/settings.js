@@ -20,6 +20,7 @@ function getWaterMetersInfo() {
 }
 
 function parseWaterMetersInfo(result) {
+    if (jQuery.isEmptyObject(result)) return;
     $('.js_district').text(result['address']['district']);
     $('.js_street').text(result['address']['street']);
     $('.js_house').text(result['address']['house']);
@@ -66,18 +67,18 @@ function resetWaterMetersInfo() {
 
 function saveWaterMetersInfo() {
     var dataToSave = {
-        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '111',
-        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '222',
-        'address': '333',
-        'meters' : []
+        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '',
+        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '',
+        'address': waterMetersInfo['address'] ? waterMetersInfo['address'] : [],
+        'meters' : waterMetersInfo['meters'] ? waterMetersInfo['meters'] : []
     };
     var param = {
         location:   'Settings',
         action:     'actionSaveWaterSettings',
         config:     'Water',
-        dataToSave: dataToSave,
+        dataToSave: JSON.stringify(dataToSave),
     };
-    executeAjaxGetRequest(param, function(result) {
+    executeAjaxPostRequest(param, function(result) {
         showModalAlert(result['status'], result['data']);
     });
 }

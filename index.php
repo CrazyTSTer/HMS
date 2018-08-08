@@ -7,6 +7,7 @@
  */
 ini_set('display_errors', "1");
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+define('SETTINGS_CLASS', 'Settings');
 
 include_once "php/Utils.php";
 
@@ -30,7 +31,14 @@ class ASMS
     {
         if ($this->location) {
             if (class_exists($this->location)) {
-                $obj = new $this->location($this->debug);
+                $cfgName = 'huy';
+                if ($this->location == SETTINGS_CLASS) {
+                    $cfgName = Vars::get('config', null);
+                    if (!$cfgName) {
+                        Utils::reportError(__CLASS__, "Config name shoud be passed to Settings class constructor", $this->debug);
+                    }
+                }
+                $obj = new $this->location($this->debug, $cfgName);
                 if (method_exists($obj, $this->action)) {
                     $method = $this->action;
                     $obj->$method();

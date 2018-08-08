@@ -50,8 +50,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'crazytster.ddns.net';
-    const MYSQL_PORT        = 6033;
+    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
@@ -68,13 +68,13 @@ class WaterStat
 
     public function __construct($debug)
     {
+        $this->debug = $debug;
+
         $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $debug);
+        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
         $this->db->connect();
         $this->db->selectDB(self::MYSQL_BASE);
         $this->db->setLocale(self::MYSQL_BASE_LOCALE);
-
-        $this->debug = $debug;
     }
 
     public function __destruct()
