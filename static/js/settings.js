@@ -3,9 +3,10 @@ var waterMetersInfo;
 function getWaterMetersInfo() {
     var param = {
         location: 'Settings',
-        action: 'actionGetWaterMetersInfo',
-        paycode: $('#payCodeInput').val(),
-        flat: $('#flatInput').val(),
+        action:   'actionGetWaterMetersInfo',
+        config:   'Water',
+        paycode:  $('#payCodeInput').val(),
+        flat:     $('#flatInput').val(),
     };
 
     executeAjaxPostRequest(param, function(result) {
@@ -34,7 +35,7 @@ function parseWaterMetersInfo(result) {
             "<td data-title=\"ID:\" class=\"align-middle\">" + element['id'] + "</td>" +
             "<td data-title=\"Номер:\" class=\"align-middle\">" + element['number'] + "</td>" +
             "<td data-title=\"Тип:\" class=\"align-middle\">" +
-            "<select class=\"form-control form-control-sm\" id=\"Meter" + i +"\">" +
+            "<select onchange='waterTypeChage(this)' class=\"form-control form-control-sm\" id=\"Meter_" + i +"\">" +
             "<option value=1>ХВС</option>" +
             "<option value=2>ГВС</option>" +
             "</select>" +
@@ -43,8 +44,12 @@ function parseWaterMetersInfo(result) {
             "</tr>";
         $('#tableMetersInfo').append(table_row);
 
-        $("#Meter" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
+        $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
     });
+}
+
+function waterTypeChage(el) {
+    waterMetersInfo['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
 }
 
 function resetWaterMetersInfo() {
@@ -56,28 +61,23 @@ function resetWaterMetersInfo() {
 
     $("#tableMetersInfo tbody").html("");
 
-    waterMetersInfo = '';
-
-    /*var param = {
-        location: 'Settings',
-        action: 'actionResetWaterSettings',
-    };
-    executeAjaxPostRequest(param, '');*/
+    waterMetersInfo = [];
 }
 
 function saveWaterMetersInfo() {
     var dataToSave = {
-        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '',
-        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '',
-        'address': waterMetersInfo['address'] ? waterMetersInfo['address'] : {},
-        'meters' : waterMetersInfo['meters'] ? waterMetersInfo['meters'] : {},
+        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '111',
+        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '222',
+        'address': '333',
+        'meters' : []
     };
     var param = {
         location:   'Settings',
         action:     'actionSaveWaterSettings',
+        config:     'Water',
         dataToSave: dataToSave,
     };
-    executeAjaxPostRequest(param, function(result) {
+    executeAjaxGetRequest(param, function(result) {
         showModalAlert(result['status'], result['data']);
     });
 }
@@ -86,6 +86,7 @@ function getSettingsFromConfig() {
     var param = {
         location: 'Settings',
         action:   'actionGetSettingsFromConfig',
+        config:   'Water'
     };
     executeAjaxGetRequest(param, function(result) {
         if (result['status'] == 'success') {

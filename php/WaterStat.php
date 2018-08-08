@@ -212,4 +212,9 @@ class WaterStat
                 Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER);
         }
     }
+
+    public function actionSendDataToPGU()
+    {
+        //NOPE
+    }
 }

@@ -51,7 +51,7 @@ class Settings
                         'id'      => $value['counterId'] ?? '-',
                         'type'    => $value['type'] ?? '-',
                         'number'  => $value['num'] ?? '-',
-                        'checkup' => date("d-m-Y",strtotime($value['checkup'])) ?? '-',
+                        'checkup' => date("d-m-Y", strtotime($value['checkup'])) ?? '-',
                     ];
                 }
             } else {
@@ -81,11 +81,7 @@ class Settings
 
     public function actionResetWaterSettings()
     {
-        $this->cfg->drop('payCode');
-        $this->cfg->drop('flat');
-        $this->cfg->drop('address');
-        $this->cfg->drop('meters');
-        $this->cfg->set('save_status', false);
+        $this->cfg->drop();
         $this->cfg->save();
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
@@ -93,12 +89,6 @@ class Settings
 
     public function actionGetSettingsFromConfig()
     {
-        /*$ret = [
-            'address' => $this->cfg->get('address'),
-            'meters'  => $this->cfg->get('meters'),
-            'paycode' => $this->cfg->get('paycode'),
-            'flat'    => $this->cfg->get('flat'),
-        ];*/
         $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
