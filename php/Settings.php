@@ -83,7 +83,6 @@ class Settings
     {
         $this->cfg->drop();
         $this->cfg->save();
-
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
     }
 

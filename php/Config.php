@@ -57,9 +57,8 @@ class Config
             } else {
                 $tmp[$last_el] = $var;
             }
-
         } else {
-            $this->config[] = $var;
+            $this->config = $var;
         }
     }
 
