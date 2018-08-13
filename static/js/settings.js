@@ -66,11 +66,11 @@ function parseWaterMetersInfo(result) {
     if (result['status'] == 'success') {
         waterMetersInfo = result['data'];
         //if (jQuery.isEmptyObject(waterMetersInfo)) return;
-        $('.js_district').text(waterMetersInfo['address']['district']);
-        $('.js_street').text(waterMetersInfo['address']['street']);
-        $('.js_house').text(waterMetersInfo['address']['house']);
-        $('.js_building').text(waterMetersInfo['address']['building']);
-        $('.js_flat').text(waterMetersInfo['address']['flat']);
+        $('.js_district').text(waterMetersInfo['address']['district'] ? waterMetersInfo['address']['district'] : '');
+        $('.js_street').text(waterMetersInfo['address']['street'] ? waterMetersInfo['address']['street'] : '');
+        $('.js_house').text(waterMetersInfo['address']['house'] ? waterMetersInfo['address']['house'] : '');
+        $('.js_building').text(waterMetersInfo['address']['building'] ? waterMetersInfo['address']['building'] : '');
+        $('.js_flat').text(waterMetersInfo['address']['flat'] ? waterMetersInfo['address']['flat'] : '');
 
         $('#payCodeInput').val(waterMetersInfo['paycode']);
         $('#flatInput').val(waterMetersInfo['flat']);
