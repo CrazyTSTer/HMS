@@ -111,6 +111,6 @@ class Config
     public function dump()
     {
         var_export($this->config);
-        echo("\n");
+        echo ("\n");
     }
 }

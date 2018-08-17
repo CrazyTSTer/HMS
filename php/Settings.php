@@ -40,13 +40,13 @@ class Settings
 
         if ($result) {
             $address['district'] = ($result['address']['okrug'] ?? '-') . ' / ' . ($result['address']['district'] ?? '-');
-            $address['street'] =  $result['address']['street'] ?? '-';
+            $address['street'] = $result['address']['street'] ?? '-';
             $address['house'] =  $result['address']['house'] ?? '-';
-            $address['building'] =  $result['address']['korpus'] ?? '-';
-            $address['flat'] =  $result['address']['flat'] ?? '-';
+            $address['building'] = $result['address']['korpus'] ?? '-';
+            $address['flat'] = $result['address']['flat'] ?? '-';
 
             if (isset($result['counter'])) {
-                foreach($result['counter'] as $value) {
+                foreach ($result['counter'] as $value) {
                     $meters[] = [
                         'id'      => $value['counterId'] ?? '-',
                         'type'    => $value['type'] ?? '-',
