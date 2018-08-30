@@ -64,6 +64,8 @@ class WaterStat
 
     /** @var  DB */
     private $db;
+    /** @var  Config */
+    private $cfg;
     private $debug;
 
     public function __construct($debug)
@@ -215,6 +217,39 @@ class WaterStat
 
     public function actionSendDataToPGU()
     {
-        //NOPE
+        $this->cfg = Config::getConfig('Water');
+        $paycode = $this->cfg->get('paycode');
+        $flat = $this->cfg->get('flat');
+        $meters = $this->cfg->get('meters');
+        if (empty($meters) || !$paycode || !$flat) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'No meters data. Check Settings page');
+        }
+
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+        if (is_array($result)) {
+            foreach ($meters as $meter) {
+                $tmp_meters[] = [
+                    'counterNum' => $meter['counterNum'],
+                    'counterVal' => $meter['type'] == 1 ? number_format($result[self::COLDWATER] / 1000, 3, ',', '') :
+                        ($meter['type'] == 2 ? number_format($result[self::HOTWATER] / 1000, 3, ',', '') : null),
+                    'num'        => $meter['num'],
+                    'period'     => date('Y-m-t'),
+                ];
+            }
+
+            $result = PguApi::sendMetersData($paycode, $flat, $tmp_meters);
+
+            if (isset($result['code'])) {
+                if ($result['code'] == 0) {
+                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info']);
+                } else {
+                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
+                }
+            } else {
+                Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $this->debug);
+            }
+        } else {
+            Utils::reportError(__CLASS__, 'Failed to send data to PGU. Can\'t get meters last values', $this->debug);
+        }
     }
 }

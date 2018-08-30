@@ -12,7 +12,7 @@ class Settings
         $this->cfg = Config::getConfig($cfgName);
     }
 
-    public function actionGetWaterMetersInfo()
+    public function actionGetWaterMetersInfoFromPgu()
     {
         if (!Vars::check('paycode')) {
             Utils::reportError(__CLASS__, 'PayCode should be passed', $this->debug);
@@ -48,10 +48,10 @@ class Settings
             if (isset($result['counter'])) {
                 foreach ($result['counter'] as $value) {
                     $meters[] = [
-                        'id'      => $value['counterId'] ?? '-',
-                        'type'    => $value['type'] ?? '-',
-                        'number'  => $value['num'] ?? '-',
-                        'checkup' => date("d-m-Y", strtotime($value['checkup'])) ?? '-',
+                        'counterNum' => $value['counterId'] ?? '-',
+                        'num'        => $value['num'] ?? '-',
+                        'type'       => $value['type'] ?? '-',
+                        'checkup'    => date("d-m-Y", strtotime($value['checkup'])) ?? '-',
                     ];
                 }
             } else {
@@ -59,10 +59,10 @@ class Settings
             }
 
             $ret = [
+                'paycode' => $result['paycode'],
+                'flat'    => $result['address']['flat'],
                 'address' => $address,
                 'meters'  => $meters,
-                'paycode' => $paycode,
-                'flat'    => $flat,
             ];
 
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
@@ -83,11 +83,10 @@ class Settings
     {
         $this->cfg->drop();
         $this->cfg->save();
-
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
     }
 
-    public function actionGetSettingsFromConfig()
+    public function actionGetWaterMetersInfoFromConfig()
     {
         $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);

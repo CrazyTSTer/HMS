@@ -112,6 +112,12 @@ function show_graph_rate()
     });
 }
 
+function sendWaterMetersDataToPgu() {
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionSendDataToPGU'}, function (result) {
+        showModalAlert(result['status'], result['data']);
+    });
+}
+
 function showModalAlert(status, message) {
     $('.js_modal-title').html("<strong>Request " + status  + "</strong>");
     $('.js_modal-body').html("<strong>Message: </strong>" + message);

@@ -1,56 +1,45 @@
 var waterMetersInfo;
 
-function getWaterMetersInfo() {
+function getWaterMetersInfoFromPgu() {
     var param = {
         location: 'Settings',
-        action:   'actionGetWaterMetersInfo',
+        action:   'actionGetWaterMetersInfoFromPgu',
         config:   'Water',
         paycode:  $('#payCodeInput').val(),
         flat:     $('#flatInput').val(),
     };
 
+    executeAjaxPostRequest(param, parseWaterMetersInfo);
+}
+
+function getWaterMetersInfoFromConfig() {
+    var param = {
+        location: 'Settings',
+        action:   'actionGetWaterMetersInfoFromConfig',
+        config:   'Water'
+    };
+
+    executeAjaxGetRequest(param, parseWaterMetersInfo);
+}
+
+function saveWaterMetersInfoToConfig() {
+    var dataToSave = {
+        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '',
+        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '',
+        'address': waterMetersInfo['address'] ? waterMetersInfo['address'] : [],
+        'meters' : waterMetersInfo['meters'] ? waterMetersInfo['meters'] : []
+    };
+
+    var param = {
+        location:   'Settings',
+        action:     'actionSaveWaterSettings',
+        config:     'Water',
+        dataToSave: JSON.stringify(dataToSave),
+    };
+
     executeAjaxPostRequest(param, function(result) {
-        if (result['status'] == 'success') {
-            waterMetersInfo = result['data'];
-            parseWaterMetersInfo(waterMetersInfo);
-        } else {
-            showModalAlert(result['status'], result['data']);
-        }
+        showModalAlert(result['status'], result['data']);
     });
-}
-
-function parseWaterMetersInfo(result) {
-    if (jQuery.isEmptyObject(result)) return;
-    $('.js_district').text(result['address']['district']);
-    $('.js_street').text(result['address']['street']);
-    $('.js_house').text(result['address']['house']);
-    $('.js_building').text(result['address']['building']);
-    $('.js_flat').text(result['address']['flat']);
-
-    var i = 0;
-    $("#tableMetersInfo tbody").html("");
-    result['meters'].forEach(function(element) {
-        i++;
-        var table_row = "<tr>" +
-            "<td class=\"meter_header\">Meter " + i + "</td>" +
-            "<td data-title=\"ID:\" class=\"align-middle\">" + element['id'] + "</td>" +
-            "<td data-title=\"Номер:\" class=\"align-middle\">" + element['number'] + "</td>" +
-            "<td data-title=\"Тип:\" class=\"align-middle\">" +
-            "<select onchange='waterTypeChage(this)' class=\"form-control form-control-sm\" id=\"Meter_" + i +"\">" +
-            "<option value=1>ХВС</option>" +
-            "<option value=2>ГВС</option>" +
-            "</select>" +
-            "</td>" +
-            "<td data-title=\"Поверка:\" class=\"align-middle\">" + element['checkup'] + "</td>" +
-            "</tr>";
-        $('#tableMetersInfo').append(table_row);
-
-        $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
-    });
-}
-
-function waterTypeChage(el) {
-    waterMetersInfo['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
 }
 
 function resetWaterMetersInfo() {
@@ -60,43 +49,53 @@ function resetWaterMetersInfo() {
     $('.js_building').text('');
     $('.js_flat').text('');
 
+    $('#payCodeInput').val('');
+    $('#flatInput').val('');
+
     $("#tableMetersInfo tbody").html("");
 
     waterMetersInfo = [];
+    saveWaterMetersInfoToConfig();
 }
 
-function saveWaterMetersInfo() {
-    var dataToSave = {
-        'paycode': waterMetersInfo['paycode'] ? waterMetersInfo['paycode'] : '',
-        'flat'   : waterMetersInfo['flat'] ? waterMetersInfo['flat'] : '',
-        'address': waterMetersInfo['address'] ? waterMetersInfo['address'] : [],
-        'meters' : waterMetersInfo['meters'] ? waterMetersInfo['meters'] : []
-    };
-    var param = {
-        location:   'Settings',
-        action:     'actionSaveWaterSettings',
-        config:     'Water',
-        dataToSave: JSON.stringify(dataToSave),
-    };
-    executeAjaxPostRequest(param, function(result) {
+function waterTypeChage(el) {
+    waterMetersInfo['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
+}
+
+function parseWaterMetersInfo(result) {
+    if (result['status'] == 'success') {
+        waterMetersInfo = result['data'];
+        //if (jQuery.isEmptyObject(waterMetersInfo)) return;
+        $('.js_district').text(waterMetersInfo['address']['district'] ? waterMetersInfo['address']['district'] : '');
+        $('.js_street').text(waterMetersInfo['address']['street'] ? waterMetersInfo['address']['street'] : '');
+        $('.js_house').text(waterMetersInfo['address']['house'] ? waterMetersInfo['address']['house'] : '');
+        $('.js_building').text(waterMetersInfo['address']['building'] ? waterMetersInfo['address']['building'] : '');
+        $('.js_flat').text(waterMetersInfo['address']['flat'] ? waterMetersInfo['address']['flat'] : '');
+
+        $('#payCodeInput').val(waterMetersInfo['paycode']);
+        $('#flatInput').val(waterMetersInfo['flat']);
+
+        var i = 0;
+        $("#tableMetersInfo tbody").html("");
+        waterMetersInfo['meters'].forEach(function(element) {
+            i++;
+            var table_row = "<tr>" +
+                "<td class=\"meter_header\">Meter " + i + "</td>" +
+                "<td data-title=\"ID:\" class=\"align-middle\">" + element['counterNum'] + "</td>" +
+                "<td data-title=\"Номер:\" class=\"align-middle\">" + element['num'] + "</td>" +
+                "<td data-title=\"Тип:\" class=\"align-middle\">" +
+                "<select onchange='waterTypeChage(this)' class=\"form-control form-control-sm\" id=\"Meter_" + i +"\">" +
+                "<option value=1>ХВС</option>" +
+                "<option value=2>ГВС</option>" +
+                "</select>" +
+                "</td>" +
+                "<td data-title=\"Поверка:\" class=\"align-middle\">" + element['checkup'] + "</td>" +
+                "</tr>";
+            $('#tableMetersInfo').append(table_row);
+
+            $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
+        })
+    } else {
         showModalAlert(result['status'], result['data']);
-    });
-}
-
-function getSettingsFromConfig() {
-    var param = {
-        location: 'Settings',
-        action:   'actionGetSettingsFromConfig',
-        config:   'Water'
-    };
-    executeAjaxGetRequest(param, function(result) {
-        if (result['status'] == 'success') {
-            $("#payCodeInput").val(result['data']['paycode']);
-            $("#flatInput").val(result['data']['flat']);
-            waterMetersInfo = result['data'];
-            parseWaterMetersInfo(waterMetersInfo);
-        } else {
-            showModalAlert(result['status'], result['data']);
-        }
-    });
+    }
 }

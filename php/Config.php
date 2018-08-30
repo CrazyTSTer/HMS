@@ -40,16 +40,26 @@ class Config
     public function set($path = null, $var)
     {
         if (isset($path)) {
-            $path_array = array_reverse(explode('/', $path));
-            $last_el = array_shift($path_array);
-            $tmp = [$last_el => $var];
+            $path_array = explode('/', $path);
+            $last_el = array_pop($path_array);
+            $tmp = &$this->config;
             foreach ($path_array as $el) {
-                $tmp = [$el => $tmp];
+                if (isset($tmp[$el]) && is_array($tmp[$el])) {
+                    $tmp = &$tmp[$el];
+                } else {
+                    $tmp[$el] = [];
+                    $tmp = &$tmp[$el];
+                }
+
+            }
+            if (empty($last_el)) {
+                $tmp[] = $var;
+            } else {
+                $tmp[$last_el] = $var;
             }
         } else {
-            $tmp = is_array($var) ? $var : [$var];
+            $this->config = $var;
         }
-        $this->config = array_replace_recursive($this->config, $tmp);
     }
 
     /**

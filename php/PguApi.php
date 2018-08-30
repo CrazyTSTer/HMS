@@ -19,32 +19,20 @@ class PguApi
         return $result;
     }
 
-    public static function sendMetersData($meters)
+    public static function sendMetersData($paycode, $flat, $meters)
     {
         $setParams = [
             'ajaxModule' => 'Guis',
             'ajaxAction' => 'addCounterInfo',
             'items' => [
-                'paycode' => '3130158061',
-                'flat' => '324',
-                'indications' => [
-                    //ColdWater
-                    [
-                        'counterNum' => '1168941',
-                        'counterVal' => '231,123',
-                        'num'        => "\u{2116}" . '335699',
-                        'period'     => ''//date('Y-m-t'),
-                    ],
-                    //HotWater
-                    [
-                        'counterNum' => '1168942',
-                        'counterVal' => '177,123',
-                        'num'        => "\u{2116}" . '318542',
-                        'period'     => ''//date('Y-m-t'),
-                    ]
-                ],
+                'paycode' => $paycode,
+                'flat' => $flat,
+                'indications' => $meters
             ]
         ];
+
+        $result = self::sendRequest($setParams);
+        return $result;
     }
 
     private static function sendRequest($params)
