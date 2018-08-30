@@ -3,7 +3,6 @@
 #include "ArduinoJson-v5.13.1.h"
 #include <Ticker.h>
 
-
 #define COLD_PIN D1
 #define HOT_PIN  D2
 #define LED      D4
@@ -16,6 +15,9 @@ const int DEBOUNCE_TIME      = 100;       //Интервал за который
 const int SEND_PERIOD        = 1;         //Период отправки данных на сервер в минутах
 const int BLINK_PERIOD       = 1000;      //Интервал мигания диодом при не удачном обращении к серверу
 const int CHECK_METER_PERIOD = 10;         //Интервал опроса счетчика
+
+const String WATER_STATS_LOCATION = "WaterStat"; //Класс на стороне сервера для обработки данных
+const String WATER_STATS_ACTION   = "actionSet"; //Метод в классе
 
 //Переменные счетчиков
 int cold_nextPinState, cold_pinState, hot_nextPinState, hot_pinState;
@@ -159,7 +161,7 @@ boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 
 	HTTPClient Client;
 
-	Client.begin("http://192.168.1.2/HMS/index.php?action=set&values[coldwater]=" + String(coldwater) + "&values[hotwater]=" + String(hotwater));
+	Client.begin("http://192.168.1.2/HMS/index.php?location=" + WATER_STATS_LOCATION + "&action=" + WATER_STATS_ACTION + "&values[coldwater]=" + String(coldwater) + "&values[hotwater]=" + String(hotwater));
 
     int httpCode = Client.GET();
 

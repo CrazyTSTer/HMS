@@ -31,14 +31,13 @@ class ASMS
     {
         if ($this->location) {
             if (class_exists($this->location)) {
-                $cfgName = 'huy';
                 if ($this->location == SETTINGS_CLASS) {
                     $cfgName = Vars::get('config', null);
                     if (!$cfgName) {
                         Utils::reportError(__CLASS__, "Config name shoud be passed to Settings class constructor", $this->debug);
                     }
                 }
-                $obj = new $this->location($this->debug, $cfgName);
+                $obj = new $this->location($this->debug, $cfgName ?? null);
                 if (method_exists($obj, $this->action)) {
                     $method = $this->action;
                     $obj->$method();
