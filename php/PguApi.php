@@ -2,7 +2,7 @@
 
 class PguApi
 {
-    private static $url = 'https://www.mos.ru/pgu/common/ajax/index.php';
+    CONST URL = 'https://www.mos.ru/pgu/common/ajax/index.php';
 
     public static function getWaterMetersInfo($paycode, $flat)
     {
@@ -38,7 +38,7 @@ class PguApi
     private static function sendRequest($params)
     {
         $result = file_get_contents(
-            self::$url,
+            self::URL,
             false,
             stream_context_create(
                 [

@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
     });
 
     $('.navbar-toggler').button().on('click', function() {
-        var el = $("#sidebar a[data-toggle*='collapse'][aria-expanded*='true']").get().reverse();
+        var el = $("#sidebar .a_sub-active").get().reverse();
         $(el).click();
     });
 
