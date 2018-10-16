@@ -16,8 +16,8 @@ function getWaterMetersInfoFromPgu() {
         location: 'Settings',
         action:   'actionGetWaterMetersInfoFromPgu',
         config:   'Water',
-        paycode:  $('#payCodeInput').val(),
-        flat:     $('#flatInput').val(),
+        paycode:  $('#waterPayCodeInput').val(),
+        flat:     $('#waterFlatInput').val(),
     };
 
     executeAjaxPostRequest(param, parseWaterMetersInfo);
@@ -44,16 +44,16 @@ function saveWaterMetersInfoToConfig() {
 }
 
 function resetWaterMetersInfo() {
-    $('.js_district').text('');
-    $('.js_street').text('');
-    $('.js_house').text('');
-    $('.js_building').text('');
-    $('.js_flat').text('');
+    $('.js_water_district').text('');
+    $('.js_water_street').text('');
+    $('.js_water_house').text('');
+    $('.js_water_building').text('');
+    $('.js_water_flat').text('');
 
-    $('#payCodeInput').val('');
-    $('#flatInput').val('');
+    $('#waterPayCodeInput').val('');
+    $('#waterFlatInput').val('');
 
-    $("#tableMetersInfo tbody").html("");
+    $("#waterTableMetersInfo tbody").html("");
 
     waterMetersInfo = [];
     saveWaterMetersInfoToConfig();
@@ -67,17 +67,17 @@ function parseWaterMetersInfo(result) {
     if (result['status'] == 'success') {
         waterMetersInfo = result['data'];
         //if (jQuery.isEmptyObject(waterMetersInfo)) return;
-        $('.js_district').text(waterMetersInfo['address']['district'] ? waterMetersInfo['address']['district'] : '');
-        $('.js_street').text(waterMetersInfo['address']['street'] ? waterMetersInfo['address']['street'] : '');
-        $('.js_house').text(waterMetersInfo['address']['house'] ? waterMetersInfo['address']['house'] : '');
-        $('.js_building').text(waterMetersInfo['address']['building'] ? waterMetersInfo['address']['building'] : '');
-        $('.js_flat').text(waterMetersInfo['address']['flat'] ? waterMetersInfo['address']['flat'] : '');
+        $('.js_water_district').text(waterMetersInfo['address']['district'] ? waterMetersInfo['address']['district'] : '');
+        $('.js_water_street').text(waterMetersInfo['address']['street'] ? waterMetersInfo['address']['street'] : '');
+        $('.js_water_house').text(waterMetersInfo['address']['house'] ? waterMetersInfo['address']['house'] : '');
+        $('.js_water_building').text(waterMetersInfo['address']['building'] ? waterMetersInfo['address']['building'] : '');
+        $('.js_water_flat').text(waterMetersInfo['address']['flat'] ? waterMetersInfo['address']['flat'] : '');
 
-        $('#payCodeInput').val(waterMetersInfo['paycode']);
-        $('#flatInput').val(waterMetersInfo['flat']);
+        $('#waterPayCodeInput').val(waterMetersInfo['paycode']);
+        $('#waterFlatInput').val(waterMetersInfo['flat']);
 
         var i = 0;
-        $("#tableMetersInfo tbody").html("");
+        $("#waterTableMetersInfo tbody").html("");
         waterMetersInfo['meters'].forEach(function(element) {
             i++;
             var table_row = "<tr>" +
@@ -92,7 +92,7 @@ function parseWaterMetersInfo(result) {
                 "</td>" +
                 "<td data-title=\"Поверка:\" class=\"align-middle\">" + element['checkup'] + "</td>" +
                 "</tr>";
-            $('#tableMetersInfo').append(table_row);
+            $('#waterTableMetersInfo').append(table_row);
 
             $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
         })
@@ -111,5 +111,5 @@ function getElectricityMeterInfoFromPgu() {
         meterID:             $('#meterID').val(),
     };
 
-    executeAjaxPostRequest(param, parseWaterMetersInfo);
+    //executeAjaxPostRequest(param, parseWaterMetersInfo);
 }

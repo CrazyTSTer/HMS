@@ -232,14 +232,14 @@
                         <fieldset class="card">
                             <legend class="card-header">Счетчики воды:</legend>
                             <div class="card-body">
-                                <form class="form-row" id="payCodeForm">
+                                <form class="form-row" id="waterPayCodeForm">
                                     <div class="form-text col-12 text-center">Введите код плательщика и номер квартиры:</div>
                                     <div class="form-group col-12 col-sm-8 col-md-12 col-lg-6 mb-1">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text justify-content-center">Код плательщика:</div>
                                             </div>
-                                            <input type="text" class="form-control" id="payCodeInput" placeholder="Код плательщика" name="paycode">
+                                            <input type="text" class="form-control" id="waterPayCodeInput" placeholder="Код плательщика" name="waterPayCode">
                                         </div>
                                     </div>
                                     <div class="form-group col-12 col-sm-4 col-md-12 col-lg-3 mb-1">
@@ -247,21 +247,21 @@
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text justify-content-center">Квартира:</div>
                                             </div>
-                                            <input type="text" class="form-control" id="flatInput" placeholder="Квартира" name="flat">
+                                            <input type="text" class="form-control" id="waterFlatInput" placeholder="Квартира" name="waterFlat">
                                         </div>
                                     </div>
                                     <div class="form-group col-12 col-lg-3 mb-1">
-                                        <button type="submit" class="btn btn-primary btn-block" id="payCodeFormGetData" onclick="getWaterMetersInfoFromPgu(); return false;">Получить данные</button>
+                                        <button class="btn btn-primary btn-block" id="waterPayCodeFormGetData" onclick="getWaterMetersInfoFromPgu(); return false;">Получить данные</button>
                                     </div>
                                 </form>
                                 <hr/>
-                                <form class="form-row" id="addressForm">
+                                <form class="form-row" id="waterAddressForm">
                                     <div class="form-text col-12 text-center">Адрес установки счетчиков:</div>
                                     <div class="col-12 col-lg-6 align-self-center">
                                         <div class="form-group row">
                                             <label class="col-form-label col-5 align-self-center text-right">Округ/Район:</label>
                                             <div class="col-7 align-self-center">
-                                                <p class="form-control-plaintext js_district"></p>
+                                                <p class="form-control-plaintext js_water_district"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +269,7 @@
                                         <div class="form-group row">
                                             <label class="col-form-label col-5 align-self-center text-right">Улица:</label>
                                             <div class="col-7 align-self-center">
-                                                <p class="form-control-plaintext js_street"></p>
+                                                <p class="form-control-plaintext js_water_street"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -277,7 +277,7 @@
                                         <div class="form-group row">
                                             <label class="col-form-label col-5 col-sm-6 text-right">Дом:</label>
                                             <div class="col-7 col-sm-6">
-                                                <p class="form-control-plaintext js_house"></p>
+                                                <p class="form-control-plaintext js_water_house"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -285,7 +285,7 @@
                                         <div class="form-group row">
                                             <label class="col-form-label col-5 col-sm-7 text-right">Корпус:</label>
                                             <div class="col-7 col-sm-5">
-                                                <p class="form-control-plaintext js_building"></p>
+                                                <p class="form-control-plaintext js_water_building"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -293,16 +293,16 @@
                                         <div class="form-group row">
                                             <label class="col-form-label col-5 col-sm-8 text-right">Квартира:</label>
                                             <div class="col-7 col-sm-4">
-                                                <p class="form-control-plaintext js_flat"></p>
+                                                <p class="form-control-plaintext js_water_flat"></p>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 <hr/>
-                                <form class="form-row" id="metersInfo">
+                                <form class="form-row" id="waterMetersInfo">
                                     <div class="form-text col-12 text-center">Информация о счетчиках:</div>
                                     <div class="col-12">
-                                        <table class="table table-bordered table-striped table-dark table-sm" id="tableMetersInfo">
+                                        <table class="table table-bordered table-striped table-dark table-sm" id="waterTableMetersInfo">
                                             <thead>
                                                 <tr>
                                                     <th class="meter_header"></th>
@@ -318,12 +318,12 @@
                                     </div>
                                 </form>
                                 <hr>
-                                <form class="form-row" id="saveForm">
+                                <form class="form-row" id="waterSaveForm">
                                     <div class="form-group col-6">
-                                        <button type="submit" class="btn btn-primary btn-block" id="Save" onclick="saveWaterMetersInfoToConfig(); return false;">Сохранить</button>
+                                        <button class="btn btn-primary btn-block" id="waterSave" onclick="saveWaterMetersInfoToConfig(); return false;">Сохранить</button>
                                     </div>
                                     <div class="form-group col-6">
-                                        <button type="submit" class="btn btn-primary btn-block" id="Reset" onclick="resetWaterMetersInfo(); return false;">Сбросить</button>
+                                        <button class="btn btn-primary btn-block" id="waterReset" onclick="resetWaterMetersInfo(); return false;">Сбросить</button>
                                     </div>
                                 </form>
                             </div>
