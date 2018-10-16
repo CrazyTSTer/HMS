@@ -1,5 +1,16 @@
 var waterMetersInfo;
+//Common
+function getMetersInfoFromConfig() {
+    var param = {
+        location: 'Settings',
+        action:   'actionGetWaterMetersInfoFromConfig',
+        config:   'Water'
+    };
 
+    executeAjaxGetRequest(param, parseWaterMetersInfo);
+}
+
+//Water
 function getWaterMetersInfoFromPgu() {
     var param = {
         location: 'Settings',
@@ -10,16 +21,6 @@ function getWaterMetersInfoFromPgu() {
     };
 
     executeAjaxPostRequest(param, parseWaterMetersInfo);
-}
-
-function getWaterMetersInfoFromConfig() {
-    var param = {
-        location: 'Settings',
-        action:   'actionGetWaterMetersInfoFromConfig',
-        config:   'Water'
-    };
-
-    executeAjaxGetRequest(param, parseWaterMetersInfo);
 }
 
 function saveWaterMetersInfoToConfig() {
@@ -98,4 +99,17 @@ function parseWaterMetersInfo(result) {
     } else {
         showModalAlert(result['status'], result['data']);
     }
+}
+
+//Electricity
+function getElectricityMeterInfoFromPgu() {
+    var param = {
+        location:            'Settings',
+        action:              'actionGetElectricityMeterInfoFromPgu',
+        config:              'Electricity',
+        electricityPayCode:  $('#electricityPayCodeInput').val(),
+        meterID:             $('#meterID').val(),
+    };
+
+    executeAjaxPostRequest(param, parseWaterMetersInfo);
 }

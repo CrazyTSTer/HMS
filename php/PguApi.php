@@ -52,4 +52,39 @@ class PguApi
         );
         return json_decode($result, true);
     }
+
+    public static function getElectricityMeterInfo($electricityPayCode, $meterID)
+    {
+        $getParams = [
+            'ajaxModule' => 'Mosenergo',
+            'ajaxAction' => 'qMpguCheckShetch',
+            'items' => [
+                'code'       => $electricityPayCode,
+                'nn_schetch' => $meterID,
+            ]
+        ];
+
+        $result = self::sendRequest($getParams);
+
+        if (isset($result['error']) && $result['error'] != 0) return 0;
+
+        $id_kng = $result['result']['id_kng'] ?? null;
+        $schema = $result['result']['schema'] ?? null;
+
+        if ($id_kng == null || $schema == null) return 0;
+
+        $getParams = [
+            'ajaxModule' => 'Mosenergo',
+            'ajaxAction' => 'qMpguGeneralInfo',
+            'items' => [
+                'code'   => $electricityPayCode,
+                'sсhema' => $schema,
+                'id_kng' => $id_kng,
+            ]
+        ];
+
+        $result = self::sendRequest($getParams);
+
+        return $result;
+    }
 }

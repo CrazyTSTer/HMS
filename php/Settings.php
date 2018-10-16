@@ -12,6 +12,7 @@ class Settings
         $this->cfg = Config::getConfig($cfgName);
     }
 
+    //Water
     public function actionGetWaterMetersInfoFromPgu()
     {
         if (!Vars::check('paycode')) {
@@ -90,5 +91,30 @@ class Settings
     {
         $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+    }
+
+    //Electricity
+    public function actionGetElectricityMeterInfoFromPgu()
+    {
+        if (!Vars::check('electricityPayCode')) {
+            Utils::reportError(__CLASS__, 'PayCode should be passed', $this->debug);
+        }
+
+        $electricityPayCode = Vars::getPostVar('electricityPayCode', null);
+        if (!$electricityPayCode) {
+            Utils::reportError(__CLASS__, 'Passed empty PayCode', $this->debug);
+        }
+
+        if (!Vars::check('meterID')) {
+            Utils::reportError(__CLASS__, 'meterID should be passed', $this->debug);
+        }
+
+        $meterID = Vars::getPostVar('meterID', null);
+        if (!$meterID) {
+            Utils::reportError(__CLASS__, 'Passed empty meterID', $this->debug);
+        }
+
+        $result = PguApi::getElectricityMeterInfo($electricityPayCode, $meterID);
+        var_export($result);
     }
 }

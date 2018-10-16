@@ -34,7 +34,7 @@ class ASMS
                 if ($this->location == SETTINGS_CLASS) {
                     $cfgName = Vars::get('config', null);
                     if (!$cfgName) {
-                        Utils::reportError(__CLASS__, "Config name shoud be passed to Settings class constructor", $this->debug);
+                        Utils::reportError(__CLASS__, "Config name should be passed to Settings class constructor", $this->debug);
                     }
                 }
                 $obj = new $this->location($this->debug, $cfgName ?? null);

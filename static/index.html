@@ -84,7 +84,7 @@
                     </a></li>
                 </ul>
             </li>
-            <li><a href="#Settings" data-target="#Settings" onclick="getWaterMetersInfoFromConfig();">
+            <li><a href="#Settings" data-target="#Settings" onclick="getMetersInfoFromConfig();">
                 <img class="shadowfilter" src="static/imgs/settings.png">
                 <span>Settings</span>
             </a></li>
@@ -170,11 +170,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="row">
-                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/material-pro/dark/index.html</div>
-                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">http://wrapbootstrap.com/preview/WB0521C46</div>
-                    <div class="col-sm-4" style="background-color:#263238; border: 1px solid; border-color: #3e4e56">https://wrappixel.com/demos/admin-templates/monster-admin/dark/index.html</div>
-                </div>-->
             </div>
             <div id="Water" class="tab-pane">
                 <div class="row">
@@ -329,6 +324,37 @@
                                     </div>
                                     <div class="form-group col-6">
                                         <button type="submit" class="btn btn-primary btn-block" id="Reset" onclick="resetWaterMetersInfo(); return false;">Сбросить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <fieldset class="card">
+                            <legend class="card-header">Счетчик электричества:</legend>
+                            <div class="card-body">
+                                <form class="form-row" id="electricityMeterForm">
+                                    <div class="form-text col-12 text-center">Введите номер лицевого счета и номер счетчика:</div>
+                                    <div class="form-group col-12 col-sm-6 col-md-12 col-lg-6 mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text justify-content-center">Лицевой счет:</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="electricityPayCodeInput" placeholder="Лицевой счет" name="electricityPayCode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 col-sm-6 col-md-12 col-lg-6 mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text justify-content-center">Номер счетчика:</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="meterID" placeholder="Номер счетчика" name="meterID">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 mb-1">
+                                        <button type="submit" class="btn btn-primary btn-block" id="electricityMeterGetData" onclick="getElectricityMeterInfoFromPgu(); return false;">Получить данные</button>
                                     </div>
                                 </form>
                             </div>
