@@ -115,6 +115,15 @@ class Settings
         }
 
         $result = PguApi::getElectricityMeterInfo($electricityPayCode, $meterID);
+
+        /*if (isset($result['errorCode']) && ($result['errorCode'] == 0 || $result['errorCode'] == 1 )) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['errorMsg']);
+        }*/
+
+        if (isset($result['errorMsg'])) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['errorMsg']);
+        }
+
         var_export($result);
     }
 }

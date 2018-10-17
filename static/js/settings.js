@@ -111,5 +111,13 @@ function getElectricityMeterInfoFromPgu() {
         meterID:             $('#meterID').val(),
     };
 
-    //executeAjaxPostRequest(param, parseWaterMetersInfo);
+    executeAjaxPostRequest(param, parseElectricityMeterInfo);
+}
+
+function parseElectricityMeterInfo(result) {
+    if (result['status'] == 'success') {
+
+    } else {
+        showModalAlert(result['status'], result['data']);
+    }
 }

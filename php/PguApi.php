@@ -55,25 +55,55 @@ class PguApi
 
     public static function getElectricityMeterInfo($electricityPayCode, $meterID)
     {
-        $getParams = [
+        //Проверяем лицевой счет
+        $isNewUser = [
+            'ajaxModule' => 'Mosenergo',
+            'ajaxAction' => 'qMpguCheckNewUser',
+            'items' => [
+                'code'   => $electricityPayCode,
+            ],
+        ];
+        $res = self::sendRequest($isNewUser);
+
+        if (isset($res['error']) && $res['error'] !== 0) {
+            $result['errorCode'] = 0;
+            $result['errorMsg'] = 'Номер лицевого счета указан в неправильном формате.';
+            return $result;
+        }
+        if (isset($res['result']['nn_ans_check_usr']) && $res['result']['nn_ans_check_usr'] != 1) {
+            $result['errorCode'] = 0;
+            $result['errorMsg'] = 'Лицевой счет ' . $electricityPayCode . ' не зарегистрирован в системе PGU.';
+            return $result;
+        }
+
+        //Проверяем номер счетчика
+        $checkMeter = [
             'ajaxModule' => 'Mosenergo',
             'ajaxAction' => 'qMpguCheckShetch',
             'items' => [
-                'code'       => $electricityPayCode,
-                'nn_schetch' => $meterID,
-            ]
+                'code'       => '50344-037-29',
+                'nn_schetch' => $meterID
+            ],
         ];
+        $res = self::sendRequest($checkMeter);
 
-        $result = self::sendRequest($getParams);
+        if (isset($res['error']) && $res['error'] !== 0) {
+            $result['errorCode'] = 1;
+            $result['errorMsg'] = 'Неизвестная ошибка при проверке номера счетчика.';
+            return $result;
+        }
 
-        if (isset($result['error']) && $result['error'] != 0) return 0;
+        $id_kng = $res['result']['id_kng'] ?? null;
+        $schema = $res['result']['schema'] ?? null;
 
-        $id_kng = $result['result']['id_kng'] ?? null;
-        $schema = $result['result']['schema'] ?? null;
+        if ($id_kng == null || $schema == null) {
+            $result['errorCode'] = 1;
+            $result['errorMsg'] = 'Счетчик номер ' . $meterID . ' не зарегистрирован в системе PGU.';
+            return $result;
+        };
 
-        if ($id_kng == null || $schema == null) return 0;
-
-        $getParams = [
+        //Получаем информацию об адресе установки и типе счетчика
+        $getGeneralInfo = [
             'ajaxModule' => 'Mosenergo',
             'ajaxAction' => 'qMpguGeneralInfo',
             'items' => [
@@ -82,8 +112,59 @@ class PguApi
                 'id_kng' => $id_kng,
             ]
         ];
+        $res = self::sendRequest($getGeneralInfo);
 
-        $result = self::sendRequest($getParams);
+        if (isset($res['error']) && $res['error'] !== 0) {
+            $result['errorMsg'] = 'Неизвестная ошибка при получении адреса установки счетчика и типа счетчика.';
+        }
+        if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
+            $result['errorMsg'] = 'Не удалось получить адрес установки счетчика и тип счетчика';
+        }
+
+        $result['address'] = $res['result']['addr'] ?? 'unknown';
+        $result['meterType'] = $res['result']['nm_uchet'] ?? 'unknown';
+
+        //Получаем информацию о дате установки счетчика
+        $getSetupDate = [
+            'ajaxModule' => 'Mosenergo',
+            'ajaxAction' => 'qMpguGetLastPok',
+            'items' => [
+                'code'   => $electricityPayCode,
+                'sсhema' => $schema,
+                'id_kng' => $id_kng,
+            ]
+        ];
+        $res = self::sendRequest($getSetupDate);
+
+        if (isset($res['error']) && $res['error'] !== 0) {
+            $result['errorMsg'] = 'Неизвестная ошибка при получении даты установки счетчика';
+        }
+        if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
+            $result['errorMsg'] = 'Не удалось получить дату установки счетчика';
+        }
+
+        $result['setupDate'] = $res['result']['sh_ust'] ?? 'unknown';
+
+        //Получаем информацию о межповерочном интервале
+        $getMPI = [
+            'ajaxModule' => 'Mosenergo',
+            'ajaxAction' => 'qMpguGetSchetch',
+            'items' => [
+                'code'   => $electricityPayCode,
+                'sсhema' => $schema ,
+                'id_kng' => $id_kng,
+            ]
+        ];
+        $res = self::sendRequest($getMPI);
+
+        if (isset($res['error']) && $res['error'] !== 0) {
+            $result['errorMsg'] = 'Неизвестная ошибка при получении года окончания межповерочного интервала';
+        }
+        if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
+            $result['errorMsg'] = 'Не удалось получить год окончания межповерочного интервала';
+        }
+
+        $result['MPI'] = $res['result']['dt_mpi'] ?? 'unknown';
 
         return $result;
     }
