@@ -25,7 +25,7 @@
         overflow-y: auto;
     }
 
-    #payCodeForm .input-group-text {
+    #waterPayCodeForm .input-group-text {
         width: 160px;
     }
 
@@ -35,7 +35,7 @@
 }
 
 @media(max-width: 575px) {
-    #payCodeForm .input-group-text {
+    #waterPayCodeForm .input-group-text {
         width: 160px;
     }
 
