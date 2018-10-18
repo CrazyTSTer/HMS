@@ -4,7 +4,7 @@ class PguApi
 {
     CONST URL = 'https://www.mos.ru/pgu/common/ajax/index.php';
 
-    public static function getWaterMetersInfo($paycode, $flat)
+    public static function getWaterMetersInfo($paycode, $flat, $debug)
     {
         $getParams = [
             'ajaxModule' => 'Guis',
@@ -16,23 +16,50 @@ class PguApi
         ];
 
         $result = self::sendRequest($getParams);
+
+        if (!$result || (isset($result['error']) && !isset($result['code']))) {
+            Utils::reportError(__CLASS__, 'Failed to get data from PGU.MOS.RU', $debug);
+        } elseif (isset($result['code'])) {
+            $error = $result['error'] ?? '';
+            $info = $result['info'] ?? '';
+            $msg = ($error === $info) ? $error : $error . '. ' . $info;
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $msg . ' Code: ' . $result['code']);
+        }
+
         return $result;
     }
 
-    public static function sendMetersData($paycode, $flat, $meters)
+    public static function sendWaterMetersData($paycode, $flat, $meters, $debug)
     {
         $setParams = [
             'ajaxModule' => 'Guis',
             'ajaxAction' => 'addCounterInfo',
             'items' => [
                 'paycode' => $paycode,
-                'flat' => $flat,
+                'flatd' => $flat,
                 'indications' => $meters
             ]
         ];
 
         $result = self::sendRequest($setParams);
-        return $result;
+        var_export($result);
+
+        if (!$result) {
+            Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $debug);
+        }
+        if (isset($result['code']) && $result['code'] == 0) {
+            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info']);
+        } else {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
+        }
+        /*} elseif (isset($result['error'])) {
+            $msg = $result['error'] ?? '';
+            $msg .= $result['info'] ?? '';
+            $msg = ($msg === '') ? 'unknown' : $msg;
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $msg);
+        } else {
+            Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $debug);
+        }*/
     }
 
     private static function sendRequest($params)
@@ -53,7 +80,7 @@ class PguApi
         return json_decode($result, true);
     }
 
-    public static function getElectricityMeterInfo($electricityPayCode, $meterID)
+    public static function checkElectricityPayCode($electricityPayCode)
     {
         //Проверяем лицевой счет
         $isNewUser = [
@@ -66,29 +93,29 @@ class PguApi
         $res = self::sendRequest($isNewUser);
 
         if (isset($res['error']) && $res['error'] !== 0) {
-            $result['errorCode'] = 0;
             $result['errorMsg'] = 'Номер лицевого счета указан в неправильном формате.';
             return $result;
         }
         if (isset($res['result']['nn_ans_check_usr']) && $res['result']['nn_ans_check_usr'] != 1) {
-            $result['errorCode'] = 0;
             $result['errorMsg'] = 'Лицевой счет ' . $electricityPayCode . ' не зарегистрирован в системе PGU.';
             return $result;
         }
+    }
 
+    public static function checkElectricityMeterID($electricityPayCode, $meterID)
+    {
         //Проверяем номер счетчика
         $checkMeter = [
             'ajaxModule' => 'Mosenergo',
             'ajaxAction' => 'qMpguCheckShetch',
             'items' => [
-                'code'       => '50344-037-29',
+                'code'       => $electricityPayCode,
                 'nn_schetch' => $meterID
             ],
         ];
         $res = self::sendRequest($checkMeter);
 
         if (isset($res['error']) && $res['error'] !== 0) {
-            $result['errorCode'] = 1;
             $result['errorMsg'] = 'Неизвестная ошибка при проверке номера счетчика.';
             return $result;
         }
@@ -97,11 +124,13 @@ class PguApi
         $schema = $res['result']['schema'] ?? null;
 
         if ($id_kng == null || $schema == null) {
-            $result['errorCode'] = 1;
             $result['errorMsg'] = 'Счетчик номер ' . $meterID . ' не зарегистрирован в системе PGU.';
             return $result;
         };
+    }
 
+    public static function getElectricityMeterInfo($electricityPayCode, $meterID)
+    {
         //Получаем информацию об адресе установки и типе счетчика
         $getGeneralInfo = [
             'ajaxModule' => 'Mosenergo',
@@ -116,9 +145,11 @@ class PguApi
 
         if (isset($res['error']) && $res['error'] !== 0) {
             $result['errorMsg'] = 'Неизвестная ошибка при получении адреса установки счетчика и типа счетчика.';
+            return $result;
         }
         if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
             $result['errorMsg'] = 'Не удалось получить адрес установки счетчика и тип счетчика';
+            return $result;
         }
 
         $result['address'] = $res['result']['addr'] ?? 'unknown';
@@ -138,9 +169,11 @@ class PguApi
 
         if (isset($res['error']) && $res['error'] !== 0) {
             $result['errorMsg'] = 'Неизвестная ошибка при получении даты установки счетчика';
+            return $result;
         }
         if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
             $result['errorMsg'] = 'Не удалось получить дату установки счетчика';
+            return $result;
         }
 
         $result['setupDate'] = $res['result']['sh_ust'] ?? 'unknown';
@@ -159,9 +192,11 @@ class PguApi
 
         if (isset($res['error']) && $res['error'] !== 0) {
             $result['errorMsg'] = 'Неизвестная ошибка при получении года окончания межповерочного интервала';
+            return $result;
         }
         if (isset($res['result']['error']) || (isset($res['result']['result']) && $res['result']['result'] === 0)) {
             $result['errorMsg'] = 'Не удалось получить год окончания межповерочного интервала';
+            return $result;
         }
 
         $result['MPI'] = $res['result']['dt_mpi'] ?? 'unknown';

@@ -32,10 +32,6 @@
     #electricityMeterForm .input-group-text {
         width: 150px;
     }
-
-    #bindForm .input-group-text {
-        width: 65px;
-    }
 }
 
 @media(max-width: 575px) {
@@ -46,50 +42,47 @@
     #electricityMeterForm .input-group-text {
         width: 150px;
     }
-
-    #bindForm .input-group-text {
-        width: 65px;
-    }
 }
 
 @media(min-width: 992px) {
-    #payCodeForm .input-group-text {
+    #waterPayCodeForm .input-group-text {
         width: auto;
     }
 
-    #bindForm .input-group-text {
+    #electricityMeterForm .input-group-text {
         width: auto;
     }
+
 }
 
 @media (max-width: 575px), (min-width: 768px) and (max-width: 991px) {
 
     /* Force table to not be like tables anymore */
-    #tableMetersInfo table,
-    #tableMetersInfo thead,
-    #tableMetersInfo tbody,
-    #tableMetersInfo th,
-    #tableMetersInfo td,
-    #tableMetersInfo tr {
+    #tableWaterMetersInfo table,
+    #tableWaterMetersInfo thead,
+    #tableWaterMetersInfo tbody,
+    #tableWaterMetersInfo th,
+    #tableWaterMetersInfo td,
+    #tableWaterMetersInfo tr {
         display: block;
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    #tableMetersInfo thead tr {
+    #tableWaterMetersInfo thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
-    #tableMetersInfo tr {
+    #tableWaterMetersInfo tr {
         border-bottom: 1px solid #ccc;
     }
 
-    #tableMetersInfo tr:last-child {
+    #tableWaterMetersInfo tr:last-child {
         border-bottom: none;
     }
 
-    #tableMetersInfo td {
+    #tableWaterMetersInfo td {
         /* Behave  like a "row" */
         border: none;
         /*border-bottom: 1px solid #eee;*/
@@ -99,7 +92,7 @@
         text-align:left;
     }
 
-    #tableMetersInfo td:before {
+    #tableWaterMetersInfo td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
@@ -115,11 +108,11 @@
     /*
     Label the data
     */
-    #tableMetersInfo td:before {
+    #tableWaterMetersInfo td:before {
         content: attr(data-title);
     }
 
-    #tableMetersInfo .meter_header {
+    #tableWaterMetersInfo .meter_header {
         display: block !important;
         padding-left: 0;
         text-align: center;
@@ -307,11 +300,11 @@ hr {
     display: block;
 }
 
-#tableMetersInfo .meter_header {
+#tableWaterMetersInfo .meter_header {
     display: none;
 }
 
-#tableMetersInfo td {
+#tableWaterMetersInfo td {
     vertical-align: middle;
 }
 /* ----- Cards ----- */
@@ -374,7 +367,7 @@ tr.hot {
     color: #deb887;
 }
 
-#tableMetersInfo tbody {
+#tableWaterMetersInfo tbody {
     color: #609060;
 }
 

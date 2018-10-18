@@ -77,7 +77,7 @@ function parseWaterMetersInfo(result) {
         $('#waterFlatInput').val(waterMetersInfo['flat']);
 
         var i = 0;
-        $("#waterTableMetersInfo tbody").html("");
+        $("#tableWaterMetersInfo tbody").html("");
         waterMetersInfo['meters'].forEach(function(element) {
             i++;
             var table_row = "<tr>" +
@@ -92,7 +92,7 @@ function parseWaterMetersInfo(result) {
                 "</td>" +
                 "<td data-title=\"Поверка:\" class=\"align-middle\">" + element['checkup'] + "</td>" +
                 "</tr>";
-            $('#waterTableMetersInfo').append(table_row);
+            $('#tableWaterMetersInfo').append(table_row);
 
             $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
         })

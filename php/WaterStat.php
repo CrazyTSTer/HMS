@@ -236,18 +236,7 @@ class WaterStat
                     'period'     => date('Y-m-t'),
                 ];
             }
-
-            $result = PguApi::sendMetersData($paycode, $flat, $tmp_meters);
-
-            if (isset($result['code'])) {
-                if ($result['code'] == 0) {
-                    Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info']);
-                } else {
-                    Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
-                }
-            } else {
-                Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $this->debug);
-            }
+            PguApi::sendWaterMetersData($paycode, $flat, $tmp_meters, $this->debug);
         } else {
             Utils::reportError(__CLASS__, 'Failed to send data to PGU. Can\'t get meters last values', $this->debug);
         }

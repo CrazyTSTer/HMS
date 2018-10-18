@@ -33,43 +33,36 @@ class Settings
             Utils::reportError(__CLASS__, 'Passed empty Flat number', $this->debug);
         }
 
-        $result = PguApi::getWaterMetersInfo($paycode, $flat);
+        $result = PguApi::getWaterMetersInfo($paycode, $flat, $this->debug);
 
-        if (isset($result['code']) || isset($result['error'])) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
-        }
+        $address['district'] = ($result['address']['okrug'] ?? '-') . ' / ' . ($result['address']['district'] ?? '-');
+        $address['street'] = $result['address']['street'] ?? '-';
+        $address['house'] =  $result['address']['house'] ?? '-';
+        $address['building'] = $result['address']['korpus'] ?? '-';
+        $address['flat'] = $result['address']['flat'] ?? '-';
 
-        if ($result) {
-            $address['district'] = ($result['address']['okrug'] ?? '-') . ' / ' . ($result['address']['district'] ?? '-');
-            $address['street'] = $result['address']['street'] ?? '-';
-            $address['house'] =  $result['address']['house'] ?? '-';
-            $address['building'] = $result['address']['korpus'] ?? '-';
-            $address['flat'] = $result['address']['flat'] ?? '-';
-
-            if (isset($result['counter'])) {
-                foreach ($result['counter'] as $value) {
-                    $meters[] = [
-                        'counterNum' => $value['counterId'] ?? '-',
-                        'num'        => $value['num'] ?? '-',
-                        'type'       => $value['type'] ?? '-',
-                        'checkup'    => date("d-m-Y", strtotime($value['checkup'])) ?? '-',
-                    ];
-                }
-            } else {
-                $meters = [];
+        if (isset($result['counter'])) {
+            foreach ($result['counter'] as $value) {
+                $meters[] = [
+                    'counterNum' => $value['counterId'] ?? '-',
+                    'num'        => $value['num'] ?? '-',
+                    'type'       => $value['type'] ?? '-',
+                    'checkup'    => date("d-m-Y", strtotime($value['checkup'])) ?? '-',
+                ];
             }
-
-            $ret = [
-                'paycode' => $result['paycode'],
-                'flat'    => $result['address']['flat'],
-                'address' => $address,
-                'meters'  => $meters,
-            ];
-
-            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+        } else {
+            $meters = [];
         }
 
-        Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get data from PGU.MOS.RU');
+        $ret = [
+            'paycode' => $result['paycode'],
+            'flat'    => $result['address']['flat'],
+            'address' => $address,
+            'meters'  => $meters,
+        ];
+
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+
     }
 
     public function actionSaveWaterSettings()
