@@ -62,10 +62,16 @@ class Settings
         ];
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
-
     }
 
-    public function actionSaveWaterSettings()
+
+    public function actionGetWaterMetersInfoFromConfig()
+    {
+        $ret = $this->cfg->get();
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+    }
+
+    public function actionSaveWaterMetersInfoToConfig()
     {
         $dataToSave = json_decode(Vars::get('dataToSave', null), true);
         $this->cfg->set(null, $dataToSave);
@@ -73,17 +79,11 @@ class Settings
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
     }
 
-    public function actionResetWaterSettings()
+    public function actionEraseWaterMetersInfoFromConfig()
     {
         $this->cfg->drop();
         $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, '');
-    }
-
-    public function actionGetWaterMetersInfoFromConfig()
-    {
-        $ret = $this->cfg->get();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Erased');
     }
 
     //Electricity
@@ -108,10 +108,6 @@ class Settings
         }
 
         $result = PguApi::getElectricityMeterInfo($electricityPayCode, $meterID);
-
-        /*if (isset($result['errorCode']) && ($result['errorCode'] == 0 || $result['errorCode'] == 1 )) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['errorMsg']);
-        }*/
 
         if (isset($result['errorMsg'])) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['errorMsg']);

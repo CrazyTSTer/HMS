@@ -36,30 +36,23 @@ class PguApi
             'ajaxAction' => 'addCounterInfo',
             'items' => [
                 'paycode' => $paycode,
-                'flatd' => $flat,
+                'flat' => $flat,
                 'indications' => $meters
             ]
         ];
 
         $result = self::sendRequest($setParams);
-        var_export($result);
 
-        if (!$result) {
-            Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $debug);
-        }
-        if (isset($result['code']) && $result['code'] == 0) {
+        if (isset($result['code']) && $result['code'] !== 0) {
+            $error = $result['error'] ?? '';
+            $info = $result['info'] ?? '';
+            $msg = ($error === $info) ? $error : $error . '. ' . $info;
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $msg . ' Code: ' . $result['code']);
+        } elseif (isset($result['info']) && isset($result['code']) && $result['code'] === 0) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info']);
         } else {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['info']);
+            Utils::reportError(__CLASS__, 'Failed to send data to PGU.MOS.RU', $debug);
         }
-        /*} elseif (isset($result['error'])) {
-            $msg = $result['error'] ?? '';
-            $msg .= $result['info'] ?? '';
-            $msg = ($msg === '') ? 'unknown' : $msg;
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $msg);
-        } else {
-            Utils::reportError(__CLASS__, 'Failed to send data to PGU. Got unknow error', $debug);
-        }*/
     }
 
     private static function sendRequest($params)
