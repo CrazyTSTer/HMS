@@ -119,8 +119,11 @@ class PguApi
         } else {
             $error = $res['error'] ?? '';
             $result = $res['result'] ?? '';
+
             if ($result === -99) {
                 Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Invalid paycode format');
+            } elseif (!$result && $error === 0) {
+                Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Invalid meterID');
             } else {
                 if ($error == '' && $result == '') {
                     $msg = 'Failed to check electricityMeterID at PGU.MOS.RU';
@@ -147,7 +150,7 @@ class PguApi
 
         $res = self::sendRequest($getGeneralInfo);
 
-        $result['address'] = $res['result']['addr'] ?? null;
+        $result['address'] = preg_replace('/\s+/', ' ', $res['result']['addr'] ?? null);
         $result['meterType'] = $res['result']['nm_uchet'] ?? null;
 
         //Получаем информацию о дате установки счетчика
@@ -178,6 +181,12 @@ class PguApi
         $res = self::sendRequest($getMPI);
 
         $result['MPI'] = $res['result']['dt_mpi'] ?? null;
+
+        $result = array_filter($result);
+
+        if (count($result) != 4) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get main electricityMeter info');
+        }
 
         return $result;
     }

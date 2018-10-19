@@ -107,12 +107,10 @@ class Settings
             Utils::reportError(__CLASS__, 'Passed empty meterID', $this->debug);
         }
 
-        $result = PguApi::getElectricityMeterInfo($electricityPayCode, $meterID);
+        PguApi::checkElectricityPayCode($electricityPayCode);
+        $result = PguApi::checkElectricityMeterID($electricityPayCode, $meterID);
+        $result = PguApi::getElectricityMeterInfo($electricityPayCode, $result['schema'], $result['id_kng']);
 
-        if (isset($result['errorMsg'])) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, $result['errorMsg']);
-        }
-
-        var_export($result);
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
     }
 }
