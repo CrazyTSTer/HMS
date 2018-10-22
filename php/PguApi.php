@@ -49,7 +49,7 @@ class PguApi
         $result = self::sendRequest($setParams);
 
         if (isset($result['code']) && $result['code'] === 0) {
-            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info'] ?? 'Success');
+            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info'] ?? 'Data sent successfully');
         } else {
             $error = $result['error'] ?? '';
             $info = $result['info'] ?? '';
