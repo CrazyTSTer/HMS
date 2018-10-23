@@ -12,6 +12,28 @@ class Settings
         $this->cfg = Config::getConfig($cfgName);
     }
 
+    //Common
+    public function actionGetMetersInfoFromConfig()
+    {
+        $ret = $this->cfg->get();
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+    }
+
+    public function actionSaveMetersInfoToConfig()
+    {
+        $dataToSave = json_decode(Vars::get('dataToSave', null), true);
+        $this->cfg->set(null, $dataToSave);
+        $this->cfg->save();
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
+    }
+
+    public function actionEraseMetersInfoFromConfig()
+    {
+        $this->cfg->drop();
+        $this->cfg->save();
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Erased');
+    }
+
     //Water
     public function actionGetWaterMetersInfoFromPgu()
     {
@@ -33,7 +55,7 @@ class Settings
             Utils::reportError(__CLASS__, 'Passed empty Flat number', $this->debug);
         }
 
-        $result = PguApi::getWaterMetersInfo($paycode, $flat, $this->debug);
+        $result = PguApi::getWaterMetersInfo($paycode, $flat);
 
         $address['district'] = ($result['address']['okrug'] ?? '-') . ' / ' . ($result['address']['district'] ?? '-');
         $address['street'] = $result['address']['street'] ?? '-';
@@ -64,28 +86,6 @@ class Settings
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
 
-
-    public function actionGetWaterMetersInfoFromConfig()
-    {
-        $ret = $this->cfg->get();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
-    }
-
-    public function actionSaveWaterMetersInfoToConfig()
-    {
-        $dataToSave = json_decode(Vars::get('dataToSave', null), true);
-        $this->cfg->set(null, $dataToSave);
-        $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
-    }
-
-    public function actionEraseWaterMetersInfoFromConfig()
-    {
-        $this->cfg->drop();
-        $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Erased');
-    }
-
     //Electricity
     public function actionGetElectricityMeterInfoFromPgu()
     {
@@ -110,6 +110,9 @@ class Settings
         PguApi::checkElectricityPayCode($electricityPayCode);
         $result = PguApi::checkElectricityMeterID($electricityPayCode, $meterID);
         $result = PguApi::getElectricityMeterInfo($electricityPayCode, $result['schema'], $result['id_kng']);
+
+        $result['paycode'] = $electricityPayCode;
+        $result['meterID'] = $meterID;
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
     }

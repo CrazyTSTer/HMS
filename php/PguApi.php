@@ -166,7 +166,13 @@ class PguApi
 
         $res = self::sendRequest($getSetupDate);
 
-        $result['setupDate'] = $res['result']['sh_ust'] ?? null;
+        if (isset($res['result']['sh_ust'])) {
+            $dt = new DateTime($res['result']['sh_ust']);
+            $result['setupDate'] = $dt->format('d-m-Y');
+        } else {
+            $result['setupDate'] = null;
+        }
+
 
         //Получаем информацию о межповерочном интервале
         $getMPI = [
@@ -181,10 +187,11 @@ class PguApi
         $res = self::sendRequest($getMPI);
 
         $result['MPI'] = $res['result']['dt_mpi'] ?? null;
+        $result['numberOfDigit'] = $res['result']['sh_znk'] ?? null;
 
         $result = array_filter($result);
 
-        if (count($result) != 4) {
+        if (count($result) != 5) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get main electricityMeter info');
         }
 
