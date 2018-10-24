@@ -73,6 +73,7 @@ function eraseMetersInfoFromConfig(cfg) {
 
         $('#electricityAddressForm').addClass('d-none');
         $('#electricitySaveForm').addClass('d-none');
+        $('#generateMeterCommandsForm').addClass('d-none');
     }
 
     config[cfg][CONFIG_DATA] = [];
@@ -203,11 +204,25 @@ function parseElectricityMeterInfo(result) {
 
             $('#electricityAddressForm').removeClass('d-none');
             $('#electricitySaveForm').removeClass('d-none');
+            $('#generateMeterCommandsForm').removeClass('d-none');
         } else {
             $('#electricityAddressForm').addClass('d-none');
             $('#electricitySaveForm').addClass('d-none');
+            $('#generateMeterCommandsForm').addClass('d-none');
         }
     } else {
         showModalAlert(result['status'], result['data']);
     }
+}
+
+function generateElectricityMeterCommands() {
+    var param = {
+        location:   'Settings',
+        action:     'actionGenerateElectricityMeterCommands',
+        config:     config[ELECTRICITY][CONFIG_NAME],
+    };
+
+    executeAjaxPostRequest(param, function(result) {
+        showModalAlert(result['status'], result['data']);
+    });
 }

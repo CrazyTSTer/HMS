@@ -116,4 +116,14 @@ class Settings
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
     }
+
+    public function actionGenerateElectricityMeterCommands()
+    {
+        $meterID = $this->cfg->get('meterID');
+        if ($meterID) {
+            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Команды усчпешно сгенерированы.');
+        } else {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'В конфиг-файле не указан номер счетчика<br>Укажите номер счетчика и сохраните конфиг');
+        }
+    }
 }

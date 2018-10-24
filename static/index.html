@@ -410,6 +410,12 @@
                                         <button class="btn btn-primary btn-block" id="electricityReset" onclick="eraseMetersInfoFromConfig(ELECTRICITY); return false;">Сбросить</button>
                                     </div>
                                 </form>
+                                <hr>
+                                <form class="form-row d-none" id="generateMeterCommandsForm">
+                                    <div class="form-group col-12">
+                                        <button class="btn btn-primary btn-block" id="generateMeterCommands" onclick="generateElectricityMeterCommands(); return false;">Сгенерировать команды счетчика</button>
+                                    </div>
+                                </form>
                             </div>
                         </fieldset>
                     </div>
