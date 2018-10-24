@@ -13,6 +13,7 @@ include_once "WaterStat.php";
 include_once "Settings.php";
 include_once "Config.php";
 include_once "PguApi.php";
+include_once "Electricity.php";
 
 class Utils
 {
@@ -63,5 +64,32 @@ class Utils
     {
         print_r(json_encode(array("status" => $status, "data" => $result)));
         exit(0);
+    }
+
+    public static function crc16_modbus($data)
+    {
+        //Calculating crc16_modbus
+        $crc = 0xFFFF;
+        for ($i = 0; $i < count($data); $i++) {
+            $crc ^= $data[$i];
+            for ($j = 8; $j != 0; $j--) {
+                if (($crc & 0x0001) != 0) {
+                    $crc >>= 1;
+                    $crc ^= 0xA001;
+                } else {
+                    $crc >>= 1;
+                }
+            }
+        }
+
+        //Convert result to two bytes array
+        $res = [];
+        for ($i = 0; $i < 2; $i++) {
+            $res[] = $crc & 0xFF;
+            $crc = $crc >> 8;
+        }
+        //$res = array_reverse($res);
+
+        return $res;
     }
 }
