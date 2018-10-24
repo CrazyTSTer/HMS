@@ -121,9 +121,53 @@ class Settings
     {
         $meterID = $this->cfg->get('meterID');
         if ($meterID) {
+            //00 0E 6F 9F 2F 3E D9
+
+            /*$b = 946079;
+            $res = [];
+            for ($i = 0; $i < 4; $i++) {
+                $res[] = $b & 0xFF;
+                $b = $b >> 8;
+            }
+            $res = array_reverse($res);
+            $res[] = 0x2F;
+
+            echo "---------------------\n";
+            var_export(crc16_modbus($res));
+
+            die;
+            function crc16_modbus($msg)
+            {
+                $data = $msg;//pack('H*',$msg);
+                $crc = 0xFFFF;
+                for ($i = 0; $i < count($data); $i++)
+                {
+                    $crc ^= $data[$i];
+
+                    for ($j = 8; $j !=0; $j--)
+                    {
+                        if (($crc & 0x0001) !=0)
+                        {
+                            $crc >>= 1;
+                            $crc ^= 0xA001;
+                        }
+                        else $crc >>= 1;
+                    }
+                }
+
+                $res = [];
+                for ($i = 0; $i < 2; $i++) {
+                    $res[] = $crc & 0xFF;
+                    $crc = $crc >> 8;
+                }
+                $res = array_reverse($res);
+
+                return $res;
+            }
+            die;*/
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Команды усчпешно сгенерированы.');
         } else {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'В конфиг-файле не указан номер счетчика<br>Укажите номер счетчика и сохраните конфиг');
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'В конфиг-файле не указан номер счетчика.<br>Укажите номер счетчика и сохраните конфиг.');
         }
     }
 }
