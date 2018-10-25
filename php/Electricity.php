@@ -36,4 +36,9 @@ class Electricity
     {
         echo "TEST\n";
     }
+
+    public function actionWhoAmI()
+    {
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'TEST DATA');
+    }
 }
