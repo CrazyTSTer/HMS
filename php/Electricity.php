@@ -49,7 +49,7 @@ class Electricity
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'host=' . $host . ' port=' . $port);
         }
 
-        $this->cfg = Config::getConfig('ElectricityMeterInfo.cfg');
+        $this->cfg = Config::getConfig('ElectricityMeterInfo');
         $this->cfg->set('host', $host);
         $this->cfg->set('port', $port);
         $this->cfg->save();
