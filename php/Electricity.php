@@ -15,6 +15,9 @@ class Electricity
         //'getPowerValuesByMonth'      => 0x32,
     ];
 
+    /** @var  Config */
+    private $cfg;
+
     public static function generateCommand($hexAddress, $cmd_code)
     {
         $tmp = $hexAddress;
@@ -39,6 +42,17 @@ class Electricity
 
     public function actionWhoAmI()
     {
+        $host = Vars::getPostVar('host', null);
+        $port = Vars::getPostVar('port', null);
+
+        if (!$host && !$port) {
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'TEST DATA');
+        }
+
+        $this->cfg = Config::getConfig('ElectricityMeterInfo.cfg');
+        $this->cfg->set('host', $host);
+        $this->cfg->set('port', $port);
+        $this->cfg->save();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'TEST DATA');
     }
 }

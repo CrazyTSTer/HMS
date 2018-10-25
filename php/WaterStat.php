@@ -217,7 +217,7 @@ class WaterStat
 
     public function actionSendDataToPGU()
     {
-        $this->cfg = Config::getConfig('Water');
+        $this->cfg = Config::getConfig('WaterMeterInfo');
         $paycode = $this->cfg->get('paycode');
         $flat = $this->cfg->get('flat');
         $meters = $this->cfg->get('meters');
