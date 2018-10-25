@@ -42,10 +42,10 @@ class Electricity
 
     public function actionWhoAmI()
     {
-        $host = Vars::getPostVar('host', null);
-        $port = Vars::getPostVar('port', null);
+        $host = Vars::get('host', null);
+        $port = Vars::get('port', null);
 
-        if (!$host && !$port) {
+        if (!$host || !$port) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'host=' . $host . ' port=' . $port);
         }
 
