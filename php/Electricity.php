@@ -46,7 +46,7 @@ class Electricity
         $port = Vars::getPostVar('port', null);
 
         if (!$host && !$port) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'TEST DATA');
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'host=' . $host . ' port=' . $port);
         }
 
         $this->cfg = Config::getConfig('ElectricityMeterInfo.cfg');
