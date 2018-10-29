@@ -35,24 +35,19 @@ class Electricity
         return $res;
     }
 
-    public function test()
-    {
-        echo "TEST\n";
-    }
-
     public function actionWhoAmI()
     {
         $host = Vars::get('host', null);
         $port = Vars::get('port', null);
 
         if (!$host || !$port) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'host=' . $host . ' port=' . $port);
+            Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::STATUS_FAIL);
         }
 
         $this->cfg = Config::getConfig('ElectricityMeterInfo');
         $this->cfg->set('host', $host);
         $this->cfg->set('port', $port);
         $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'TEST DATA');
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS);
     }
 }
