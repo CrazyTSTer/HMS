@@ -37,21 +37,46 @@ jQuery(document).ready(function() {
         $(el).click();
     });
 
-    if(window.target != "") {
-        var targets = window.target.split('/');
-        for (var i = 0; i < targets.length; i++) {
-            var target = targets[0];
-            if (i > 0) {
-                 for (var i1 = 1; i1 < i + 1 ; i1++) {
-                     target = target + '/' + targets[i1];
-                 }
-            }
-            $('a[href="#' + target + '"]').click();
-        }
-    } else {
-        show_main_stats();
-    }
+    $('a[href*="' + target + '"]').addClass('active').parents("ul:not(#sidebar)").addClass('show sub-active').siblings('a').addClass('a_sub-active').attr('aria-expanded', true);
+
+    displayTargetContent(target);
 });
+
+function loadPage(el)
+{
+    event.preventDefault();
+    var href = $(el).attr('href');
+    var url = window.location.href;
+    var regexp = /index.php(.*)/;
+    var target = href.match(/target=(.*)/)[1];
+
+    if (regexp.test(url)) {
+        url = url.replace(/index.php(.*)/, href);
+    } else {
+        url += href;
+    }
+
+    history.replaceState('', '', url);
+
+    $(".js_content").html('').load(href);
+    displayTargetContent(target);
+}
+
+function displayTargetContent(target)
+{
+    switch(target) {
+        case 'mainStat':
+        default:
+            show_main_stats();
+            break;
+        case 'waterStat':
+            show_graph_rate();
+            break;
+        case 'settings':
+            getMetersInfoFromConfig();
+            break;
+    }
+}
 
 function show_main_stats()
 {

@@ -26,7 +26,7 @@ function getMetersInfoFromConfig() {
         location: 'Settings',
         action:   'actionGetMetersInfoFromConfig',
         config:   config[ELECTRICITY][CONFIG_NAME],
-};
+    };
 
     executeAjaxGetRequest(water_param, parseWaterMetersInfo);
     executeAjaxGetRequest(electricity_param, parseElectricityMeterInfo);

@@ -1,0 +1,77 @@
+<div id="MainStat" class="tab-pane active">
+    <div class="row">
+        <div class="col-12">
+            <fieldset class="card">
+                <legend class="card-header">Water Rate:</legend>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-12 mb-1 mt-1 text-center">
+                            <span>Get last values at: </span><span class="js_water_last_update"></span>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card border-0 mb-md-4 mb-lg-0">
+                                <div class="card-body p-0">
+                                    <h6 class="card-title cold">Cold Water</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped cold mb-0">
+                                            <tbody>
+                                            <tr class="cold">
+                                                <td>Curr. Value:</td><td class="js_cold_curr_value"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Curr. day Rate:</td><td class="js_cold_curr_day_rate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Curr. M. Rate:</td><td class="js_cold_curr_month_rate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prev. M Rate:</td><td class="js_cold_prev_month_rate"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card border-0 mb-0">
+                                <div class="card-body p-0">
+                                    <h6 class="card-title hot">Hot Water</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped hot mb-0">
+                                            <tbody>
+                                            <tr class="hot">
+                                                <td> Curr. Value:</td><td class="js_hot_curr_value"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Curr. day Rate:</td><td class="js_hot_curr_day_rate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Curr. M. Rate:</td><td class="js_hot_curr_month_rate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prev. M Rate:</td><td class="js_hot_prev_month_rate"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary" onclick="sendWaterMetersDataToPgu(); return false;">Передать показания</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">Electricity</div>
+                <div class="card-body"></div>
+            </div>
+        </div>
+    </div>
+</div>

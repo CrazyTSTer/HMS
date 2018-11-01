@@ -16,7 +16,6 @@ class ASMS
     private $debug;
     private $location;
     private $action;
-    private $target = '';
 
     public function init($debug = false)
     {
@@ -48,12 +47,46 @@ class ASMS
                 Utils::reportError(__CLASS__, "Unknown location '$this->location'", $this->debug);
             }
         } else {
-            $target = $this->target;
-            require "static/index.html";
+            $target = Vars::get('target', '');
+            $headers = getallheaders();
+
+            switch ($target) {
+                case 'mainStat':
+                default:
+                    $content = file_get_contents('static/html/mainStat.html');
+                    break;
+                case 'waterStat':
+                    $content = file_get_contents('static/html/waterStat.html');
+                    break;
+
+                case 'settings':
+                    $content = file_get_contents('static/html/settings.html');
+                    break;
+            }
+
+            if ($target && array_key_exists('X-Requested-With', $headers) && $headers['X-Requested-With'] == 'XMLHttpRequest') {
+                echo $content;
+            } else {
+                require "static/html/main.html";
+            }
         }
     }
 }
-
+if (!function_exists('getallheaders'))
+{
+    function getallheaders()
+    {
+        $headers = [];
+        foreach ($_SERVER as $name => $value)
+        {
+            if (substr($name, 0, 5) == 'HTTP_')
+            {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
+}
 $asms = new ASMS();
 $asms->init(true);
 $asms->run();
