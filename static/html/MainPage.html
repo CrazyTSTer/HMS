@@ -32,9 +32,10 @@
         var target = '<?= htmlentities($target) ?>';
     </script>
     <script src="static/js/ajax.js"></script>
-    <script src="static/js/new_gui.js"></script>
-    <script src="static/js/charts.js"></script>
-    <script src="static/js/settings.js"></script>
+    <script src="static/js/MainPage.js"></script>
+    <script src="static/js/CommonStatPage.js"></script>
+    <script src="static/js/WaterStatPage.js"></script>
+    <script src="static/js/SettingsPage.js"></script>
 
 
     <link rel="stylesheet" href="static/css/new_gui.css">
@@ -63,7 +64,7 @@
     <!-- App Sidebar -->
     <aside class="sidebar bg-dark pl-2 pr-2">
         <ul class="list-unstyled collapse d-md-block pt-1 pb-1 mb-0" id="sidebar">
-            <li><a href="index.php?target=mainStat" onclick="loadPage(this)">
+            <li><a href="<?= htmlentities(self::HREF_PATH . self::COMMONSTAT_PAGE) ?>" onclick="loadPage(this)">
                 <img class="shadowfilter" src="static/imgs/mainStatistic.png">
                 <span>Main Stats</span>
             </a></li>
@@ -81,7 +82,7 @@
                             <i class="fa fa-chevron-right carret"></i>
                         </a>
                         <ul class="list-unstyled collapse" id="Meters_test">
-                            <li><a href="index.php?target=waterStat" onclick="loadPage(this);">
+                            <li><a href="<?= htmlentities(self::HREF_PATH . self::WATERSTAT_PAGE) ?>" onclick="loadPage(this);">
                                 <img class="shadowfilter" src="static/imgs/waterMeter.png">
                                 <span>Water</span>
                             </a></li>
@@ -97,7 +98,7 @@
                     </a></li>
                 </ul>
             </li>
-            <li><a href="index.php?target=settings" onclick="loadPage(this)">
+            <li><a href="<?= htmlentities(self::HREF_PATH . self::SETTINGS_PAGE) ?>" onclick="loadPage(this)">
                 <img class="shadowfilter" src="static/imgs/settings.png">
                 <span>Settings</span>
             </a></li>

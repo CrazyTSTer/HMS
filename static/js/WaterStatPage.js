@@ -56,6 +56,44 @@ var chartOptions = {
     bindto: "",
 };
 
+function show_graph_rate()
+{
+    executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'current'}, function (result) {
+        if (result['status'] == 'success') {
+            $.each(result['data'], function (key, value) {
+                if (value['status'] == 'success') {
+                    var data = value['data'];
+                    switch (key) {
+                        case 'current_day':
+                            $('.js_day').text(data['date']);
+                            generateDayChart(value['data']);
+                            break;
+
+                        case 'current_month':
+                            $('.js_month').text(moment(data['date']).format('MMMM'));
+                            $('.js_day_list').html('');
+                            for (var i = value['data']['ts'].length - 1; i > 0 ; i--) {
+                                $('.js_day_list').append('<a class="dropdown-item" href="#" onclick="loadDayData(\'' + data['ts'][i] + '\'); return false;">' + moment(data['ts'][i]).format('DD MMMM') + '</a>');
+                            }
+                            generateMonthChart(value['data']);
+                            break;
+
+                        case 'last_12month':
+                            $('.js_month_list').html('');
+                            for (var i = data['ts'].length - 1; i > 0 ; i--) {
+                                $('.js_month_list').append('<a class="dropdown-item" href="#" onclick="loadMonthData(\'' + data['ts'][i] + '\'); return false;"> ' + moment(data['ts'][i]).format("MMMM") + '</a>');
+                            }
+                            generateLast12MonthChart(value['data']);
+                            break;
+                    }
+                }
+            });
+        } else {
+            showModalAlert(result['status'], result['data']);
+        }
+    });
+}
+
 function generateDayChart(data)
 {
     var _chartOptions = jQuery.extend(true, {}, chartOptions);

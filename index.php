@@ -13,6 +13,14 @@ include_once "php/Utils.php";
 
 class ASMS
 {
+    const HREF_PATH           = 'index.php?target=';
+    const LOCAL_PAGE_PATH     = 'static/html/';
+    const PAGE_EXT            = '.html';
+    const MAIN_PAGE           = 'MainPage';
+    const COMMONSTAT_PAGE     = 'CommonStatPage';
+    const SETTINGS_PAGE       = 'SettingsPage';
+    const WATERSTAT_PAGE      = 'WaterStatPage';
+
     private $debug;
     private $location;
     private $action;
@@ -51,27 +59,28 @@ class ASMS
             $headers = getallheaders();
 
             switch ($target) {
-                case 'mainStat':
+                case self::COMMONSTAT_PAGE:
                 default:
-                    $content = file_get_contents('static/html/mainStat.html');
+                    $content = file_get_contents(self::LOCAL_PAGE_PATH . self::COMMONSTAT_PAGE . self::PAGE_EXT);
                     break;
-                case 'waterStat':
-                    $content = file_get_contents('static/html/waterStat.html');
+                case self::WATERSTAT_PAGE:
+                    $content = file_get_contents(self::LOCAL_PAGE_PATH . self::WATERSTAT_PAGE . self::PAGE_EXT);
                     break;
 
-                case 'settings':
-                    $content = file_get_contents('static/html/settings.html');
+                case self::SETTINGS_PAGE:
+                    $content = file_get_contents(self::LOCAL_PAGE_PATH . self::SETTINGS_PAGE . self::PAGE_EXT);
                     break;
             }
 
             if ($target && array_key_exists('X-Requested-With', $headers) && $headers['X-Requested-With'] == 'XMLHttpRequest') {
                 echo $content;
             } else {
-                require "static/html/main.html";
+                require self::LOCAL_PAGE_PATH . self::MAIN_PAGE . self::PAGE_EXT;
             }
         }
     }
 }
+
 if (!function_exists('getallheaders'))
 {
     function getallheaders()
@@ -87,6 +96,7 @@ if (!function_exists('getallheaders'))
         return $headers;
     }
 }
+
 $asms = new ASMS();
 $asms->init(true);
 $asms->run();
