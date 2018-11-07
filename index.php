@@ -55,21 +55,21 @@ class ASMS
                 Utils::reportError(__CLASS__, "Unknown location '$this->location'", $this->debug);
             }
         } else {
-            $target = Vars::get('target', '');
+            $target = Vars::get('target', self::COMMONSTAT_PAGE);
             $headers = getallheaders();
 
             switch ($target) {
                 case self::COMMONSTAT_PAGE:
-                default:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::COMMONSTAT_PAGE . self::PAGE_EXT);
                     break;
                 case self::WATERSTAT_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::WATERSTAT_PAGE . self::PAGE_EXT);
                     break;
-
                 case self::SETTINGS_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::SETTINGS_PAGE . self::PAGE_EXT);
                     break;
+                default:
+                    Utils::reportError(__CLASS__, "Unknown target '$target'", $this->debug);
             }
 
             if ($target && array_key_exists('X-Requested-With', $headers) && $headers['X-Requested-With'] == 'XMLHttpRequest') {

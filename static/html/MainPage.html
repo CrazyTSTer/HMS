@@ -75,23 +75,10 @@
                     <i class="fa fa-chevron-right carret"></i>
                 </a>
                 <ul class="list-unstyled collapse" id="Meters">
-                    <li>
-                        <a href="#" data-target="#Meters_test" data-toggle="collapse">
-                            <img class="shadowfilter" src="static/imgs/waterMeter.png">
-                            <span>Water</span>
-                            <i class="fa fa-chevron-right carret"></i>
-                        </a>
-                        <ul class="list-unstyled collapse" id="Meters_test">
-                            <li><a href="<?= htmlentities(self::HREF_PATH . self::WATERSTAT_PAGE) ?>" onclick="loadPage(this);">
-                                <img class="shadowfilter" src="static/imgs/waterMeter.png">
-                                <span>Water</span>
-                            </a></li>
-                            <li><a href="#Meters/Electricity">
-                                <img class="shadowfilter" src="static/imgs/electricityMeter.png">
-                                <span>Electricity</span>
-                            </a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::WATERSTAT_PAGE) ?>" onclick="loadPage(this);">
+                        <img class="shadowfilter" src="static/imgs/waterMeter.png">
+                        <span>Water</span>
+                    </a></li>
                     <li><a href="#Meters/Electricity">
                         <img class="shadowfilter" src="static/imgs/electricityMeter.png">
                         <span>Electricity</span>
