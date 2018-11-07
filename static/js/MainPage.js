@@ -77,7 +77,8 @@ function displayTargetContent(target)
     }
 }
 
-function showModalAlert(status, message) {
+function showModalAlert(status, message)
+{
     $('.js_modal-title').html("<strong>Request " + status  + "</strong>");
     $('.js_modal-body').html("<strong>Message: </strong>" + message);
     $("#modalAlert").modal();

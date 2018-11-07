@@ -15,7 +15,8 @@ var config = {
 };
 
 //Common
-function getMetersInfoFromConfig() {
+function getMetersInfoFromConfig()
+{
     var water_param = {
         location: 'Settings',
         action:   'actionGetMetersInfoFromConfig',
@@ -32,7 +33,8 @@ function getMetersInfoFromConfig() {
     executeAjaxGetRequest(electricity_param, parseElectricityMeterInfo);
 }
 
-function saveMetersInfoToConfig(cfg) {
+function saveMetersInfoToConfig(cfg)
+{
     var param = {
         location:   'Settings',
         action:     'actionSaveMetersInfoToConfig',
@@ -45,7 +47,8 @@ function saveMetersInfoToConfig(cfg) {
     });
 }
 
-function eraseMetersInfoFromConfig(cfg) {
+function eraseMetersInfoFromConfig(cfg)
+{
     if (cfg == WATER) {
         $('.js_water_district').text('');
         $('.js_water_street').text('');
@@ -90,7 +93,8 @@ function eraseMetersInfoFromConfig(cfg) {
 }
 
 //Water
-function getWaterMetersInfoFromPgu() {
+function getWaterMetersInfoFromPgu()
+{
     var param = {
         location: 'Settings',
         action:   'actionGetWaterMetersInfoFromPgu',
@@ -102,7 +106,8 @@ function getWaterMetersInfoFromPgu() {
     executeAjaxPostRequest(param, parseWaterMetersInfo);
 }
 
-function parseWaterMetersInfo(result) {
+function parseWaterMetersInfo(result)
+{
     if (result['status'] == 'success') {
         config[WATER][CONFIG_DATA] = result['data'];
 
@@ -162,12 +167,14 @@ function parseWaterMetersInfo(result) {
     }
 }
 
-function waterTypeChage(el) {
+function waterTypeChage(el)
+{
     config[WATER][CONFIG_DATA]['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
 }
 
 //Electricity
-function getElectricityMeterInfoFromPgu() {
+function getElectricityMeterInfoFromPgu()
+{
     var param = {
         location:            'Settings',
         action:              'actionGetElectricityMeterInfoFromPgu',
@@ -179,7 +186,8 @@ function getElectricityMeterInfoFromPgu() {
     executeAjaxPostRequest(param, parseElectricityMeterInfo);
 }
 
-function parseElectricityMeterInfo(result) {
+function parseElectricityMeterInfo(result)
+{
     if (result['status'] == 'success') {
         config[ELECTRICITY][CONFIG_DATA] = result['data'];
 
@@ -215,7 +223,8 @@ function parseElectricityMeterInfo(result) {
     }
 }
 
-function generateElectricityMeterCommands() {
+function generateElectricityMeterCommands()
+{
     var param = {
         location:   'Settings',
         action:     'actionGenerateElectricityMeterCommands',

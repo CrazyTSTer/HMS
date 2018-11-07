@@ -151,7 +151,8 @@ function generateLast12MonthChart(data)
 }
 
 
-function loadDayData(date) {
+function loadDayData(date)
+{
     executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'day', date: date}, function (result) {
         if (result['status'] == 'success') {
             if (result['data']['current_day']['status'] == 'success') {
@@ -164,7 +165,8 @@ function loadDayData(date) {
     });
 }
 
-function loadMonthData(date) {
+function loadMonthData(date)
+{
     executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'month', date: date}, function (result) {
         if (result['status'] == 'success') {
             if (result['data']['current_month']['status'] == 'success') {
