@@ -174,20 +174,20 @@ boolean SendDataToRemoteHost(unsigned int coldwater, unsigned int hotwater)
 
 	JsonObject& json = jsonBuffer.parseObject(response);
 
-	if (json["status"] == "success") {
-		return true;
+	if (!json.success()) {
+		return false;
 	}
 
-	return false;
+	if (json["status"] != "success") {
+		return false;
+	}
+
+	return true;
 }
 
 void ChangeLedState(void)
 {
-	if (digitalRead(LED) == OFF) {
-		digitalWrite(LED, ON);
-	} else {
-		digitalWrite(LED, OFF);
-	}
+	digitalWrite(LED, !digitalRead(LED));
 }
 
 void loop()
