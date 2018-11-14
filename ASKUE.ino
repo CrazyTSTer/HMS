@@ -3,20 +3,16 @@
 #include <time.h>
 #include "ArduinoJson-v5.13.1.h"
 
+#define UART_BAUD               9600
+
 #define BUILDIN_LED_PIN         D4
 #define RS485_RX_TX_CONTROL_PIN D2
-#define UART_BAUD               9600
 
 #define RS485_TRANSMITE         HIGH //Send data
 #define RS485_RECEIVE           LOW  //Get data
 
 #define OFF                     HIGH
 #define ON                      LOW
-
-//WiFi <--> UART Bridge
-const int TIMEOUT     = 5;    // ms (if nothing more on UART, then send packet)
-const int BUFFER_SIZE = 8192;
-const int PORT        = 9876; // tcp Port
 
 //WiFi login and password
 //const char* ssid     = "marakaza_2.4";
@@ -29,24 +25,31 @@ const char* password = "";
 const String ELECTRICITY_LOCATION = "Electricity";  //php Class name
 const String ELECTRICITY_ACTION   = "actionWhoAmI"; //php method in class
 
-//used variables
+//Global variables
 unsigned long prevMillisWhoAmI;
-boolean isWiFiConnected, isWhoAmISent;
+boolean       isWiFiConnected, isWhoAmISent;
 
-const int HOUR = 3600;
+//Time section
+const int HOUR   = 3600;
 const int SECOND = 1000;
-time_t  now;
-struct  tm * my_time;
-int prevSecond = 0;
+
+time_t    now;
+struct    tm * my_time;
+int       prevSecond = 0;
+
+//WiFi <--> UART Bridge section
+const int  PORT        = 9876; // tcp Port
+const int  TIMEOUT     = 5;    // ms (if nothing more on UART, then send packet)
+const int  BUFFER_SIZE = 8192; // max data
 
 WiFiServer WiFiServer(PORT);
 WiFiClient WiFiClient;
 
-uint8_t wifiToUART[BUFFER_SIZE];
-uint8_t wifiToUART_counter = 0;
+uint8_t    wifiToUART[BUFFER_SIZE];
+uint8_t    wifiToUART_counter = 0;
 
-uint8_t UARTToWifi[BUFFER_SIZE];
-uint8_t UARTToWiFi_counter = 0;
+uint8_t    UARTToWifi[BUFFER_SIZE];
+uint8_t    UARTToWiFi_counter = 0;
 
 void setup()
 {
@@ -64,7 +67,6 @@ void setup()
 
 	configTime(3 * HOUR, 0, "pool.ntp.org", "time.nist.gov");
 }
-
 
 boolean WiFiConnect()
 {
@@ -177,14 +179,17 @@ void loop()
 		if (WiFiServer.status() == CLOSED) {
 			WiFiServer.begin();
 		}
+
 		if (isWhoAmISent == false && millis() - prevMillisWhoAmI > 10 * SECOND) {
 			Serial.println("Trying to send WhoAmI");
 			isWhoAmISent = SendWhoAmI();
 			prevMillisWhoAmI = millis();
 		}
+
 		if (isWhoAmISent == true) {
 			doBridge();
 		}
+
 		if (time(&now)) {
 			my_time = localtime(&now);
 			if (prevSecond != my_time->tm_sec) {
