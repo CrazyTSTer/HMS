@@ -1,7 +1,10 @@
-const WATER ='water';
+const WATER       = 'water';
 const ELECTRICITY = 'electricity';
+const PGU         = 'pgu';
 const CONFIG_NAME = 'configName';
 const CONFIG_DATA = 'data';
+const LOCATION_SETTING = 'Settings';
+const ACTION_GET_DATA_FROM_CONFIG = 'actionGetDataFromConfig';
 
 var config = {
     water: {
@@ -11,21 +14,25 @@ var config = {
     electricity: {
         configName: 'ElectricityMeterInfo',
         data: [],
-    }
+    },
+    pgu: {
+        configName: 'PguInfo',
+        data: [],
+    },
 };
 
 //Common
-function getMetersInfoFromConfig()
+function getDataFromConfig()
 {
     var water_param = {
-        location: 'Settings',
-        action:   'actionGetMetersInfoFromConfig',
+        location: LOCATION_SETTING,
+        action:   ACTION_GET_DATA_FROM_CONFIG,
         config:   config[WATER][CONFIG_NAME],
     };
 
     var electricity_param = {
-        location: 'Settings',
-        action:   'actionGetMetersInfoFromConfig',
+        location: LOCATION_SETTING,
+        action:   ACTION_GET_DATA_FROM_CONFIG,
         config:   config[ELECTRICITY][CONFIG_NAME],
     };
 
@@ -33,11 +40,11 @@ function getMetersInfoFromConfig()
     executeAjaxGetRequest(electricity_param, parseElectricityMeterInfo);
 }
 
-function saveMetersInfoToConfig(cfg)
+function saveDataToConfig(cfg)
 {
     var param = {
-        location:   'Settings',
-        action:     'actionSaveMetersInfoToConfig',
+        location:   LOCATION_SETTING,
+        action:     'actionSaveDataToConfig',
         config:     config[cfg][CONFIG_NAME],
         dataToSave: JSON.stringify(config[cfg][CONFIG_DATA]),
     };
@@ -47,7 +54,7 @@ function saveMetersInfoToConfig(cfg)
     });
 }
 
-function eraseMetersInfoFromConfig(cfg)
+function eraseDataFromConfig(cfg)
 {
     if (cfg == WATER) {
         $('.js_water_district').text('');
@@ -82,8 +89,8 @@ function eraseMetersInfoFromConfig(cfg)
     config[cfg][CONFIG_DATA] = [];
 
     var param = {
-        location:   'Settings',
-        action:     'actionEraseMetersInfoFromConfig',
+        location:   LOCATION_SETTING,
+        action:     'actionEraseDataFromConfig',
         config:     config[cfg][CONFIG_NAME],
     };
 
@@ -96,7 +103,7 @@ function eraseMetersInfoFromConfig(cfg)
 function getWaterMetersInfoFromPgu()
 {
     var param = {
-        location: 'Settings',
+        location: LOCATION_SETTING,
         action:   'actionGetWaterMetersInfoFromPgu',
         config:   'Water',
         paycode:  $('#waterPayCodeInput').val(),
@@ -176,7 +183,7 @@ function waterTypeChage(el)
 function getElectricityMeterInfoFromPgu()
 {
     var param = {
-        location:            'Settings',
+        location:            LOCATION_SETTING,
         action:              'actionGetElectricityMeterInfoFromPgu',
         config:              'Electricity',
         electricityPayCode:  $('#electricityPayCodeInput').val(),
@@ -226,7 +233,7 @@ function parseElectricityMeterInfo(result)
 function generateElectricityMeterCommands()
 {
     var param = {
-        location:   'Settings',
+        location:   LOCATION_SETTING,
         action:     'actionGenerateElectricityMeterCommands',
         config:     config[ELECTRICITY][CONFIG_NAME],
     };
@@ -234,4 +241,10 @@ function generateElectricityMeterCommands()
     executeAjaxPostRequest(param, function(result) {
         showModalAlert(result['status'], result['data']);
     });
+}
+
+//PGU
+function getPGUInfoFromForm()
+{
+
 }

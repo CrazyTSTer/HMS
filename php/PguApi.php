@@ -2,8 +2,21 @@
 
 class PguApi
 {
-    CONST URL = 'https://www.mos.ru/pgu/common/ajax/index.php';
+    const COOKIE_FILE = 'cookie.tmp';
+    const CURL_SETTINGS = [
+        CURLOPT_HEADER         => false,
+        CURLOPT_NOBODY         => false,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_COOKIEJAR      => self::COOKIE_FILE,
+        CURLOPT_COOKIEFILE     => self::COOKIE_FILE,
+    ];
 
+
+    const MY_PGU = 'https://my.mos.ru/my';
+    const URL = 'https://www.mos.ru/pgu/common/ajax/index.php';
     //Water
     public static function getWaterMetersInfo($paycode, $flat)
     {
@@ -16,7 +29,7 @@ class PguApi
             ]
         ];
 
-        $result = self::sendRequest($getParams);
+        $result = self::sendRequest($getParams, true);
 
         if (!$result || isset($result['error']) || isset($result['code']) || isset($result['info'])) {
             $error = $result['error'] ?? '';
@@ -46,7 +59,7 @@ class PguApi
             ]
         ];
 
-        $result = self::sendRequest($setParams);
+        $result = self::sendRequest($setParams, true);
 
         if (isset($result['code']) && $result['code'] === 0) {
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result['info'] ?? 'Data sent successfully');
@@ -199,21 +212,53 @@ class PguApi
     }
 
     //Common
-    private static function sendRequest($params)
+    private static function sendRequest($params, $isAuthNeed = false)
     {
-        $result = file_get_contents(
-            self::URL,
-            false,
-            stream_context_create(
-                [
-                    'http' => [
-                        'method'  => 'POST',
-                        'header'  => 'Content-type: application/x-www-form-urlencoded; charset=UTF-8',
-                        'content' => http_build_query($params),
+        if (!$isAuthNeed) {
+            $result = file_get_contents(
+                self::URL,
+                false,
+                stream_context_create(
+                    [
+                        'http' => [
+                            'method'  => 'POST',
+                            'header'  => 'Content-type: application/x-www-form-urlencoded; charset=UTF-8',
+                            'content' => http_build_query($params),
+                        ]
                     ]
-                ]
-            )
-        );
+                )
+            );
+        } else {
+            //Clear cookies
+            file_put_contents(self::COOKIE_FILE, "");
+            //Get first link follow to auth page
+            $res = file_get_contents(self::MY_PGU);
+            preg_match('/value="(.*)"/', $res, $url);
+
+            //Init cURL session
+            $ch = curl_init();
+            curl_setopt_array($ch, self::CURL_SETTINGS);
+            //Go to auth page
+            curl_setopt($ch, CURLOPT_URL, $url[1]);
+            curl_exec($ch);
+            //Logging in
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, 'login=crazytster@gmail.com&password=dbybkfwtnfn2');
+            curl_exec($ch);
+            //curl_close($ch);
+
+            //Authorized OK, send request now
+            //$ch = curl_init();
+            //curl_setopt_array($ch, self::CURL_SETTINGS);
+            curl_setopt($ch, CURLOPT_URL, self::URL);
+            //curl_setopt($ch, CURLOPT_HEADER, false);
+            //curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            file_put_contents(self::COOKIE_FILE, "");
+        }
+
         return json_decode($result, true);
     }
 }

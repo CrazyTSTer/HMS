@@ -13,13 +13,13 @@ class Settings
     }
 
     //Common
-    public function actionGetMetersInfoFromConfig()
+    public function actionGetDataFromConfig()
     {
         $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
 
-    public function actionSaveMetersInfoToConfig()
+    public function actionSaveDataToConfig()
     {
         $dataToSave = json_decode(Vars::get('dataToSave', null), true);
         $this->cfg->set(null, $dataToSave);
@@ -27,7 +27,7 @@ class Settings
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
     }
 
-    public function actionEraseMetersInfoFromConfig()
+    public function actionEraseDataFromConfig()
     {
         $this->cfg->drop();
         $this->cfg->save();

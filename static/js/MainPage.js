@@ -72,7 +72,7 @@ function displayTargetContent(target)
             show_graph_rate();
             break;
         case SETTINGS_PAGE:
-            getMetersInfoFromConfig();
+            getDataFromConfig();
             break;
     }
 }
