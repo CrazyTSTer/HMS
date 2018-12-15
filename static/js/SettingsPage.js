@@ -1,10 +1,20 @@
-const WATER       = 'water';
-const ELECTRICITY = 'electricity';
-const PGU         = 'pgu';
-const CONFIG_NAME = 'configName';
-const CONFIG_DATA = 'data';
-const LOCATION_SETTING = 'Settings';
-const ACTION_GET_DATA_FROM_CONFIG = 'actionGetDataFromConfig';
+//Config sections
+const WATER             = 'water';
+const ELECTRICITY       = 'electricity';
+const PGU               = 'pgu';
+
+//Each config section has two parameters
+const CONFIG_NAME       = 'configName';
+const CONFIG_DATA       = 'data';
+
+//Php class name
+const LOCATION_SETTINGS = 'Settings';
+
+//Php method in class
+const ACTION_GET_DATA_FROM_CONFIG   = 'actionGetDataFromConfig';
+const ACTION_SAVE_DATA_TO_CONFIG    = 'actionSaveDataToConfig';
+const ACTION_ERASE_DATA_FROM_CONFIG = 'actionEraseDataFromConfig';
+
 
 var config = {
     water: {
@@ -25,13 +35,13 @@ var config = {
 function getDataFromConfig()
 {
     var water_param = {
-        location: LOCATION_SETTING,
+        location: LOCATION_SETTINGS,
         action:   ACTION_GET_DATA_FROM_CONFIG,
         config:   config[WATER][CONFIG_NAME],
     };
 
     var electricity_param = {
-        location: LOCATION_SETTING,
+        location: LOCATION_SETTINGS,
         action:   ACTION_GET_DATA_FROM_CONFIG,
         config:   config[ELECTRICITY][CONFIG_NAME],
     };
@@ -43,8 +53,8 @@ function getDataFromConfig()
 function saveDataToConfig(cfg)
 {
     var param = {
-        location:   LOCATION_SETTING,
-        action:     'actionSaveDataToConfig',
+        location:   LOCATION_SETTINGS,
+        action:     ACTION_SAVE_DATA_TO_CONFIG,
         config:     config[cfg][CONFIG_NAME],
         dataToSave: JSON.stringify(config[cfg][CONFIG_DATA]),
     };
@@ -89,8 +99,8 @@ function eraseDataFromConfig(cfg)
     config[cfg][CONFIG_DATA] = [];
 
     var param = {
-        location:   LOCATION_SETTING,
-        action:     'actionEraseDataFromConfig',
+        location:   LOCATION_SETTINGS,
+        action:     ACTION_ERASE_DATA_FROM_CONFIG,
         config:     config[cfg][CONFIG_NAME],
     };
 
@@ -103,7 +113,7 @@ function eraseDataFromConfig(cfg)
 function getWaterMetersInfoFromPgu()
 {
     var param = {
-        location: LOCATION_SETTING,
+        location: LOCATION_SETTINGS,
         action:   'actionGetWaterMetersInfoFromPgu',
         config:   'Water',
         paycode:  $('#waterPayCodeInput').val(),
@@ -183,7 +193,7 @@ function waterTypeChage(el)
 function getElectricityMeterInfoFromPgu()
 {
     var param = {
-        location:            LOCATION_SETTING,
+        location:            LOCATION_SETTINGS,
         action:              'actionGetElectricityMeterInfoFromPgu',
         config:              'Electricity',
         electricityPayCode:  $('#electricityPayCodeInput').val(),
@@ -233,7 +243,7 @@ function parseElectricityMeterInfo(result)
 function generateElectricityMeterCommands()
 {
     var param = {
-        location:   LOCATION_SETTING,
+        location:   LOCATION_SETTINGS,
         action:     'actionGenerateElectricityMeterCommands',
         config:     config[ELECTRICITY][CONFIG_NAME],
     };
