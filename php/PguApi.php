@@ -15,8 +15,9 @@ class PguApi
     ];
 
 
-    const MY_PGU = 'https://my.mos.ru/my';
-    const URL = 'https://www.mos.ru/pgu/common/ajax/index.php';
+    const MY_PGU    = 'https://my.mos.ru/my';
+    const AUTH_PAGE = 'https://login.mos.ru/sps/login/methods/password';
+    const URL       = 'https://www.mos.ru/pgu/common/ajax/index.php';
     //Water
     public static function getWaterMetersInfo($paycode, $flat)
     {
@@ -230,7 +231,7 @@ class PguApi
             );
         } else {
             //Clear cookies
-            file_put_contents(self::COOKIE_FILE, "");
+            //file_put_contents(self::COOKIE_FILE, "");
             //Get first link follow to auth page
             $res = file_get_contents(self::MY_PGU);
             preg_match('/value="(.*)"/', $res, $url);
@@ -242,6 +243,7 @@ class PguApi
             curl_setopt($ch, CURLOPT_URL, $url[1]);
             curl_exec($ch);
             //Logging in
+            curl_setopt($ch, CURLOPT_URL, self::AUTH_PAGE);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, 'login=crazytster@gmail.com&password=dbybkfwtnfn2');
             curl_exec($ch);
@@ -256,7 +258,7 @@ class PguApi
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
             $result = curl_exec($ch);
             curl_close($ch);
-            file_put_contents(self::COOKIE_FILE, "");
+            //file_put_contents(self::COOKIE_FILE, "");
         }
 
         return json_decode($result, true);
