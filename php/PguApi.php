@@ -231,7 +231,7 @@ class PguApi
             );
         } else {
             //Clear cookies
-            //file_put_contents(self::COOKIE_FILE, "");
+            file_put_contents(self::COOKIE_FILE, "");
             //Get first link follow to auth page
             $res = file_get_contents(self::MY_PGU);
             preg_match('/value="(.*)"/', $res, $url);
@@ -258,7 +258,7 @@ class PguApi
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
             $result = curl_exec($ch);
             curl_close($ch);
-            //file_put_contents(self::COOKIE_FILE, "");
+            file_put_contents(self::COOKIE_FILE, "");
         }
 
         return json_decode($result, true);
