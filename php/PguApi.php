@@ -2,16 +2,17 @@
 
 class PguApi
 {
-    const COOKIE_FILE = 'cookie.tmp';
-    const CURL_SETTINGS = [
+    const COOKIE_DIR         = __DIR__ . '/../config/';
+    const COOKIE_FILE_PATH   = self::COOKIE_DIR . 'cookie.tmp';
+    const CURL_SETTINGS      = [
         CURLOPT_HEADER         => false,
         CURLOPT_NOBODY         => false,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_COOKIEJAR      => self::COOKIE_FILE,
-        CURLOPT_COOKIEFILE     => self::COOKIE_FILE,
+        CURLOPT_COOKIEJAR      => self::COOKIE_FILE_PATH ,
+        CURLOPT_COOKIEFILE     => self::COOKIE_FILE_PATH,
     ];
 
 
@@ -231,7 +232,8 @@ class PguApi
             );
         } else {
             //Clear cookies
-            file_put_contents(self::COOKIE_FILE, "");
+            if (!is_dir(self::COOKIE_DIR)) {mkdir(self::COOKIE_DIR);}
+            file_put_contents(self::COOKIE_FILE_PATH, "");
             //Get first link follow to auth page
             $res = file_get_contents(self::MY_PGU);
             preg_match('/value="(.*)"/', $res, $url);
@@ -258,7 +260,7 @@ class PguApi
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
             $result = curl_exec($ch);
             curl_close($ch);
-            file_put_contents(self::COOKIE_FILE, "");
+            file_put_contents(self::COOKIE_FILE_PATH, "");
         }
 
         return json_decode($result, true);
