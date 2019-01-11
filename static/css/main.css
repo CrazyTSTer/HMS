@@ -25,8 +25,17 @@
         overflow-y: auto;
     }
 
-    #waterPayCodeForm .input-group-text,
-    #pguLoginPasswordForm .input-group-text {
+    #waterPayCodeForm .input-group-text {
+        width: 160px;
+    }
+
+    #electricityMeterForm .input-group-text {
+        width: 150px;
+    }
+}
+
+@media(max-width: 575px) {
+    #waterPayCodeForm .input-group-text {
         width: 160px;
     }
 
@@ -143,6 +152,10 @@ hr {
 
 .bg-dark {
     background: #272c33 !important;
+}
+
+#pguLoginPasswordForm .input-group-text {
+    width: 160px;
 }
 
 /* ----- App Header CSS ----- */

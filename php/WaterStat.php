@@ -20,7 +20,7 @@ define('GET_CURRENT_DAY_RATE',                'SELECT MAX(coldwater) - MIN(coldw
 define('GET_CURRENT_MONTH_RATE',              'SELECT MAX(coldwater) - MIN(coldwater) as coldwater, MAX(hotwater) - MIN(hotwater) as hotwater FROM (
                                                 (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1) 
                                                 UNION ALL 
-                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) = CURDATE() ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, coldwater, hotwater FROM #table# WHERE DATE(ts) <= CURDATE() ORDER BY ts DESC LIMIT 1)
                                               ) as smth;');
 
 define('GET_PREV_MONTH_RATE',                 'SELECT MAX(coldwater) - MIN(coldwater) as coldwater, MAX(hotwater) - MIN(hotwater) as hotwater FROM (
