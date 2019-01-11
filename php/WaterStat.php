@@ -62,8 +62,11 @@ class WaterStat
     const HOTWATER  = 'hotwater';
     const TIMESTAMP = 'ts';
 
+    const CFG_NAME = 'WaterMeterInfo';
+
     /** @var  DB */
     private $db;
+
     /** @var  Config */
     private $cfg;
     private $debug;
@@ -217,7 +220,7 @@ class WaterStat
 
     public function actionSendDataToPGU()
     {
-        $this->cfg = Config::getConfig('WaterMeterInfo');
+        $this->cfg = Config::getConfig(self::CFG_NAME);
         $paycode = $this->cfg->get('paycode');
         $flat = $this->cfg->get('flat');
         $meters = $this->cfg->get('meters');
@@ -228,7 +231,7 @@ class WaterStat
         $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
         if (is_array($result)) {
             foreach ($meters as $meter) {
-                $tmp_meters[] = [
+                $tmpMeters[] = [
                     'counterNum' => $meter['counterNum'],
                     'counterVal' => $meter['type'] == 1 ? number_format($result[self::COLDWATER] / 1000, 3, ',', '') :
                         ($meter['type'] == 2 ? number_format($result[self::HOTWATER] / 1000, 3, ',', '') : null),
@@ -236,7 +239,7 @@ class WaterStat
                     'period'     => date('Y-m-t'),
                 ];
             }
-            PguApi::sendWaterMetersData($paycode, $flat, $tmp_meters, $this->debug);
+            PguApi::sendWaterMetersData($paycode, $flat, $tmpMeters, $this->debug);
         } else {
             Utils::reportError(__CLASS__, 'Failed to send data to PGU. Can\'t get meters last values', $this->debug);
         }

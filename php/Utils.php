@@ -45,14 +45,14 @@ class Utils
         self::unifiedExitPoint(self::STATUS_ERROR, $errorMsg);
     }
 
-    public static function addDataToTemplate($template, $data, $add_quotes = false, $debug = false)
+    public static function addDataToTemplate($template, $data, $addQuotes = false, $debug = false)
     {
         $re = "/#([a-zA-Z][a-zA-Z0-9_]*)#/";
         preg_match_all($re, $template, $matches);
         foreach ($matches[1] as $value) {
             if (array_key_exists($value, $data)) {
-                $replace_string = $add_quotes ? '\'' . $data[$value] . '\'' : $data[$value];
-                $template = str_replace("#{$value}#", $replace_string, $template);
+                $replaceString = $addQuotes ? '\'' . $data[$value] . '\'' : $data[$value];
+                $template = str_replace("#{$value}#", $replaceString, $template);
             } else {
                 die(self::reportError(__CLASS__, "'{$value}' key does not exist in replacement data array for template", $debug));
             }
@@ -60,9 +60,13 @@ class Utils
         return $template;
     }
 
-    public static function unifiedExitPoint($status, $result = '')
+    public static function unifiedExitPoint($status, $result = '', $fastCGIFinishRequest = false)
     {
         print_r(json_encode(array("status" => $status, "data" => $result)));
+        if ($fastCGIFinishRequest) {
+            fastcgi_finish_request();
+            return;
+        }
         exit(0);
     }
 

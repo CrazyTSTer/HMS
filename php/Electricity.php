@@ -15,6 +15,8 @@ class Electricity
         //'getPowerValuesByMonth'      => 0x32,
     ];
 
+    const CFG_NAME = 'ElectricityMeterInfo';
+
     /** @var  Config */
     private $cfg;
 
@@ -35,7 +37,7 @@ class Electricity
         return $res;
     }
 
-    public function actionWhoAmI()
+    public function actionESPWhoAmI()
     {
         $host = Vars::get('host', null);
         $port = Vars::get('port', null);
@@ -43,11 +45,17 @@ class Electricity
         if (!$host || !$port) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::STATUS_FAIL);
         }
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
 
-        $this->cfg = Config::getConfig('ElectricityMeterInfo');
+        $this->cfg = Config::getConfig(self::CFG_NAME);
         $this->cfg->set('host', $host);
         $this->cfg->set('port', $port);
         $this->cfg->save();
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS);
+
+    }
+
+    public function actionESPReadyToIterate() {
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
+        //TODO: Get data from Electricity Meter, parse it and put into DB
     }
 }
