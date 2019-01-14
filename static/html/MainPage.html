@@ -64,31 +64,48 @@
     <!-- App Sidebar -->
     <aside class="sidebar bg-dark pl-2 pr-2">
         <ul class="list-unstyled collapse d-md-block pt-1 pb-1 mb-0" id="sidebar">
-            <li><a href="<?= htmlentities(self::HREF_PATH . self::COMMONSTAT_PAGE) ?>" onclick="loadPage(this)">
-                <img class="shadowfilter" src="static/imgs/mainStatistic.png">
+            <li><a href="<?= htmlentities(self::HREF_PATH . self::COMMON_STAT_PAGE) ?>" onclick="loadPage(this)">
+                <img class="shadowfilter" src="static/imgs/analytics_32.png">
                 <span>Main Stats</span>
             </a></li>
             <li>
                 <a href="#" data-target="#Meters" data-toggle="collapse">
-                    <img class="shadowfilter" src="static/imgs/meters.png">
+                    <img class="shadowfilter" src="static/imgs/meters_32.png">
                     <span>Meters</span>
                     <i class="fa fa-chevron-right carret"></i>
                 </a>
                 <ul class="list-unstyled collapse" id="Meters">
-                    <li><a href="<?= htmlentities(self::HREF_PATH . self::WATERSTAT_PAGE) ?>" onclick="loadPage(this);">
-                        <img class="shadowfilter" src="static/imgs/waterMeter.png">
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::WATER_STAT_PAGE) ?>" onclick="loadPage(this);">
+                        <img class="shadowfilter" src="static/imgs/water_meter_32.png">
                         <span>Water</span>
                     </a></li>
                     <li><a href="#Meters/Electricity">
-                        <img class="shadowfilter" src="static/imgs/electricityMeter.png">
+                        <img class="shadowfilter" src="static/imgs/electric_meter_1_32.png">
                         <span>Electricity</span>
                     </a></li>
                 </ul>
             </li>
-            <li><a href="<?= htmlentities(self::HREF_PATH . self::SETTINGS_PAGE) ?>" onclick="loadPage(this)">
-                <img class="shadowfilter" src="static/imgs/settings.png">
-                <span>Settings</span>
-            </a></li>
+            <li>
+                <a href="#" data-target="#Settings" data-toggle="collapse">
+                    <img class="shadowfilter" src="static/imgs/settings_32.png">
+                    <span>Settings</span>
+                    <i class="fa fa-chevron-right carret"></i>
+                </a>
+                <ul class="list-unstyled collapse" id="Settings">
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::PGU_SETTINGS_PAGE) ?>" onclick="loadPage(this);">
+                        <img class="shadowfilter" src="static/imgs/sub_settings_32.png">
+                        <span>Mos.ru Settings</span>
+                    </a></li>
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::WATER_SETTINGS_PAGE) ?>" onclick="loadPage(this);">
+                        <img class="shadowfilter" src="static/imgs/sub_settings_32.png">
+                        <span>Water Settings</span>
+                    </a></li>
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::ELECTRICITY_SETTINGS_PAGE) ?>" onclick="loadPage(this);">
+                        <img class="shadowfilter" src="static/imgs/sub_settings_32.png">
+                        <span>Electricity Settings</span>
+                    </a></li>
+                </ul>
+            </li>
         </ul>
     </aside>
 

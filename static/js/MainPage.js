@@ -1,9 +1,11 @@
 /**
  * Created by crazytster on 03.08.17.
  */
-const COMMONSTAT_PAGE     = 'CommonStatPage';
-const SETTINGS_PAGE       = 'SettingsPage';
-const WATERSTAT_PAGE      = 'WaterStatPage';
+const COMMON_STAT_PAGE          = 'CommonStatPage';
+const WATER_STAT_PAGE           = 'WaterStatPage';
+const PGU_SETTINGS_PAGE         = 'PGUSettingsPage';
+const WATER_SETTINGS_PAGE       = 'WaterSettingsPage';
+const ELECTRICITY_SETTINGS_PAGE = 'ElectricitySettingsPage';
 
 jQuery(document).ready(function() {
     $('#sidebar a').on('click', function (e) {
@@ -64,14 +66,15 @@ function loadPage(el)
 function displayTargetContent(target)
 {
     switch(target) {
-        case COMMONSTAT_PAGE:
+        case COMMON_STAT_PAGE:
         default:
             show_main_stats();
             break;
-        case WATERSTAT_PAGE:
+        case WATER_STAT_PAGE:
             show_graph_rate();
             break;
-        case SETTINGS_PAGE:
+        case WATER_SETTINGS_PAGE:
+        case ELECTRICITY_SETTINGS_PAGE:
             getDataFromConfig();
             break;
     }
