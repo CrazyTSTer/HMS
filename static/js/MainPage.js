@@ -74,8 +74,10 @@ function displayTargetContent(target)
             show_graph_rate();
             break;
         case WATER_SETTINGS_PAGE:
+            getDataFromConfig(WATER_CFG);
+            break;
         case ELECTRICITY_SETTINGS_PAGE:
-            getDataFromConfig();
+            getDataFromConfig(ELECTRICITY_CFG);
             break;
     }
 }

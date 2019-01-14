@@ -1,7 +1,7 @@
 //Config sections
-const WATER             = 'water';
-const ELECTRICITY       = 'electricity';
-const PGU               = 'pgu';
+const WATER_CFG             = 'water';
+const ELECTRICITY_CFG       = 'electricity';
+const PGU_CFG               = 'pgu';
 
 //Each config section has two parameters
 const CONFIG_NAME       = 'configName';
@@ -32,22 +32,19 @@ var config = {
 };
 
 //Common
-function getDataFromConfig()
+function getDataFromConfig(cfg)
 {
-    var water_param = {
+    var param = {
         location: LOCATION_SETTINGS,
         action:   ACTION_GET_DATA_FROM_CONFIG,
-        config:   config[WATER][CONFIG_NAME],
+        config:   config[cfg][CONFIG_NAME],
     };
 
-    var electricity_param = {
-        location: LOCATION_SETTINGS,
-        action:   ACTION_GET_DATA_FROM_CONFIG,
-        config:   config[ELECTRICITY][CONFIG_NAME],
-    };
-
-    executeAjaxGetRequest(water_param, parseWaterMetersInfo);
-    executeAjaxGetRequest(electricity_param, parseElectricityMeterInfo);
+    if (cfg == WATER_CFG) {
+        executeAjaxGetRequest(param, parseWaterMetersInfo);
+    } else if (cfg == ELECTRICITY_CFG) {
+        executeAjaxGetRequest(param, parseElectricityMeterInfo);
+    }
 }
 
 function saveDataToConfig(cfg)
@@ -66,7 +63,7 @@ function saveDataToConfig(cfg)
 
 function eraseDataFromConfig(cfg)
 {
-    if (cfg == WATER) {
+    if (cfg == WATER_CFG) {
         $('.js_water_district').text('');
         $('.js_water_street').text('');
         $('.js_water_house').text('');
@@ -81,7 +78,7 @@ function eraseDataFromConfig(cfg)
         $('#waterAddressForm').addClass('d-none');
         $('#waterMetersInfo').addClass('d-none');
         $('#waterSaveForm').addClass('d-none');
-    } else if (cfg == ELECTRICITY) {
+    } else if (cfg == ELECTRICITY_CFG) {
         $('.js_electricity_address').text('');
         $('.js_electricity_setupDate').text('');
         $('.js_electricity_meterType').text('');
@@ -126,7 +123,8 @@ function getWaterMetersInfoFromPgu()
 function parseWaterMetersInfo(result)
 {
     if (result['status'] == 'success') {
-        config[WATER][CONFIG_DATA] = result['data'];
+        var res = result['data'];
+        config[WATER_CFG][CONFIG_DATA] = res;
 
         $('.js_water_district').text('');
         $('.js_water_street').text('');
@@ -137,19 +135,19 @@ function parseWaterMetersInfo(result)
         $('#waterPayCodeInput').val('');
         $('#waterFlatInput').val('');
 
-        if (!jQuery.isEmptyObject(config[WATER][CONFIG_DATA])) {
+        if (!jQuery.isEmptyObject(res)) {
             $('#waterAddressForm').removeClass('d-none');
             $('#waterMetersInfo').removeClass('d-none');
             $('#waterSaveForm').removeClass('d-none');
 
-            $('.js_water_district').text(config[WATER][CONFIG_DATA]['address']['district']);
-            $('.js_water_street').text(config[WATER][CONFIG_DATA]['address']['street']);
-            $('.js_water_house').text(config[WATER][CONFIG_DATA]['address']['house']);
-            $('.js_water_building').text(config[WATER][CONFIG_DATA]['address']['building']);
-            $('.js_water_flat').text(config[WATER][CONFIG_DATA]['address']['flat']);
+            $('.js_water_district').text(res['address']['district']);
+            $('.js_water_street').text(res['address']['street']);
+            $('.js_water_house').text(res['address']['house']);
+            $('.js_water_building').text(res['address']['building']);
+            $('.js_water_flat').text(res['address']['flat']);
 
-            $('#waterPayCodeInput').val(config[WATER][CONFIG_DATA]['paycode']);
-            $('#waterFlatInput').val(config[WATER][CONFIG_DATA]['flat']);
+            $('#waterPayCodeInput').val(res['paycode']);
+            $('#waterFlatInput').val(res['flat']);
         } else {
             $('#waterAddressForm').addClass('d-none');
             $('#waterMetersInfo').addClass('d-none');
@@ -159,8 +157,8 @@ function parseWaterMetersInfo(result)
         var i = 0;
         $("#tableWaterMetersInfo tbody").html("");
 
-        if (config[WATER][CONFIG_DATA]['meters']) {
-            config[WATER][CONFIG_DATA]['meters'].forEach(function(element) {
+        if (res['meters']) {
+            res['meters'].forEach(function(element) {
                 i++;
                 var table_row = "<tr>" +
                     "<td class=\"meter_header\">Meter " + i + "</td>" +
@@ -186,7 +184,7 @@ function parseWaterMetersInfo(result)
 
 function waterTypeChage(el)
 {
-    config[WATER][CONFIG_DATA]['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
+    config[WATER_CFG][CONFIG_DATA]['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
 }
 
 //Electricity
@@ -206,7 +204,8 @@ function getElectricityMeterInfoFromPgu()
 function parseElectricityMeterInfo(result)
 {
     if (result['status'] == 'success') {
-        config[ELECTRICITY][CONFIG_DATA] = result['data'];
+        var res = result['data'];
+        config[ELECTRICITY_CFG][CONFIG_DATA] = res;
 
         $('.js_electricity_address').text('');
         $('.js_electricity_setupDate').text('');
@@ -217,15 +216,15 @@ function parseElectricityMeterInfo(result)
         $('#electricityPayCodeInput').val('');
         $('#electricityMeterID').val('');
 
-        if (!jQuery.isEmptyObject(config[ELECTRICITY][CONFIG_DATA])) {
-            $('.js_electricity_address').text(config[ELECTRICITY][CONFIG_DATA]['address']);
-            $('.js_electricity_setupDate').text(config[ELECTRICITY][CONFIG_DATA]['setupDate']);
-            $('.js_electricity_meterType').text(config[ELECTRICITY][CONFIG_DATA]['meterType']);
-            $('.js_electricity_numberOfDigit').text(config[ELECTRICITY][CONFIG_DATA]['numberOfDigit']);
-            $('.js_electricity_MPI').text(config[ELECTRICITY][CONFIG_DATA]['MPI']);
+        if (!jQuery.isEmptyObject(res)) {
+            $('.js_electricity_address').text(res['address']);
+            $('.js_electricity_setupDate').text(res['setupDate']);
+            $('.js_electricity_meterType').text(res['meterType']);
+            $('.js_electricity_numberOfDigit').text(res['numberOfDigit']);
+            $('.js_electricity_MPI').text(res['MPI']);
 
-            $('#electricityPayCodeInput').val(config[ELECTRICITY][CONFIG_DATA]['paycode']);
-            $('#electricityMeterID').val(config[ELECTRICITY][CONFIG_DATA]['meterID']);
+            $('#electricityPayCodeInput').val(res['paycode']);
+            $('#electricityMeterID').val(res['meterID']);
 
             $('#electricityAddressForm').removeClass('d-none');
             $('#electricitySaveForm').removeClass('d-none');
@@ -245,7 +244,7 @@ function generateElectricityMeterCommands()
     var param = {
         location:   LOCATION_SETTINGS,
         action:     'actionGenerateElectricityMeterCommands',
-        config:     config[ELECTRICITY][CONFIG_NAME],
+        config:     config[ELECTRICITY_CFG][CONFIG_NAME],
     };
 
     executeAjaxPostRequest(param, function(result) {
