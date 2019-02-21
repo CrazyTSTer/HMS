@@ -72,10 +72,10 @@ class Utils
 
     public static function crc16_modbus($data)
     {
-        //Calculating crc16_modbus
+        $data = pack('H*', $data);
         $crc = 0xFFFF;
-        for ($i = 0; $i < count($data); $i++) {
-            $crc ^= $data[$i];
+        for ($i = 0; $i < strlen($data); $i++) {
+            $crc ^= ord($data[$i]);
             for ($j = 8; $j != 0; $j--) {
                 if (($crc & 0x0001) != 0) {
                     $crc >>= 1;
@@ -85,15 +85,6 @@ class Utils
                 }
             }
         }
-
-        //Convert result to two bytes array
-        $res = [];
-        for ($i = 0; $i < 2; $i++) {
-            $res[] = $crc & 0xFF;
-            $crc = $crc >> 8;
-        }
-        //$res = array_reverse($res);
-
-        return $res;
+        return sprintf("%02X%02X", ($crc & 0xFF), ($crc >> 8));
     }
 }

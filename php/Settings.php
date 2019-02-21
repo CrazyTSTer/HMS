@@ -122,15 +122,10 @@ class Settings
         $meterID = $this->cfg->get('meterID');
         if ($meterID) {
             $addr = substr($meterID, -6);
-            $hexAddress = [];
-            for ($i = 0; $i < 4; $i++) {
-                $hexAddress[] = $addr & 0xFF;
-                $addr = $addr >> 8;
-            }
-            $hexAddress = array_reverse($hexAddress);
+            $hexAddress = sprintf("%08X", $addr);
 
             foreach (Electricity::CMD_CODE as $cmdName => $cmdCode) {
-                $result[$cmdName] = Electricity::generateCommand($hexAddress, $cmdCode);
+                $result[$cmdName] = $hexAddress . $cmdCode . Utils::crc16_modbus($hexAddress . $cmdCode);
             }
 
             $this->cfg->set('commands', $result);
