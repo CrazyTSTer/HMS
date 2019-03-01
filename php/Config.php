@@ -10,7 +10,7 @@ class Config
 
     /**
      * @param string $name
-     * @return Settings
+     * @return Config
      * @throws Exception
      */
     public static function getConfig(string $name)
@@ -23,7 +23,9 @@ class Config
         if (!preg_match('/^[0-9a-zA-Z_]+(?:\/[0-9a-zA-Z_]+)*$/', $name)) {
             throw new Exception('Wrong config name.');
         }
-        if (!is_dir(CONFIG_PATH)) {mkdir(CONFIG_PATH);}
+        if (!is_dir(CONFIG_PATH)) {
+            mkdir(CONFIG_PATH);
+        }
         $cfgFullPath = CONFIG_PATH . '/' . $name . '.' . CONFIG_EXT;
         if (file_exists($cfgFullPath)) {
             $this->config = json_decode(file_get_contents($cfgFullPath), true);
@@ -51,7 +53,6 @@ class Config
                     $tmp[$el] = [];
                     $tmp = &$tmp[$el];
                 }
-
             }
             if (empty($last_el)) {
                 $tmp[] = $var;

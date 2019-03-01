@@ -4,56 +4,49 @@ const ELECTRICITY_CFG       = 'electricity';
 const PGU_CFG               = 'pgu';
 
 //Each config section has two parameters
-const CONFIG_NAME       = 'configName';
 const CONFIG_DATA       = 'data';
 
 //Php class name
-const LOCATION_SETTINGS = 'Settings';
+const WATER_SETTINGS_CLASS       = 'WaterMetersSettings';
+const ELECTRICITY_SETTINGS_CLASS = 'ElectricityMetersSettings';
 
 //Php method in class
-const ACTION_GET_DATA_FROM_CONFIG   = 'actionGetDataFromConfig';
-const ACTION_SAVE_DATA_TO_CONFIG    = 'actionSaveDataToConfig';
-const ACTION_ERASE_DATA_FROM_CONFIG = 'actionEraseDataFromConfig';
+const ACTION_GET_METERS_SETTINGS   = 'actionGetMetersSettings';
+const ACTION_SAVE_METERS_SETTINGS    = 'actionSaveMetersSettings';
+const ACTION_ERASE_METERS_SETTINGS = 'actionEraseMetersSettings';
 
-
-var config = {
-    water: {
-        configName: 'WaterMeterInfo',
-        data: [],
-    },
-    electricity: {
-        configName: 'ElectricityMeterInfo',
-        data: [],
-    },
-    pgu: {
-        configName: 'PguInfo',
-        data: [],
-    },
-};
+var WaterMetersSettings;
+var ElectricityMetersSettings;
 
 //Common
-function getDataFromConfig(cfg)
+function getMetersSettings(settingsClass)
 {
     var param = {
-        location: LOCATION_SETTINGS,
-        action:   ACTION_GET_DATA_FROM_CONFIG,
-        config:   config[cfg][CONFIG_NAME],
+        location: settingsClass,
+        action:   ACTION_GET_METERS_SETTINGS,
     };
 
-    if (cfg == WATER_CFG) {
+    if (settingsClass == WATER_SETTINGS_CLASS) {
         executeAjaxGetRequest(param, parseWaterMetersInfo);
-    } else if (cfg == ELECTRICITY_CFG) {
+    } else if (settingsClass == ELECTRICITY_SETTINGS_CLASS) {
         executeAjaxGetRequest(param, parseElectricityMeterInfo);
     }
 }
 
-function saveDataToConfig(cfg)
+function saveMetersSettings(settingsClass)
 {
+    var data;
+
+    if (settingsClass == WATER_SETTINGS_CLASS) {
+        data = WaterMetersSettings;
+    } else if (settingsClass == ELECTRICITY_SETTINGS_CLASS) {
+        data = ElectricityMetersSettings;
+    }
+
     var param = {
-        location:   LOCATION_SETTINGS,
-        action:     ACTION_SAVE_DATA_TO_CONFIG,
-        config:     config[cfg][CONFIG_NAME],
-        dataToSave: JSON.stringify(config[cfg][CONFIG_DATA]),
+        location:   settingsClass,
+        action:     ACTION_SAVE_METERS_SETTINGS,
+        dataToSave: JSON.stringify(data),
     };
 
     executeAjaxPostRequest(param, function(result) {
@@ -61,9 +54,9 @@ function saveDataToConfig(cfg)
     });
 }
 
-function eraseDataFromConfig(cfg)
+function eraseMetersSettings(settingsClass)
 {
-    if (cfg == WATER_CFG) {
+    if (settingsClass == WATER_SETTINGS_CLASS) {
         $('.js_water_district').text('');
         $('.js_water_street').text('');
         $('.js_water_house').text('');
@@ -78,7 +71,8 @@ function eraseDataFromConfig(cfg)
         $('#waterAddressForm').addClass('d-none');
         $('#waterMetersInfo').addClass('d-none');
         $('#waterSaveForm').addClass('d-none');
-    } else if (cfg == ELECTRICITY_CFG) {
+        WaterMetersSettings = [];
+    } else if (settingsClass == ELECTRICITY_SETTINGS_CLASS) {
         $('.js_electricity_address').text('');
         $('.js_electricity_setupDate').text('');
         $('.js_electricity_meterType').text('');
@@ -91,14 +85,12 @@ function eraseDataFromConfig(cfg)
         $('#electricityAddressForm').addClass('d-none');
         $('#electricitySaveForm').addClass('d-none');
         $('#generateMeterCommandsForm').addClass('d-none');
+        ElectricityMetersSettings = [];
     }
 
-    config[cfg][CONFIG_DATA] = [];
-
     var param = {
-        location:   LOCATION_SETTINGS,
-        action:     ACTION_ERASE_DATA_FROM_CONFIG,
-        config:     config[cfg][CONFIG_NAME],
+        location:   settingsClass,
+        action:     ACTION_ERASE_METERS_SETTINGS,
     };
 
     executeAjaxPostRequest(param, function(result) {
@@ -110,9 +102,8 @@ function eraseDataFromConfig(cfg)
 function getWaterMetersInfoFromPgu()
 {
     var param = {
-        location: LOCATION_SETTINGS,
+        location: WATER_SETTINGS_CLASS,
         action:   'actionGetWaterMetersInfoFromPgu',
-        config:   'Water',
         paycode:  $('#waterPayCodeInput').val(),
         flat:     $('#waterFlatInput').val(),
     };
@@ -124,7 +115,7 @@ function parseWaterMetersInfo(result)
 {
     if (result['status'] == 'success') {
         var res = result['data'];
-        config[WATER_CFG][CONFIG_DATA] = res;
+        WaterMetersSettings = res;
 
         $('.js_water_district').text('');
         $('.js_water_street').text('');
@@ -184,16 +175,15 @@ function parseWaterMetersInfo(result)
 
 function waterTypeChage(el)
 {
-    config[WATER_CFG][CONFIG_DATA]['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
+    WaterMetersSettings['meters'][el.id.split('_').pop() - 1]['type'] = el.value;
 }
 
 //Electricity
 function getElectricityMeterInfoFromPgu()
 {
     var param = {
-        location:            LOCATION_SETTINGS,
+        location:            ELECTRICITY_SETTINGS_CLASS,
         action:              'actionGetElectricityMeterInfoFromPgu',
-        config:              'Electricity',
         electricityPayCode:  $('#electricityPayCodeInput').val(),
         meterID:             $('#electricityMeterID').val(),
     };
@@ -205,7 +195,7 @@ function parseElectricityMeterInfo(result)
 {
     if (result['status'] == 'success') {
         var res = result['data'];
-        config[ELECTRICITY_CFG][CONFIG_DATA] = res;
+        ElectricityMetersSettings = res;
 
         $('.js_electricity_address').text('');
         $('.js_electricity_setupDate').text('');
@@ -242,18 +232,11 @@ function parseElectricityMeterInfo(result)
 function generateElectricityMeterCommands()
 {
     var param = {
-        location:   LOCATION_SETTINGS,
+        location:   ELECTRICITY_SETTINGS_CLASS,
         action:     'actionGenerateElectricityMeterCommands',
-        config:     config[ELECTRICITY_CFG][CONFIG_NAME],
     };
 
     executeAjaxPostRequest(param, function(result) {
         showModalAlert(result['status'], result['data']);
     });
-}
-
-//PGU
-function getPGUInfoFromForm()
-{
-
 }

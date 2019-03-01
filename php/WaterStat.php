@@ -50,8 +50,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
-    const MYSQL_PORT        = 3306;
+    const MYSQL_HOST        = 'crazytster.ddns.net';
+    const MYSQL_PORT        = 6033;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
@@ -61,8 +61,6 @@ class WaterStat
     const COLDWATER = 'coldwater';
     const HOTWATER  = 'hotwater';
     const TIMESTAMP = 'ts';
-
-    const CFG_NAME = 'WaterMeterInfo';
 
     /** @var  DB */
     private $db;
@@ -107,7 +105,6 @@ class WaterStat
         if (!array_key_exists(self::COLDWATER, $tmp) || !array_key_exists(self::HOTWATER, $tmp)) {
             Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
         }
-
 
         if (!$this->db->isDBReady()) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
@@ -179,6 +176,7 @@ class WaterStat
 
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
+
             case 'current':
                 $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
                 $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
@@ -196,10 +194,11 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date  . '\'', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date . '\'', 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
-                    $date == date('Y-m-d'));
+                    $date == date('Y-m-d')
+                );
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
 
@@ -208,7 +207,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'' , 'table' => self::MYSQL_TABLE_WATER]);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'', 'table' => self::MYSQL_TABLE_WATER]);
                 $ret['current_month'] = Parser::parseMonth($current_month, $date == date('Y-m'));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
@@ -220,10 +219,10 @@ class WaterStat
 
     public function actionSendDataToPGU()
     {
-        $this->cfg = Config::getConfig(self::CFG_NAME);
-        $paycode = $this->cfg->get('paycode');
-        $flat = $this->cfg->get('flat');
-        $meters = $this->cfg->get('meters');
+        $paycode = WaterMetersSettings::$cfg->get('paycode');
+        $meters  = WaterMetersSettings::$cfg->get('meters');
+        $flat    = WaterMetersSettings::$cfg->get('flat');
+
         if (empty($meters) || !$paycode || !$flat) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'No meters data. Check Settings page');
         }
@@ -234,7 +233,8 @@ class WaterStat
                 $tmpMeters[] = [
                     'counterNum' => $meter['counterNum'],
                     'counterVal' => $meter['type'] == 1 ? number_format($result[self::COLDWATER] / 1000, 3, ',', '') :
-                        ($meter['type'] == 2 ? number_format($result[self::HOTWATER] / 1000, 3, ',', '') : null),
+                        ($meter['type'] == 2 ? number_format($result[self::HOTWATER] / 1000, 3, ',', '') :
+                            null),
                     'num'        => $meter['num'],
                     'period'     => date('Y-m-t'),
                 ];

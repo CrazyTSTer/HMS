@@ -10,10 +10,12 @@ include_once "DB.php";
 include_once "Vars.php";
 include_once "Parser.php";
 include_once "WaterStat.php";
-include_once "Settings.php";
+include_once "CommonSettings.php";
 include_once "Config.php";
 include_once "PguApi.php";
 include_once "Electricity.php";
+include_once "WaterMetersSettings.php";
+include_once "ElectricityMetersSettings.php";
 
 class Utils
 {
@@ -70,9 +72,11 @@ class Utils
         exit(0);
     }
 
-    public static function crc16_modbus($data)
+    public static function crc16_modbus($data, $pack = true)
     {
-        $data = pack('H*', $data);
+        if ($pack) {
+            $data = pack('H*', $data);
+        }
         $crc = 0xFFFF;
         for ($i = 0; $i < strlen($data); $i++) {
             $crc ^= ord($data[$i]);

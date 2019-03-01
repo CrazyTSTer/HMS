@@ -88,7 +88,7 @@ class Parser
         if ($data == false || $data == DB::MYSQL_EMPTY_SELECTION) {
             $ret = [
                 "status" => Utils::STATUS_FAIL,
-                "data" => 'Can\'t get current ' . !$isLast12Month ? 'day' : 'month' .  ' data from DB'
+                "data" => 'Can\'t get current ' . !$isLast12Month ? 'day' : 'month' . ' data from DB'
             ];
         } else {
             $ret['data'][WaterStat::TIMESTAMP][] = 'ts';
@@ -108,10 +108,7 @@ class Parser
             $ts = strtotime($data[$data[DB::MYSQL_ROWS_COUNT] - 1][WaterStat::TIMESTAMP]);
 
             //Если для текущего дня/месяца еще нет данных, добавляем нулевую точку
-            if (!$isLast12Month ?
-                (date('Y-m-d', $ts) < date('Y-m-d') && $isCurrentMonth) :
-                date('Y-m', $ts) < date('Y-m')
-            ) {
+            if (!$isLast12Month ? (date('Y-m-d', $ts) < date('Y-m-d') && $isCurrentMonth) : date('Y-m', $ts) < date('Y-m')) {
                 $ret['data'][WaterStat::TIMESTAMP][] = !$isLast12Month ? date('Y-m-d') : date('Y-m');
                 $ret['data'][WaterStat::COLDWATER][] = 0;
                 $ret['data'][WaterStat::HOTWATER][] = 0;

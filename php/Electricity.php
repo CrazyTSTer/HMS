@@ -2,37 +2,40 @@
 
 class Electricity
 {
+    const GET_SERIAL_NUMBER          = 'getSerialNumber';
+    const GET_MANUFACTURED_DATE      = 'getManufacturedDate';
+    const GET_FIRMWARE_VERSION       = 'getFirmWareVersion';
+    const GET_BATTERY_VOLTAGE        = 'getBatteryVoltage';
+    const GET_LAST_SWITCH_ON         = 'getLastSwitchOn';
+    const GET_LAST_SWITCH_OFF        = 'getLastSwitchOff';
+    const GET_CURRENT_CIRCUIT_VALUES = 'getCurrentCircuitValues';
+    const GET_CURRENT_POWER_VALUES   = 'getCurrentPowerValues';
+    const GET_CURRENT_POWER          = 'getCurrentPower';
+    const GET_POWER_VALUES_BY_MONTH  = 'getPowerValuesByMonth';
+
     const CMD_CODE = [
-        'getSerialNumber'            => "2F",
-        'getManufacturedDate'        => "66",
-        'getFirmWareVersion'         => "28",
-        'getBatteryVoltage'          => "29",
-        'getLastSwitchOn'            => "2C",
-        'getLastSwitchOff'           => "2B",
-        'getCurrentCircuitValues'    => "63",
-        'getCurrentPowerValues'      => "27",
-        'getCurrentPower'            => "26",
-        //'getPowerValuesByMonth'      => "32",
+        self::GET_SERIAL_NUMBER          => '2F',
+        self::GET_MANUFACTURED_DATE      => '66',
+        self::GET_FIRMWARE_VERSION       => '28',
+        self::GET_BATTERY_VOLTAGE        => '29',
+        self::GET_LAST_SWITCH_ON         => '2C',
+        self::GET_LAST_SWITCH_OFF        => '2B',
+        self::GET_CURRENT_CIRCUIT_VALUES => '63',
+        self::GET_CURRENT_POWER          => '27',
+        self::GET_CURRENT_POWER          => '26',
+        self::GET_POWER_VALUES_BY_MONTH  => [
+            'jan' => '3201',
+            'feb' => '3202',
+            'mar' => '3203',
+            'apr' => '3204',
+            'may' => '3205',
+            'jun' => '3206',
+            'jul' => '3207',
+            'aug' => '3208',
+            'sep' => '3209',
+            'oct' => '320A',
+            'nov' => '320B',
+            'dec' => '320C',
+        ],
     ];
-
-    const CFG_NAME = 'ElectricityMeterInfo';
-
-    /** @var  Config */
-    private $cfg;
-
-    public function actionESPWhoAmI()
-    {
-        $host = Vars::get('host', null);
-        $port = Vars::get('port', null);
-
-        if (!$host || !$port) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::STATUS_FAIL);
-        }
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
-
-        $this->cfg = Config::getConfig(self::CFG_NAME);
-        $this->cfg->set('host', $host);
-        $this->cfg->set('port', $port);
-        $this->cfg->save();
-    }
 }

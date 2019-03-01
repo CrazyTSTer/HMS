@@ -11,14 +11,14 @@ class PguApi
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_COOKIEJAR      => self::COOKIE_FILE_PATH ,
+        CURLOPT_COOKIEJAR      => self::COOKIE_FILE_PATH,
         CURLOPT_COOKIEFILE     => self::COOKIE_FILE_PATH,
     ];
-
 
     const MY_PGU    = 'https://my.mos.ru/my';
     const AUTH_PAGE = 'https://login.mos.ru/sps/login/methods/password';
     const URL       = 'https://www.mos.ru/pgu/common/ajax/index.php';
+
     //Water
     public static function getWaterMetersInfo($paycode, $flat)
     {
@@ -232,7 +232,9 @@ class PguApi
             );
         } else {
             //Clear cookies
-            if (!is_dir(self::COOKIE_DIR)) {mkdir(self::COOKIE_DIR);}
+            if (!is_dir(self::COOKIE_DIR)) {
+                mkdir(self::COOKIE_DIR);
+            }
             file_put_contents(self::COOKIE_FILE_PATH, "");
             //Get first link follow to auth page
             $res = file_get_contents(self::MY_PGU);

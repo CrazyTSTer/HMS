@@ -7,7 +7,6 @@
  */
 ini_set('display_errors', "1");
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-define('SETTINGS_CLASS', 'Settings');
 
 include_once "php/Utils.php";
 
@@ -40,13 +39,7 @@ class ASMS
     {
         if ($this->location) {
             if (class_exists($this->location)) {
-                if ($this->location == SETTINGS_CLASS) {
-                    $cfgName = Vars::get('config', null);
-                    if (!$cfgName) {
-                        Utils::reportError(__CLASS__, "Config name should be passed to Settings class constructor", $this->debug);
-                    }
-                }
-                $obj = new $this->location($this->debug, $cfgName ?? null);
+                $obj = new $this->location($this->debug);
                 if (method_exists($obj, $this->action)) {
                     $method = $this->action;
                     $obj->$method();
@@ -64,15 +57,19 @@ class ASMS
                 case self::COMMON_STAT_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::COMMON_STAT_PAGE . self::PAGE_EXT);
                     break;
+
                 case self::WATER_STAT_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::WATER_STAT_PAGE . self::PAGE_EXT);
                     break;
+
                 case self::PGU_SETTINGS_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::PGU_SETTINGS_PAGE . self::PAGE_EXT);
                     break;
+
                 case self::WATER_SETTINGS_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::WATER_SETTINGS_PAGE . self::PAGE_EXT);
                     break;
+
                 case self::ELECTRICITY_SETTINGS_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::ELECTRICITY_SETTINGS_PAGE . self::PAGE_EXT);
                     break;
@@ -90,15 +87,12 @@ class ASMS
     }
 }
 
-if (!function_exists('getallheaders'))
-{
+if (!function_exists('getallheaders')) {
     function getallheaders()
     {
         $headers = [];
-        foreach ($_SERVER as $name => $value)
-        {
-            if (substr($name, 0, 5) == 'HTTP_')
-            {
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
             }
         }
