@@ -9,32 +9,32 @@ class ElectricityMetersSettings extends CommonSettings
 {
     const CFG_NAME = 'ElectricityMetersConfig';
 
-    private static $debug;
+    private $debug;
 
     public function __construct($debug)
     {
-        self::$debug = $debug;
+        $this->debug = $debug;
         parent::__construct(self::CFG_NAME);
     }
 
-    public static function actionGetElectricityMeterInfoFromPgu()
+    public function actionGetElectricityMeterInfoFromPgu()
     {
         if (!Vars::check('electricityPayCode')) {
-            Utils::reportError(__CLASS__, 'PayCode should be passed', self::$debug);
+            Utils::reportError(__CLASS__, 'PayCode should be passed', $this->debug);
         }
 
         $electricityPayCode = Vars::getPostVar('electricityPayCode', null);
         if (!$electricityPayCode) {
-            Utils::reportError(__CLASS__, 'Passed empty PayCode', self::$debug);
+            Utils::reportError(__CLASS__, 'Passed empty PayCode', $this->debug);
         }
 
         if (!Vars::check('meterID')) {
-            Utils::reportError(__CLASS__, 'meterID should be passed', self::$debug);
+            Utils::reportError(__CLASS__, 'meterID should be passed', $this->debug);
         }
 
         $meterID = Vars::getPostVar('meterID', null);
         if (!$meterID) {
-            Utils::reportError(__CLASS__, 'Passed empty meterID', self::$debug);
+            Utils::reportError(__CLASS__, 'Passed empty meterID', $this->debug);
         }
 
         PguApi::checkElectricityPayCode($electricityPayCode);
@@ -47,9 +47,9 @@ class ElectricityMetersSettings extends CommonSettings
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
     }
 
-    public static function actionGenerateElectricityMeterCommands()
+    public function actionGenerateElectricityMeterCommands()
     {
-        $meterID = ElectricityMetersSettings::$cfg->get('meterID');
+        $meterID = $this->cfg->get('meterID');
         if ($meterID) {
             $addr = substr($meterID, -6);
             $hexAddress = sprintf("%08X", $addr);
@@ -64,18 +64,18 @@ class ElectricityMetersSettings extends CommonSettings
                 }
             }
 
-            self::$cfg->set('commands', $result);
-            self::$cfg->save();
-            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Команды счетчика успешно сгенерированы.');
+            $this->cfg->set('commands', $result);
+            $this->cfg->save();
+            Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Meter commands successfully generated');
         } else {
             Utils::unifiedExitPoint(
                 Utils::STATUS_FAIL,
-                'В конфиг-файле не указан номер счетчика.<br>Укажите номер счетчика и сохраните конфиг.'
+                'MeterID is empty<br>Setup MetersID and save it to config'
             );
         }
     }
 
-    public static function actionESPWhoAmI()
+    public function actionESPWhoAmI()
     {
         $host = Vars::get('host', null);
         $port = Vars::get('port', null);
@@ -85,8 +85,8 @@ class ElectricityMetersSettings extends CommonSettings
         }
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
 
-        self::$cfg->set('host', $host);
-        self::$cfg->set('port', $port);
-        self::$cfg->save();
+        $this->cfg->set('host', $host);
+        $this->cfg->set('port', $port);
+        $this->cfg->save();
     }
 }

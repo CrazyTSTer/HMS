@@ -9,32 +9,32 @@ class WaterMetersSettings extends CommonSettings
 {
     const CFG_NAME = 'WaterMetersConfig';
 
-    private static $debug;
+    private $debug;
 
     public function __construct($debug)
     {
-        self::$debug = $debug;
+        $this->debug = $debug;
         parent::__construct(self::CFG_NAME);
     }
 
-    public static function actionGetWaterMetersInfoFromPgu()
+    public function actionGetWaterMetersInfoFromPgu()
     {
         if (!Vars::check('paycode')) {
-            Utils::reportError(__CLASS__, 'PayCode should be passed', self::$debug);
+            Utils::reportError(__CLASS__, 'PayCode should be passed', $this->debug);
         }
 
         $paycode = Vars::getPostVar('paycode', null);
         if (!$paycode) {
-            Utils::reportError(__CLASS__, 'Passed empty PayCode', self::$debug);
+            Utils::reportError(__CLASS__, 'Passed empty PayCode', $this->debug);
         }
 
         if (!Vars::check('flat')) {
-            Utils::reportError(__CLASS__, 'Flat number should be passed', self::$debug);
+            Utils::reportError(__CLASS__, 'Flat number should be passed', $this->debug);
         }
 
         $flat = Vars::getPostVar('flat', null);
         if (!$flat) {
-            Utils::reportError(__CLASS__, 'Passed empty Flat number', self::$debug);
+            Utils::reportError(__CLASS__, 'Passed empty Flat number', $this->debug);
         }
 
         $result = PguApi::getWaterMetersInfo($paycode, $flat);

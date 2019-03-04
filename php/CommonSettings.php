@@ -3,31 +3,31 @@
 class CommonSettings
 {
     /** @var  Config */
-    public static $cfg;
+    public $cfg;
 
     public function __construct($cfgName)
     {
-        self::$cfg = Config::getConfig($cfgName);
+        $this->cfg = Config::getConfig($cfgName);
     }
 
-    public static function actionGetMetersSettings()
+    public function actionGetMetersSettings()
     {
-        $ret = self::$cfg->get();
+        $ret = $this->cfg->get();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
 
-    public static function actionSaveMetersSettings()
+    public function actionSaveMetersSettings()
     {
         $dataToSave = json_decode(Vars::get('dataToSave', null), true);
-        self::$cfg->set(null, $dataToSave);
-        self::$cfg->save();
+        $this->cfg->set(null, $dataToSave);
+        $this->cfg->save();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Saved');
     }
 
-    public static function actionEraseMetersSettings()
+    public function actionEraseMetersSettings()
     {
-        self::$cfg->drop();
-        self::$cfg->save();
+        $this->cfg->drop();
+        $this->cfg->save();
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Data Erased');
     }
 }

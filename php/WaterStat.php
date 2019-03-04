@@ -50,8 +50,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = 'crazytster.ddns.net';
-    const MYSQL_PORT        = 6033;
+    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_PORT        = 3066;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
@@ -65,8 +65,6 @@ class WaterStat
     /** @var  DB */
     private $db;
 
-    /** @var  Config */
-    private $cfg;
     private $debug;
 
     public function __construct($debug)
@@ -219,9 +217,10 @@ class WaterStat
 
     public function actionSendDataToPGU()
     {
-        $paycode = WaterMetersSettings::$cfg->get('paycode');
-        $meters  = WaterMetersSettings::$cfg->get('meters');
-        $flat    = WaterMetersSettings::$cfg->get('flat');
+        $WaterSettings = new WaterMetersSettings($this->debug);
+        $paycode = $WaterSettings->cfg->get('paycode');
+        $meters  = $WaterSettings->cfg->get('meters');
+        $flat    = $WaterSettings->cfg->get('flat');
 
         if (empty($meters) || !$paycode || !$flat) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'No meters data. Check Settings page');
@@ -239,7 +238,7 @@ class WaterStat
                     'period'     => date('Y-m-t'),
                 ];
             }
-            PguApi::sendWaterMetersData($paycode, $flat, $tmpMeters, $this->debug);
+            PguApi::sendWaterMetersData($paycode, $flat, $tmpMeters);
         } else {
             Utils::reportError(__CLASS__, 'Failed to send data to PGU. Can\'t get meters last values', $this->debug);
         }
