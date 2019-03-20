@@ -1,6 +1,6 @@
 <?php
 
-class Electricity
+class ElectricityStat
 {
     const GET_SERIAL_NUMBER          = 'getSerialNumber';
     const GET_MANUFACTURED_DATE      = 'getManufacturedDate';
@@ -21,7 +21,7 @@ class Electricity
         self::GET_LAST_SWITCH_ON         => '2C',
         self::GET_LAST_SWITCH_OFF        => '2B',
         self::GET_CURRENT_CIRCUIT_VALUES => '63',
-        self::GET_CURRENT_POWER          => '27',
+        self::GET_CURRENT_POWER_VALUES   => '27',
         self::GET_CURRENT_POWER          => '26',
         self::GET_POWER_VALUES_BY_MONTH  => [
             'jan' => '3201',

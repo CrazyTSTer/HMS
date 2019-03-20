@@ -13,7 +13,7 @@ include_once "WaterStat.php";
 include_once "CommonSettings.php";
 include_once "Config.php";
 include_once "PguApi.php";
-include_once "Electricity.php";
+include_once "ElectricityStat.php";
 include_once "WaterMetersSettings.php";
 include_once "ElectricityMetersSettings.php";
 
