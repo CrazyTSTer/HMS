@@ -75,8 +75,9 @@ class Utils
     public static function crc16_modbus($data, $pack = true)
     {
         if ($pack) {
-            $data = pack('H*', $data);
+            $data = hex2bin($data);
         }
+
         $crc = 0xFFFF;
         for ($i = 0; $i < strlen($data); $i++) {
             $crc ^= ord($data[$i]);
@@ -89,6 +90,7 @@ class Utils
                 }
             }
         }
-        return sprintf("%02X%02X", ($crc & 0xFF), ($crc >> 8));
+
+        return sprintf("%02x%02x", ($crc & 0xFF), ($crc >> 8));
     }
 }

@@ -38,4 +38,52 @@ class ElectricityStat
             'dec' => '320C',
         ],
     ];
+
+    const CFG_NAME = 'ElectricityMetersConfig';
+
+    const COMMANDS = 'commands';
+
+    private $debug;
+
+    /** @var  Config */
+    public $cfg;
+
+    public function __construct($debug)
+    {
+        $this->debug = $debug;
+        $this->cfg = Config::getConfig(self::CFG_NAME);
+    }
+
+    public function executeCommand($command, $attempts = 10)
+    {
+        $exec = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $command);
+        $fp = fsockopen($this->cfg->get(ElectricityMetersSettings::HOST), $this->cfg->get(ElectricityMetersSettings::PORT), $errno, $errstr, 30);
+        if (!$fp) {
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
+        }
+
+        for ($i = 0; $i < $attempts; $i++) {
+            fwrite($fp, hex2bin($exec));
+            $response = fgets($fp);
+
+            $responseCRC = bin2hex(substr($response, -2));
+            $calcResponseCRC = Utils::crc16_modbus(substr($response, 0, strlen($response) - 2), false);
+            var_export($responseCRC);
+            var_export($calcResponseCRC);
+            //die();
+            if ($responseCRC == $calcResponseCRC) {
+                $result = [
+                    'address'  => bin2hex(substr($response, 0, 4)),
+                    'cmd_code' => bin2hex(substr($response, 4, 1)),
+                    'data'     => substr($response, 5, -2),
+                ];
+                break;
+            } else {
+                $result = NULL;
+            }
+        }
+
+        fclose($fp);
+        return $result;
+    }
 }

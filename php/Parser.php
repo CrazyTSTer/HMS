@@ -118,3 +118,36 @@ class Parser
         return $ret;
     }
 }
+
+class ElectricityParser
+{
+    public static function parseData($cmd_code, $data) {
+        switch ($cmd_code) {
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_SERIAL_NUMBER]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_MANUFACTURED_DATE]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_FIRMWARE_VERSION]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_BATTERY_VOLTAGE]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_LAST_SWITCH_ON]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_LAST_SWITCH_OFF]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_CIRCUIT_VALUES]:
+                var_export(strlen($data));
+                $result = unpack('H4Voltage/H4Amperage/H6Power', $data);
+                $result['Voltage'] /= 10;
+                $result['Amperage'] /= 100;
+                $result['Power'] /= 1000;
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_POWER_VALUES]:
+                break;
+            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_POWER]:
+                break;
+        }
+
+        return $result;
+    }
+}

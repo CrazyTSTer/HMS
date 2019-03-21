@@ -8,6 +8,11 @@
 class ElectricityMetersSettings extends CommonSettings
 {
     const CFG_NAME = 'ElectricityMetersConfig';
+    const HOST     = 'host';
+    const PORT     = 'port';
+    const COMMANDS = 'commands';
+    const PAY_CODE = 'paycode';
+    const METER_ID = 'meterID';
 
     private $debug;
 
@@ -41,21 +46,21 @@ class ElectricityMetersSettings extends CommonSettings
         $result = PguApi::checkElectricityMeterID($electricityPayCode, $meterID);
         $result = PguApi::getElectricityMeterInfo($electricityPayCode, $result['schema'], $result['id_kng']);
 
-        $result['paycode'] = $electricityPayCode;
-        $result['meterID'] = $meterID;
+        $result[self::PAY_CODE] = $electricityPayCode;
+        $result[self::METER_ID] = $meterID;
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
     }
 
     public function actionGenerateElectricityMeterCommands()
     {
-        $meterID = $this->cfg->get('meterID');
+        $meterID = $this->cfg->get(self::METER_ID);
         if ($meterID) {
             $addr = substr($meterID, -6);
             $hexAddress = sprintf("%08X", $addr);
 
-            foreach (Electricity::CMD_CODE as $cmdName => $cmdCode) {
-                if ($cmdName == Electricity::GET_POWER_VALUES_BY_MONTH) {
+            foreach (ElectricityStat::CMD_CODE as $cmdName => $cmdCode) {
+                if ($cmdName == ElectricityStat::GET_POWER_VALUES_BY_MONTH) {
                     foreach ($cmdCode as $month => $code) {
                         $result[$cmdName][$month] = $hexAddress . $code . Utils::crc16_modbus($hexAddress . $code);
                     }
@@ -64,7 +69,7 @@ class ElectricityMetersSettings extends CommonSettings
                 }
             }
 
-            $this->cfg->set('commands', $result);
+            $this->cfg->set(self::COMMANDS, $result);
             $this->cfg->save();
             Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, 'Meter commands successfully generated');
         } else {
@@ -77,16 +82,16 @@ class ElectricityMetersSettings extends CommonSettings
 
     public function actionESPWhoAmI()
     {
-        $host = Vars::get('host', null);
-        $port = Vars::get('port', null);
+        $host = Vars::get(self::HOST, null);
+        $port = Vars::get(self::PORT, null);
 
         if (!$host || !$port) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::STATUS_FAIL);
         }
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
 
-        $this->cfg->set('host', $host);
-        $this->cfg->set('port', $port);
+        $this->cfg->set(self::HOST, $host);
+        $this->cfg->set(self::PORT, $port);
         $this->cfg->save();
     }
 }
