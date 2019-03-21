@@ -121,30 +121,35 @@ class Parser
 
 class ElectricityParser
 {
-    public static function parseData($cmd_code, $data) {
-        switch ($cmd_code) {
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_SERIAL_NUMBER]:
+    public static function parseData($cmdName, $data) {
+        switch ($cmdName) {
+            case ElectricityStat::GET_SERIAL_NUMBER:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_MANUFACTURED_DATE]:
+            case ElectricityStat::GET_MANUFACTURED_DATE:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_FIRMWARE_VERSION]:
+            case ElectricityStat::GET_FIRMWARE_VERSION:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_BATTERY_VOLTAGE]:
+            case ElectricityStat::GET_BATTERY_VOLTAGE:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_LAST_SWITCH_ON]:
+            case ElectricityStat::GET_LAST_SWITCH_ON:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_LAST_SWITCH_OFF]:
+            case ElectricityStat::GET_LAST_SWITCH_OFF:
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_CIRCUIT_VALUES]:
-                var_export(strlen($data));
+            case ElectricityStat::GET_CURRENT_CIRCUIT_VALUES:
                 $result = unpack('H4Voltage/H4Amperage/H6Power', $data);
                 $result['Voltage'] /= 10;
                 $result['Amperage'] /= 100;
                 $result['Power'] /= 1000;
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_POWER_VALUES]:
+            case ElectricityStat::GET_CURRENT_POWER_VALUES:
+                $result = unpack('H8TZ1/H8TZ2/H8TZ3/H8TZ4', $data);
+                foreach ($result as &$TZ) {
+                    $TZ /= 100;
+                }
                 break;
-            case ElectricityStat::CMD_CODE[ElectricityStat::GET_CURRENT_POWER]:
+            case ElectricityStat::GET_CURRENT_POWER:
+                $result = unpack('H4Power', $data);
+                $result['Power'] /= 100;
                 break;
         }
 

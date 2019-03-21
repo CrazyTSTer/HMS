@@ -60,12 +60,15 @@ class ElectricityMetersSettings extends CommonSettings
             $hexAddress = sprintf("%08X", $addr);
 
             foreach (ElectricityStat::CMD_CODE as $cmdName => $cmdCode) {
+                $cmdPart = $hexAddress . $cmdCode;
                 if ($cmdName == ElectricityStat::GET_POWER_VALUES_BY_MONTH) {
-                    foreach ($cmdCode as $month => $code) {
-                        $result[$cmdName][$month] = $hexAddress . $code . Utils::crc16_modbus($hexAddress . $code);
+                    foreach (ElectricityStat::CMD_MONTH_SUBCODE as $month => $subCode) {
+                        $cmd = $cmdPart . $subCode . Utils::crc16_modbus($cmdPart . $subCode);
+                        $result[$cmdName][$month] = $cmd ;
                     }
                 } else {
-                    $result[$cmdName] = $hexAddress . $cmdCode . Utils::crc16_modbus($hexAddress . $cmdCode);
+                    $cmd = $cmdPart . Utils::crc16_modbus($cmdPart);
+                    $result[$cmdName] = $cmd;
                 }
             }
 

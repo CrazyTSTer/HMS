@@ -23,20 +23,22 @@ class ElectricityStat
         self::GET_CURRENT_CIRCUIT_VALUES => '63',
         self::GET_CURRENT_POWER_VALUES   => '27',
         self::GET_CURRENT_POWER          => '26',
-        self::GET_POWER_VALUES_BY_MONTH  => [
-            'jan' => '3201',
-            'feb' => '3202',
-            'mar' => '3203',
-            'apr' => '3204',
-            'may' => '3205',
-            'jun' => '3206',
-            'jul' => '3207',
-            'aug' => '3208',
-            'sep' => '3209',
-            'oct' => '320A',
-            'nov' => '320B',
-            'dec' => '320C',
-        ],
+        self::GET_POWER_VALUES_BY_MONTH  => '32',
+    ];
+
+    const CMD_MONTH_SUBCODE = [
+        'jan' => '01',
+        'feb' => '02',
+        'mar' => '03',
+        'apr' => '04',
+        'may' => '05',
+        'jun' => '06',
+        'jul' => '07',
+        'aug' => '08',
+        'sep' => '09',
+        'oct' => '0A',
+        'nov' => '0B',
+        'dec' => '0C',
     ];
 
     const CFG_NAME = 'ElectricityMetersConfig';
@@ -68,8 +70,8 @@ class ElectricityStat
 
             $responseCRC = bin2hex(substr($response, -2));
             $calcResponseCRC = Utils::crc16_modbus(substr($response, 0, strlen($response) - 2), false);
-            var_export($responseCRC);
-            var_export($calcResponseCRC);
+            //var_export($responseCRC);
+            //var_export($calcResponseCRC);
             //die();
             if ($responseCRC == $calcResponseCRC) {
                 $result = [
