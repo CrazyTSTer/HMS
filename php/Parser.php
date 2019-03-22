@@ -142,6 +142,7 @@ class ElectricityParser
                 $result['Power'] /= 1000;
                 break;
             case ElectricityStat::GET_CURRENT_POWER_VALUES:
+            case ElectricityStat::GET_POWER_VALUES_BY_MONTH:
                 $result = unpack('H8TZ1/H8TZ2/H8TZ3/H8TZ4', $data);
                 foreach ($result as &$TZ) {
                     $TZ /= 100;
