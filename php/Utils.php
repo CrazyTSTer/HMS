@@ -91,6 +91,6 @@ class Utils
             }
         }
 
-        return sprintf("%02x%02x", ($crc & 0xFF), ($crc >> 8));
+        return sprintf("%02X%02X", ($crc & 0xFF), ($crc >> 8));
     }
 }

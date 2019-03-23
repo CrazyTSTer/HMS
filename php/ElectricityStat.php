@@ -39,25 +39,6 @@ class ElectricityStat
         'oct' => '09',
         'nov' => '0A',
         'dec' => '0B',
-        /*'month0C' => '0C',
-        'month0D' => '0D',
-        'month0E' => '0E',
-        'month0F' => '0F',
-        'month10' => '10',
-        'month11' => '11',
-        'month12' => '12',
-        'month13' => '13',
-        'month14' => '14',
-        'month15' => '15',
-        'month16' => '16',
-        'month17' => '17',
-        'month18' => '18',
-        'month19' => '19',
-        'month1A' => '1A',
-        'month1B' => '1B',
-        'month1C' => '1C',
-        'month1E' => '1D',
-        'month1F' => '1E',*/
     ];
 
     const CFG_NAME = 'ElectricityMetersConfig';
@@ -79,17 +60,18 @@ class ElectricityStat
     {
         if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
             foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
-                $result[$cmdName][$month] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month));
+                $result[$cmdName][$month] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month), $attempts);
             }
         } else {
-            $result[$cmdName] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName));
+            $result[$cmdName] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName), $attempts);
         }
 
         return $result;
     }
 
-    public function sendRequest($cmd, $attempts = 10)
+    private function sendRequest($cmd, $attempts)
     {
+        $result = NULL;
         for ($i = 0; $i < $attempts; $i++) {
             $fp = fsockopen($this->cfg->get(ElectricityMetersSettings::HOST), $this->cfg->get(ElectricityMetersSettings::PORT), $errno, $errstr, 30);
             if (!$fp) {
@@ -99,19 +81,14 @@ class ElectricityStat
             $response = fgets($fp);
             fclose($fp);
 
-            $responseCRC = bin2hex(substr($response, -2));
-            $calcResponseCRC = Utils::crc16_modbus(substr($response, 0, strlen($response) - 2), false);
+            $responseDecoded = strtoupper(bin2hex($response));
+
+            $responseCRC = substr($responseDecoded, -4);
+            $calcResponseCRC = Utils::crc16_modbus(substr($responseDecoded, 0, strlen($responseDecoded) - 4));
 
             if ($responseCRC == $calcResponseCRC) {
-                $result = [
-                    'address'  => bin2hex(substr($response, 0, 4)),
-                    'cmd_code' => bin2hex(substr($response, 4, 1)),
-                    'data'     => /*bin2hex(*/substr($response, 5, -2)//),
-
-                ];
+                $result = substr($responseDecoded, 10, -4);
                 break;
-            } else {
-                $result = NULL;
             }
         }
         return $result;
