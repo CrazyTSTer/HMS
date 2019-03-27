@@ -12,6 +12,7 @@ class ElectricityStat
     const GET_CURRENT_POWER_VALUES   = 'getCurrentPowerValues';
     const GET_CURRENT_POWER          = 'getCurrentPower';
     const GET_POWER_VALUES_BY_MONTH  = 'getPowerValuesByMonth';
+    const GET_CURRENT_DATE_TIME      = 'getCurrentDateTime';
 
     const CMD_CODE = [
         self::GET_SERIAL_NUMBER          => '2F',
@@ -24,6 +25,7 @@ class ElectricityStat
         self::GET_CURRENT_POWER_VALUES   => '27',
         self::GET_CURRENT_POWER          => '26',
         self::GET_POWER_VALUES_BY_MONTH  => '32',
+        self::GET_CURRENT_DATE_TIME      => '21',
     ];
 
     const CMD_MONTH_SUBCODE = [
@@ -56,14 +58,20 @@ class ElectricityStat
         $this->cfg = Config::getConfig(self::CFG_NAME);
     }
 
-    public function executeCommand($cmdName, $attempts = 10)
+    /**
+     * @cmdNames commands array
+     * @return array
+     */
+    public function executeCommands($cmdNames, $attempts = 10)
     {
-        if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
-            foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
-                $result[$cmdName][$month] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month), $attempts);
+        foreach ($cmdNames as $cmdName) {
+            if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
+                foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
+                    $result[$cmdName][$month] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month), $attempts);
+                }
+            } else {
+                $result[$cmdName] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName), $attempts);
             }
-        } else {
-            $result[$cmdName] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName), $attempts);
         }
 
         return $result;
@@ -75,7 +83,8 @@ class ElectricityStat
         for ($i = 0; $i < $attempts; $i++) {
             $fp = fsockopen($this->cfg->get(ElectricityMetersSettings::HOST), $this->cfg->get(ElectricityMetersSettings::PORT), $errno, $errstr, 30);
             if (!$fp) {
-                Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
+                continue;
+                //Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
             }
             fwrite($fp, hex2bin($cmd));
             $response = fgets($fp);

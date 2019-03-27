@@ -121,58 +121,75 @@ class Parser
 
 class ElectricityParser
 {
-    public static function parseData($data) {
-        $cmdName = key($data);
-        $cmdData = $data[$cmdName];
+    /**
+     * @$data [commandName => commandData] array
+     * @return array
+     */
+    public static function parseData($data)
+    {
+        $result = [];
+        foreach ($data as $cmdName => $cmdData) {
+            switch ($cmdName) {
+                case ElectricityStat::GET_SERIAL_NUMBER:
+                    $result[ElectricityStat::GET_SERIAL_NUMBER]['S/N'] = hexdec($cmdData);
+                    break;
 
-        switch ($cmdName) {
-            case ElectricityStat::GET_SERIAL_NUMBER:
-                $result['SN'] = hexdec($cmdData);
-                break;
-            case ElectricityStat::GET_MANUFACTURED_DATE:
-                $tmp = str_split($cmdData, 2);
-                $tmp[2] = '20' . $tmp[2];
-                $result['Manufactured'] = implode('-', $tmp);
-                break;
-            case ElectricityStat::GET_FIRMWARE_VERSION:
-                $tmp = explode('00', $cmdData);
+                case ElectricityStat::GET_MANUFACTURED_DATE:
+                    $date = str_split($cmdData, 2);
+                    $date[2] = '20' . $date[2];
+                    $result[ElectricityStat::GET_MANUFACTURED_DATE]['Manufactured'] = implode('-', $date);
+                    break;
 
-                $version = implode('.', str_split($tmp[0], 2));
+                case ElectricityStat::GET_FIRMWARE_VERSION:
+                    $tmp = explode('00', $cmdData);
 
-                $releaseDate = str_split($tmp[1], 2);
-                $releaseDate[2] = '20' . $releaseDate[2];
-                $releaseDate = implode('-', $releaseDate);
+                    $version = implode('.', str_split($tmp[0], 2));
 
-                $result = [
-                    'Firmware_version'     => $version,
-                    'Version_Release_date' => $releaseDate,
-                ];
-                break;
-            case ElectricityStat::GET_BATTERY_VOLTAGE:
-                $result['BatteryVoltage'] = implode('.', str_split($cmdData, 2));
-                break;
-            case ElectricityStat::GET_LAST_SWITCH_ON:
-            case ElectricityStat::GET_LAST_SWITCH_OFF:
-                //TODO: Parse date time
-                break;
-            case ElectricityStat::GET_CURRENT_CIRCUIT_VALUES:
-                $result = [
-                    'Voltage'  => substr($cmdData,0, 4) / 10,
-                    'Amperage' => substr($cmdData,4, 4) / 100,
-                    'Power'    => substr($cmdData,8, 6) / 1000,
-                ];
-                break;
-            case ElectricityStat::GET_CURRENT_POWER_VALUES:
-                $result = self::parsePowerValuse($cmdData);
-                break;
-            case ElectricityStat::GET_CURRENT_POWER:
-                $result['Power'] = $cmdData / 100;
-                break;
-            case ElectricityStat::GET_POWER_VALUES_BY_MONTH:
-                foreach ($cmdData as $month => $monthData) {
-                    $result[$month] = self::parsePowerValuse($monthData);
-                }
-                break;
+                    $releaseDate = str_split($tmp[1], 2);
+                    $releaseDate[2] = '20' . $releaseDate[2];
+                    $releaseDate = implode('-', $releaseDate);
+
+                    $result[ElectricityStat::GET_FIRMWARE_VERSION] = [
+                        'Firmware_version'     => $version,
+                        'Version_Release_date' => $releaseDate,
+                    ];
+                    break;
+
+                case ElectricityStat::GET_BATTERY_VOLTAGE:
+                    $result[ElectricityStat::GET_BATTERY_VOLTAGE]['BatteryVoltage'] = implode('.', str_split($cmdData, 2));
+                    break;
+
+                case ElectricityStat::GET_LAST_SWITCH_ON:
+                case ElectricityStat::GET_LAST_SWITCH_OFF:
+                    //TODO: Parse date time
+                    break;
+
+                case ElectricityStat::GET_CURRENT_CIRCUIT_VALUES:
+                    $result[ElectricityStat::GET_CURRENT_CIRCUIT_VALUES] = [
+                        'Voltage'  => substr($cmdData, 0, 4) / 10,
+                        'Amperage' => substr($cmdData, 4, 4) / 100,
+                        'Power'    => substr($cmdData, 8, 6) / 1000,
+                    ];
+                    break;
+
+                case ElectricityStat::GET_CURRENT_POWER_VALUES:
+                    $result[ElectricityStat::GET_CURRENT_POWER_VALUES] = self::parsePowerValuse($cmdData);
+                    break;
+
+                case ElectricityStat::GET_CURRENT_POWER:
+                    $result[ElectricityStat::GET_CURRENT_POWER]['Power'] = $cmdData / 100;
+                    break;
+
+                case ElectricityStat::GET_POWER_VALUES_BY_MONTH:
+                    foreach ($cmdData as $month => $monthData) {
+                        $result[ElectricityStat::GET_POWER_VALUES_BY_MONTH][$month] = self::parsePowerValuse($monthData);
+                    }
+                    break;
+
+                default:
+                    continue;
+                    break;
+            }
         }
 
         return $result;
