@@ -59,8 +59,9 @@ function loadPage(el)
 
     history.replaceState('', '', url);
 
-    $(".js_content").html('').load(href);
-    displayTargetContent(target);
+    $(".js_content").html('').load(href, function () {
+        displayTargetContent(target);
+    });
 }
 
 function displayTargetContent(target)

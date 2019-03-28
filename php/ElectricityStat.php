@@ -58,6 +58,19 @@ class ElectricityStat
         $this->cfg = Config::getConfig(self::CFG_NAME);
     }
 
+    public function actionGet()
+    {
+        if (!Vars::check('param')) {
+            Utils::reportError(__CLASS__, 'Parameter should be passed', $this->debug);
+        }
+
+        $params = Vars::get('param', null);
+
+        $result = self::executeCommands($params);
+        $result = ElectricityParser::parseData($result);
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+    }
+
     /**
      * @cmdNames commands array
      * @return array

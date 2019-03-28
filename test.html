@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="static/css/billboard.min.css" />
+    <script src="static/js/billboard.min.js"></script>
+
+
+</head>
+
+<body>
+<div id="chart"></div>
+<script>
+    var x_data = ["x"];
+    var y_data = ["data1"];
+    var ts = new Date();
+    var ts_time = ts.getTime()
+    for (var i=-10; i<0; i++) {
+        x_data.push(ts_time + i * 1000);
+        y_data.push(Math.random() * (225 - 215) + 215);
+    }
+    var chart = bb.generate({
+        bindto: "#chart",
+        size: {
+            width: 500,
+            height: 250
+        },
+        data: {
+            x: "x",
+            columns: [
+                x_data,
+                y_data
+            ],
+            type: "spline",
+        },
+        axis: {
+            x: {
+                type: "timeseries",
+                tick: {
+                    format: "%H:%M:%S"
+                }
+            },
+            data1: "y"
+        },
+        grid: {
+            y: {
+                lines: [
+                    {
+                        value: 220
+                    }
+                ]
+            }
+        },
+    });
+    chart.axis.range({max: 230, min: 210});
+    setInterval(function () {
+        var ts = new Date();
+
+        var x_data = ["x", ts.getTime()];
+        var y_data = ["data1", Math.random() * (225 - 215) + 215];
+
+        chart.flow({
+            columns: [
+                x_data, y_data
+            ],
+            duration: 2500,
+        });
+    }, 5000);
+</script>
+</body>
+</html>

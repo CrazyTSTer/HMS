@@ -129,6 +129,7 @@ class ElectricityParser
     {
         $result = [];
         foreach ($data as $cmdName => $cmdData) {
+            if ($cmdData == NULL) {continue;}
             switch ($cmdName) {
                 case ElectricityStat::GET_SERIAL_NUMBER:
                     $result[ElectricityStat::GET_SERIAL_NUMBER]['S/N'] = hexdec($cmdData);
@@ -202,7 +203,7 @@ class ElectricityParser
     {
         $i = 1;
         foreach (str_split($data, 8) as $chunk) {
-            $result['TZ' . $i] = $chunk / 100;
+            $result['TZ' . $i] = number_format($chunk / 100, 2, ',', '');
             $i++;
         }
 
