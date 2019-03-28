@@ -137,7 +137,6 @@ html, body {
     background: #1f2023;
 }
 
-
 hr {
     border-top: 1px solid rgba(60,90,60,.7);
 }
@@ -323,29 +322,26 @@ hr {
 }
 /* ----- Cards ----- */
 .card {
-    margin-bottom: 30px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     background: #263238;
     border-color: #3e4e56;
 }
 
-fieldset.card .card-body {
+.card .card-body {
     padding: 0 1.25rem 1.25rem 1.25rem;
 }
 
-fieldset.card .card-header {
-    width: auto;
+.card .card-header {
+    width: max-content;
     margin-bottom: 0;
     margin-left: 1.25rem;
     padding: 0 0.25rem 0 0.25rem;
     background: linear-gradient(#383f48 35%, #263238);
     border: none;
     color: #deb887;
-}
-
-.card .card-header {
-    border-bottom: 1px solid #007700;
-    color: #007700;
     font-size: 1.5rem;
+    margin-top: -1rem;
 }
 
 .card .year-title-padding {

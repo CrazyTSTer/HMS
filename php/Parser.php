@@ -160,8 +160,11 @@ class ElectricityParser
                     break;
 
                 case ElectricityStat::GET_LAST_SWITCH_ON:
+                    $result[ElectricityStat::GET_LAST_SWITCH_ON] = self::parseSwitchOnSwtichOff($cmdData);
+                    break;
+
                 case ElectricityStat::GET_LAST_SWITCH_OFF:
-                    //TODO: Parse date time
+                    $result[ElectricityStat::GET_LAST_SWITCH_OFF] = self::parseSwitchOnSwtichOff($cmdData);
                     break;
 
                 case ElectricityStat::GET_CURRENT_CIRCUIT_VALUES:
@@ -202,6 +205,23 @@ class ElectricityParser
             $result['TZ' . $i] = $chunk / 100;
             $i++;
         }
+
+        return $result;
+    }
+
+    private static function parseSwitchOnSwtichOff($data)
+    {
+        //$counts = substr($data, 0, 2);
+        $ts = str_split(substr($data, 2), 6);
+        $time = implode(':', str_split($ts[0],2));
+        $date = str_split($ts[1],2);
+        $date[2] = '20' . $date[2];
+
+        $result[ElectricityStat::GET_LAST_SWITCH_OFF] = [
+            //'counts' => $counts,
+            'date'   => implode('-', $date),
+            'time'   => $time,
+        ];
 
         return $result;
     }
