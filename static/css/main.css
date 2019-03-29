@@ -400,6 +400,10 @@ tr.hot {
     margin:10px;
 }
 
+.chart-container.height {
+    height: 100px;
+}
+
 .bb svg {
     font: 12px sans-serif;
     -webkit-tap-highlight-color: transparent; }

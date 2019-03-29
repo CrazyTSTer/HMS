@@ -91,7 +91,7 @@ class ElectricityMetersSettings extends CommonSettings
         if (!$host || !$port) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, Utils::STATUS_FAIL);
         }
-        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, Utils::STATUS_SUCCESS, true);
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, ['ESPCloseConnection' => false, 'ESPSendNewLine' => false], true);
 
         $this->cfg->set(self::HOST, $host);
         $this->cfg->set(self::PORT, $port);

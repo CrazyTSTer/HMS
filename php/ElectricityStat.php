@@ -99,8 +99,25 @@ class ElectricityStat
                 continue;
                 //Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
             }
+
             fwrite($fp, hex2bin($cmd));
-            $response = fgets($fp);
+
+            $prevMicrotime = microtime(true);
+            $response = '';
+            stream_set_blocking($fp,false);
+
+            while(1) {
+                $tmp = fgetc($fp);
+                if ($tmp === false) {
+                    if (microtime(true) - $prevMicrotime > 0.5) {
+                        break;
+                    }
+                } else {
+                    $response .= $tmp;
+                    $prevMicrotime = microtime(true);
+                }
+            }
+
             fclose($fp);
 
             $responseDecoded = strtoupper(bin2hex($response));

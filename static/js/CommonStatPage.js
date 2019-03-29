@@ -18,7 +18,7 @@ function show_main_stats()
         }
     });
 
-    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentPowerValues', 'getCurrentCircuitValues']}, function (result) {
+    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentPowerValues']}, function (result) {
         if (result['status'] == 'success') {
             $(".js_tz1").text(result['data']['getCurrentPowerValues']['TZ1']);
             $(".js_tz2").text(result['data']['getCurrentPowerValues']['TZ2']);
@@ -29,32 +29,50 @@ function show_main_stats()
         }
     });
 
-    var x_data = ["x"];
-    var y_data = ["Voltage"];
+    var x_voltage = ["x"];
+    var x_amperage = ["x"];
+    var y_vlotage = ["Voltage"];
+
+    var x_amperage = ["x"];
+    var y_amperage = ["Amperage"];
     var ts = new Date();
     var ts_time = ts.getTime()
     for (var i=-10; i<0; i++) {
-        x_data.push(ts_time + 5* i * 1000);
-        y_data.push(Math.random() * (225 - 215) + 215);
+        x_voltage.push(ts_time + 5* i * 1000);
+        y_vlotage.push(Math.random() * (225 - 215) + 215);
+
+        x_amperage.push(ts_time + 5* i * 1000);
+        y_amperage.push(Math.random());
     }
-    var chart = bb.generate({
-        bindto: "#voltage",
+    var voltage = bb.generate({
+        bindto: "#Voltage",
         data: {
             x: "x",
             columns: [
-                x_data,
-                y_data
+                x_voltage,
+                y_vlotage
             ],
             type: "spline",
+            colors: {
+                Voltage: "#0000FF",
+            },
         },
+
         axis: {
             x: {
                 type: "timeseries",
                 tick: {
-                    format: "%H:%M:%S"
+                    format: "%H:%M:%S",
                 }
             },
-            data1: "y"
+            y: {
+                min: 210,
+                max: 230,
+                tick: {
+                    count: 5,
+                },
+                padding: {bottom:0, top: 0},
+            }
         },
         grid: {
             y: {
@@ -65,20 +83,87 @@ function show_main_stats()
                 ]
             }
         },
+        legend: {
+            position: "inset"
+        },
+        padding: {
+            top: 10,
+            bottom: 0,
+            right: 10,
+        },
     });
-    chart.axis.range({max: 230, min: 210});
+
+    var amperage = bb.generate({
+        bindto: "#Amperage",
+        data: {
+            x: "x",
+            columns: [
+                x_amperage,
+                y_amperage
+            ],
+            type: "spline",
+            colors: {
+                Amperage: "#FF0000",
+            },
+        },
+
+        axis: {
+            x: {
+                type: "timeseries",
+                tick: {
+                    format: "%H:%M:%S",
+                }
+            },
+            y: {
+                min: 0,
+                max: 10,
+                tick: {
+                    count: 5,
+                },
+                padding: {bottom:0, top: 0},
+            }
+        },
+        grid: {
+            y: {
+                lines: [
+                    {
+                        value: 220
+                    }
+                ]
+            }
+        },
+        legend: {
+            position: "inset"
+        },
+        padding: {
+            top: 10,
+            bottom: 0,
+            right: 10,
+        },
+    });
+
     setInterval(function () {
         var ts = new Date();
         executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentCircuitValues']}, function (result) {
             if (result['status'] == 'success') {
-                var x_data = ["x", ts.getTime()];
-                var y_data = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
-                chart.flow({
+                var x_voltage = ["x", ts.getTime()];
+                var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
+                voltage.flow({
                     columns: [
-                        x_data, y_data
+                        x_voltage, y_vlotage
                     ],
-                    duration: 1500,
+                    duration: 500,
                 });
+
+                var x_amperage = ["x", ts.getTime()];
+                var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
+                amperage.flow({
+                    columns: [
+                        x_amperage, y_amperage
+                    ],
+                    duration: 500,
+                });
+
             } else {
                 showModalAlert(result['status'], result['data']);
             }
