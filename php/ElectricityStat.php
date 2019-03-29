@@ -80,10 +80,18 @@ class ElectricityStat
         foreach ($cmdNames as $cmdName) {
             if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
                 foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
-                    $result[$cmdName][$month] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month), $attempts);
+                    $cmd = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month;
+                    if (!$cmd) {
+                        Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
+                    }
+                    $result[$cmdName][$month] = $this->sendRequest($cmd, $attempts);
                 }
             } else {
-                $result[$cmdName] = $this->sendRequest($this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName), $attempts);
+                $cmd = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName;
+                if (!$cmd) {
+                    Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
+                }
+                $result[$cmdName] = $this->sendRequest($cmd, $attempts);
             }
         }
 
