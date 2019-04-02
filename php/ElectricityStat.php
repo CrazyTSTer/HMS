@@ -77,6 +77,18 @@ class ElectricityStat
      */
     public function executeCommands($cmdNames, $attempts = 10)
     {
+        $host = $this->cfg->get(ElectricityMetersSettings::HOST);
+        $port = $this->cfg->get(ElectricityMetersSettings::PORT);
+
+        if (!$host || !$port) {
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter at. <br> Empty Host or Port' );
+        }
+
+        $fp = fsockopen($host, $port, $errno, $errstr, 30);
+        if (!$fp) {
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
+        }
+
         foreach ($cmdNames as $cmdName) {
             if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
                 foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
@@ -84,33 +96,30 @@ class ElectricityStat
                     if (!$cmd) {
                         Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
                     }
-                    $result[$cmdName][$month] = $this->sendRequest($cmd, $attempts);
+                    $result[$cmdName][$month] = $this->sendRequest($fp, $cmd, $attempts);
                 }
             } else {
                 $cmd = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName);
                 if (!$cmd) {
                     Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
                 }
-                $result[$cmdName] = $this->sendRequest($cmd, $attempts);
+                $result[$cmdName] = $this->sendRequest($fp, $cmd, $attempts);
             }
         }
 
+        fclose($fp);
         return $result;
     }
 
-    private function sendRequest($cmd, $attempts)
+    private function sendRequest($fp, $cmd, $attempts)
     {
         $result = NULL;
         for ($i = 0; $i < $attempts; $i++) {
-            $fp = fsockopen($this->cfg->get(ElectricityMetersSettings::HOST), $this->cfg->get(ElectricityMetersSettings::PORT), $errno, $errstr, 30);
-            if (!$fp) {
-                continue;
-                //Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
-            }
-
+            stream_set_blocking($fp, true);
             fwrite($fp, hex2bin($cmd));
 
             $prevMicrotime = microtime(true);
+
             $response = '';
             stream_set_blocking($fp,false);
 
@@ -126,8 +135,6 @@ class ElectricityStat
                 }
             }
 
-            fclose($fp);
-
             $responseDecoded = strtoupper(bin2hex($response));
 
             $responseCRC = substr($responseDecoded, -4);
@@ -138,6 +145,7 @@ class ElectricityStat
                 break;
             }
         }
+
         return $result;
     }
 }
