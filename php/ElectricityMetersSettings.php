@@ -7,12 +7,54 @@
  */
 class ElectricityMetersSettings extends CommonSettings
 {
-    const CFG_NAME = 'ElectricityMetersConfig';
-    const HOST     = 'host';
-    const PORT     = 'port';
-    const COMMANDS = 'commands';
-    const PAY_CODE = 'paycode';
-    const METER_ID = 'meterID';
+    const GET_SERIAL_NUMBER          = 'getSerialNumber';
+    const GET_MANUFACTURED_DATE      = 'getManufacturedDate';
+    const GET_FIRMWARE_VERSION       = 'getFirmWareVersion';
+    const GET_BATTERY_VOLTAGE        = 'getBatteryVoltage';
+    const GET_LAST_SWITCH_ON         = 'getLastSwitchOn';
+    const GET_LAST_SWITCH_OFF        = 'getLastSwitchOff';
+    const GET_CURRENT_CIRCUIT_VALUES = 'getCurrentCircuitValues';
+    const GET_CURRENT_POWER_VALUES   = 'getCurrentPowerValues';
+    const GET_CURRENT_POWER          = 'getCurrentPower';
+    const GET_CURRENT_DATE_TIME      = 'getCurrentDateTime';
+    const GET_POWER_VALUES_BY_MONTH  = 'getPowerValuesByMonth';
+
+    const CMD_CODE = [
+        self::GET_CURRENT_DATE_TIME      => '21',
+        self::GET_CURRENT_POWER          => '26',
+        self::GET_CURRENT_POWER_VALUES   => '27',
+        self::GET_FIRMWARE_VERSION       => '28',
+        self::GET_BATTERY_VOLTAGE        => '29',
+        self::GET_LAST_SWITCH_OFF        => '2B',
+        self::GET_LAST_SWITCH_ON         => '2C',
+        self::GET_SERIAL_NUMBER          => '2F',
+        self::GET_POWER_VALUES_BY_MONTH  => '32',
+        self::GET_CURRENT_CIRCUIT_VALUES => '63',
+        self::GET_MANUFACTURED_DATE      => '66',
+    ];
+
+    const CMD_MONTH_SUBCODE = [
+        'jan' => '00',
+        'feb' => '01',
+        'mar' => '02',
+        'apr' => '03',
+        'may' => '04',
+        'jun' => '05',
+        'jul' => '06',
+        'aug' => '07',
+        'sep' => '08',
+        'oct' => '09',
+        'nov' => '0A',
+        'dec' => '0B',
+    ];
+
+    const CFG_NAME         = 'ElectricityMetersConfig';
+    const HOST             = 'host';
+    const PORT             = 'port';
+    const COMMANDS         = 'commands';
+    const PAY_CODE         = 'paycode';
+    const METER_ID         = 'meterID';
+    const REQUEST_ATTEMPTS = 'requestAttempts';
 
     private $debug;
 
@@ -59,12 +101,12 @@ class ElectricityMetersSettings extends CommonSettings
             $addr = substr($meterID, -6);
             $hexAddress = sprintf("%08X", $addr);
 
-            foreach (ElectricityStat::CMD_CODE as $cmdName => $cmdCode) {
+            foreach (self::CMD_CODE as $cmdName => $cmdCode) {
                 $cmdPart = $hexAddress . $cmdCode;
-                if ($cmdName == ElectricityStat::GET_POWER_VALUES_BY_MONTH) {
-                    foreach (ElectricityStat::CMD_MONTH_SUBCODE as $month => $subCode) {
+                if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
+                    foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
                         $cmd = $cmdPart . $subCode . Utils::crc16_modbus($cmdPart . $subCode);
-                        $result[$cmdName][$month] = $cmd ;
+                        $result[$cmdName][$month] = $cmd;
                     }
                 } else {
                     $cmd = $cmdPart . Utils::crc16_modbus($cmdPart);

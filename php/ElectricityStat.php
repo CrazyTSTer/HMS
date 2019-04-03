@@ -2,51 +2,6 @@
 
 class ElectricityStat
 {
-    const GET_SERIAL_NUMBER          = 'getSerialNumber';
-    const GET_MANUFACTURED_DATE      = 'getManufacturedDate';
-    const GET_FIRMWARE_VERSION       = 'getFirmWareVersion';
-    const GET_BATTERY_VOLTAGE        = 'getBatteryVoltage';
-    const GET_LAST_SWITCH_ON         = 'getLastSwitchOn';
-    const GET_LAST_SWITCH_OFF        = 'getLastSwitchOff';
-    const GET_CURRENT_CIRCUIT_VALUES = 'getCurrentCircuitValues';
-    const GET_CURRENT_POWER_VALUES   = 'getCurrentPowerValues';
-    const GET_CURRENT_POWER          = 'getCurrentPower';
-    const GET_POWER_VALUES_BY_MONTH  = 'getPowerValuesByMonth';
-    const GET_CURRENT_DATE_TIME      = 'getCurrentDateTime';
-
-    const CMD_CODE = [
-        self::GET_SERIAL_NUMBER          => '2F',
-        self::GET_MANUFACTURED_DATE      => '66',
-        self::GET_FIRMWARE_VERSION       => '28',
-        self::GET_BATTERY_VOLTAGE        => '29',
-        self::GET_LAST_SWITCH_ON         => '2C',
-        self::GET_LAST_SWITCH_OFF        => '2B',
-        self::GET_CURRENT_CIRCUIT_VALUES => '63',
-        self::GET_CURRENT_POWER_VALUES   => '27',
-        self::GET_CURRENT_POWER          => '26',
-        self::GET_POWER_VALUES_BY_MONTH  => '32',
-        self::GET_CURRENT_DATE_TIME      => '21',
-    ];
-
-    const CMD_MONTH_SUBCODE = [
-        'jan' => '00',
-        'feb' => '01',
-        'mar' => '02',
-        'apr' => '03',
-        'may' => '04',
-        'jun' => '05',
-        'jul' => '06',
-        'aug' => '07',
-        'sep' => '08',
-        'oct' => '09',
-        'nov' => '0A',
-        'dec' => '0B',
-    ];
-
-    const CFG_NAME = 'ElectricityMetersConfig';
-
-    const COMMANDS = 'commands';
-
     private $debug;
 
     /** @var  Config */
@@ -55,7 +10,7 @@ class ElectricityStat
     public function __construct($debug)
     {
         $this->debug = $debug;
-        $this->cfg = Config::getConfig(self::CFG_NAME);
+        $this->cfg = Config::getConfig(ElectricityMetersSettings::CFG_NAME);
     }
 
     public function actionGet()
@@ -75,23 +30,24 @@ class ElectricityStat
      * @cmdNames commands array
      * @return array
      */
-    public function executeCommands($cmdNames, $attempts = 10)
+    public function executeCommands($cmdNames)
     {
         $host = $this->cfg->get(ElectricityMetersSettings::HOST);
         $port = $this->cfg->get(ElectricityMetersSettings::PORT);
+        $attempts = $this->cfg->get(ElectricityMetersSettings::REQUEST_ATTEMPTS) ?? 10;
 
         if (!$host || !$port) {
-            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter at. <br> Empty Host or Port' );
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter<br>Empty Host or Port');
         }
 
         $fp = fsockopen($host, $port, $errno, $errstr, 30);
         if (!$fp) {
-            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter. ' . $errno . ':' . $errstr, $this->debug);
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter.<br>' . $errno . ':' . $errstr, $this->debug);
         }
 
         foreach ($cmdNames as $cmdName) {
-            if ($cmdName == self::GET_POWER_VALUES_BY_MONTH) {
-                foreach (self::CMD_MONTH_SUBCODE as $month => $subCode) {
+            if ($cmdName == ElectricityMetersSettings::GET_POWER_VALUES_BY_MONTH) {
+                foreach (ElectricityMetersSettings::CMD_MONTH_SUBCODE as $month => $subCode) {
                     $cmd = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName . '/' . $month);
                     if (!$cmd) {
                         Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
@@ -121,12 +77,12 @@ class ElectricityStat
             $prevMicrotime = microtime(true);
 
             $response = '';
-            stream_set_blocking($fp,false);
+            stream_set_blocking($fp, false);
 
-            while(1) {
+            while (1) {
                 $tmp = fgetc($fp);
                 if ($tmp === false) {
-                    if (microtime(true) - $prevMicrotime > 0.5) {
+                    if (microtime(true) - $prevMicrotime > 0.05) {
                         break;
                     }
                 } else {

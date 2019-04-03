@@ -70,7 +70,7 @@ class Config
      */
     public function get($path = null)
     {
-        $tmp = &$this->config;
+        $tmp = $this->config;
         if (isset($path)) {
             $path_array = explode('/', $path);
             foreach ($path_array as $el) {
