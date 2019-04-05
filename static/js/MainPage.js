@@ -8,6 +8,8 @@ const PGU_SETTINGS_PAGE         = 'PGUSettingsPage';
 const WATER_SETTINGS_PAGE       = 'WaterSettingsPage';
 const ELECTRICITY_SETTINGS_PAGE = 'ElectricitySettingsPage';
 
+var timer, voltage, amperage, power;
+
 jQuery(document).ready(function() {
     $('#sidebar a').on('click', function (e) {
         if ($(this).attr('data-toggle') != 'collapse') {
@@ -46,6 +48,7 @@ jQuery(document).ready(function() {
 
 function loadPage(el)
 {
+    clearTimeout(timer);
     event.preventDefault();
     var href = $(el).attr('href');
     var url = window.location.href;

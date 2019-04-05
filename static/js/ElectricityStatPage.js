@@ -24,7 +24,7 @@ function showElectricityStat()
         y_power.push((voltage_tmp * amperage_tmp * Math.sin(0.9))/1000);
     }
 
-    var voltage = bb.generate({
+    voltage = bb.generate({
         bindto: "#Voltage",
         data: {
             x: "x",
@@ -41,20 +41,19 @@ function showElectricityStat()
         axis: {
             x: {
                 type: "timeseries",
-                height: 50,
                 tick: {
-                    //count: 3,
-                    rotate: -45,
-                    multiline: false,
-                    format: "%H:%M:%S",
-                    outer: true
+                    show: false,
+                    text: {
+                        show: false
+                    }
+
                 },
             },
             y: {
                 min: 210,
                 max: 240,
                 tick: {
-                    count: 7,
+                    count: 4,
                 },
                 padding: {bottom:0, top: 0},
             }
@@ -70,12 +69,15 @@ function showElectricityStat()
         },
         padding: {
             top: 10,
-            bottom: 0,
+            bottom: -10,
             right: 10,
         },
+        legend: {
+            show: false,
+        }
     });
 
-    var amperage = bb.generate({
+    amperage = bb.generate({
         bindto: "#Amperage",
         data: {
             x: "x",
@@ -92,18 +94,17 @@ function showElectricityStat()
         axis: {
             x: {
                 type: "timeseries",
-                height: 50,
                 tick: {
-                    //count: 3,
-                    rotate: -45,
-                    multiline: false,
-                    format: "%H:%M:%S",
-                    outer: true
+                    show: false,
+                    text: {
+                        show: false
+                    }
+
                 },
             },
             y: {
                 min: 0,
-                max: 10,
+                max: 32,
                 tick: {
                     count: 5,
                 },
@@ -112,12 +113,15 @@ function showElectricityStat()
         },
         padding: {
             top: 10,
-            bottom: 0,
+            bottom: -10,
             right: 10,
         },
+        legend: {
+            show: false,
+        }
     });
 
-    var power = bb.generate({
+    power = bb.generate({
         bindto: "#Power",
         data: {
             x: "x",
@@ -134,12 +138,12 @@ function showElectricityStat()
         axis: {
             x: {
                 type: "timeseries",
-                height: 50,
                 tick: {
-                    rotate: -45,
-                    multiline: false,
-                    format: "%H:%M:%S",
-                    outer: true
+                    show: false,
+                    text: {
+                        show: false
+                    }
+
                 },
             },
             y: {
@@ -153,46 +157,58 @@ function showElectricityStat()
         },
         padding: {
             top: 10,
-            bottom: 0,
+            bottom: -10,
             right: 10,
         },
+        legend: {
+            show: false,
+        }
     });
 
-    setInterval(function () {
-        var ts = new Date();
-        executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentCircuitValues']}, function (result) {
-            if (result['status'] == 'success') {
-                var x_voltage = ["x", ts.getTime()];
-                var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
-                voltage.flow({
-                    columns: [
-                        x_voltage, y_vlotage
-                    ],
-                    duration: 500,
-                });
+    clearTimeout(timer);
+    getData();
+}
 
-                var x_amperage = ["x", ts.getTime()];
-                var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
-                amperage.flow({
-                    columns: [
-                        x_amperage, y_amperage
-                    ],
-                    duration: 500,
-                });
+function getData()
+{
+    var ts = new Date();
+    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentCircuitValues']}, function (result) {
+        if (result['status'] == 'success') {
 
-                var x_power = ["x", ts.getTime()];
-                var y_power = ["Power", result['data']['getCurrentCircuitValues']['Power']];
+            var x_voltage = ["x", ts.getTime()];
+            var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
+            voltage.flow({
+                columns: [
+                    x_voltage, y_vlotage
+                ],
+                duration: 500,
+            });
 
-                power.flow({
-                    columns: [
-                        x_power, y_power
-                    ],
-                    duration: 500,
-                });
+            var x_amperage = ["x", ts.getTime()];
+            var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
+            amperage.flow({
+                columns: [
+                    x_amperage, y_amperage
+                ],
+                duration: 500,
+            });
 
-            } else {
-                showModalAlert(result['status'], result['data']);
-            }
-        });
-    }, 2000);
+            var x_power = ["x", ts.getTime()];
+            var y_power = ["Power", result['data']['getCurrentCircuitValues']['Power']];
+
+            power.flow({
+                columns: [
+                    x_power, y_power
+                ],
+                duration: 500,
+            });
+
+        } else {
+            showModalAlert(result['status'], result['data']);
+        }
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            getData();
+        }, 2000);
+    });
 }
