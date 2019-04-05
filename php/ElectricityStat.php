@@ -12,8 +12,8 @@ SELECT * FROM HMS.Electricity;*/
 
 class ElectricityStat
 {
-    const MYSQL_HOST        = 'crazytster.ddns.net';
-    const MYSQL_PORT        = 6033;
+    const MYSQL_HOST        = '192.168.1.2';
+    const MYSQL_PORT        = 3306;
     const MYSQL_LOGIN       = 'hms';
     const MYSQL_PASS        = 'HMSStats1';
     const MYSQL_BASE        = 'HMS';
