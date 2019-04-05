@@ -18,6 +18,7 @@ class ASMS
     const MAIN_PAGE                 = 'MainPage';
     const COMMON_STAT_PAGE          = 'CommonStatPage';
     const WATER_STAT_PAGE           = 'WaterStatPage';
+    const ELECTRICITY_STAT_PAGE     = 'ElectricityStatPage';
     const PGU_SETTINGS_PAGE         = 'PGUSettingsPage';
     const WATER_SETTINGS_PAGE       = 'WaterSettingsPage';
     const ELECTRICITY_SETTINGS_PAGE = 'ElectricitySettingsPage';
@@ -60,6 +61,10 @@ class ASMS
 
                 case self::WATER_STAT_PAGE:
                     $content = file_get_contents(self::LOCAL_PAGE_PATH . self::WATER_STAT_PAGE . self::PAGE_EXT);
+                    break;
+
+                case self::ELECTRICITY_STAT_PAGE:
+                    $content = file_get_contents(self::LOCAL_PAGE_PATH . self::ELECTRICITY_STAT_PAGE . self::PAGE_EXT);
                     break;
 
                 case self::PGU_SETTINGS_PAGE:

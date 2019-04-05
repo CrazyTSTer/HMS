@@ -35,6 +35,7 @@
     <script src="static/js/MainPage.js"></script>
     <script src="static/js/CommonStatPage.js"></script>
     <script src="static/js/WaterStatPage.js"></script>
+    <script src="static/js/ElectricityStatPage.js"></script>
     <script src="static/js/SettingsPage.js"></script>
 
 
@@ -79,7 +80,7 @@
                         <img class="shadowfilter" src="static/imgs/water_meter_32.png">
                         <span>Water</span>
                     </a></li>
-                    <li><a href="#Meters/Electricity">
+                    <li><a href="<?= htmlentities(self::HREF_PATH . self::ELECTRICITY_STAT_PAGE) ?>" onclick="loadPage(this);">
                         <img class="shadowfilter" src="static/imgs/electric_meter_1_32.png">
                         <span>Electricity</span>
                     </a></li>

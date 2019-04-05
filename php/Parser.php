@@ -202,7 +202,7 @@ class ElectricityParser
     {
         $i = 1;
         foreach (str_split($data, 8) as $chunk) {
-            $result['TZ' . $i] = number_format($chunk / 100, 2, ',', '');
+            $result['TZ' . $i] = $chunk / 100;
             $i++;
         }
 

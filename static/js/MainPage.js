@@ -3,6 +3,7 @@
  */
 const COMMON_STAT_PAGE          = 'CommonStatPage';
 const WATER_STAT_PAGE           = 'WaterStatPage';
+const ELECTRICITY_STAT_PAGE     = 'ElectricityStatPage';
 const PGU_SETTINGS_PAGE         = 'PGUSettingsPage';
 const WATER_SETTINGS_PAGE       = 'WaterSettingsPage';
 const ELECTRICITY_SETTINGS_PAGE = 'ElectricitySettingsPage';
@@ -69,10 +70,13 @@ function displayTargetContent(target)
     switch(target) {
         case COMMON_STAT_PAGE:
         default:
-            show_main_stats();
+            showMainStat();
             break;
         case WATER_STAT_PAGE:
-            show_graph_rate();
+            showWaterStat();
+            break;
+        case ELECTRICITY_STAT_PAGE:
+            showElectricityStat();
             break;
         case WATER_SETTINGS_PAGE:
             getMetersSettings(WATER_SETTINGS_CLASS);

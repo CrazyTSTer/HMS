@@ -1,7 +1,32 @@
 <?php
+/*CREATE TABLE `Electricity` (
+  `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TZ1` decimal(8,2) NOT NULL,
+  `TZ2` decimal(8,2) NOT NULL,
+  `TZ3` decimal(8,2) NOT NULL,
+  `TZ4` decimal(8,2) NOT NULL,
+  `total` decimal(9,2) NOT NULL,
+  PRIMARY KEY (`ts`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SELECT * FROM HMS.Electricity;*/
 
 class ElectricityStat
 {
+    const MYSQL_HOST        = 'crazytster.ddns.net';
+    const MYSQL_PORT        = 6033;
+    const MYSQL_LOGIN       = 'hms';
+    const MYSQL_PASS        = 'HMSStats1';
+    const MYSQL_BASE        = 'HMS';
+    const MYSQL_BASE_LOCALE = 'utf8';
+    const MYSQL_TABLE_WATER = 'Electricity';
+
+    const TIMESTAMP = 'ts';
+    const TZ1       = 'TZ1';
+    const TZ2       = 'TZ2';
+    const TZ3       = 'TZ3';
+    const TZ4       = 'TZ4';
+    const TOTAL     = 'total';
+
     private $debug;
 
     /** @var  Config */
@@ -11,6 +36,12 @@ class ElectricityStat
     {
         $this->debug = $debug;
         $this->cfg = Config::getConfig(ElectricityMetersSettings::CFG_NAME);
+
+        $this->db = DB::getInstance();
+        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
+        $this->db->connect();
+        $this->db->selectDB(self::MYSQL_BASE);
+        $this->db->setLocale(self::MYSQL_BASE_LOCALE);
     }
 
     public function actionGet()

@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <link rel="stylesheet" href="static/css/billboard.min.css" />
-    <script src="static/js/billboard.min.js"></script>
-</head>
-
-<body>
-    <div id="Voltage" class="chart-container height mb-4"></div>
-    <div id="Amperage" class="chart-container height mb-4"></div>
-    <div id="Power" class="chart-container height mb-4"></div>
-
-<script>
+function showElectricityStat()
+{
     var x_voltage = ["x"];
     var y_vlotage = ["Voltage"];
 
@@ -39,10 +26,6 @@
 
     var voltage = bb.generate({
         bindto: "#Voltage",
-        size: {
-            height: 240,
-            width: 480
-        },
         data: {
             x: "x",
             columns: [
@@ -94,10 +77,6 @@
 
     var amperage = bb.generate({
         bindto: "#Amperage",
-        size: {
-            height: 240,
-            width: 480
-        },
         data: {
             x: "x",
             columns: [
@@ -140,10 +119,6 @@
 
     var power = bb.generate({
         bindto: "#Power",
-        size: {
-            height: 240,
-            width: 480
-        },
         data: {
             x: "x",
             columns: [
@@ -185,39 +160,39 @@
 
     setInterval(function () {
         var ts = new Date();
+        executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentCircuitValues']}, function (result) {
+            if (result['status'] == 'success') {
+                var x_voltage = ["x", ts.getTime()];
+                var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
+                voltage.flow({
+                    columns: [
+                        x_voltage, y_vlotage
+                    ],
+                    duration: 500,
+                });
 
-        var x_voltage = ["x", ts.getTime()];
+                var x_amperage = ["x", ts.getTime()];
+                var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
+                amperage.flow({
+                    columns: [
+                        x_amperage, y_amperage
+                    ],
+                    duration: 500,
+                });
 
-        var voltage_tmp = Math.random() * (225 - 215) + 215
-        var y_vlotage = ["Voltage", voltage_tmp];
-        voltage.flow({
-            columns: [
-                x_voltage, y_vlotage
-            ],
-            duration: 500,
-        });
+                var x_power = ["x", ts.getTime()];
+                var y_power = ["Power", result['data']['getCurrentCircuitValues']['Power']];
 
-        var x_amperage = ["x", ts.getTime()];
+                power.flow({
+                    columns: [
+                        x_power, y_power
+                    ],
+                    duration: 500,
+                });
 
-        var amperage_tmp = Math.random();
-        var y_amperage = ["Amperage", amperage_tmp];
-        amperage.flow({
-            columns: [
-                x_amperage, y_amperage
-            ],
-            duration: 500,
-        });
-
-        var x_power = ["x", ts.getTime()];
-        var y_power = ["Power", (voltage_tmp * amperage_tmp * Math.sin(0.9))/1000];
-
-        power.flow({
-            columns: [
-                x_power, y_power
-            ],
-            duration: 500,
+            } else {
+                showModalAlert(result['status'], result['data']);
+            }
         });
     }, 2000);
-</script>
-</body>
-</html>
+}

@@ -56,7 +56,7 @@ var chartOptions = {
     bindto: "",
 };
 
-function show_graph_rate()
+function showWaterStat()
 {
     executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'current'}, function (result) {
         if (result['status'] == 'success') {
