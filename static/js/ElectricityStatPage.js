@@ -177,6 +177,7 @@ function getData()
 
             var x_voltage = ["x", ts.getTime()];
             var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
+            $(".js_voltage_value").text(result['data']['getCurrentCircuitValues']['Voltage']);
             voltage.flow({
                 columns: [
                     x_voltage, y_vlotage
@@ -186,6 +187,7 @@ function getData()
 
             var x_amperage = ["x", ts.getTime()];
             var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
+            $(".js_amperage_value").text(result['data']['getCurrentCircuitValues']['Amperage']);
             amperage.flow({
                 columns: [
                     x_amperage, y_amperage
@@ -195,7 +197,7 @@ function getData()
 
             var x_power = ["x", ts.getTime()];
             var y_power = ["Power", result['data']['getCurrentCircuitValues']['Power']];
-
+            $(".js_power_value").text(result['data']['getCurrentCircuitValues']['Power']);
             power.flow({
                 columns: [
                     x_power, y_power
