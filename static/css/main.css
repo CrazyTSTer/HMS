@@ -349,12 +349,12 @@ hr.hot {
     border-color:  #dc3545;
 }
 
-.card-title.cold,
+.title-cold,
 tr.cold {
     color: #26c6da;
 }
 
-.card-title.hot,
+.title-hot,
 tr.hot {
     color: #dc3545;
 }
