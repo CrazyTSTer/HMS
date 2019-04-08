@@ -5,15 +5,15 @@ define('QUERY', 'INSERT INTO #table# (TZ1, TZ2, TZ3, TZ4, total) VALUES (#TZ1#, 
 
 const DEBUG = true;
 
-const MYSQL_HOST        = '192.168.1.2';
-const MYSQL_PORT        = 3306;
-const MYSQL_LOGIN       = 'hms';
-const MYSQL_PASS        = 'HMSStats1';
-const MYSQL_BASE        = 'HMS';
-const MYSQL_BASE_LOCALE = 'utf8';
-const MYSQL_TABLE_WATER = 'Electricity';
+const MYSQL_HOST              = '192.168.1.2';
+const MYSQL_PORT              = 3306;
+const MYSQL_LOGIN             = 'hms';
+const MYSQL_PASS              = 'HMSStats1';
+const MYSQL_BASE              = 'HMS';
+const MYSQL_BASE_LOCALE       = 'utf8';
+const MYSQL_TABLE_ELECTRICITY = 'Electricity';
 
-$data['table'] = MYSQL_TABLE_WATER;
+$data['table'] = MYSQL_TABLE_ELECTRICITY;
 
 /** @var  DB */
 $db = DB::getInstance();
