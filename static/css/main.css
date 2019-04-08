@@ -44,16 +44,6 @@
     }
 }
 
-@media(max-width: 575px) {
-    #waterPayCodeForm .input-group-text {
-        width: 160px;
-    }
-
-    #electricityMeterForm .input-group-text {
-        width: 150px;
-    }
-}
-
 @media(min-width: 992px) {
     #waterPayCodeForm .input-group-text {
         width: auto;

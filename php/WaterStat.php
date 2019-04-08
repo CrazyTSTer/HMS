@@ -50,13 +50,8 @@ define('GET_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-%m\') 
 
 class WaterStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
-    const MYSQL_PORT        = 3306;
-    const MYSQL_LOGIN       = 'hms';
-    const MYSQL_PASS        = 'HMSStats1';
-    const MYSQL_BASE        = 'HMS';
-    const MYSQL_BASE_LOCALE = 'utf8';
-    const MYSQL_TABLE_WATER = 'Water';
+    const MYSQL_HOST = '192.168.1.2';
+    const MYSQL_PORT = 3306;
 
     const COLDWATER = 'coldwater';
     const HOTWATER  = 'hotwater';
@@ -72,10 +67,10 @@ class WaterStat
         $this->debug = $debug;
 
         $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
+        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, DB::MYSQL_LOGIN, DB::MYSQL_PASS, $this->debug);
         $this->db->connect();
-        $this->db->selectDB(self::MYSQL_BASE);
-        $this->db->setLocale(self::MYSQL_BASE_LOCALE);
+        $this->db->selectDB(DB::MYSQL_BASE);
+        $this->db->setLocale(DB::MYSQL_BASE_LOCALE);
     }
 
     public function __destruct()
@@ -108,19 +103,19 @@ class WaterStat
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
         }
 
-        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => DB::MYSQL_TABLE_WATER]);
 
         if ($result === DB::MYSQL_EMPTY_SELECTION) {
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER],
-                'table' => self::MYSQL_TABLE_WATER,
+                'table' => DB::MYSQL_TABLE_WATER,
             );
         } elseif (is_array($result)) {
             $data = array(
                 self::COLDWATER => $tmp[self::COLDWATER] + $result[self::COLDWATER],
                 self::HOTWATER => $tmp[self::HOTWATER] + $result[self::HOTWATER],
-                'table' => self::MYSQL_TABLE_WATER,
+                'table' => DB::MYSQL_TABLE_WATER,
             );
         } else {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get previous Values from DB');
@@ -151,10 +146,10 @@ class WaterStat
 
         switch ($params) {
             case 'main_stat':
-                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
-                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE, ['table' => self::MYSQL_TABLE_WATER]);
-                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
-                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_values = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => DB::MYSQL_TABLE_WATER]);
+                $current_day_rate = $this->db->fetchSingleRow(GET_CURRENT_DAY_RATE, ['table' => DB::MYSQL_TABLE_WATER]);
+                $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => DB::MYSQL_TABLE_WATER]);
+                $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => DB::MYSQL_TABLE_WATER]);
 
                 $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
 
@@ -176,9 +171,9 @@ class WaterStat
                 break;
 
             case 'current':
-                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
-                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => self::MYSQL_TABLE_WATER]);
-                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => self::MYSQL_TABLE_WATER]);
+                $current_day_values = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => 'CURDATE()', 'table' => DB::MYSQL_TABLE_WATER]);
+                $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => DB::MYSQL_TABLE_WATER]);
+                $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => DB::MYSQL_TABLE_WATER]);
 
                 $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
                 $ret['current_month'] = Parser::parseMonth($current_month_values, true, false);
@@ -192,7 +187,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date . '\'', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date . '\'', 'table' => DB::MYSQL_TABLE_WATER]);
                 $ret['current_day'] = Parser::parseCurrentDay(
                     $current_day,
                     $date == date('Y-m-d')
@@ -205,7 +200,7 @@ class WaterStat
                 if ($date == null) {
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
-                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'', 'table' => self::MYSQL_TABLE_WATER]);
+                $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'', 'table' => DB::MYSQL_TABLE_WATER]);
                 $ret['current_month'] = Parser::parseMonth($current_month, $date == date('Y-m'));
                 Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
                 break;
@@ -226,7 +221,7 @@ class WaterStat
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'No meters data. Check Settings page');
         }
 
-        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => self::MYSQL_TABLE_WATER]);
+        $result = $this->db->fetchSingleRow(GET_LAST_VALUES, ['table' => DB::MYSQL_TABLE_WATER]);
         if (is_array($result)) {
             foreach ($meters as $meter) {
                 $tmpMeters[] = [

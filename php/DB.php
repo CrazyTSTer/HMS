@@ -4,6 +4,22 @@
 
 class DB
 {
+    const MYSQL_LOGIN             = 'hms';
+    const MYSQL_PASS              = 'HMSStats1';
+    const MYSQL_BASE              = 'HMS';
+    const MYSQL_BASE_LOCALE       = 'utf8';
+    const MYSQL_TABLE_WATER       = 'Water';
+    const MYSQL_TABLE_ELECTRICITY = 'Electricity';
+
+    const MYSQL_EMPTY_SELECTION         = 'Selection is empty';
+    const MYSQL_INCORRECT_QUERY         = 'Incorrect query. Check query syntax.';
+    const MYSQL_DATABASE_SELECTION_FAIL = 'Can\'t select database';
+    const MYSQL_CONNECT_FAIL            = 'Can\'t connect to mysql server';
+    const MYSQL_DISCONNECT_FAIL         = 'Can\'t disconnect from mysql server';
+    const MYSQL_SET_LOCALE_FAIL         = 'Can\'t set locale';
+    const MYSQL_DB_IS_NOT_READY         = 'DB is not ready';
+    const MYSQL_ROWS_COUNT              = 'rows_count';
+
     private $host;
     private $port;
     private $login;
@@ -17,15 +33,6 @@ class DB
 
     private static $instance;
 
-    const MYSQL_EMPTY_SELECTION = 'Selection is empty';
-    const MYSQL_INCORRECT_QUERY = 'Incorrect query. Check query syntax.';
-    const MYSQL_DATABASE_SELECTION_FAIL = 'Can\'t select database';
-    const MYSQL_CONNECT_FAIL = 'Can\'t connect to mysql server';
-    const MYSQL_DISCONNECT_FAIL = 'Can\'t disconnect from mysql server';
-    const MYSQL_SET_LOCALE_FAIL = 'Can\'t set locale';
-    const MYSQL_DB_IS_NOT_READY = 'DB is not ready';
-    const MYSQL_ROWS_COUNT = 'rows_count';
-
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -38,11 +45,11 @@ class DB
 
     public function init($host, $port, $login, $password, $debug = false)
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->login = $login;
+        $this->host     = $host;
+        $this->port     = $port;
+        $this->login    = $login;
         $this->password = $password;
-        $this->debug = $debug;
+        $this->debug    = $debug;
     }
 
     public function connect()

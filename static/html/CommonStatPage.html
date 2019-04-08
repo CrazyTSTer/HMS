@@ -12,7 +12,7 @@
                             <div class="card-body p-0">
                                 <h6 class="card-title cold">Cold Water</h6>
                                 <div class="table-responsive">
-                                    <table class="table table-striped cold mb-0">
+                                    <table class="table table-striped table-dark cold mb-0">
                                         <tbody>
                                         <tr class="cold">
                                             <td>Curr. Value:</td><td class="js_cold_curr_value"></td>
@@ -37,7 +37,7 @@
                             <div class="card-body p-0">
                                 <h6 class="card-title hot">Hot Water</h6>
                                 <div class="table-responsive">
-                                    <table class="table table-striped hot mb-0">
+                                    <table class="table table-striped table-dark hot mb-0">
                                         <tbody>
                                         <tr class="hot">
                                             <td> Curr. Value:</td><td class="js_hot_curr_value"></td>
@@ -75,47 +75,44 @@
                         <span>Get last values at: </span><span class="js_water_last_update"></span>
                     </div>
                     <div class="col-12">
-                        <table class="table table-striped mb-0">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-dark mb-0">
+                                <thead>
                                 <tr>
                                     <th></th>
                                     <th>TZ1</th>
                                     <th>TZ2</th>
                                     <th>TZ3</th>
-                                    <th>TZ4</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 <tr>
                                     <td>Curr. Value:</td>
                                     <td class="js_tz1"></td>
                                     <td class="js_tz2"></td>
                                     <td class="js_tz3"></td>
-                                    <td class="js_tz4"></td>
                                 </tr>
                                 <tr>
                                     <td>Curr. day Rate:</td>
                                     <td class="js_tz1"></td>
                                     <td class="js_tz2"></td>
                                     <td class="js_tz3"></td>
-                                    <td class="js_tz4"></td>
                                 </tr>
                                 <tr>
                                     <td>Curr. M. Rate:</td>
                                     <td class="js_tz1"></td>
                                     <td class="js_tz2"></td>
                                     <td class="js_tz3"></td>
-                                    <td class="js_tz4"></td>
                                 </tr>
                                 <tr>
                                     <td>Prev. M Rate:</td>
                                     <td class="js_tz1"></td>
                                     <td class="js_tz2"></td>
                                     <td class="js_tz3"></td>
-                                    <td class="js_tz4"></td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-12">
                         <button type="button" class="btn btn-primary" onclick="return false;">Передать показания</button>
