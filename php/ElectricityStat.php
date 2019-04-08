@@ -12,21 +12,6 @@ SELECT * FROM HMS.Electricity;*/
 
 class ElectricityStat
 {
-    const MYSQL_HOST        = '192.168.1.2';
-    const MYSQL_PORT        = 3306;
-    const MYSQL_LOGIN       = 'hms';
-    const MYSQL_PASS        = 'HMSStats1';
-    const MYSQL_BASE        = 'HMS';
-    const MYSQL_BASE_LOCALE = 'utf8';
-    const MYSQL_TABLE_WATER = 'Electricity';
-
-    const TIMESTAMP = 'ts';
-    const TZ1       = 'TZ1';
-    const TZ2       = 'TZ2';
-    const TZ3       = 'TZ3';
-    const TZ4       = 'TZ4';
-    const TOTAL     = 'total';
-
     private $debug;
 
     /** @var  Config */
@@ -36,12 +21,6 @@ class ElectricityStat
     {
         $this->debug = $debug;
         $this->cfg = Config::getConfig(ElectricityMetersSettings::CFG_NAME);
-
-        $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, self::MYSQL_LOGIN, self::MYSQL_PASS, $this->debug);
-        $this->db->connect();
-        $this->db->selectDB(self::MYSQL_BASE);
-        $this->db->setLocale(self::MYSQL_BASE_LOCALE);
     }
 
     public function actionGet()

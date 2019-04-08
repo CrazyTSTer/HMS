@@ -5,17 +5,33 @@ define('QUERY', 'INSERT INTO #table# (TZ1, TZ2, TZ3, TZ4, total) VALUES (#TZ1#, 
 
 const DEBUG = true;
 
-$data['table'] = ElectricityStat::MYSQL_TABLE_WATER;
-$electricityStat = new ElectricityStat(DEBUG);
+const MYSQL_HOST        = '192.168.1.2';
+const MYSQL_PORT        = 3306;
+const MYSQL_LOGIN       = 'hms';
+const MYSQL_PASS        = 'HMSStats1';
+const MYSQL_BASE        = 'HMS';
+const MYSQL_BASE_LOCALE = 'utf8';
+const MYSQL_TABLE_WATER = 'Electricity';
 
-if (!$electricityStat->db->isConnected()) {
-    $electricityStat->db->disconnect();
+$data['table'] = MYSQL_TABLE_WATER;
+
+/** @var  DB */
+$db = DB::getInstance();
+
+$db->init(MYSQL_HOST, MYSQL_PORT, MYSQL_LOGIN, MYSQL_PASS, DEBUG);
+$db->connect();
+$db->selectDB(MYSQL_BASE);
+$db->setLocale(MYSQL_BASE_LOCALE);
+
+if (!$db->isConnected()) {
+    $db->disconnect();
     die('Failed connect to DB');
 }
 
+$electricityStat = new ElectricityStat(DEBUG);
 $result = $electricityStat->executeCommands([ElectricityMetersSettings::GET_CURRENT_POWER_VALUES]);
 if ($result[ElectricityMetersSettings::GET_CURRENT_POWER_VALUES] == NULL) {
-    $electricityStat->db->disconnect();
+    $db->disconnect();
     die('Failed to get data from Electricity Meter');
 }
 
@@ -26,10 +42,10 @@ foreach ($parsedResult[ElectricityMetersSettings::GET_CURRENT_POWER_VALUES] as $
     $total += $value;
 }
 
-$data[ElectricityStat::TOTAL] = $total;
+$data['total'] = $total;
 
-$result = $electricityStat->db->executeQuery(QUERY, $data, false);
-$electricityStat->db->disconnect();
+$result = $db->executeQuery(QUERY, $data, false);
+$db->disconnect();
 
 if ($result !== true) {
     die('Failed to insert data into DB');
