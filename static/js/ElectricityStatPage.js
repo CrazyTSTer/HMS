@@ -172,42 +172,37 @@ function showElectricityStat()
 function getData()
 {
     var ts = new Date();
-    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentCircuitValues']}, function (result) {
-        if (result['status'] == 'success') {
 
-            var x_voltage = ["x", ts.getTime()];
-            var y_vlotage = ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']];
-            $(".js_voltage_value").text(result['data']['getCurrentCircuitValues']['Voltage']);
+    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: 'execute_command', cmds:['getCurrentCircuitValues']}, function (result) {
+        if (result['status'] == 'success') {
             voltage.flow({
                 columns: [
-                    x_voltage, y_vlotage
+                    ["x", ts.getTime()], ["Voltage", result['data']['getCurrentCircuitValues']['Voltage']]
                 ],
                 duration: 500,
             });
 
-            var x_amperage = ["x", ts.getTime()];
-            var y_amperage = ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']];
-            $(".js_amperage_value").text(result['data']['getCurrentCircuitValues']['Amperage']);
             amperage.flow({
                 columns: [
-                    x_amperage, y_amperage
+                    ["x", ts.getTime()], ["Amperage", result['data']['getCurrentCircuitValues']['Amperage']]
                 ],
                 duration: 500,
             });
 
-            var x_power = ["x", ts.getTime()];
-            var y_power = ["Power", result['data']['getCurrentCircuitValues']['Power']];
-            $(".js_power_value").text(result['data']['getCurrentCircuitValues']['Power']);
             power.flow({
                 columns: [
-                    x_power, y_power
+                    ["x", ts.getTime()], ["Power", result['data']['getCurrentCircuitValues']['Power']]
                 ],
                 duration: 500,
             });
 
+            $(".js_voltage_value").text(result['data']['getCurrentCircuitValues']['Voltage']);
+            $(".js_amperage_value").text(result['data']['getCurrentCircuitValues']['Amperage']);
+            $(".js_power_value").text(result['data']['getCurrentCircuitValues']['Power']);
         } else {
             showModalAlert(result['status'], result['data']);
         }
+
         clearTimeout(timer);
         timer = setTimeout(function () {
             getData();

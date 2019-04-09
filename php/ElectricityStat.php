@@ -62,6 +62,16 @@ class ElectricityStat
         }
 
         switch ($params) {
+            case 'execute_command':
+                if (!Vars::check('cmds')) {
+                    Utils::reportError(__CLASS__, 'Commands should be passed', $this->debug);
+                }
+                $cmds = Vars::get('cmds', null);
+
+                $result = $this->executeCommands($cmds);
+                $result = ElectricityParser::parseData($result);
+                break;
+
             case 'main_stat':
                 $tmp = ElectricityParser::parseData($this->executeCommands([ElectricityMetersSettings::GET_CURRENT_POWER_VALUES, ElectricityMetersSettings::GET_CURRENT_DATE_TIME]));
                 $current_values = $tmp[ElectricityMetersSettings::GET_CURRENT_POWER_VALUES];
