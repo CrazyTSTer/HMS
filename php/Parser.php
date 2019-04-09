@@ -189,6 +189,14 @@ class ElectricityParser
                     }
                     break;
 
+                case ElectricityMetersSettings::GET_CURRENT_DATE_TIME:
+                    $tz = substr($cmdData, 0, 2);
+                    $time = implode(':', str_split(substr($cmdData, 2, 6), 2));
+                    $date = array_reverse(str_split(substr($cmdData, 8, 6), 2));
+                    $date[0] = '20' . $date[0];
+                    $result[ElectricityMetersSettings::GET_CURRENT_DATE_TIME] = implode('-', $date) . ' ' . $time;
+                    break;
+
                 default:
                     continue;
                     break;

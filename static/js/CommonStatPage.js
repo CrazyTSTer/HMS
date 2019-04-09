@@ -18,12 +18,34 @@ function showMainStat()
         }
     });
 
-    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: ['getCurrentPowerValues']}, function (result) {
+    executeAjaxGetRequest({location: 'ElectricityStat', action: 'actionGet', param: 'main_stat'}, function (result) {
         if (result['status'] == 'success') {
-            $(".js_tz1").text(result['data']['getCurrentPowerValues']['TZ1']);
-            $(".js_tz2").text(result['data']['getCurrentPowerValues']['TZ2']);
-            $(".js_tz3").text(result['data']['getCurrentPowerValues']['TZ3']);
-            $(".js_tz4").text(result['data']['getCurrentPowerValues']['TZ4']);
+            $(".js_electricity_last_update").text(result['data']['ts']);
+
+            $(".js_tz1_curr_value").text(result['data']['current_value']['TZ1']);
+            $(".js_tz2_curr_value").text(result['data']['current_value']['TZ2']);
+            $(".js_tz3_curr_value").text(result['data']['current_value']['TZ3']);
+            //$(".js_tz4_curr_value").text(result['data']['current_value']['TZ4']);
+
+            $(".js_tz1_curr_day_rate").text(result['data']['day_rate']['TZ1']);
+            $(".js_tz2_curr_day_rate").text(result['data']['day_rate']['TZ2']);
+            $(".js_tz3_curr_day_rate").text(result['data']['day_rate']['TZ3']);
+            //$(".js_tz4_curr_day_rate").text(result['data']['day_rate']['TZ4']);
+
+            $(".js_tz1_curr_month_rate").text(result['data']['month_rate']['TZ1']);
+            $(".js_tz2_curr_month_rate").text(result['data']['month_rate']['TZ2']);
+            $(".js_tz3_curr_month_rate").text(result['data']['month_rate']['TZ3']);
+            //$(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+
+            $(".js_tz1_curr_month_rate").text(result['data']['month_rate']['TZ1']);
+            $(".js_tz2_curr_month_rate").text(result['data']['month_rate']['TZ2']);
+            $(".js_tz3_curr_month_rate").text(result['data']['month_rate']['TZ3']);
+            //$(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+
+            $(".js_tz1_prev_month_rate").text(result['data']['prev_month_rate']['TZ1']);
+            $(".js_tz2_prev_month_rate").text(result['data']['prev_month_rate']['TZ2']);
+            $(".js_tz3_prev_month_rate").text(result['data']['prev_month_rate']['TZ3']);
+            //$(".js_tz4_prev_month_rate").text(result['data']['prev_month_rate']['TZ4']);
         } else {
             showModalAlert(result['status'], result['data']);
         }

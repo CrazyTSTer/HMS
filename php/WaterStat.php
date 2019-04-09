@@ -151,23 +151,21 @@ class WaterStat
                 $current_month_rate = $this->db->fetchSingleRow(GET_CURRENT_MONTH_RATE, ['table' => DB::MYSQL_TABLE_WATER]);
                 $prev_month_rate = $this->db->fetchSingleRow(GET_PREV_MONTH_RATE, ['table' => DB::MYSQL_TABLE_WATER]);
 
-                $ret[self::TIMESTAMP] = $current_values[self::TIMESTAMP];
-
-                $ret[self::COLDWATER] = array(
-                    'current_value'   => number_format($current_values[self::COLDWATER] / 1000, 3, ',', ''),
-                    'day_rate'        => number_format($current_day_rate[self::COLDWATER] / 1000, 3, ',', ''),
-                    'month_rate'      => number_format($current_month_rate[self::COLDWATER] / 1000, 3, ',', ''),
-                    'prev_month_rate' => number_format($prev_month_rate[self::COLDWATER] / 1000, 3, ',', ''),
-                );
-
-                $ret[self::HOTWATER] = array(
-                    'current_value'   => number_format($current_values[self::HOTWATER] / 1000, 3, ',', ''),
-                    'day_rate'        => number_format($current_day_rate[self::HOTWATER] / 1000, 3, ',', ''),
-                    'month_rate'      => number_format($current_month_rate[self::HOTWATER] / 1000, 3, ',', ''),
-                    'prev_month_rate' => number_format($prev_month_rate[self::HOTWATER] / 1000, 3, ',', ''),
-                );
-
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                $ret = [
+                    self::TIMESTAMP => $current_values[self::TIMESTAMP],
+                    self::COLDWATER => [
+                        'current_value'   => number_format($current_values[self::COLDWATER] / 1000, 3, ',', ''),
+                        'day_rate'        => number_format($current_day_rate[self::COLDWATER] / 1000, 3, ',', ''),
+                        'month_rate'      => number_format($current_month_rate[self::COLDWATER] / 1000, 3, ',', ''),
+                        'prev_month_rate' => number_format($prev_month_rate[self::COLDWATER] / 1000, 3, ',', ''),
+                    ],
+                    self::HOTWATER => [
+                        'current_value'   => number_format($current_values[self::HOTWATER] / 1000, 3, ',', ''),
+                        'day_rate'        => number_format($current_day_rate[self::HOTWATER] / 1000, 3, ',', ''),
+                        'month_rate'      => number_format($current_month_rate[self::HOTWATER] / 1000, 3, ',', ''),
+                        'prev_month_rate' => number_format($prev_month_rate[self::HOTWATER] / 1000, 3, ',', ''),
+                    ],
+                ];
                 break;
 
             case 'current':
@@ -175,11 +173,11 @@ class WaterStat
                 $current_month_values = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => 'CURDATE()', 'table' => DB::MYSQL_TABLE_WATER]);
                 $last_12month_values = $this->db->executeQuery(GET_LAST_12_MONTH_VALUES_BY_MONTHS, ['table' => DB::MYSQL_TABLE_WATER]);
 
-                $ret['current_day'] = Parser::parseCurrentDay($current_day_values);
-                $ret['current_month'] = Parser::parseMonth($current_month_values, true, false);
-                $ret['last_12month'] = Parser::parseMonth($last_12month_values, false, true);
-
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                $ret = [
+                    'current_day' => Parser::parseCurrentDay($current_day_values),
+                    'current_month' => Parser::parseMonth($current_month_values, true, false),
+                    'last_12month' => Parser::parseMonth($last_12month_values, false, true),
+                ];
                 break;
 
             case 'day':
@@ -188,11 +186,9 @@ class WaterStat
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_day = $this->db->executeQuery(GET_CURRENT_DAY_VALUES, ['date' => '\'' . $date . '\'', 'table' => DB::MYSQL_TABLE_WATER]);
-                $ret['current_day'] = Parser::parseCurrentDay(
-                    $current_day,
-                    $date == date('Y-m-d')
-                );
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                $ret = [
+                    'current_day' => Parser::parseCurrentDay($current_day, $date == date('Y-m-d')),
+                ];
                 break;
 
             case 'month':
@@ -201,13 +197,16 @@ class WaterStat
                     Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Date not passed');
                 }
                 $current_month = $this->db->executeQuery(GET_CURRENT_MONTH_VALUES_BY_DAYS, ['date' => '\'' . $date . '-01' . '\'', 'table' => DB::MYSQL_TABLE_WATER]);
-                $ret['current_month'] = Parser::parseMonth($current_month, $date == date('Y-m'));
-                Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
+                $ret = [
+                    'current_month' => Parser::parseMonth($current_month, $date == date('Y-m')),
+                ];
                 break;
 
             default:
                 Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER);
+                break;
         }
+        Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
     }
 
     public function actionSendDataToPGU()
