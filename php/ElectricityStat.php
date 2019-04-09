@@ -89,7 +89,7 @@ class ElectricityStat
                 break;
 
             default:
-                Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER);
+                Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER, $this->debug);
                 break;
         }
 

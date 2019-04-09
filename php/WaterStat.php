@@ -203,7 +203,7 @@ class WaterStat
                 break;
 
             default:
-                Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER);
+                Utils::reportError(__CLASS__, Utils::UNKNOWN_PARAMETER, $this->debug);
                 break;
         }
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $ret);
