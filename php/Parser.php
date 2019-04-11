@@ -169,9 +169,9 @@ class ElectricityParser
 
                 case ElectricityMetersSettings::GET_CURRENT_CIRCUIT_VALUES:
                     $result[ElectricityMetersSettings::GET_CURRENT_CIRCUIT_VALUES] = [
-                        'Voltage'  => substr($cmdData, 0, 4) / 10,
-                        'Amperage' => substr($cmdData, 4, 4) / 100,
-                        'Power'    => substr($cmdData, 8, 6) / 1000,
+                        'Voltage'  => number_format((substr($cmdData, 0, 4) / 10), 2, ',', ''),
+                        'Amperage' => number_format((substr($cmdData, 4, 4) / 100), 2, ',', ''),
+                        'Power'    => number_format((substr($cmdData, 8, 6) / 1000), 3, ',', ''),
                     ];
                     break;
 
