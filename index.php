@@ -30,6 +30,7 @@ class ASMS
     public function init($debug = false)
     {
         setlocale(LC_TIME, 'ru_RU.UTF-8');
+        //setlocale(LC_NUMERIC, 'ru_RU.UTF-8');
         date_default_timezone_set('Europe/Moscow');
         $this->debug = $debug;
         $this->location = Vars::get('location', null);

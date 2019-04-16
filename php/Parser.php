@@ -210,7 +210,7 @@ class ElectricityParser
     {
         $i = 1;
         foreach (str_split($data, 8) as $chunk) {
-            $result['TZ' . $i] = $chunk / 100;
+            $result['TZ' . $i] = sprintf('%.2f',$chunk / 100);
             $i++;
         }
 

@@ -9,14 +9,15 @@
   PRIMARY KEY (`ts`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SELECT * FROM HMS.Electricity;*/
+define('SET_EL_VALUES',                   'INSERT INTO #table# (TZ1, TZ2, TZ3, TZ4, total) VALUES (#TZ1#, #TZ2#, #TZ3#, #TZ4#, #total#)');
 
 define('GET_EL_PREVIOUS_DAY_LAST_DATA',   'SELECT TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1');
 define('GET_EL_PREVIOUS_MONTH_LAST_DATA', 'SELECT TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1');
 define('GET_EL_PREV_MONTH_RATE',          'SELECT MAX(TZ1) - MIN(TZ1) as TZ1, MAX(TZ2) - MIN(TZ2) as TZ2, MAX(TZ3) - MIN(TZ3) as TZ3, MAX(TZ4) - MIN(TZ4) as TZ4 FROM (
-                                            (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1) 
-                                            UNION ALL 
-                                            (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) <= DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
-                                        ) as smth;');
+                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1)
+                                                UNION ALL
+                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) <= DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
+                                           ) as smth;');
 class ElectricityStat
 {
     const MYSQL_HOST = '192.168.1.2';
@@ -83,16 +84,16 @@ class ElectricityStat
                     'ts' => $tmp[ElectricityMetersSettings::GET_CURRENT_DATE_TIME],
                     'current_value' => $current_values,
                     'day_rate' => [
-                        'TZ1' => number_format($current_values['TZ1'] - $previous_day_last_data['TZ1'], 2, ',', ''),
-                        'TZ2' => number_format($current_values['TZ2'] - $previous_day_last_data['TZ2'], 2, ',', ''),
-                        'TZ3' => number_format($current_values['TZ3'] - $previous_day_last_data['TZ3'], 2, ',', ''),
-                        'TZ4' => number_format($current_values['TZ4'] - $previous_day_last_data['TZ4'], 2, ',', ''),
+                        'TZ1' => sprintf('%.2f', $current_values['TZ1'] - $previous_day_last_data['TZ1']),
+                        'TZ2' => sprintf('%.2f', $current_values['TZ2'] - $previous_day_last_data['TZ2']),
+                        'TZ3' => sprintf('%.2f', $current_values['TZ3'] - $previous_day_last_data['TZ3']),
+                        'TZ4' => sprintf('%.2f', $current_values['TZ4'] - $previous_day_last_data['TZ4']),
                     ],
                     'month_rate' => [
-                        'TZ1' => number_format($current_values['TZ1'] - $previous_month_last_data['TZ1'], 2, ',', ''),
-                        'TZ2' => number_format($current_values['TZ2'] - $previous_month_last_data['TZ2'], 2, ',', ''),
-                        'TZ3' => number_format($current_values['TZ3'] - $previous_month_last_data['TZ3'], 2, ',', ''),
-                        'TZ4' => number_format($current_values['TZ4'] - $previous_month_last_data['TZ4'], 2, ',', ''),
+                        'TZ1' => sprintf('%.2f', $current_values['TZ1'] - $previous_month_last_data['TZ1']),
+                        'TZ2' => sprintf('%.2f', $current_values['TZ2'] - $previous_month_last_data['TZ2']),
+                        'TZ3' => sprintf('%.2f', $current_values['TZ3'] - $previous_month_last_data['TZ3']),
+                        'TZ4' => sprintf('%.2f', $current_values['TZ4'] - $previous_month_last_data['TZ4']),
                     ],
                     'prev_month_rate' => $prev_month_rate,
                 ];
@@ -104,6 +105,22 @@ class ElectricityStat
         }
 
         Utils::unifiedExitPoint(Utils::STATUS_SUCCESS, $result);
+    }
+
+    public function storeValuesToDB($data)
+    {
+        $total = 0;
+        foreach ($data as $key => $value) {
+            $res[$key] = $value;
+            $total += $value;
+        }
+
+        $res['table'] = DB::MYSQL_TABLE_ELECTRICITY;
+        $res['total'] = $total;
+
+        $result = $this->db->executeQuery(SET_EL_VALUES, $res);
+
+        return $result;
     }
 
     /**
