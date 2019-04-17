@@ -82,7 +82,12 @@ class ElectricityStat
 
                 $result = [
                     'ts' => $tmp[ElectricityMetersSettings::GET_CURRENT_DATE_TIME],
-                    'current_value' => $current_values,
+                    'current_value' => [
+                        'TZ1' => sprintf('%.2f', $current_values['TZ1']),
+                        'TZ2' => sprintf('%.2f', $current_values['TZ2']),
+                        'TZ3' => sprintf('%.2f', $current_values['TZ3']),
+                        'TZ4' => sprintf('%.2f', $current_values['TZ4']),
+                    ],
                     'day_rate' => [
                         'TZ1' => sprintf('%.2f', $current_values['TZ1'] - $previous_day_last_data['TZ1']),
                         'TZ2' => sprintf('%.2f', $current_values['TZ2'] - $previous_day_last_data['TZ2']),
@@ -95,7 +100,12 @@ class ElectricityStat
                         'TZ3' => sprintf('%.2f', $current_values['TZ3'] - $previous_month_last_data['TZ3']),
                         'TZ4' => sprintf('%.2f', $current_values['TZ4'] - $previous_month_last_data['TZ4']),
                     ],
-                    'prev_month_rate' => $prev_month_rate,
+                    'prev_month_rate' => [
+                        'TZ1' => sprintf('%.2f', $prev_month_rate['TZ1']),
+                        'TZ2' => sprintf('%.2f', $prev_month_rate['TZ2']),
+                        'TZ3' => sprintf('%.2f', $prev_month_rate['TZ3']),
+                        'TZ4' => sprintf('%.2f', $prev_month_rate['TZ4']),
+                    ],
                 ];
                 break;
 
