@@ -61,9 +61,10 @@ class DB
 
     public function disconnect()
     {
-        if ($this->mysql_descriptor) {
+        if (!empty($this->mysql_descriptor)) {
             mysqli_close($this->mysql_descriptor)
                 or die(Utils::reportError(__CLASS__, self::MYSQL_DISCONNECT_FAIL, $this->debug));
+            unset($this->mysql_descriptor);
         }
 
         $this->is_connected = false;
