@@ -217,10 +217,12 @@ function parseElectricityMeterInfo(result)
             $('#electricityMeterID').val(res['meterID']);
 
             $('#electricityAddressForm').removeClass('d-none');
+            $('#timeZoneForm').removeClass('d-none');
             $('#electricitySaveForm').removeClass('d-none');
             $('#generateMeterCommandsForm').removeClass('d-none');
         } else {
             $('#electricityAddressForm').addClass('d-none');
+            $('#timeZoneForm').addClass('d-none');
             $('#electricitySaveForm').addClass('d-none');
             $('#generateMeterCommandsForm').addClass('d-none');
         }

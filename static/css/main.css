@@ -63,26 +63,36 @@
     #tableWaterMetersInfo tbody,
     #tableWaterMetersInfo th,
     #tableWaterMetersInfo td,
-    #tableWaterMetersInfo tr {
+    #tableWaterMetersInfo tr,
+    #tableElectricytyCommonStat table,
+    #tableElectricytyCommonStat thead,
+    #tableElectricytyCommonStat tbody,
+    #tableElectricytyCommonStat th,
+    #tableElectricytyCommonStat td,
+    #tableElectricytyCommonStat tr {
         display: block;
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    #tableWaterMetersInfo thead tr {
+    #tableWaterMetersInfo thead tr,
+    #tableElectricytyCommonStat thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
-    #tableWaterMetersInfo tr {
+    #tableWaterMetersInfo tr,
+    #tableElectricytyCommonStat tr {
         border-bottom: 1px solid #ccc;
     }
 
-    #tableWaterMetersInfo tr:last-child {
+    #tableWaterMetersInfo tr:last-child,
+    #tableElectricytyCommonStat tr:last-child {
         border-bottom: none;
     }
 
-    #tableWaterMetersInfo td {
+    #tableWaterMetersInfo td,
+    #tableElectricytyCommonStat td {
         /* Behave  like a "row" */
         border: none;
         /*border-bottom: 1px solid #eee;*/
@@ -92,7 +102,8 @@
         text-align:left;
     }
 
-    #tableWaterMetersInfo td:before {
+    #tableWaterMetersInfo td:before,
+    #tableElectricytyCommonStat td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
@@ -108,15 +119,25 @@
     /*
     Label the data
     */
-    #tableWaterMetersInfo td:before {
+    #tableWaterMetersInfo td:before,
+    #tableElectricytyCommonStat td:before {
         content: attr(data-title);
     }
 
-    #tableWaterMetersInfo .meter_header {
+    #tableWaterMetersInfo .meter_header,
+    #tableElectricytyCommonStat .meter_header {
         display: block !important;
         padding-left: 0;
         text-align: center;
         color: #fff;
+    }
+
+    #tableElectricytyCommonStat td {
+        text-align:center;
+    }
+
+    #tableElectricytyCommonStat td:before {
+        text-align:center;
     }
 }
 
