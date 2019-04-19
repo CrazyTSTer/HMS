@@ -53,6 +53,10 @@ class ASMS
             }
         } else {
             $target = Vars::get('target', self::COMMON_STAT_PAGE);
+
+            $electricityShowTotal = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('showTotal');
+            $electricityTzCount   = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('tzCount');
+
             $headers = getallheaders();
 
             switch ($target) {

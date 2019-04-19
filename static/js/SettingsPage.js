@@ -40,6 +40,8 @@ function saveMetersSettings(settingsClass)
     if (settingsClass == WATER_SETTINGS_CLASS) {
         data = WaterMetersSettings;
     } else if (settingsClass == ELECTRICITY_SETTINGS_CLASS) {
+        electricityTzCount   = ElectricityMetersSettings['tzCount'];
+        electricityShowTotal = ElectricityMetersSettings['showTotal'];
         data = ElectricityMetersSettings;
     }
 
@@ -83,9 +85,12 @@ function eraseMetersSettings(settingsClass)
         $('#electricityMeterID').val('');
 
         $('#electricityAddressForm').addClass('d-none');
+        $('#timeZoneForm').addClass('d-none');
         $('#electricitySaveForm').addClass('d-none');
         $('#generateMeterCommandsForm').addClass('d-none');
         ElectricityMetersSettings = [];
+        electricityShowTotal = undefined;
+        electricityTzCount = undefined;
     }
 
     var param = {
@@ -156,7 +161,7 @@ function parseWaterMetersInfo(result)
                     "<td data-title=\"ID:\" class=\"align-middle\">" + element['counterNum'] + "</td>" +
                     "<td data-title=\"Номер:\" class=\"align-middle\">" + element['num'] + "</td>" +
                     "<td data-title=\"Тип:\" class=\"align-middle\">" +
-                    "<select onchange='waterTypeChage(this)' class=\"form-control form-control-sm\" id=\"Meter_" + i +"\">" +
+                    "<select onchange='waterTypeChage(this);' class=\"form-control form-control-sm\" id=\"Meter_" + i +"\">" +
                     "<option value=1>ХВС</option>" +
                     "<option value=2>ГВС</option>" +
                     "</select>" +
@@ -216,6 +221,9 @@ function parseElectricityMeterInfo(result)
             $('#electricityPayCodeInput').val(res['paycode']);
             $('#electricityMeterID').val(res['meterID']);
 
+            $("#electricityTzCount").val(res['tzCount']);
+            $("#electricityShowTotal").val(res['showTotal']);
+
             $('#electricityAddressForm').removeClass('d-none');
             $('#timeZoneForm').removeClass('d-none');
             $('#electricitySaveForm').removeClass('d-none');
@@ -229,6 +237,16 @@ function parseElectricityMeterInfo(result)
     } else {
         showModalAlert(result['status'], result['data']);
     }
+}
+
+function electricityTzCountChange(el)
+{
+    ElectricityMetersSettings['tzCount'] = $(el).val();
+}
+
+function electricityShowTotalChange(el)
+{
+    ElectricityMetersSettings['showTotal'] = $(el).val();
 }
 
 function generateElectricityMeterCommands()

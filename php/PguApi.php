@@ -167,6 +167,7 @@ class PguApi
 
         $result['address'] = preg_replace('/\s+/', ' ', $res['result']['addr'] ?? null);
         $result['meterType'] = $res['result']['nm_uchet'] ?? null;
+        $result['tzCount'] = substr($res['result']['tp_uchet'], -1) ?? null;
 
         //Получаем информацию о дате установки счетчика
         $getSetupDate = [
@@ -204,9 +205,16 @@ class PguApi
         $result['MPI'] = $res['result']['dt_mpi'] ?? null;
         $result['numberOfDigit'] = $res['result']['sh_znk'] ?? null;
 
-        $result = array_filter($result);
+        $result['showTotal'] = 0; //Просто дефолтное значение, оно ниоткуда не получается
 
-        if (count($result) != 5) {
+        $result = array_filter($result, function ($item) {
+            if ($item === null) {
+                return false;
+            }
+            return true;
+        });
+
+        if (count($result) != 7) {
             Utils::unifiedExitPoint(Utils::STATUS_FAIL, 'Failed to get main electricityMeter info');
         }
 
