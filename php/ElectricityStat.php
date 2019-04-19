@@ -13,10 +13,10 @@ define('SET_EL_VALUES',                   'INSERT INTO #table# (TZ1, TZ2, TZ3, T
 
 define('GET_EL_PREVIOUS_DAY_LAST_DATA',   'SELECT TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) < CURDATE() ORDER BY ts DESC LIMIT 1');
 define('GET_EL_PREVIOUS_MONTH_LAST_DATA', 'SELECT TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') ORDER BY ts DESC LIMIT 1');
-define('GET_EL_PREV_MONTH_RATE',          'SELECT MAX(TZ1) - MIN(TZ1) as TZ1, MAX(TZ2) - MIN(TZ2) as TZ2, MAX(TZ3) - MIN(TZ3) as TZ3, MAX(TZ4) - MIN(TZ4) as TZ4 FROM (
-                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1)
+define('GET_EL_PREV_MONTH_RATE',          'SELECT MAX(TZ1) - MIN(TZ1) as TZ1, MAX(TZ2) - MIN(TZ2) as TZ2, MAX(TZ3) - MIN(TZ3) as TZ3, MAX(TZ4) - MIN(TZ4) as TZ4, MAX(total) - MIN(total) as total FROM (
+                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) < DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 MONTH ORDER BY ts DESC LIMIT 1)
                                                 UNION ALL
-                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4 FROM #table# WHERE DATE(ts) <= DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
+                                                (SELECT ts, TZ1, TZ2, TZ3, TZ4, total FROM #table# WHERE DATE(ts) <= DATE_FORMAT(CURDATE(), \'%Y-%m-01\') - INTERVAL 1 DAY ORDER BY ts DESC LIMIT 1)
                                            ) as smth;');
 class ElectricityStat
 {
@@ -83,28 +83,32 @@ class ElectricityStat
                 $result = [
                     'ts' => $tmp[ElectricityMetersSettings::GET_CURRENT_DATE_TIME],
                     'current_value' => [
-                        'TZ1' => sprintf('%.2f', $current_values['TZ1']),
-                        'TZ2' => sprintf('%.2f', $current_values['TZ2']),
-                        'TZ3' => sprintf('%.2f', $current_values['TZ3']),
-                        'TZ4' => sprintf('%.2f', $current_values['TZ4']),
+                        'TZ1'   => sprintf('%.2f', $current_values['TZ1']),
+                        'TZ2'   => sprintf('%.2f', $current_values['TZ2']),
+                        'TZ3'   => sprintf('%.2f', $current_values['TZ3']),
+                        'TZ4'   => sprintf('%.2f', $current_values['TZ4']),
+                        'total' => sprintf('%.2f', $current_values['total']),
                     ],
                     'day_rate' => [
-                        'TZ1' => sprintf('%.2f', $current_values['TZ1'] - $previous_day_last_data['TZ1']),
-                        'TZ2' => sprintf('%.2f', $current_values['TZ2'] - $previous_day_last_data['TZ2']),
-                        'TZ3' => sprintf('%.2f', $current_values['TZ3'] - $previous_day_last_data['TZ3']),
-                        'TZ4' => sprintf('%.2f', $current_values['TZ4'] - $previous_day_last_data['TZ4']),
+                        'TZ1'   => sprintf('%.2f', $current_values['TZ1'] - $previous_day_last_data['TZ1']),
+                        'TZ2'   => sprintf('%.2f', $current_values['TZ2'] - $previous_day_last_data['TZ2']),
+                        'TZ3'   => sprintf('%.2f', $current_values['TZ3'] - $previous_day_last_data['TZ3']),
+                        'TZ4'   => sprintf('%.2f', $current_values['TZ4'] - $previous_day_last_data['TZ4']),
+                        'total' => sprintf('%.2f', $current_values['total'] - $previous_day_last_data['total']),
                     ],
                     'month_rate' => [
-                        'TZ1' => sprintf('%.2f', $current_values['TZ1'] - $previous_month_last_data['TZ1']),
-                        'TZ2' => sprintf('%.2f', $current_values['TZ2'] - $previous_month_last_data['TZ2']),
-                        'TZ3' => sprintf('%.2f', $current_values['TZ3'] - $previous_month_last_data['TZ3']),
-                        'TZ4' => sprintf('%.2f', $current_values['TZ4'] - $previous_month_last_data['TZ4']),
+                        'TZ1'   => sprintf('%.2f', $current_values['TZ1'] - $previous_month_last_data['TZ1']),
+                        'TZ2'   => sprintf('%.2f', $current_values['TZ2'] - $previous_month_last_data['TZ2']),
+                        'TZ3'   => sprintf('%.2f', $current_values['TZ3'] - $previous_month_last_data['TZ3']),
+                        'TZ4'   => sprintf('%.2f', $current_values['TZ4'] - $previous_month_last_data['TZ4']),
+                        'total' => sprintf('%.2f', $current_values['total'] - $previous_month_last_data['total']),
                     ],
                     'prev_month_rate' => [
-                        'TZ1' => sprintf('%.2f', $prev_month_rate['TZ1']),
-                        'TZ2' => sprintf('%.2f', $prev_month_rate['TZ2']),
-                        'TZ3' => sprintf('%.2f', $prev_month_rate['TZ3']),
-                        'TZ4' => sprintf('%.2f', $prev_month_rate['TZ4']),
+                        'TZ1'   => sprintf('%.2f', $prev_month_rate['TZ1']),
+                        'TZ2'   => sprintf('%.2f', $prev_month_rate['TZ2']),
+                        'TZ3'   => sprintf('%.2f', $prev_month_rate['TZ3']),
+                        'TZ4'   => sprintf('%.2f', $prev_month_rate['TZ4']),
+                        'total' => sprintf('%.2f', $prev_month_rate['total']),
                     ],
                 ];
                 break;
@@ -119,15 +123,11 @@ class ElectricityStat
 
     public function storeValuesToDB($data)
     {
-        $total = 0;
         foreach ($data as $key => $value) {
             $res[$key] = $value;
-            $total += $value;
         }
 
         $res['table'] = DB::MYSQL_TABLE_ELECTRICITY;
-        $res['total'] = $total;
-
         $result = $this->db->executeQuery(SET_EL_VALUES, $res);
 
         return $result;

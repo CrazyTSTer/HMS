@@ -170,7 +170,7 @@ function parseWaterMetersInfo(result)
                     "</tr>";
                 $('#tableWaterMetersInfo').append(table_row);
 
-                $("#Meter_" + i + " option[value=" + element['type'] + "]").attr('selected','selected');
+                $("#Meter_" + i).val(element['type']);
             });
         }
     } else {

@@ -1,5 +1,23 @@
 function showMainStat()
 {
+    for (var i = 1; i < (electricityTzCount + 1); i++) {
+        console.log(i);
+        $(".tz" + i + "_header").removeClass("d-none");
+        $(".js_tz" + i + "_curr_value").removeClass("d-none");
+        $(".js_tz" + i + "_curr_day_rate").removeClass("d-none");
+        $(".js_tz" + i + "_curr_month_rate").removeClass("d-none");
+        $(".js_tz" + i + "_prev_month_rate").removeClass("d-none");
+
+    }
+
+    if (electricityShowTotal == 1) {
+        $(".total_header").removeClass("d-none");
+        $(".js_total_curr_value").removeClass("d-none");
+        $(".js_total_curr_day_rate").removeClass("d-none");
+        $(".js_total_curr_month_rate").removeClass("d-none");
+        $(".js_total_prev_month_rate").removeClass("d-none");
+    }
+
     executeAjaxGetRequest({location: 'WaterStat', action: 'actionGet', param: 'main_stat'}, function (result) {
         if (result['status'] == 'success') {
             $(".js_water_last_update").text(result['data']['ts']);
@@ -25,27 +43,32 @@ function showMainStat()
             $(".js_tz1_curr_value").text(result['data']['current_value']['TZ1']);
             $(".js_tz2_curr_value").text(result['data']['current_value']['TZ2']);
             $(".js_tz3_curr_value").text(result['data']['current_value']['TZ3']);
-            //$(".js_tz4_curr_value").text(result['data']['current_value']['TZ4']);
+            $(".js_tz4_curr_value").text(result['data']['current_value']['TZ4']);
+            $(".js_total_curr_value").text(result['data']['current_value']['total']);
 
             $(".js_tz1_curr_day_rate").text(result['data']['day_rate']['TZ1']);
             $(".js_tz2_curr_day_rate").text(result['data']['day_rate']['TZ2']);
             $(".js_tz3_curr_day_rate").text(result['data']['day_rate']['TZ3']);
-            //$(".js_tz4_curr_day_rate").text(result['data']['day_rate']['TZ4']);
+            $(".js_tz4_curr_day_rate").text(result['data']['day_rate']['TZ4']);
+            $(".js_total_curr_day_rate").text(result['data']['day_rate']['total']);
 
             $(".js_tz1_curr_month_rate").text(result['data']['month_rate']['TZ1']);
             $(".js_tz2_curr_month_rate").text(result['data']['month_rate']['TZ2']);
             $(".js_tz3_curr_month_rate").text(result['data']['month_rate']['TZ3']);
-            //$(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+            $(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+            $(".js_total_curr_month_rate").text(result['data']['month_rate']['total']);
 
             $(".js_tz1_curr_month_rate").text(result['data']['month_rate']['TZ1']);
             $(".js_tz2_curr_month_rate").text(result['data']['month_rate']['TZ2']);
             $(".js_tz3_curr_month_rate").text(result['data']['month_rate']['TZ3']);
-            //$(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+            $(".js_tz4_curr_month_rate").text(result['data']['month_rate']['TZ4']);
+            $(".js_total_curr_month_rate").text(result['data']['month_rate']['total']);
 
             $(".js_tz1_prev_month_rate").text(result['data']['prev_month_rate']['TZ1']);
             $(".js_tz2_prev_month_rate").text(result['data']['prev_month_rate']['TZ2']);
             $(".js_tz3_prev_month_rate").text(result['data']['prev_month_rate']['TZ3']);
-            //$(".js_tz4_prev_month_rate").text(result['data']['prev_month_rate']['TZ4']);
+            $(".js_tz4_prev_month_rate").text(result['data']['prev_month_rate']['TZ4']);
+            $(".js_total_prev_month_rate").text(result['data']['prev_month_rate']['total']);
         } else {
             showModalAlert(result['status'], result['data']);
         }

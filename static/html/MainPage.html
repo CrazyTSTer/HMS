@@ -30,8 +30,8 @@
     <!--------LOADING MAIN JS AND CSS---------------->
     <script type="text/javascript">
         var target               = '<?= htmlentities($target) ?>';
-        var electricityTzCount   = '<?= htmlentities($electricityTzCount) ?>';
-        var electricityShowTotal = '<?= htmlentities($electricityShowTotal) ?>';
+        var electricityTzCount   = parseInt('<?= htmlentities($electricityTzCount) ?>', 10);
+        var electricityShowTotal = parseInt('<?= htmlentities($electricityShowTotal) ?>', 10);
     </script>
     <script src="static/js/ajax.js"></script>
     <script src="static/js/MainPage.js"></script>

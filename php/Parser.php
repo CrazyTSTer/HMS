@@ -209,11 +209,13 @@ class ElectricityParser
     private static function parsePowerValuse($data)
     {
         $i = 1;
+        $total = 0;
         foreach (str_split($data, 8) as $chunk) {
             $result['TZ' . $i] = $chunk / 100;
+            $total += $chunk / 100;
             $i++;
         }
-
+        $result['total'] = $total;
         return $result;
     }
 

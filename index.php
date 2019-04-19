@@ -53,10 +53,6 @@ class ASMS
             }
         } else {
             $target = Vars::get('target', self::COMMON_STAT_PAGE);
-
-            $electricityShowTotal = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('showTotal');
-            $electricityTzCount   = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('tzCount');
-
             $headers = getallheaders();
 
             switch ($target) {
@@ -91,6 +87,8 @@ class ASMS
             if ($target && array_key_exists('X-Requested-With', $headers) && $headers['X-Requested-With'] == 'XMLHttpRequest') {
                 echo $content;
             } else {
+                $electricityShowTotal = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('showTotal');
+                $electricityTzCount   = Config::getConfig(ElectricityMetersSettings::CFG_NAME)->get('tzCount');
                 require self::LOCAL_PAGE_PATH . self::MAIN_PAGE . self::PAGE_EXT;
             }
         }
