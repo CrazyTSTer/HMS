@@ -31,6 +31,8 @@ class ElectricityStat
 
     private $debug;
 
+    private $host, $port;
+
     public function __construct($debug)
     {
         $this->debug = $debug;
@@ -41,6 +43,9 @@ class ElectricityStat
         $this->db->connect();
         $this->db->selectDB(DB::MYSQL_BASE);
         $this->db->setLocale(DB::MYSQL_BASE_LOCALE);
+
+        $this->host = $this->cfg->get(ElectricityMetersSettings::HOST);
+        $this->port = $this->cfg->get(ElectricityMetersSettings::PORT);
     }
 
     public function __destruct()
@@ -139,18 +144,7 @@ class ElectricityStat
      */
     public function executeCommands($cmdNames)
     {
-        $host = $this->cfg->get(ElectricityMetersSettings::HOST);
-        $port = $this->cfg->get(ElectricityMetersSettings::PORT);
         $attempts = $this->cfg->get(ElectricityMetersSettings::REQUEST_ATTEMPTS) ?? 10;
-
-        if (!$host || !$port) {
-            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter<br>Empty Host or Port', $this->debug);
-        }
-
-        $fp = fsockopen($host, $port, $errno, $errstr, 30);
-        if (!$fp) {
-            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter.<br>' . $errno . ':' . $errstr, $this->debug);
-        }
 
         foreach ($cmdNames as $cmdName) {
             if ($cmdName == ElectricityMetersSettings::GET_POWER_VALUES_BY_MONTH) {
@@ -159,25 +153,34 @@ class ElectricityStat
                     if (!$cmd) {
                         Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
                     }
-                    $result[$cmdName][$month] = $this->sendRequest($fp, $cmd, $attempts);
+                    $result[$cmdName][$month] = $this->sendRequest($cmd, $attempts);
                 }
             } else {
                 $cmd = $this->cfg->get(ElectricityMetersSettings::COMMANDS . '/' . $cmdName);
                 if (!$cmd) {
                     Utils::reportError(__CLASS__, 'Can\'t execute ' . $cmdName . '. Command code is empty', $this->debug);
                 }
-                $result[$cmdName] = $this->sendRequest($fp, $cmd, $attempts);
+                $result[$cmdName] = $this->sendRequest($cmd, $attempts);
             }
         }
 
-        fclose($fp);
         return $result;
     }
 
-    private function sendRequest($fp, $cmd, $attempts)
+    private function sendRequest($cmd, $attempts)
     {
+        if (!$this->host || !$this->port) {
+            Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter<br>Empty Host or Port', $this->debug);
+        }
+
+
         $result = NULL;
         for ($i = 0; $i < $attempts; $i++) {
+            $fp = fsockopen($this->host, $this->port, $errno, $errstr, 30);
+            if (!$fp) {
+                Utils::reportError(__CLASS__, 'Can\'t connect to Electricity meter.<br>' . $errno . ':' . $errstr, $this->debug);
+            }
+
             //stream_set_blocking($fp, true);
             fwrite($fp, hex2bin($cmd));
 
@@ -197,6 +200,7 @@ class ElectricityStat
                     $prevMicrotime = microtime(true);
                 }*/
             }
+            fclose($fp);
 
             $responseDecoded = strtoupper(bin2hex($response));
 
