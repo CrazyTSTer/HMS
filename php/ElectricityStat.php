@@ -178,24 +178,24 @@ class ElectricityStat
     {
         $result = NULL;
         for ($i = 0; $i < $attempts; $i++) {
-            stream_set_blocking($fp, true);
+            //stream_set_blocking($fp, true);
             fwrite($fp, hex2bin($cmd));
 
-            $prevMicrotime = microtime(true);
+            //$prevMicrotime = microtime(true);
 
             $response = '';
-            stream_set_blocking($fp, false);
+            //stream_set_blocking($fp, false);
 
-            while (1) {
-                $tmp = fgetc($fp);
-                if ($tmp === false) {
+            while (!feof($fp)) {
+                $response .= fgets($fp);
+                /*if ($tmp === false) {
                     if (microtime(true) - $prevMicrotime > 0.05) {
                         break;
                     }
                 } else {
                     $response .= $tmp;
                     $prevMicrotime = microtime(true);
-                }
+                }*/
             }
 
             $responseDecoded = strtoupper(bin2hex($response));
