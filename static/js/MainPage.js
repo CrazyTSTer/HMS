@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
 function loadPage(el)
 {
     clearTimeout(timer);
-
+    event.preventDefault();
     var href = $(el).attr('href');
     var url = window.location.href;
     var regexp = /index.php(.*)/;
