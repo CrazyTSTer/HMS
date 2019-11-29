@@ -69,6 +69,10 @@ class Utils
             fastcgi_finish_request();
             return;
         }
+
+        $db = DB::getInstance();
+        $db->disconnect();
+
         exit(0);
     }
 

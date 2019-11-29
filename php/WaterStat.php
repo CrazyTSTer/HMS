@@ -50,9 +50,6 @@ define('GET_WATER_LAST_12_MONTH_VALUES_BY_MONTHS', 'SELECT DATE_FORMAT(ts, \'%Y-
 
 class WaterStat
 {
-    const MYSQL_HOST = '192.168.1.2';
-    const MYSQL_PORT = 3306;
-
     const COLDWATER = 'coldwater';
     const HOTWATER  = 'hotwater';
     const TIMESTAMP = 'ts';
@@ -67,16 +64,9 @@ class WaterStat
         $this->debug = $debug;
 
         $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, DB::MYSQL_LOGIN, DB::MYSQL_PASS, $this->debug);
-        $this->db->connect();
-        $this->db->selectDB(DB::MYSQL_BASE);
-        $this->db->setLocale(DB::MYSQL_BASE_LOCALE);
-    }
-
-    public function __destruct()
-    {
-        $this->db->disconnect();
-        unset($this->db);
+        if (!$this->db->isDBReady()) {
+            Utils::reportError(__CLASS__, DB::MYSQL_DB_IS_NOT_READY, $this->debug);
+        }
     }
 
     public function actionSet()
@@ -97,10 +87,6 @@ class WaterStat
 
         if (!array_key_exists(self::COLDWATER, $tmp) || !array_key_exists(self::HOTWATER, $tmp)) {
             Utils::reportError(__CLASS__, '*coldwater* or *hotwater* key is missing in Values array', $this->debug);
-        }
-
-        if (!$this->db->isDBReady()) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
         }
 
         $result = $this->db->fetchSingleRow(GET_WATER_LAST_VALUES, ['table' => DB::MYSQL_TABLE_WATER]);
@@ -139,10 +125,6 @@ class WaterStat
         }
 
         $params = strtolower(Vars::get('param', null));
-
-        if (!$this->db->isDBReady()) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
-        }
 
         switch ($params) {
             case 'main_stat':

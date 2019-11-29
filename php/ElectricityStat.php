@@ -20,9 +20,6 @@ define('GET_EL_PREV_MONTH_RATE',          'SELECT MAX(TZ1) - MIN(TZ1) as TZ1, MA
                                            ) as smth;');
 class ElectricityStat
 {
-    const MYSQL_HOST = '192.168.1.2';
-    const MYSQL_PORT = 3306;
-
     /** @var  DB */
     private $db;
 
@@ -36,23 +33,15 @@ class ElectricityStat
     public function __construct($debug)
     {
         $this->debug = $debug;
+
         $this->cfg = Config::getConfig(ElectricityMetersSettings::CFG_NAME);
-
-        $this->db = DB::getInstance();
-        $this->db->init(self::MYSQL_HOST, self::MYSQL_PORT, DB::MYSQL_LOGIN, DB::MYSQL_PASS, $this->debug);
-        $this->db->connect();
-        $this->db->selectDB(DB::MYSQL_BASE);
-        $this->db->setLocale(DB::MYSQL_BASE_LOCALE);
-
         $this->host = $this->cfg->get(ElectricityMetersSettings::HOST);
         $this->port = $this->cfg->get(ElectricityMetersSettings::PORT);
-    }
 
-    public function __destruct()
-    {
-        $this->db->disconnect();
-        unset($this->db);
-        unset($this->cfg);
+        $this->db = DB::getInstance();
+        if (!$this->db->isDBReady()) {
+            Utils::reportError(__CLASS__, DB::MYSQL_DB_IS_NOT_READY, $this->debug);
+        }
     }
 
     public function actionGet()
@@ -62,10 +51,6 @@ class ElectricityStat
         }
 
         $params = Vars::get('param', null);
-
-        if (!$this->db->isDBReady()) {
-            Utils::unifiedExitPoint(Utils::STATUS_FAIL, DB::MYSQL_DB_IS_NOT_READY);
-        }
 
         switch ($params) {
             case 'execute_command':

@@ -35,6 +35,14 @@ class ASMS
         $this->debug = $debug;
         $this->location = Vars::get('location', null);
         $this->action = Vars::get('action', null);
+
+        $db = DB::getInstance();
+        if (!$db->isConnected()) {
+            $db->init(DB::MYSQL_HOST, DB::MYSQL_PORT, DB::MYSQL_LOGIN, DB::MYSQL_PASS, $this->debug);
+            $db->connect();
+            $db->selectDB(DB::MYSQL_BASE);
+            $db->setLocale(DB::MYSQL_BASE_LOCALE);
+        }
     }
 
     public function run()
